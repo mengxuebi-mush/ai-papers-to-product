@@ -53,7 +53,7 @@ Facts first, inference after. A beginner can't yet tell which is which, so the l
 - Define each term the first time it appears: plain-language analogy first, then the precise term, then the original English definition if one exists.
 - No acronym without its expansion.
 - Mark analogies as analogies.
-- Don't use human words (*believes, knows, honest, lies, wants*) without saying what is actually measured. The site's [Term lookup](https://mengxuebi-mush.github.io/ai-papers-to-product/#abbr) has a table of these. Example: "honest" really means "when it says 70%, it's right about 70% of the time".
+- Human words (*believes, knows, honest, lies, wants*) are fine as a shortcut, because they help you grasp the behavior fast. But put them in quotation marks, and follow with a few sentences on what is actually happening inside: what is computed, what is measured, and where the metaphor stops working. Otherwise you may come away with the wrong mechanism. The site's [Term lookup](https://mengxuebi-mush.github.io/ai-papers-to-product/#abbr) has a table of these. Example: the model is "honest" about uncertainty → it outputs a probability, and when it says 70%, it is right about 70% of the time; there is no intent to tell the truth.
 
 **Read the paper, don't recall it.** The agent opens the arXiv link and takes numbers only from the source. If it can't open the paper, it says so instead of filling in from memory. This one matters most: from titles alone, an agent will happily invent plausible numbers.
 
@@ -84,8 +84,9 @@ Rules:
    If you can't open it, tell me instead of answering from memory.
 4. Explain every term in plain language with an everyday example from my
    field, then give the precise term. Never use an acronym unexpanded.
-5. Don't use words like "believes", "knows", "honest" or "lies" about a
-   model without saying what is measured.
+5. You may use human words like "believes", "knows", "honest" or "lies"
+   as shortcuts, but always in quotation marks, followed by a few
+   sentences on the actual mechanism and where the metaphor breaks.
 6. Keep each reply short. Ask one question at a time.
 7. At the end of each paper, ask me to say the main idea in one sentence.
 
