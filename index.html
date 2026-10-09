@@ -1,4 +1,4 @@
-<title>Agent Evaluation 地图</title>
+<title>AI Papers to Product</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap">
 <style>
@@ -263,7 +263,8 @@ input[type=range]{width:100%;accent-color:var(--bar)}
 <div class="view" id="overview" data-view>
   <header class="hero">
     <div class="eyebrow">NeurIPS 2026 Atlanta 预习 · 8 篇论文 · 2 节概念课</div>
-    <h1>Agent Evaluation 地图</h1>
+    <h1>AI Papers to Product</h1>
+    <p>用产品设计师的眼光读 ML 论文。第一张图：Agent Evaluation。</p>
     <p class="hq">我们怎么知道 AI 把事情做好了？做不好时，它又怎么变好？</p>
     <p>这张图把读过的论文放在一起：评估方法的光谱、评估与训练的关系、agent 在哪里学习、共同盲区、设计原则和现场问题。论文和概念课按层次归进知识库，点击即可打开。</p>
   </header>
@@ -321,7 +322,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="rail" aria-hidden="true"></div>
     <div class="zones">
       <div class="zone tint" style="--pc:var(--tau)"><span class="pill" style="--pc:var(--tau)">τ-bench、Reflexion 覆盖</span><b>执行一个清楚的请求</b><p><span class="k">例子</span><br>退货、改订单地址、填 dataset configuration、写能通过测试的代码</p><p><span class="k">怎么判</span><br>对比最终状态或跑测试，快、客观、可以跑成千上万次</p></div>
-      <div class="zone plain"><span class="pill none">都没覆盖</span><b>结论唯一，但输出是文字</b><p><span class="k">例子</span><br>root cause analysis：license usage 偏高，是内部重流程还是计算 bug？</p><p><span class="k">怎么判</span><br>fault injection 埋好答案（如 AIOpsLab）；限定原因类别，或用 reference-guided 的 LLM judge</p></div>
+      <div class="zone plain"><span class="pill none">都没覆盖</span><b>结论唯一，但输出是文字</b><p><span class="k">例子</span><br>root cause analysis：云存储费用突然偏高，是某个后台任务太重，还是计费计算有 bug？</p><p><span class="k">怎么判</span><br>fault injection 埋好答案（如 AIOpsLab）；限定原因类别，或用 reference-guided 的 LLM judge</p></div>
       <div class="zone tint" style="--pc:var(--mt)"><span class="pill" style="--pc:var(--mt)">MT-Bench、InstructGPT 覆盖</span><b>开放式、创意类回答</b><p><span class="k">例子</span><br>写作、给建议、设计方案探索</p><p><span class="k">怎么判</span><br>人类偏好，或用 LLM judge / reward model 近似人类偏好；人和人本身就会分歧</p></div>
     </div>
     <p class="sub">越往右，“正确”越难定义，越依赖某个裁判，裁判本身可不可信就越重要。</p>
@@ -1389,12 +1390,12 @@ input[type=range]{width:100%;accent-color:var(--bar)}
   <section class="sec">
     <div class="eyebrow">Method · §2–3</div>
     <h2>Thought → Action → Observation</h2>
-    <div class="callout"><b>示意：排障场景（不是论文例子）</b><p class="mono" style="font-size:13px;white-space:pre-line">Thought：license 用量突增，可能是某个 index 数据量变大
-Action：查各 index 过去 7 天的数据量
-Observation：index_web 周二翻了 3 倍
-Thought：看看周二 index_web 新增了什么数据源
-Action：查 index_web 周二的 sourcetype 变化
-Observation：新增一个 debug 日志源
+    <div class="callout"><b>示意：排障场景（不是论文例子）</b><p class="mono" style="font-size:13px;white-space:pre-line">Thought：日志存储费用突增，可能是某个服务的日志量变大
+Action：查各服务过去 7 天的日志量
+Observation：web 服务周二翻了 3 倍
+Thought：看看周二 web 服务有什么变更
+Action：查 web 服务周二的部署和配置记录
+Observation：一次部署把日志级别改成了 debug
 Thought：可以定位，回答用户</p></div>
     <ul>
       <li><span class="tag p">原文 §3</span> 模型是 PaLM-540B，不训练，只在 prompt 里给示范：HotpotQA 6 个，FEVER 3 个。</li>
@@ -1982,7 +1983,8 @@ Thought：可以定位，回答用户</p></div>
 <div class="view" id="overview-en" data-view>
   <header class="hero">
     <div class="eyebrow">NeurIPS 2026 Atlanta prep · 8 papers · 2 concept lessons</div>
-    <h1>Agent Evaluation Map</h1>
+    <h1>AI Papers to Product</h1>
+    <p>Reading ML papers with a product designer’s eye. First map: agent evaluation.</p>
     <p class="hq">How do we know an AI did the job well? And when it doesn't, how does it get better?</p>
     <p>This map puts the papers we've read side by side: a spectrum of evaluation methods, how evaluation relates to training, where agents learn, shared blind spots, design principles, and questions for the workshops. Papers and concept lessons are organized by layer in the library, one click away.</p>
   </header>
@@ -2040,7 +2042,7 @@ Thought：可以定位，回答用户</p></div>
     <div class="rail" aria-hidden="true"></div>
     <div class="zones">
       <div class="zone tint" style="--pc:var(--tau)"><span class="pill" style="--pc:var(--tau)">τ-bench, Reflexion</span><b>Carry out a clear request</b><p><span class="k">Examples</span><br>Process a return, change an order address, fill in a dataset configuration, write code that passes tests</p><p><span class="k">How it's judged</span><br>Compare the final state or run tests: fast, objective, repeatable thousands of times</p></div>
-      <div class="zone plain"><span class="pill none">Not covered</span><b>One right conclusion, but the output is text</b><p><span class="k">Example</span><br>Root cause analysis: is license usage high because of a heavy internal job, or a calculation bug?</p><p><span class="k">How it's judged</span><br>Plant the answer with fault injection (e.g. AIOpsLab); restrict answers to cause categories, or use a reference-guided LLM judge</p></div>
+      <div class="zone plain"><span class="pill none">Not covered</span><b>One right conclusion, but the output is text</b><p><span class="k">Example</span><br>Root cause analysis: is the cloud storage bill high because of a heavy background job, or a billing calculation bug?</p><p><span class="k">How it's judged</span><br>Plant the answer with fault injection (e.g. AIOpsLab); restrict answers to cause categories, or use a reference-guided LLM judge</p></div>
       <div class="zone tint" style="--pc:var(--mt)"><span class="pill" style="--pc:var(--mt)">MT-Bench, InstructGPT</span><b>Open-ended, creative answers</b><p><span class="k">Examples</span><br>Writing, giving advice, exploring design directions</p><p><span class="k">How it's judged</span><br>Human preference, or an LLM judge / reward model that approximates it; humans themselves disagree</p></div>
     </div>
     <p class="sub">The further right, the harder it is to define “correct”, the more you depend on a judge, and the more that judge's reliability matters.</p>
@@ -3108,12 +3110,12 @@ Thought：可以定位，回答用户</p></div>
   <section class="sec">
     <div class="eyebrow">Method · §2–3</div>
     <h2>Thought → Action → Observation</h2>
-    <div class="callout"><b>Illustration: troubleshooting (not from the paper)</b><p class="mono" style="font-size:13px;white-space:pre-line">Thought: license usage spiked; maybe one index grew
-Action: check data volume per index over 7 days
-Observation: index_web tripled on Tuesday
-Thought: see what source was added to index_web on Tuesday
-Action: check index_web sourcetype changes on Tuesday
-Observation: a new debug log source
+    <div class="callout"><b>Illustration: troubleshooting (not from the paper)</b><p class="mono" style="font-size:13px;white-space:pre-line">Thought: log storage cost spiked; maybe one service is logging more
+Action: check log volume per service over 7 days
+Observation: the web service tripled on Tuesday
+Thought: see what changed in the web service on Tuesday
+Action: check Tuesday's deploys and config changes for the web service
+Observation: a deploy switched the log level to debug
 Thought: cause located, answer the user</p></div>
     <ul>
       <li><span class="tag p">Paper §3</span> PaLM-540B with no training, only examples in the prompt: 6 for HotpotQA, 3 for FEVER.</li>
