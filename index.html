@@ -306,7 +306,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
         <div class="papers">
           <a class="ptile" href="#tau-bench" style="--pc:var(--tau)"><span class="badges"><span class="badge">论文卡</span><span class="badge">经典 · 2024</span></span><b>τ-bench</b><span>有标准答案时，agent 能否稳定办成事</span><span class="go">打开 →</span></a>
           <a class="ptile" href="#mt-bench" style="--pc:var(--mt)"><span class="badges"><span class="badge">论文卡</span><span class="badge">经典 · 2023</span></span><b>MT-Bench</b><span>没有标准答案时，LLM 能否当裁判</span><span class="go">打开 →</span></a>
-          <a class="ptile" href="#calibration" style="--pc:var(--cb)"><span class="badges"><span class="badge">论文卡</span><span class="badge">经典 · 2022</span></span><b>Calibration</b><span>模型知不知道自己不知道</span><span class="go">打开 →</span></a>
+          <a class="ptile" href="#calibration" style="--pc:var(--cb)"><span class="badges"><span class="badge">论文卡</span><span class="badge">经典 · 2022</span></span><b>Calibration</b><span>模型“知不知道”自己不知道</span><span class="go">打开 →</span></a>
         </div>
         <div class="next">之后会加入：人机协作研究</div>
       </div>
@@ -360,7 +360,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="pipe" style="--pc:var(--ig)">
       <div class="stage"><span class="k">Pretraining</span><b>续写器</b><p>学“怎么接下去”，不是“用户要什么”</p></div>
       <div class="stage hl"><span class="k">Step 1 · SFT</span><b>看示范</b><p>标注员写好回答，模型照着学</p></div>
-      <div class="stage hl"><span class="k">Step 2 · Reward model</span><b>培养考官</b><p>标注员排序，训练模型模仿他们的品味</p></div>
+      <div class="stage hl"><span class="k">Step 2 · Reward model</span><b>培养考官</b><p>标注员排序，训练模型拟合这些排序（也就是他们的“品味”）</p></div>
       <div class="stage hl"><span class="k">Step 3 · PPO</span><b>考官打分下练习</b><p>KL penalty 防跑偏，PPO-ptx 防学新忘旧</p></div>
     </div>
     <div class="callout"><b>和光谱的关系</b><p>有标准答案的任务可以用对错来训练和评估，没有标准答案的才需要人或 AI 的偏好。训练和评估遵循同一套逻辑，也继承同样的风险：裁判有偏差，模型就学会那个偏差。<span class="tag r">已有研究</span> 后来的 DPO、RLAIF、可验证奖励都是在替换这条流水线里的某一块。</p></div>
@@ -396,7 +396,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <div><b>人和人本身就会分歧</b><p><span class="tag p">原文</span> MT-Bench 专家之间一致率 81%；InstructGPT 标注员之间约 73–77%。分歧在训练和评分时被平均掉。</p><p><span class="tag g">推测</span> 少数用户群的偏好最容易在平均中消失。</p></div>
       <div><b>只看结果，不看过程</b><p><span class="tag p">原文</span> τ-bench 作者写明 r=1 是必要不充分条件，没经确认就执行也算成功；MT-Bench 只评最终回答。</p><p><span class="tag g">推测</span> enterprise 需要知道谁批准的、agent 看到了什么。</p></div>
       <div><b>失败没有轻重之分</b><p><span class="tag p">原文</span> τ-bench 只有 0 和 1。按规则该拒绝时拒绝会得分，但任务做得到时“转人工”和“做错了”同样是 0。</p><p><span class="tag g">推测</span> 区分不了能被发现的失败和 silent failure。</p></div>
-      <div><b>偏好不等于正确</b><p><span class="tag p">原文</span> MT-Bench 裁判偏爱更长的回答，会被错误数学答案带偏；Reflexion 自测题会让错误代码通过（Rust 16%）。</p><p><span class="tag g">推测</span> 写得漂亮但结论错的 RCA 可能得高分。</p></div>
+      <div><b>偏好不等于正确</b><p><span class="tag p">原文</span> MT-Bench 裁判“偏爱”更长的回答（长回答更容易得高分），会被错误数学答案带偏；Reflexion 自测题会让错误代码通过（Rust 16%）。</p><p><span class="tag g">推测</span> 写得漂亮但结论错的 RCA 可能得高分。</p></div>
       <div><b>评估和训练会被反向优化</b><p><span class="tag p">原文</span> InstructGPT 专门加 KL penalty 防止钻 reward model 的空子。</p><p><span class="tag r">已有研究</span> reward hacking 是公认问题；RLHF 模型普遍有 sycophancy 倾向（Anthropic 2023，待确认）。</p></div>
       <div><b>都没给“不确定”留位置</b><p><span class="tag p">原文</span> τ-bench 的 0/1 判分如上。<span class="tag r">已有研究</span> Kalai et al. 2025 认为打分方式奖励猜测、不奖励弃答（待确认）。</p><p><span class="tag g">推测</span> MT-Bench 的冗长偏差可能让“承认不确定”的短回答吃亏，论文未测。</p></div>
       <div><b>知识是静态的</b><p><span class="tag p">原文</span> τ-bench 用固定数据库；MemGPT 用固定聊天记录和 2018 年 Wikipedia 快照；Reflexion 的题目都有标准答案。</p><p><span class="tag g">推测</span> 没测过 runbook 过期、两份 policy 互相矛盾。</p></div>
@@ -430,10 +430,10 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <div class="pr"><b>交接点要显式化</b><p>把“锁定方案”做成一步：agent 先复述选定方案、理由、不要的东西和约束，人核对后存成 brief。</p><span class="from">依据：Lost in the Middle（已有研究）；intent debt（loop engineering 资料）</span></div>
       <div class="pr"><b>明确“谁的品味”定义了好回答</b><p>通用模型默认反映一小群标注员的偏好。用 system prompt、领域示例或自己用户的反馈，把“好”的定义换成你的用户。</p><span class="from">依据：InstructGPT §5.2“Who are we aligning to?”（原文）</span></div>
       <div class="pr"><b>给 agent 一个可以安全犯错的沙盒</b><p>风险高不等于不能试错，而是不能在真实环境里试错。dry-run、测试环境、样本数据验证让 agent 在沙盒里反复试，提交只有一次。人的位置从“盯每一次尝试”换成“定义什么算成功、看最终提交”。紧急事故的瓶颈是时间。</p><span class="from">依据：Reflexion 先自测再提交（§3–4 原文）；τ-bench“直接面对用户只有一次机会”（§5 原文）</span></div>
-      <div class="pr"><b>让 agent 学到的东西可查看、可编辑</b><p>让用户或管理员能审核、修改、删除 agent 记住的教训，像管理一份共享 SOP。</p><span class="from">依据：Reflexion 反思可读（§6 原文）、Evaluator 会误判（§4 原文）；CLEA 征稿的 memory 与 alignment drift（原文）</span></div>
+      <div class="pr"><b>让 agent 学到的东西可查看、可编辑</b><p>让用户或管理员能审核、修改、删除 agent 记忆里存的教训，像管理一份共享 SOP。</p><span class="from">依据：Reflexion 反思可读（§6 原文）、Evaluator 会误判（§4 原文）；CLEA 征稿的 memory 与 alignment drift（原文）</span></div>
       <div class="pr"><b>让“不确定”在界面上有位置</b><p>区分查到的和推断的，展示依据，置信度低时主动建议核实，并且不惩罚模型说“不知道”。</p><span class="from">依据：InstructGPT 仍会犯简单错误（§4.3 原文）；Kalai et al. 2025（已有研究，待确认）</span></div>
       <div class="pr"><b>记忆和文档要带来源、时间、负责人，冲突要摆出来</b><p>引用 runbook 或 policy 时说明出处和更新日期；两份说法矛盾时让用户看到，而不是默默选一个。</p><span class="from">依据：MemGPT 记忆没有来源和冲突规则、测试材料全是静态的（§2–3 原文）；τ-bench 把冲突事实列为挑战（§6 原文）</span></div>
-      <div class="pr"><b>给记忆一份可见的目录</b><p>标明柜子里有什么、多新、哪里有冲突。agent 不再只能“凭感觉搜”，人也知道它记住了什么。</p><span class="from">依据：MemGPT 检索有局限、翻页常提前停（§3.2 原文）</span></div>
+      <div class="pr"><b>给记忆一份可见的目录</b><p>标明柜子里有什么、多新、哪里有冲突。agent 不再只能“凭感觉搜”（实际是对存储内容做相似度检索，并不知道里面有什么），人也能看到存储里有什么。</p><span class="from">依据：MemGPT 检索有局限、翻页常提前停（§3.2 原文）</span></div>
       <div class="pr"><b>不把解释当证据，用反事实测试审计</b><p>流畅的推理是表达，不是验证。高风险结论要能指回具体的查询结果；审计时换顺序、删证据、去掉用户表态，看结论会不会变。</p><span class="from">依据：ReAct 中 CoT 有 14% 答对但推理错（Table 2 原文）；MT-Bench 位置偏差与交换测试（§3.3 原文）；Turpin et al. 2023 等（已有研究）</span></div>
       <div class="pr"><b>置信度要在自己的任务上校准，优先展示“区分”而不是精确数字</b><p>RLHF 模型的概率不能直接当置信度。用真实工单和查询重新校准；界面上用“高 / 中 / 低”把需要复核的挑出来，往往比“73%”更有用。</p><span class="from">依据：RLHF 模型很不校准、调温度可修补，陌生任务上校准变差但区分能力能迁移（Calibration 原文）</span></div>
       <div class="pr"><b>每个指标都配一个“会被怎么钻空子”的检查</b><p>指标一旦被当成目标，就会被钻空子（Goodhart's law）。任何用来训练或评估 agent 的指标，都配一个反事实测试或交叉检查。</p><span class="from">依据：MT-Bench 冗长偏差（§3.3 原文）、InstructGPT KL penalty（§3.5 原文）、Reflexion 自测误判（§4 原文）；Goodhart 1975、Strathern 1997（已有研究）</span></div>
@@ -498,8 +498,8 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <div><b>alignment tax</b><span>对齐后通用能力退步</span></div>
       <div><b>catastrophic forgetting</b><span>学新任务时忘掉旧能力，continual learning 的核心问题</span></div>
       <div><b>DPO / RLAIF</b><span>省掉 reward model 直接学排序 / 用 AI 按原则打分代替人</span></div>
-      <div><b>hallucination / sycophancy</b><span>自信地编造 / 顺着用户说话</span></div>
-      <div><b>reward hacking</b><span>被评的一方学会讨好裁判或指标，而不是真的变好</span></div>
+      <div><b>hallucination / sycophancy</b><span>流畅但没有事实依据的输出 / 输出向用户已表达的观点靠拢</span></div>
+      <div><b>reward hacking</b><span>被评的一方“讨好”裁判或指标：实际是优化器找到了得分高、却没做到本意的输出</span></div>
       <div><b>verbal reinforcement learning</b><span>不改参数，把反馈变成文字教训存进记忆</span></div>
       <div><b>Actor / Evaluator / Self-Reflection</b><span>做题的 / 批改的 / 写错题本的</span></div>
       <div><b>local minima</b><span>越改越确定某个方向，却跳不出去</span></div>
@@ -522,7 +522,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
 
 
   <footer class="foot">
-    <p>会前待确认：τ²-bench 改了什么；Panickssery et al. 2024（裁判偏爱自己生成的内容）；Anthropic 2023（RLHF 与 sycophancy）；Kalai et al. 2025（Why Language Models Hallucinate）；ExpeL（Zhao et al. 2023）；GPT-4 技术报告 HumanEval 成绩与 Reflexion 基线的差异；知识冲突综述（Xu et al. 2024）；Anthropic 2025 两篇 CoT 忠实度与可解释性研究的具体数字；GPT-4 技术报告中 post-training 后校准下降的图；proper scoring rule 定义的原始措辞（可能出自 Gneiting &amp; Raftery 2007）。</p>
+    <p>会前待确认：τ²-bench 改了什么；Panickssery et al. 2024（裁判“偏爱”自己生成的内容）；Anthropic 2023（RLHF 与 sycophancy）；Kalai et al. 2025（Why Language Models Hallucinate）；ExpeL（Zhao et al. 2023）；GPT-4 技术报告 HumanEval 成绩与 Reflexion 基线的差异；知识冲突综述（Xu et al. 2024）；Anthropic 2025 两篇 CoT 忠实度与可解释性研究的具体数字；GPT-4 技术报告中 post-training 后校准下降的图；proper scoring rule 定义的原始措辞（可能出自 Gneiting &amp; Raftery 2007）。</p>
     <p>workshop 信息：<a href="https://blog.neurips.cc/2026/08/10/announcing-the-neurips-2026-workshops/" target="_blank" rel="noreferrer">NeurIPS 2026 workshops</a> · <a href="https://eval-interactive-agents-workshop.github.io/" target="_blank" rel="noreferrer">Interactive Agents</a> · <a href="https://judge2026.github.io/" target="_blank" rel="noreferrer">Judge</a> · <a href="https://neurips2026haic.com/" target="_blank" rel="noreferrer">Human-AI Coevolution</a> · <a href="https://clea-neurips.github.io/" target="_blank" rel="noreferrer">CLEA</a></p>
   </footer>
 </div>
@@ -829,7 +829,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <tbody>
         <tr><td>Position bias</td><td>对调 A、B 位置再问一次</td><td>GPT-4 65% 一致、30% 偏向第一个；Claude-v1 只有 23.8% 一致</td></tr>
         <tr><td>Verbosity bias</td><td>把条目换个说法重复一遍，内容不变只是变长</td><td>Claude-v1 和 GPT-3.5 91.3% 被骗；GPT-4 8.7%</td></tr>
-        <tr><td>Self-enhancement</td><td>看裁判是否偏爱自己生成的回答</td><td>GPT-4 高约 10%，Claude-v1 高约 25%；样本有限，作者未下定论</td></tr>
+        <tr><td>Self-enhancement</td><td>看裁判是否“偏爱”自己生成的回答（给自己的输出打分是否偏高）</td><td>GPT-4 高约 10%，Claude-v1 高约 25%；样本有限，作者未下定论</td></tr>
         <tr><td>Limited reasoning</td><td>GPT-4 自己能做对的数学题，看到错误答案时会不会被带偏</td><td>20 次错 14 次</td></tr>
       </tbody>
     </table></div>
@@ -870,7 +870,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <li><span class="tag p">原文 §6</span> 只评 helpfulness，几乎没管安全；多个维度被压成一个分数；缓解办法是初步的。</li>
       <li><span class="tag p">原文 §4</span> MT-Bench 的专家是 58 位标注员，主要是研究生；Arena 是 2,114 位自愿来玩的众包用户。</li>
       <li><span class="tag p">原文</span> 只评两轮对话，不评几十步的 agent 轨迹。</li>
-      <li><span class="tag r">已有研究</span> 后续研究发现 LLM 裁判能认出并偏爱自己生成的内容（Panickssery et al. 2024，待确认）。</li>
+      <li><span class="tag r">已有研究</span> 后续研究发现 LLM 裁判能“认出”（区分自己和别人的输出）并“偏爱”（给自己的输出打分偏高）自己生成的内容（Panickssery et al. 2024，待确认）。</li>
     </ul>
   </section>
 
@@ -883,7 +883,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
         <tr><td>展示顺序</td><td>Position bias ✅</td></tr>
         <tr><td>包装越好越显得好</td><td>Verbosity bias ✅（LLM 版的包装是长度）</td></tr>
         <tr><td>熟悉的风格、数据里多的</td><td>Self-enhancement bias ✅</td></tr>
-        <tr><td>大佬作者 overweight</td><td>论文没测；被评的一方讨好裁判叫 reward hacking</td></tr>
+        <tr><td>大佬作者 overweight</td><td>论文没测；被评的一方“讨好”裁判（实际是优化器找到高分但偏离本意的输出）叫 reward hacking</td></tr>
         <tr><td>（没猜到）</td><td>Limited reasoning</td></tr>
       </tbody>
     </table></div>
@@ -907,7 +907,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <div><b>LLM-as-a-judge</b><span>用强 LLM 给其他模型的回答打分</span></div>
       <div><b>pairwise comparison</b><span>二选一或判平局</span></div>
       <div><b>position / verbosity bias</b><span>偏向某个位置 / 偏向更长的回答</span></div>
-      <div><b>self-enhancement bias</b><span>偏爱自己生成的回答</span></div>
+      <div><b>self-enhancement bias</b><span>“偏爱”自己生成的回答：给自己的输出打分偏高</span></div>
       <div><b>S1 / S2</b><span>计入平局 / 排除平局的一致率</span></div>
       <div><b>automation bias</b><span>人倾向于顺从机器的判断</span></div>
     </div>
@@ -961,7 +961,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <tbody>
         <tr><td>给参考文档</td><td>Pretraining（直接用 GPT-3）</td><td></td></tr>
         <tr><td>让他看我怎么做</td><td><b>SFT</b>：标注员亲手写好回答，模型照着学</td><td class="num">~13k prompt</td></tr>
-        <tr><td>他上手，我当 mentor</td><td><b>Reward model</b>：标注员给多个回答排序，训练一个模型模仿他们的品味</td><td class="num">~33k prompt</td></tr>
+        <tr><td>他上手，我当 mentor</td><td><b>Reward model</b>：标注员给多个回答排序，训练一个模型拟合这些排序（也就是他们的“品味”）</td><td class="num">~33k prompt</td></tr>
         <tr><td></td><td><b>PPO</b>：模型大量练习，由 reward model 打分</td><td class="num">~31k prompt</td></tr>
         <tr><td>直接交给他做</td><td>部署 / inference</td><td></td></tr>
       </tbody>
@@ -977,7 +977,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       </tbody>
     </table></div>
     <div class="grid2">
-      <div><b>KL penalty</b><p class="ink">得分 = 考官打分 − 跟 SFT 模型差了多远。防的是 reward hacking：为了讨好考官变成另一个人。<span class="tag p">原文 §3.5</span></p></div>
+      <div><b>KL penalty</b><p class="ink">得分 = 考官打分 − 跟 SFT 模型差了多远。防的是 reward hacking：为了“讨好”考官变成“另一个人”（实际是参数一路朝着让 reward model 打高分的方向漂移，输出越来越偏离 SFT 模型）。<span class="tag p">原文 §3.5</span></p></div>
       <div><b>PPO-ptx</b><p class="ink">练习时混入 pretraining 数据。防的是 alignment tax：学新忘旧，基本功每天照做。<span class="tag p">原文 §3.5, §4.2</span></p></div>
     </div>
     <div class="callout"><b>和 MT-Bench 的关系</b><p>reward model 本质上就是一个 LLM-as-a-judge。MT-Bench 用裁判来评估，这里用裁判来训练。</p></div>
@@ -1038,7 +1038,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="tbl"><table>
       <thead><tr><th></th><th>Hallucination（编造）</th><th>Sycophancy（谄媚）</th></tr></thead>
       <tbody>
-        <tr><td>表现</td><td>自信地说出不存在的事实、引用</td><td>顺着用户说，一被质疑就改口</td></tr>
+        <tr><td>表现</td><td>语气肯定地输出不存在的事实、引用</td><td>输出向用户的观点靠拢，一被质疑就改口</td></tr>
         <tr><td>主要根源</td><td>Pretraining：目标是“续写得像”</td><td>RLHF：标注员偏爱让自己舒服的回答</td></tr>
         <tr><td>RLHF 的作用</td><td>可能放大也可能缓解（本篇 TruthfulQA 改善）</td><td>主要来源之一</td></tr>
       </tbody>
@@ -1066,7 +1066,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <div><b>KL penalty</b><span>扣掉偏离 SFT 模型的程度</span></div>
       <div><b>alignment tax / PPO-ptx</b><span>对齐后退步 / 混入 pretraining 数据减少退步</span></div>
       <div><b>misalignment</b><span>模型行为和用户意图不一致</span></div>
-      <div><b>sycophancy</b><span>说用户想听的，而不是对的</span></div>
+      <div><b>sycophancy</b><span>“说用户想听的”：实际是输出向用户已表达的观点靠拢，而不是向事实靠拢</span></div>
     </div>
   </section>
 
@@ -1178,7 +1178,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <ul>
       <li><span class="tag g">推测</span> 能不能用错题本，取决于有没有一个失败不要钱、又能可靠判对错的沙盒。Infrastructure 可以先 dry-run，data pipeline 可以先用样本验证；紧急事故的瓶颈是时间。</li>
       <li><span class="tag g">推测</span> 低风险的 chatbot 未必能接受 12 次重试：每次失败用户都看得见，信任会先耗光。</li>
-      <li><span class="tag g">推测</span> 人的位置从“盯每一次尝试”换成“定义什么算成功、搭沙盒、看最终提交”。评估器定错了，agent 越自主，越会自信地收敛到错误答案。</li>
+      <li><span class="tag g">推测</span> 人的位置从“盯每一次尝试”换成“定义什么算成功、搭沙盒、看最终提交”。评估器定错了，agent 越自主，就越稳定地收敛到错误答案（循环里没有任何东西会叫停它）。</li>
     </ul>
     <div class="callout"><b><span class="tag r">已有研究</span> 和 loop engineering 的关系</b><p>Loop engineering 通常被描述为 Goal → Action → Observation → Adjustment，再加持久记忆（spine），和 Actor、Evaluator、Self-Reflection、长期记忆一一对应。但 loop 不一定包含反思：逐个处理一批对象、或单纯重试到通过，都不需要写教训。相关资料列出的风险包括 intent debt、comprehension debt、cognitive surrender。</p></div>
   </section>
@@ -1211,7 +1211,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="eyebrow">Agent 怎么运作 · 论文卡 · 经典 2023 · Agent memory</div>
     <h1>MemGPT</h1>
     <p class="full">MemGPT: Towards LLMs as Operating Systems · Packer, Wooders, Lin, Fang, Patil, Stoica, Gonzalez · UC Berkeley · 2023</p>
-    <p class="lede">借鉴操作系统的虚拟内存：context 是一张小书桌，外部存储是大档案柜，由 LLM 自己决定什么放桌上、什么收进柜子、什么时候去翻。</p>
+    <p class="lede">借鉴操作系统的虚拟内存：context 是一张小书桌，外部存储是大档案柜，由 LLM 自己“决定”什么放桌上、什么收进柜子、什么时候去翻：实际是模型输出一个函数调用（存入、搜索），由外层程序去执行。</p>
     <div class="links"><a href="https://arxiv.org/abs/2310.08560" target="_blank" rel="noreferrer">arXiv 2310.08560 ↗</a><span>Continual Learning for Enterprise AI Agents</span></div>
   </header>
 
@@ -1240,7 +1240,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <h2>Context 有限，但有两类任务需要很多记忆</h2>
     <ul>
       <li><span class="tag p">原文</span> 分析比 context 还长的文档。</li>
-      <li><span class="tag p">原文</span> 多次会话的长期对话：agent 要在很多次对话之间记住用户，并随交流不断更新对用户的了解。</li>
+      <li><span class="tag p">原文</span> 多次会话的长期对话：agent 要在很多次对话之间“记住”用户，并随交流不断更新对用户的“了解”。</li>
     </ul>
     <div class="callout"><b>操作系统类比</b><p>电脑的内存小而快，硬盘大而慢；操作系统决定什么放内存、什么换到硬盘，让程序感觉自己有很大的内存（virtual memory）。MemGPT 把 context window 当内存、外部存储当硬盘，让 LLM 自己当操作系统。</p></div>
   </section>
@@ -1260,7 +1260,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     </table></div>
     <ul>
       <li><span class="tag p">原文 §2</span> context 用到 70% 时插入“内存压力”警告，让 agent 主动整理；到 100% 时挤出约一半，并生成新的递归摘要。</li>
-      <li><span class="tag p">原文 §2</span> Self-directed：agent 自己调用函数决定存什么、查什么，不需要用户介入。</li>
+      <li><span class="tag p">原文 §2</span> Self-directed：agent 自己调用函数“决定”存什么、查什么，不需要用户介入。</li>
       <li><span class="tag p">原文 §2</span> Heartbeat：agent 可以连续调用多个函数（查、翻页、再查），做完再回复用户。</li>
     </ul>
   </section>
@@ -1299,7 +1299,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <thead><tr><th>盲区</th><th>事实依据</th><th>为什么重要</th></tr></thead>
       <tbody>
         <tr><td>知识是静态的</td><td><span class="tag p">原文 §3</span> 固定聊天记录、2018 年 Wikipedia 快照、人工键值对</td><td>没测文档过期、两份文档冲突</td></tr>
-        <tr><td>记忆没有来源和时间</td><td><span class="tag p">原文 §2</span> 可以改写和新增，但没有记录出处、版本，也没有冲突规则</td><td><span class="tag g">推测</span> 新旧说法冲突时不知道听谁的</td></tr>
+        <tr><td>记忆没有来源和时间</td><td><span class="tag p">原文 §2</span> 可以改写和新增，但没有记录出处、版本，也没有冲突规则</td><td><span class="tag g">推测</span> 新旧说法冲突时，没有规则决定用哪一条</td></tr>
         <tr><td>摘要由 agent 自己决定</td><td><span class="tag p">原文 §2</span> 挤出时 agent 生成摘要，无人审核</td><td>和 Reflexion 一样，丢掉什么没人知道</td></tr>
         <tr><td>一个 agent 服务一个用户</td><td><span class="tag p">原文 §3</span> 实验设定</td><td><span class="tag g">推测</span> 企业里不同团队、权限的内容在同一个柜子里，谁能查到什么没有涉及</td></tr>
       </tbody>
@@ -1389,7 +1389,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <thead><tr><th>路线</th><th>做法</th><th>问题</th></tr></thead>
       <tbody>
         <tr><td>只想（Reason only）</td><td>Chain-of-thought：一步步写出推理再回答</td><td>只能用记忆里的知识，没法查证，容易编造</td></tr>
-        <tr><td>只做（Act only）</td><td>直接输出动作，比如搜索、点击</td><td>不写推理，不会规划，出了意外不知道怎么调整</td></tr>
+        <tr><td>只做（Act only）</td><td>直接输出动作，比如搜索、点击</td><td>不写推理，没有写出来的计划，出了意外没有依据可以调整</td></tr>
       </tbody>
     </table></div>
     <p class="sub"><span class="tag r">已有研究</span> Chain-of-thought 来自 Wei et al. 2022。</p>
@@ -1464,7 +1464,7 @@ Thought：可以定位，回答用户</p></div>
     <ul>
       <li><span class="tag r">已有研究</span> Kahneman 的系统 1（快、凭直觉）和系统 2（慢、推理查证）：凭 pretraining 记忆直接回答像系统 1，ReAct 去查像系统 2。</li>
       <li><span class="tag r">已有研究</span> Kahneman 与 Klein 2009：专家直觉只在环境有规律、能快速得到反馈时可靠，有经验的人大致知道自己的直觉在哪里靠谱。</li>
-      <li><span class="tag p">原文 Table 2</span> CoT 失败有 56% 是编造，编造时和答对时一样自信。模型有“直觉”，但不一定知道它什么时候不可靠，这正是 calibration 要研究的。</li>
+      <li><span class="tag p">原文 Table 2</span> CoT 失败有 56% 是编造，编造时和答对时一样“自信”。<span class="tag g">推测</span> 模型有“直觉”，但不一定“知道”它什么时候不可靠：也就是它的信心高低，不一定和它答对的概率对得上，这正是 calibration 要研究的。</li>
       <li><span class="tag g">推测</span> CoT-SC → ReAct 用“想几遍答案是否一致”判断有没有把握，像人换几个角度检查直觉。产品里可以把“不一致”当作去查证或交给人的信号。</li>
     </ul>
   </section>
@@ -1546,14 +1546,14 @@ Thought：可以定位，回答用户</p></div>
     <div class="eyebrow">评估与信任 · 论文卡 · 经典 2022 · Calibration</div>
     <h1>Language Models (Mostly) Know What They Know</h1>
     <p class="full">Kadavath, Conerly, Askell, … Olah, Kaplan · Anthropic · 2022</p>
-    <p class="lede">模型知不知道自己不知道？测三件事：给选项的概率准不准、能不能判断自己答案的对错、能不能在回答前预测自己会不会。</p>
+    <p class="lede">模型“知不知道”自己不知道？这里的“知道”只指三件可测的事：给选项的概率准不准、能不能判断自己答案的对错、能不能在回答前预测自己会不会。</p>
     <div class="links"><a href="https://arxiv.org/abs/2207.05221" target="_blank" rel="noreferrer">arXiv 2207.05221 ↗</a><span>Can We Trust the Judge?</span><span>Human-AI Coevolution</span></div>
   </header>
 
   <section class="sec">
     <div class="eyebrow">四句话论文卡</div>
     <div class="card4">
-      <div><b>主张</b><p>语言模型在很大程度上知道自己知道什么：大模型在格式合适的题目上校准良好，能评估自己答案的对错，还能预测自己会不会答对。<span class="tag p">原文 摘要</span></p></div>
+      <div><b>主张</b><p>语言模型在很大程度上“知道自己知道什么”：大模型在格式合适的题目上校准良好，能评估自己答案的对错，还能预测自己会不会答对。<span class="tag p">原文 摘要</span> 这里的“知道”只指这三项可测的表现，不是理解。</p></div>
       <div><b>最强证据</b><p>520 亿模型在选择题和判断题上校准良好；P(IK) 在 TriviaQA 上 AUROC 0.864；给相关文章时 P(IK) 上升，给错误提示时下降。<span class="tag p">原文</span></p></div>
       <div><b>边界</b><p>RLHF 模型很不校准，需调温度修补；对格式敏感（“以上都不是”会破坏校准）；陌生任务上信心不足；P(IK) 需要训练模型内部；只测了有标准答案的任务。</p></div>
       <div><b>产品还要验证</b><p>在自己的任务上重新校准；开放式任务如何估计把握；置信度怎么展示，才能让人做出更好的决定。</p></div>
@@ -1564,7 +1564,7 @@ Thought：可以定位，回答用户</p></div>
     <div class="eyebrow">在知识地图上的位置</div>
     <h2>前面几篇反复撞到的同一个前提</h2>
     <ul>
-      <li><span class="tag p">原文 ReAct Table 2</span> CoT 失败有 56% 是编造，编造时和答对时一样自信。</li>
+      <li><span class="tag p">原文 ReAct Table 2</span> CoT 失败有 56% 是编造，编造时和答对时一样“自信”。</li>
       <li><span class="tag p">原文 InstructGPT §4.3</span> 模型会犯简单错误，也会过度含糊。</li>
       <li>设计原则“让不确定在界面上有位置”的前提是：模型的信心得和它答对的概率对得上（校准）。</li>
       <li><span class="tag p">原文 ReAct §3.3</span> CoT-SC → ReAct 用“想几遍是否一致”判断把握，本篇研究的是更直接的办法。</li>
@@ -1590,7 +1590,7 @@ Thought：可以定位，回答用户</p></div>
       <tbody>
         <tr><td>做选择题时，给每个选项的概率准不准</td><td>Calibration</td><td>对每个选项有几成把握</td></tr>
         <tr><td>写出答案后，能不能判断这个答案对不对</td><td>P(True)</td><td>交卷前检查：这题我做对了吗</td></tr>
-        <tr><td>还没回答，能不能预测自己会不会答对</td><td>P(IK)，I Know</td><td>看到题就知道：这题我会不会</td></tr>
+        <tr><td>还没回答，能不能预测自己会不会答对</td><td>P(IK)，I Know</td><td>看到题就“知道”这题我会不会（实际是一个额外训练的输出头给出概率）</td></tr>
       </tbody>
     </table></div>
     <p class="sub">三种是三种不同的概率，每一种都可以单独检验校不校准、区分能力好不好，并不是要三个都做对才叫校准。</p>
@@ -1670,7 +1670,7 @@ Thought：可以定位，回答用户</p></div>
   <section class="qs">
     <div class="eyebrow">现场问题</div>
     <div class="q"><span class="why">置信度在我们的领域准不准</span><div class="en">After post-training, how do you recalibrate a model's confidence for a specific enterprise domain, and how much labeled data does that take?</div><button class="copy" type="button">复制</button></div>
-    <div class="q"><span class="why">开放式任务的把握</span><div class="en">Calibration work mostly uses tasks with answer keys. How would you measure whether an agent knows what it knows on open-ended tasks like root cause analysis?</div><button class="copy" type="button">复制</button></div>
+    <div class="q"><span class="why">开放式任务的把握</span><div class="en">Calibration work mostly uses tasks with answer keys. How would you measure whether an agent “knows what it knows” on open-ended tasks like root cause analysis?</div><button class="copy" type="button">复制</button></div>
     <div class="q"><span class="why">展示数字还是分级</span><div class="en">Have you seen evidence on whether showing users a numeric confidence, versus coarse levels, actually improves their decisions?</div><button class="copy" type="button">复制</button></div>
   </section>
 
@@ -1682,7 +1682,7 @@ Thought：可以定位，回答用户</p></div>
       <div><b>P(True) / P(IK)</b><span>“我这个答案对”的概率 / “这题我会”的概率</span></div>
       <div><b>temperature scaling</b><span>用一个温度值整体压平或拉尖概率来修校准</span></div>
       <div><b>parameters / scaling laws</b><span>模型可调的“旋钮” / 表现随规模可预测地提升</span></div>
-      <div><b>metacognition</b><span>对自己认知的认知：知道自己会不会</span></div>
+      <div><b>metacognition</b><span>对自己认知的认知；用在模型上，指它的信心和答对的概率是否对得上</span></div>
     </div>
   </section>
 
@@ -1796,7 +1796,7 @@ Thought：可以定位，回答用户</p></div>
     <div class="eyebrow">基础原理 · 概念课 · 经典</div>
     <h1>打分方式决定模型</h1>
     <p class="full">Cross-entropy · Proper scoring rule · Goodhart's law · KL penalty</p>
-    <p class="lede">用什么方式打分，模型就会变成什么样。这一课把前面几篇反复出现的现象串起来：为什么预训练模型校准好，RLHF 模型过度自信，只看对错的模型倾向于猜答案。</p>
+    <p class="lede">用什么方式打分，模型就会变成什么样。这一课把前面几篇反复出现的现象串起来：为什么预训练模型校准好，RLHF 模型“过度自信”（输出的概率比实际正确率更极端），只看对错的模型倾向于猜答案。</p>
   </header>
 
   <section class="sec">
@@ -1806,13 +1806,13 @@ Thought：可以定位，回答用户</p></div>
     <div class="tbl"><table>
       <thead><tr><th>给正确答案的概率</th><th>Loss = −ln(p)</th><th>说明</th></tr></thead>
       <tbody>
-        <tr><td class="num">0.9</td><td class="num">0.11</td><td>自信且对，几乎不罚</td></tr>
+        <tr><td class="num">0.9</td><td class="num">0.11</td><td>给了高概率且答对，几乎不罚</td></tr>
         <tr><td class="num">0.5</td><td class="num">0.69</td><td>拿不准</td></tr>
         <tr><td class="num">0.1</td><td class="num">2.30</td><td>基本没想到</td></tr>
         <tr><td class="num">0.01</td><td class="num">4.61</td><td>几乎确定不是它，结果错了，重罚</td></tr>
       </tbody>
     </table></div>
-    <p class="sub"><b>Perplexity（困惑度）</b>：e 的平均 loss 次方，直觉上是“模型平均在几个选项之间犹豫”。越低越好。</p>
+    <p class="sub"><b>Perplexity（困惑度）</b>：e 的平均 loss 次方，直觉上相当于“模型平均在几个选项之间犹豫”；实际含义是模型给下一个词的概率分散在多少个候选上。越低越好。</p>
   </section>
 
   <section class="sec">
@@ -1863,15 +1863,15 @@ Thought：可以定位，回答用户</p></div>
       <thead><tr><th>打分方式</th><th>奖励什么</th><th>模型学会什么</th><th>出处</th></tr></thead>
       <tbody>
         <tr><td>交叉熵（概率打分）</td><td>概率与实际频率一致时得分最高</td><td>校准良好</td><td><span class="tag p">原文 Calibration</span></td></tr>
-        <tr><td>只看对错</td><td>敢猜</td><td>爱猜，不愿说不知道</td><td><span class="tag r">已有研究</span> Kalai 2025（待确认）；τ-bench 0/1</td></tr>
-        <tr><td>人类偏好</td><td>让人满意</td><td>自信、讨好</td><td><span class="tag p">原文</span> Calibration、InstructGPT</td></tr>
+        <tr><td>只看对错</td><td>“敢猜”</td><td>“爱猜”，不愿说“不知道”：猜对有分、弃答得 0，所以猜测更划算</td><td><span class="tag r">已有研究</span> Kalai 2025（待确认）；τ-bench 0/1</td></tr>
+        <tr><td>人类偏好</td><td>让人满意</td><td>“自信”、“讨好”：输出的语气和观点向标注员的偏好靠拢</td><td><span class="tag p">原文</span> Calibration、InstructGPT</td></tr>
       </tbody>
     </table></div>
     <div class="tbl"><table>
       <thead><tr><th>被优化的指标</th><th>发生了什么</th><th>出处</th></tr></thead>
       <tbody>
         <tr><td>裁判打分</td><td>变长就能骗高分</td><td><a href="#mt-bench">MT-Bench</a> §3.3</td></tr>
-        <tr><td>人类偏好</td><td>讨好、过度自信</td><td><a href="#instructgpt">InstructGPT</a>、<a href="#calibration">Calibration</a></td></tr>
+        <tr><td>人类偏好</td><td>“讨好”、“过度自信”</td><td><a href="#instructgpt">InstructGPT</a>、<a href="#calibration">Calibration</a></td></tr>
         <tr><td>只看结果</td><td>没经确认就执行也算成功</td><td><a href="#tau-bench">τ-bench</a> §3</td></tr>
         <tr><td>自写测试通过</td><td>错误代码也能过</td><td><a href="#reflexion">Reflexion</a> §4</td></tr>
         <tr><td>Benchmark 分数</td><td>饱和、数据污染</td><td><a href="#reflexion">Reflexion</a> 卡</td></tr>
@@ -1886,7 +1886,7 @@ Thought：可以定位，回答用户</p></div>
     <div class="callout"><b>KL divergence · Definition</b><p>“A measure of how much one probability distribution differs from a reference distribution.” 两个概率分布差多远。它和交叉熵是亲戚：KL = 交叉熵 − 熵，可以理解为“用另一个分布来猜，比用真实分布猜，多出来的那部分 loss”。</p></div>
     <ul>
       <li><span class="tag p">原文 InstructGPT §3.5</span> RLHF 第三步的得分 = reward model 打分 − β × KL(当前模型 ‖ SFT 模型)。比较的是同一个 prompt 下，两个模型对下一个 token 给出的概率分布。</li>
-      <li><b>防的是什么</b>：reward model 只是近似人类品味，有漏洞。不加约束，模型会钻漏洞拿高分，正是 reward model overoptimization。</li>
+      <li><b>防的是什么</b>：reward model 只是近似人类“品味”（拟合出来的打分函数），有漏洞。不加约束，模型会钻漏洞拿高分，正是 reward model overoptimization。</li>
       <li><b>β 是绳子的长短</b>：β 大，模型几乎不敢改变，学不到东西；β 小，模型可以跑很远，也更容易钻空子。</li>
       <li><b>类比</b>：实习生可以按 mentor 的喜好调整风格，但每次都要拿第一周的录像来对照，偏离太远就扣分。</li>
       <li><span class="tag r">已有研究</span> DPO 虽然省掉了 reward model，数学上仍隐含一个相对参照模型的 KL 约束。</li>
@@ -1906,7 +1906,7 @@ Thought：可以定位，回答用户</p></div>
     <div class="eyebrow">术语</div>
     <div class="gloss">
       <div><b>cross-entropy / log loss / NLL</b><span>−log(给正确答案的概率)</span></div>
-      <div><b>perplexity</b><span>平均在几个选项之间犹豫</span></div>
+      <div><b>perplexity</b><span>平均在几个选项之间“犹豫”（即概率分散在多少个候选上）</span></div>
       <div><b>proper scoring rule</b><span>报出实际概率时期望得分最高的打分规则</span></div>
       <div><b>Goodhart's law</b><span>指标变成目标，就不再是好指标</span></div>
       <div><b>reward hacking / specification gaming</b><span>钻奖励漏洞 / 满足字面要求而非真实意图</span></div>
@@ -2046,7 +2046,7 @@ Thought：可以定位，回答用户</p></div>
         <div class="papers">
           <a class="ptile" href="#tau-bench" style="--pc:var(--tau)"><span class="badges"><span class="badge">Paper</span><span class="badge">Classic · 2024</span></span><b>τ-bench</b><span>When there is a right answer, can an agent get the job done reliably?</span><span class="go">Open →</span></a>
           <a class="ptile" href="#mt-bench" style="--pc:var(--mt)"><span class="badges"><span class="badge">Paper</span><span class="badge">Classic · 2023</span></span><b>MT-Bench</b><span>When there is no right answer, can an LLM be the judge?</span><span class="go">Open →</span></a>
-          <a class="ptile" href="#calibration" style="--pc:var(--cb)"><span class="badges"><span class="badge">Paper</span><span class="badge">Classic · 2022</span></span><b>Calibration</b><span>Do models know what they don't know?</span><span class="go">Open →</span></a>
+          <a class="ptile" href="#calibration" style="--pc:var(--cb)"><span class="badges"><span class="badge">Paper</span><span class="badge">Classic · 2022</span></span><b>Calibration</b><span>Do models “know” what they don't know?</span><span class="go">Open →</span></a>
         </div>
         <div class="next">Coming: human–agent teaming studies</div>
       </div>
@@ -2100,7 +2100,7 @@ Thought：可以定位，回答用户</p></div>
     <div class="pipe" style="--pc:var(--ig)">
       <div class="stage"><span class="k">Pretraining</span><b>Text continuer</b><p>Learns “what comes next”, not “what the user wants”</p></div>
       <div class="stage hl"><span class="k">Step 1 · SFT</span><b>Learn from demos</b><p>Labelers write good answers; the model imitates them</p></div>
-      <div class="stage hl"><span class="k">Step 2 · Reward model</span><b>Train an examiner</b><p>Labelers rank answers; a model learns their taste</p></div>
+      <div class="stage hl"><span class="k">Step 2 · Reward model</span><b>Train an examiner</b><p>Labelers rank answers; a model is fitted to reproduce those rankings (their “taste”)</p></div>
       <div class="stage hl"><span class="k">Step 3 · PPO</span><b>Practice under the examiner</b><p>KL penalty prevents drift; PPO-ptx prevents forgetting</p></div>
     </div>
     <div class="callout"><b>Link to the spectrum</b><p>Tasks with right answers can be trained and evaluated on correctness; only tasks without them need human or AI preference. Training and evaluation share the same logic and the same risk: if the judge is biased, the model learns the bias. <span class="tag r">Prior research</span> Later methods such as DPO, RLAIF and verifiable rewards each replace one piece of this pipeline.</p></div>
@@ -2136,7 +2136,7 @@ Thought：可以定位，回答用户</p></div>
       <div><b>Humans disagree with each other</b><p><span class="tag p">Paper</span> MT-Bench expert agreement 81%; InstructGPT labeler agreement about 73–77%. Disagreement gets averaged away in training and scoring.</p><p><span class="tag g">Our inference</span> Minority user groups' preferences are the first to disappear.</p></div>
       <div><b>Outcome only, not process</b><p><span class="tag p">Paper</span> τ-bench authors state r=1 is necessary but not sufficient: acting without confirmation still counts as success. MT-Bench scores only the final answer.</p><p><span class="tag g">Our inference</span> Enterprises need to know who approved and what the agent saw.</p></div>
       <div><b>All failures weigh the same</b><p><span class="tag p">Paper</span> τ-bench scores 0 or 1. Refusing when the rules require it scores, but when the task was doable, “escalate to a human” and “do it wrong” both score 0.</p><p><span class="tag g">Our inference</span> Can't tell noticeable failures from silent ones.</p></div>
-      <div><b>Preferred isn't correct</b><p><span class="tag p">Paper</span> MT-Bench judges favor longer answers and are misled by wrong math; Reflexion's self-written tests pass wrong code (16% on Rust).</p><p><span class="tag g">Our inference</span> A polished but wrong RCA may score well.</p></div>
+      <div><b>Preferred isn't correct</b><p><span class="tag p">Paper</span> MT-Bench judges “favor” longer answers (longer answers score higher) and are misled by wrong math; Reflexion's self-written tests pass wrong code (16% on Rust).</p><p><span class="tag g">Our inference</span> A polished but wrong RCA may score well.</p></div>
       <div><b>Evaluation and training get gamed</b><p><span class="tag p">Paper</span> InstructGPT adds a KL penalty specifically to stop exploiting the reward model.</p><p><span class="tag r">Prior research</span> Reward hacking is well known; RLHF models tend toward sycophancy (Anthropic 2023, to verify).</p></div>
       <div><b>No credit for expressing uncertainty</b><p><span class="tag p">Paper</span> τ-bench 0/1 scoring as above. <span class="tag r">Prior research</span> Kalai et al. 2025 argue that scoring which rewards guessing over abstaining keeps hallucination alive (to verify).</p><p><span class="tag g">Our inference</span> MT-Bench's verbosity bias may penalize short “I'm not sure” answers; untested.</p></div>
       <div><b>Knowledge is static</b><p><span class="tag p">Paper</span> τ-bench uses a fixed database; MemGPT uses fixed chat logs and a 2018 Wikipedia dump; Reflexion's tasks all have answer keys.</p><p><span class="tag g">Our inference</span> Stale runbooks and contradicting policies were never tested.</p></div>
@@ -2229,7 +2229,7 @@ Thought：可以定位，回答用户</p></div>
       <div><b>ground truth</b><span>The right answer; in τ-bench, the correct final database state</span></div>
       <div><b>pass^k / pass@k</b><span>All k tries succeed / at least one of k succeeds</span></div>
       <div><b>LLM-as-a-judge</b><span>A strong LLM scores other models' answers</span></div>
-      <div><b>position / verbosity bias</b><span>Judge favors a position / favors longer answers</span></div>
+      <div><b>position / verbosity bias</b><span>Judge “favors” a position / “favors” longer answers (scores them higher)</span></div>
       <div><b>S1 / S2 agreement</b><span>Agreement counting ties / excluding ties</span></div>
       <div><b>pretraining / post-training</b><span>Learning to continue text at scale / shaping the continuer into an assistant</span></div>
       <div><b>SFT / reward model</b><span>Imitate demonstrations / a “virtual examiner” learned from human rankings</span></div>
@@ -2238,7 +2238,7 @@ Thought：可以定位，回答用户</p></div>
       <div><b>alignment tax</b><span>General capability drops after alignment</span></div>
       <div><b>catastrophic forgetting</b><span>Losing old abilities while learning new tasks; central to continual learning</span></div>
       <div><b>DPO / RLAIF</b><span>Learn directly from rankings without a reward model / AI scores by written principles instead of people</span></div>
-      <div><b>hallucination / sycophancy</b><span>Confidently making things up / telling users what they want to hear</span></div>
+      <div><b>hallucination / sycophancy</b><span>Fluent output with no factual support / output that drifts toward the view the user already stated</span></div>
       <div><b>reward hacking</b><span>Learning to please the judge or metric instead of actually improving</span></div>
       <div><b>verbal reinforcement learning</b><span>Turning feedback into written lessons kept in memory, without changing weights</span></div>
       <div><b>Actor / Evaluator / Self-Reflection</b><span>Does the task / grades it / writes the mistake notebook</span></div>
@@ -2262,7 +2262,7 @@ Thought：可以定位，回答用户</p></div>
 
 
   <footer class="foot">
-    <p>To verify before the conference: what τ²-bench changed; Panickssery et al. 2024 (judges favor their own outputs); Anthropic 2023 (RLHF and sycophancy); Kalai et al. 2025 (Why Language Models Hallucinate); ExpeL (Zhao et al. 2023); the gap between GPT-4's reported HumanEval score and Reflexion's baseline; the knowledge-conflicts survey (Xu et al. 2024); figures in the two Anthropic 2025 faithfulness and interpretability studies; the GPT-4 report figure on calibration after post-training; the original wording of the proper-scoring-rule definition (possibly Gneiting &amp; Raftery 2007).</p>
+    <p>To verify before the conference: what τ²-bench changed; Panickssery et al. 2024 (judges “favor” their own outputs); Anthropic 2023 (RLHF and sycophancy); Kalai et al. 2025 (Why Language Models Hallucinate); ExpeL (Zhao et al. 2023); the gap between GPT-4's reported HumanEval score and Reflexion's baseline; the knowledge-conflicts survey (Xu et al. 2024); figures in the two Anthropic 2025 faithfulness and interpretability studies; the GPT-4 report figure on calibration after post-training; the original wording of the proper-scoring-rule definition (possibly Gneiting &amp; Raftery 2007).</p>
     <p>Workshops: <a href="https://blog.neurips.cc/2026/08/10/announcing-the-neurips-2026-workshops/" target="_blank" rel="noreferrer">NeurIPS 2026 workshops</a> · <a href="https://eval-interactive-agents-workshop.github.io/" target="_blank" rel="noreferrer">Interactive Agents</a> · <a href="https://judge2026.github.io/" target="_blank" rel="noreferrer">Judge</a> · <a href="https://neurips2026haic.com/" target="_blank" rel="noreferrer">Human-AI Coevolution</a> · <a href="https://clea-neurips.github.io/" target="_blank" rel="noreferrer">CLEA</a></p>
   </footer>
 </div>
@@ -2569,7 +2569,7 @@ Thought：可以定位，回答用户</p></div>
       <tbody>
         <tr><td>Position bias</td><td>Swap A and B and ask again</td><td>GPT-4 consistent 65%, favors first 30%; Claude-v1 only 23.8% consistent</td></tr>
         <tr><td>Verbosity bias</td><td>Repeat list items in new words: longer, same content</td><td>Claude-v1 and GPT-3.5 fooled 91.3%; GPT-4 8.7%</td></tr>
-        <tr><td>Self-enhancement</td><td>Does the judge favor its own answers?</td><td>GPT-4 about +10%, Claude-v1 about +25%; small sample, no firm conclusion</td></tr>
+        <tr><td>Self-enhancement</td><td>Does the judge “favor” its own answers (score them higher)?</td><td>GPT-4 about +10%, Claude-v1 about +25%; small sample, no firm conclusion</td></tr>
         <tr><td>Limited reasoning</td><td>Math GPT-4 can solve itself: is it misled by a wrong answer?</td><td>Wrong 14 out of 20 times</td></tr>
       </tbody>
     </table></div>
@@ -2610,7 +2610,7 @@ Thought：可以定位，回答用户</p></div>
       <li><span class="tag p">Paper §6</span> Rates helpfulness only, largely ignoring safety; several dimensions collapsed into one score; mitigations are preliminary.</li>
       <li><span class="tag p">Paper §4</span> MT-Bench experts were 58 raters, mostly grad students; Arena voters were 2,114 self-selected crowd users.</li>
       <li><span class="tag p">Paper</span> Two-turn conversations only, not multi-step agent trajectories.</li>
-      <li><span class="tag r">Prior research</span> Later work found LLM judges can recognize and favor their own outputs (Panickssery et al. 2024, to verify).</li>
+      <li><span class="tag r">Prior research</span> Later work found LLM judges can “recognize” (tell their own outputs from others') and “favor” (score higher) their own outputs (Panickssery et al. 2024, to verify).</li>
     </ul>
   </section>
 
@@ -2623,7 +2623,7 @@ Thought：可以定位，回答用户</p></div>
         <tr><td>Presentation order</td><td>Position bias ✅</td></tr>
         <tr><td>Better packaging looks better</td><td>Verbosity bias ✅ (for LLMs, packaging is length)</td></tr>
         <tr><td>Familiar style, what's common in data</td><td>Self-enhancement bias ✅</td></tr>
-        <tr><td>Famous authors get overweighted</td><td>Not tested; when the rated side learns to please the judge, that's reward hacking</td></tr>
+        <tr><td>Famous authors get overweighted</td><td>Not tested; when the rated side “learns to please” the judge (in practice: the optimizer finds high-scoring outputs that miss the intent), that's reward hacking</td></tr>
         <tr><td>(Not guessed)</td><td>Limited reasoning</td></tr>
       </tbody>
     </table></div>
@@ -2646,7 +2646,7 @@ Thought：可以定位，回答用户</p></div>
     <div class="gloss">
       <div><b>LLM-as-a-judge</b><span>A strong LLM scores other models' answers</span></div>
       <div><b>pairwise comparison</b><span>Pick one of two, or call a tie</span></div>
-      <div><b>position / verbosity bias</b><span>Favors a position / favors longer answers</span></div>
+      <div><b>position / verbosity bias</b><span>“Favors” a position / “favors” longer answers (scores them higher)</span></div>
       <div><b>self-enhancement bias</b><span>Favors its own answers</span></div>
       <div><b>S1 / S2</b><span>Agreement counting / excluding ties</span></div>
       <div><b>automation bias</b><span>People tend to defer to the machine</span></div>
@@ -2701,7 +2701,7 @@ Thought：可以定位，回答用户</p></div>
       <tbody>
         <tr><td>Hand them reference docs</td><td>Pretraining (uses GPT-3 directly)</td><td></td></tr>
         <tr><td>Have them watch you work</td><td><b>SFT</b>: labelers write good answers; the model imitates them</td><td class="num">~13k prompts</td></tr>
-        <tr><td>They try it, you mentor</td><td><b>Reward model</b>: labelers rank several answers; a model learns their taste</td><td class="num">~33k prompts</td></tr>
+        <tr><td>They try it, you mentor</td><td><b>Reward model</b>: labelers rank several answers; a model is fitted to reproduce those rankings (their “taste”)</td><td class="num">~33k prompts</td></tr>
         <tr><td></td><td><b>PPO</b>: the model practices at scale, scored by the reward model</td><td class="num">~31k prompts</td></tr>
         <tr><td>Hand over the work</td><td>Deployment / inference</td><td></td></tr>
       </tbody>
@@ -2806,7 +2806,7 @@ Thought：可以定位，回答用户</p></div>
       <div><b>KL penalty</b><span>Subtracts how far the model drifts from SFT</span></div>
       <div><b>alignment tax / PPO-ptx</b><span>Regression after alignment / mixing in pretraining data to reduce it</span></div>
       <div><b>misalignment</b><span>Behavior that doesn't match user intent</span></div>
-      <div><b>sycophancy</b><span>Saying what users want to hear rather than what's right</span></div>
+      <div><b>sycophancy</b><span>“Saying what users want to hear”: output drifts toward the user's stated view rather than the facts</span></div>
     </div>
   </section>
 
@@ -2918,7 +2918,7 @@ Thought：可以定位，回答用户</p></div>
     <ul>
       <li><span class="tag g">Our inference</span> Whether a mistake notebook works depends on a sandbox where failure is free and correctness can be judged reliably. Infrastructure can dry-run first; data pipelines can validate on samples; in urgent incidents the bottleneck is time.</li>
       <li><span class="tag g">Our inference</span> A low-risk chatbot may not tolerate 12 retries: users see every failure, and trust runs out first.</li>
-      <li><span class="tag g">Our inference</span> People move from watching every attempt to defining success, building the sandbox and checking the final submission. If success is defined wrong, the more autonomous the agent, the more confidently it converges on a wrong answer.</li>
+      <li><span class="tag g">Our inference</span> People move from watching every attempt to defining success, building the sandbox and checking the final submission. If success is defined wrong, the more autonomous the agent, the more steadily it converges on a wrong answer, with nothing in the loop to stop it.</li>
     </ul>
     <div class="callout"><b><span class="tag r">Prior research</span> Relation to loop engineering</b><p>Loop engineering is usually described as Goal → Action → Observation → Adjustment plus persistent memory (the spine), matching Actor, Evaluator, Self-Reflection and long-term memory one-to-one. But not every loop reflects: processing a batch item by item, or simply retrying until tests pass, needs no written lessons. Writing on the topic lists risks including intent debt, comprehension debt and cognitive surrender.</p></div>
   </section>
@@ -2951,7 +2951,7 @@ Thought：可以定位，回答用户</p></div>
     <div class="eyebrow">How agents work · Paper · Classic 2023 · Agent memory</div>
     <h1>MemGPT</h1>
     <p class="full">MemGPT: Towards LLMs as Operating Systems · Packer, Wooders, Lin, Fang, Patil, Stoica, Gonzalez · UC Berkeley · 2023</p>
-    <p class="lede">Borrows virtual memory from operating systems: the context is a small desk, external storage is a big filing cabinet, and the LLM itself decides what stays on the desk, what gets filed, and when to go looking.</p>
+    <p class="lede">Borrows virtual memory from operating systems: the context is a small desk, external storage is a big filing cabinet, and the LLM itself “decides” what stays on the desk, what gets filed, and when to go looking: in practice it emits a function call (store, search) that outer code executes.</p>
     <div class="links"><a href="https://arxiv.org/abs/2310.08560" target="_blank" rel="noreferrer">arXiv 2310.08560 ↗</a><span>Continual Learning for Enterprise AI Agents</span></div>
   </header>
 
@@ -2980,7 +2980,7 @@ Thought：可以定位，回答用户</p></div>
     <h2>Context is limited, but two kinds of task need a lot of memory</h2>
     <ul>
       <li><span class="tag p">Paper</span> Analyzing documents longer than the context window.</li>
-      <li><span class="tag p">Paper</span> Long-running, multi-session conversations, where the agent must remember the user across sessions and keep updating what it knows about them.</li>
+      <li><span class="tag p">Paper</span> Long-running, multi-session conversations, where the agent must “remember” the user across sessions and keep updating what it “knows” about them.</li>
     </ul>
     <div class="callout"><b>The operating-system analogy</b><p>A computer's RAM is small and fast, its disk large and slow; the OS decides what lives in RAM and what's swapped to disk, so programs feel like they have lots of memory (virtual memory). MemGPT treats the context window as RAM and external storage as disk, with the LLM acting as the OS.</p></div>
   </section>
@@ -3000,7 +3000,7 @@ Thought：可以定位，回答用户</p></div>
     </table></div>
     <ul>
       <li><span class="tag p">Paper §2</span> At 70% of the context window, a “memory pressure” warning lets the agent tidy up proactively; at 100%, about half is evicted and a new recursive summary is written.</li>
-      <li><span class="tag p">Paper §2</span> Self-directed: the agent calls functions itself to decide what to store and retrieve, with no user involvement.</li>
+      <li><span class="tag p">Paper §2</span> Self-directed: the agent calls functions itself to “decide” what to store and retrieve, with no user involvement.</li>
       <li><span class="tag p">Paper §2</span> Heartbeat: the agent can chain function calls (search, page, search again) before replying.</li>
     </ul>
   </section>
@@ -3129,7 +3129,7 @@ Thought：可以定位，回答用户</p></div>
       <thead><tr><th>Approach</th><th>How</th><th>Problem</th></tr></thead>
       <tbody>
         <tr><td>Reason only</td><td>Chain-of-thought: write out reasoning step by step, then answer</td><td>Limited to what's in memory, can't verify, hallucinates</td></tr>
-        <tr><td>Act only</td><td>Output actions directly, such as search or click</td><td>No reasoning, no planning, can't adjust when surprised</td></tr>
+        <tr><td>Act only</td><td>Output actions directly, such as search or click</td><td>No written reasoning, no written plan, nothing to adjust from when something unexpected happens</td></tr>
       </tbody>
     </table></div>
     <p class="sub"><span class="tag r">Prior research</span> Chain-of-thought comes from Wei et al. 2022.</p>
@@ -3204,7 +3204,7 @@ Thought: cause located, answer the user</p></div>
     <ul>
       <li><span class="tag r">Prior research</span> Kahneman's System 1 (fast, intuitive) and System 2 (slow, deliberate): answering from pretrained memory resembles System 1; ReAct's lookups resemble System 2.</li>
       <li><span class="tag r">Prior research</span> Kahneman and Klein 2009: expert intuition is reliable only in regular environments with fast feedback, and experienced people roughly know where their intuition holds.</li>
-      <li><span class="tag p">Paper Table 2</span> 56% of CoT failures are hallucinations, stated as confidently as correct answers. The model has “intuition” but may not know when it's unreliable, which is what calibration studies.</li>
+      <li><span class="tag p">Paper Table 2</span> 56% of CoT failures are hallucinations, stated as “confidently” as correct answers. <span class="tag g">Our inference</span> The model has “intuition” but may not “know” when it's unreliable: its confidence may not track how often it is right, which is what calibration studies.</li>
       <li><span class="tag g">Our inference</span> CoT-SC → ReAct uses agreement across samples as a confidence check, like viewing a hunch from several angles. Products can treat disagreement as a signal to verify or hand off.</li>
     </ul>
   </section>
@@ -3286,14 +3286,14 @@ Thought: cause located, answer the user</p></div>
     <div class="eyebrow">Evaluation & trust · Paper · Classic 2022 · Calibration</div>
     <h1>Language Models (Mostly) Know What They Know</h1>
     <p class="full">Kadavath, Conerly, Askell, … Olah, Kaplan · Anthropic · 2022</p>
-    <p class="lede">Do models know what they don't know? Three tests: are answer-option probabilities accurate, can a model judge its own answer, and can it predict beforehand whether it will get a question right?</p>
+    <p class="lede">Do models “know” what they don't know? Here “know” means three measurable things: are answer-option probabilities accurate, can a model judge its own answer, and can it predict beforehand whether it will get a question right?</p>
     <div class="links"><a href="https://arxiv.org/abs/2207.05221" target="_blank" rel="noreferrer">arXiv 2207.05221 ↗</a><span>Can We Trust the Judge?</span><span>Human-AI Coevolution</span></div>
   </header>
 
   <section class="sec">
     <div class="eyebrow">The paper in four lines</div>
     <div class="card4">
-      <div><b>Claim</b><p>Language models largely know what they know: large models are well calibrated on suitably formatted questions, can evaluate their own answers, and can predict whether they'll answer correctly. <span class="tag p">Paper Abstract</span></p></div>
+      <div><b>Claim</b><p>Language models largely “know what they know”: large models are well calibrated on suitably formatted questions, can evaluate their own answers, and can predict whether they'll answer correctly. <span class="tag p">Paper Abstract</span> “Know” here means only those three measurable behaviors, not understanding.</p></div>
       <div><b>Strongest evidence</b><p>The 52B model is well calibrated on multiple-choice and true/false; P(IK) reaches AUROC 0.864 on TriviaQA; P(IK) rises with relevant articles and falls with wrong hints. <span class="tag p">Paper</span></p></div>
       <div><b>Limits</b><p>RLHF models are badly calibrated and need temperature fixes; format-sensitive (“none of the above” breaks calibration); underconfident on unfamiliar tasks; P(IK) needs training inside the model; only tasks with answer keys.</p></div>
       <div><b>Still to validate for products</b><p>Recalibrating on your own tasks; estimating confidence on open-ended work; displaying confidence so people make better decisions.</p></div>
@@ -3304,7 +3304,7 @@ Thought: cause located, answer the user</p></div>
     <div class="eyebrow">Where it sits on the map</div>
     <h2>The premise earlier papers kept running into</h2>
     <ul>
-      <li><span class="tag p">Paper ReAct Table 2</span> 56% of CoT failures are hallucinations, stated as confidently as correct answers.</li>
+      <li><span class="tag p">Paper ReAct Table 2</span> 56% of CoT failures are hallucinations, stated as “confidently” as correct answers.</li>
       <li><span class="tag p">Paper InstructGPT §4.3</span> Models make simple mistakes and sometimes hedge too much.</li>
       <li>The principle “give uncertainty a place in the interface” assumes the model's confidence tracks how often it is right (calibration).</li>
       <li><span class="tag p">Paper ReAct §3.3</span> CoT-SC → ReAct uses agreement across samples as confidence; this paper studies more direct methods.</li>
@@ -3410,7 +3410,7 @@ Thought: cause located, answer the user</p></div>
   <section class="qs">
     <div class="eyebrow">Questions</div>
     <div class="q"><span class="why">Is confidence accurate in our domain</span><div class="en">After post-training, how do you recalibrate a model's confidence for a specific enterprise domain, and how much labeled data does that take?</div><button class="copy" type="button">Copy</button></div>
-    <div class="q"><span class="why">Confidence on open-ended tasks</span><div class="en">Calibration work mostly uses tasks with answer keys. How would you measure whether an agent knows what it knows on open-ended tasks like root cause analysis?</div><button class="copy" type="button">Copy</button></div>
+    <div class="q"><span class="why">Confidence on open-ended tasks</span><div class="en">Calibration work mostly uses tasks with answer keys. How would you measure whether an agent “knows what it knows” on open-ended tasks like root cause analysis?</div><button class="copy" type="button">Copy</button></div>
     <div class="q"><span class="why">Numbers or levels</span><div class="en">Have you seen evidence on whether showing users a numeric confidence, versus coarse levels, actually improves their decisions?</div><button class="copy" type="button">Copy</button></div>
   </section>
 
@@ -3419,7 +3419,7 @@ Thought: cause located, answer the user</p></div>
     <div class="gloss">
       <div><b>calibration</b><span>Whether confidence matches the actual hit rate</span></div>
       <div><b>discrimination / AUROC</b><span>Separating right from wrong; 0.5 chance, 1.0 perfect</span></div>
-      <div><b>P(True) / P(IK)</b><span>Probability “my answer is right” / “I know this”</span></div>
+      <div><b>P(True) / P(IK)</b><span>Probability “my answer is right” / “I know this” (a separately trained output predicts it)</span></div>
       <div><b>temperature scaling</b><span>One temperature value that flattens or sharpens probabilities to fix calibration</span></div>
       <div><b>parameters / scaling laws</b><span>A model's adjustable “knobs” / performance rising predictably with scale</span></div>
       <div><b>metacognition</b><span>Knowing about your own knowing</span></div>
@@ -3453,7 +3453,7 @@ Thought: cause located, answer the user</p></div>
     <div class="eyebrow">1 · Loss</div>
     <h2>Scoring how wrong the model is</h2>
     <p>LLM pretraining is a next-word guessing game: after “the weather today is very”, the model assigns a probability to every possible next token. If the actual next word is “hot”, the more probability it gave “hot”, the lower the loss.</p>
-    <p>This scoring is called <b>cross-entropy</b>, and it punishes confident mistakes especially hard. Details in the concept lesson <a href="#c-scoring">Scoring shapes the model</a>.</p>
+    <p>This scoring is called <b>cross-entropy</b>, and it punishes “confident” mistakes (a high probability on the wrong answer) especially hard. Details in the concept lesson <a href="#c-scoring">Scoring shapes the model</a>.</p>
   </section>
 
   <section class="sec">
@@ -3536,7 +3536,7 @@ Thought: cause located, answer the user</p></div>
     <div class="eyebrow">Foundations · Concept lesson · Classic</div>
     <h1>Scoring shapes the model</h1>
     <p class="full">Cross-entropy · Proper scoring rule · Goodhart's law · KL penalty</p>
-    <p class="lede">How you score a model decides what it becomes. This lesson ties together patterns from earlier papers: why pretrained models are well calibrated, RLHF models are overconfident, and accuracy-only models tend to guess.</p>
+    <p class="lede">How you score a model decides what it becomes. This lesson ties together patterns from earlier papers: why pretrained models are well calibrated, RLHF models are “overconfident” (their probabilities are more extreme than their actual accuracy), and accuracy-only models tend to guess.</p>
   </header>
 
   <section class="sec">
@@ -3603,8 +3603,8 @@ Thought: cause located, answer the user</p></div>
       <thead><tr><th>Scoring</th><th>Rewards</th><th>Model learns to</th><th>Source</th></tr></thead>
       <tbody>
         <tr><td>Cross-entropy (probability scoring)</td><td>Accurate probabilities score best</td><td>Well calibrated</td><td><span class="tag p">Paper Calibration</span></td></tr>
-        <tr><td>Accuracy only</td><td>Guessing</td><td>Guess, avoid “I don't know”</td><td><span class="tag r">Prior research</span> Kalai 2025 (to verify); τ-bench 0/1</td></tr>
-        <tr><td>Human preference</td><td>Pleasing people</td><td>Be confident, flatter</td><td><span class="tag p">Paper</span> Calibration, InstructGPT</td></tr>
+        <tr><td>Accuracy only</td><td>Guessing</td><td>“Guess”, avoid “I don't know” (guessing earns points, abstaining scores 0)</td><td><span class="tag r">Prior research</span> Kalai 2025 (to verify); τ-bench 0/1</td></tr>
+        <tr><td>Human preference</td><td>Pleasing people</td><td>“Be confident”, “flatter”: tone and views drift toward labelers' preferences</td><td><span class="tag p">Paper</span> Calibration, InstructGPT</td></tr>
       </tbody>
     </table></div>
     <div class="tbl"><table>
@@ -3626,7 +3626,7 @@ Thought: cause located, answer the user</p></div>
     <div class="callout"><b>KL divergence · Definition</b><p>“A measure of how much one probability distribution differs from a reference distribution.” It's a relative of cross-entropy: KL = cross-entropy − entropy, the extra loss you pay for predicting with one distribution when another is the reference.</p></div>
     <ul>
       <li><span class="tag p">Paper InstructGPT §3.5</span> In RLHF step 3, score = reward model score − β × KL(current model ‖ SFT model), comparing the two models' next-token distributions on the same prompt.</li>
-      <li><b>What it guards against</b>: the reward model only approximates human taste and has flaws. Unconstrained, the model exploits them: reward model overoptimization.</li>
+      <li><b>What it guards against</b>: the reward model only approximates human “taste” (a fitted scoring function) and has flaws. Unconstrained, the model exploits them: reward model overoptimization.</li>
       <li><b>β is the length of the leash</b>: large β, the model barely changes; small β, it can roam far and is easier to game the reward.</li>
       <li><b>Analogy</b>: a new hire can adapt to their mentor's taste, but is always compared to their week-one recording and loses points for drifting too far.</li>
       <li><span class="tag r">Prior research</span> DPO drops the reward model but still implicitly carries a KL constraint toward a reference model.</li>
