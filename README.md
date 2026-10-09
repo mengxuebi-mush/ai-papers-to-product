@@ -61,7 +61,9 @@ Items still being verified are listed in the site footer.
 
 ## Tools
 
-- **[Acronym lookup](https://mengxuebi-mush.github.io/ai-papers-to-product/#abbr)**: searchable, three tiers (core / subfield / coined in one paper)
+- **[Term lookup](https://mengxuebi-mush.github.io/ai-papers-to-product/#abbr)**: one searchable page with two parts
+  - **Acronyms**: three tiers (core / subfield / coined in one paper), each linked back to the card where it appears
+  - **Humanizing words**: words like *belief*, *know*, *honest*, *lie*, *reason*, each paired with what is actually measurable and where the metaphor breaks. This table is my own conceptual mapping, not quotes from the papers
 
 ## Coming next
 

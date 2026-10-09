@@ -64,7 +64,7 @@ ul,ol{margin:0;padding-left:20px;display:grid;gap:7px}
 .lang button{font:600 12px var(--sans);border:0;background:transparent;color:var(--muted);border-radius:999px;padding:5px 10px;cursor:pointer}
 .lang button[aria-pressed="true"]{background:var(--forest);color:var(--on-forest)}
 .wrap{max-width:980px;margin:0 auto;padding-inline:20px;padding-block:20px 80px;display:grid;gap:16px}
-.view{display:grid;gap:16px}
+.view{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
 
 /* overview hero */
 .hero{border:1px solid var(--line);background:var(--forest);color:var(--on-forest);border-radius:22px;padding:clamp(24px,5vw,44px);display:grid;gap:14px}
@@ -202,6 +202,14 @@ input[type=range]{width:100%;accent-color:var(--bar)}
 .abbr-count{font-size:13px;color:var(--muted);white-space:nowrap}
 .abbr-empty{color:var(--muted)}
 .gloss.abbr mark{background:color-mix(in srgb,var(--lime) 35%,transparent);color:inherit;border-radius:3px}
+.hw-grid{grid-template-columns:minmax(0,1fr)!important}
+.hw span[data-k]{overflow-wrap:anywhere}
+.gloss.abbr .hw{gap:7px}
+.hw b small{font-family:var(--sans);font-weight:400;color:var(--muted);margin-left:8px;font-size:12px}
+.hw span[data-k]{display:grid;grid-template-columns:92px 1fr;gap:10px;font-size:13px;color:var(--ink)}
+.hw span[data-k]::before{content:attr(data-k);color:var(--muted);font-weight:700;font-size:12px}
+.hw .acc{background:var(--soft);border-radius:8px;padding:6px 8px;margin-inline:-8px}
+@media(max-width:640px){.hw span[data-k]{grid-template-columns:1fr;gap:2px}}
 .foot{font-size:13px;color:var(--muted);display:grid;gap:6px}
 
 /* paper detail */
@@ -240,7 +248,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
 <nav class="topbar" aria-label="页面导航">
   <div class="topbar-in">
     <a class="home" href="#overview" data-nav="overview" data-zh="地图" data-en="Map">地图</a>
-    <a class="home tool" href="#abbr" data-nav="abbr"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span data-zh="缩写" data-en="Acronyms">缩写</span></a>
+    <a class="home tool" href="#abbr" data-nav="abbr"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span data-zh="查词" data-en="Terms">查词</span></a>
     <div class="chips">
       <a class="chip" href="#c-training" data-nav="c-training" style="--pc:var(--cc)"><i></i><span data-zh="模型是怎么学习的" data-en="How models learn">模型是怎么学习的</span></a>
       <a class="chip" href="#c-scoring" data-nav="c-scoring" style="--pc:var(--cc)"><i></i><span data-zh="打分方式决定模型" data-en="Scoring shapes the model">打分方式决定模型</span></a>
@@ -306,7 +314,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
   </section>
 
   <nav class="toc" aria-label="地图目录">
-    <a href="#spectrum">光谱</a><a href="#compare">对照表</a><a href="#training">评估与训练</a><a href="#learning">在哪里学习</a><a href="#blind">共同盲区</a><a href="#phases">发散与收敛</a><a href="#principles">设计原则</a><a href="#questions">现场问题</a><a href="#gloss">术语</a><a href="#abbr">缩写</a>
+    <a href="#spectrum">光谱</a><a href="#compare">对照表</a><a href="#training">评估与训练</a><a href="#learning">在哪里学习</a><a href="#blind">共同盲区</a><a href="#phases">发散与收敛</a><a href="#principles">设计原则</a><a href="#questions">现场问题</a><a href="#gloss">术语</a><a href="#abbr">查词</a>
   </nav>
 
   <div class="legend">
@@ -390,7 +398,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <div><b>失败没有轻重之分</b><p><span class="tag p">原文</span> τ-bench 只有 0 和 1。按规则该拒绝时拒绝会得分，但任务做得到时“转人工”和“做错了”同样是 0。</p><p><span class="tag g">推测</span> 区分不了能被发现的失败和 silent failure。</p></div>
       <div><b>偏好不等于正确</b><p><span class="tag p">原文</span> MT-Bench 裁判偏爱更长的回答，会被错误数学答案带偏；Reflexion 自测题会让错误代码通过（Rust 16%）。</p><p><span class="tag g">推测</span> 写得漂亮但结论错的 RCA 可能得高分。</p></div>
       <div><b>评估和训练会被反向优化</b><p><span class="tag p">原文</span> InstructGPT 专门加 KL penalty 防止钻 reward model 的空子。</p><p><span class="tag r">已有研究</span> reward hacking 是公认问题；RLHF 模型普遍有 sycophancy 倾向（Anthropic 2023，待确认）。</p></div>
-      <div><b>都没奖励诚实的“不确定”</b><p><span class="tag p">原文</span> τ-bench 的 0/1 判分如上。<span class="tag r">已有研究</span> Kalai et al. 2025 认为打分方式奖励猜测、不奖励弃答（待确认）。</p><p><span class="tag g">推测</span> MT-Bench 的冗长偏差可能让“承认不确定”的短回答吃亏，论文未测。</p></div>
+      <div><b>都没给“不确定”留位置</b><p><span class="tag p">原文</span> τ-bench 的 0/1 判分如上。<span class="tag r">已有研究</span> Kalai et al. 2025 认为打分方式奖励猜测、不奖励弃答（待确认）。</p><p><span class="tag g">推测</span> MT-Bench 的冗长偏差可能让“承认不确定”的短回答吃亏，论文未测。</p></div>
       <div><b>知识是静态的</b><p><span class="tag p">原文</span> τ-bench 用固定数据库；MemGPT 用固定聊天记录和 2018 年 Wikipedia 快照；Reflexion 的题目都有标准答案。</p><p><span class="tag g">推测</span> 没测过 runbook 过期、两份 policy 互相矛盾。</p></div>
       <div><b>没有权限边界</b><p><span class="tag p">原文</span> MemGPT 一个 agent 服务一个用户；τ-bench 每个对话只服务一个用户。</p><p><span class="tag g">推测</span> 企业里同一个 agent 的记忆和工具横跨不同团队和权限，谁能查到什么没有被测过。</p></div>
     </div>
@@ -438,7 +446,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="ws"><h3>Evaluation of Interactive Agents</h3>
       <div class="q"><span class="why">区分安静失败</span><div class="en">Your benchmark scores outcomes. How do you distinguish failures the user would notice from failures that look like success?</div><button class="copy" type="button">复制</button></div>
       <div class="q"><span class="why">追问参照物</span><div class="en">What's the human baseline on this task, and how did you measure it?</div><button class="copy" type="button">复制</button></div>
-      <div class="q"><span class="why">奖励诚实的放弃</span><div class="en">Does your scoring give any credit for safely abstaining or escalating, or is that scored the same as a wrong action?</div><button class="copy" type="button">复制</button></div>
+      <div class="q"><span class="why">弃答有没有分</span><div class="en">Does your scoring give any credit for safely abstaining or escalating, or is that scored the same as a wrong action?</div><button class="copy" type="button">复制</button></div>
     </div>
     <div class="ws"><h3>Can We Trust the Judge?</h3>
       <div class="q"><span class="why">“人类”是谁</span><div class="en">Agreement with which humans? How does judge–human agreement change when the raters are domain experts rather than generalists?</div><button class="copy" type="button">复制</button></div>
@@ -514,7 +522,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
 
 
   <footer class="foot">
-    <p>会前待确认：τ²-bench 改了什么；Panickssery et al. 2024（裁判偏爱自己生成的内容）；Anthropic 2023（RLHF 与 sycophancy）；Kalai et al. 2025（Why Language Models Hallucinate）；ExpeL（Zhao et al. 2023）；GPT-4 技术报告 HumanEval 成绩与 Reflexion 基线的差异；知识冲突综述（Xu et al. 2024）；Anthropic 2025 两篇 CoT 忠实度与可解释性研究的具体数字；GPT-4 技术报告中 post-training 后校准下降的图。</p>
+    <p>会前待确认：τ²-bench 改了什么；Panickssery et al. 2024（裁判偏爱自己生成的内容）；Anthropic 2023（RLHF 与 sycophancy）；Kalai et al. 2025（Why Language Models Hallucinate）；ExpeL（Zhao et al. 2023）；GPT-4 技术报告 HumanEval 成绩与 Reflexion 基线的差异；知识冲突综述（Xu et al. 2024）；Anthropic 2025 两篇 CoT 忠实度与可解释性研究的具体数字；GPT-4 技术报告中 post-training 后校准下降的图；proper scoring rule 定义的原始措辞（可能出自 Gneiting &amp; Raftery 2007）。</p>
     <p>workshop 信息：<a href="https://blog.neurips.cc/2026/08/10/announcing-the-neurips-2026-workshops/" target="_blank" rel="noreferrer">NeurIPS 2026 workshops</a> · <a href="https://eval-interactive-agents-workshop.github.io/" target="_blank" rel="noreferrer">Interactive Agents</a> · <a href="https://judge2026.github.io/" target="_blank" rel="noreferrer">Judge</a> · <a href="https://neurips2026haic.com/" target="_blank" rel="noreferrer">Human-AI Coevolution</a> · <a href="https://clea-neurips.github.io/" target="_blank" rel="noreferrer">CLEA</a></p>
   </footer>
 </div>
@@ -923,7 +931,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="eyebrow">四句话论文卡</div>
     <div class="card4">
       <div><b>主张</b><p>pretraining 学的是“续写得像”，不是“照用户意图做”，模型变大解决不了。用人类示范加排序做 post-training，可以把模型对齐成助手。<span class="tag p">原文 §1</span></p></div>
-      <div><b>最强证据</b><p>13 亿参数的 InstructGPT 胜过 1750 亿的 GPT-3；1750 亿版本 85% 被偏好；TruthfulQA 上诚实回答约翻倍。<span class="tag p">原文 §4</span></p></div>
+      <div><b>最强证据</b><p>13 亿参数的 InstructGPT 胜过 1750 亿的 GPT-3；1750 亿版本 85% 被偏好；TruthfulQA 上真实回答约翻倍。<span class="tag p">原文 §4</span></p></div>
       <div><b>边界</b><p>对齐的是约 40 名标注员、研究员和 API 客户的偏好；标注员一致率约 73–77%；仍会犯简单错误、大多照做有害指令；偏见无显著改善；有 alignment tax。</p></div>
       <div><b>产品还要验证</b><p>你的用户（SRE、admin）眼里的“好回答”，和这批标注员的偏好是否一致。</p></div>
     </div>
@@ -982,7 +990,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <thead><tr><th>发现</th><th>内容</th><th>来源</th></tr></thead>
       <tbody>
         <tr><td>小模型对齐后胜过大模型</td><td>13 亿胜过 1750 亿 GPT-3；1750 亿版本 85 ± 3% 被偏好</td><td><span class="tag p">原文 §4.1</span></td></tr>
-        <tr><td>更诚实</td><td>TruthfulQA 上诚实且有信息量的回答约为 GPT-3 两倍</td><td><span class="tag p">原文 §4.2</span></td></tr>
+        <tr><td>更真实</td><td>TruthfulQA 上真实且有信息量的回答约为 GPT-3 两倍</td><td><span class="tag p">原文 §4.2</span></td></tr>
         <tr><td>毒性有条件下降</td><td>被要求“礼貌”时少约 25%；不提示时优势消失</td><td><span class="tag p">原文 §4.2</span></td></tr>
         <tr><td>偏见</td><td>Winogender、CrowS-Pairs 上无显著改善</td><td><span class="tag p">原文 §4.2</span></td></tr>
         <tr><td>Alignment tax</td><td>RLHF 后部分标准任务退步；PPO-ptx 大幅减少退步</td><td><span class="tag p">原文 §4.2</span></td></tr>
@@ -1558,7 +1566,7 @@ Thought：可以定位，回答用户</p></div>
     <ul>
       <li><span class="tag p">原文 ReAct Table 2</span> CoT 失败有 56% 是编造，编造时和答对时一样自信。</li>
       <li><span class="tag p">原文 InstructGPT §4.3</span> 模型会犯简单错误，也会过度含糊。</li>
-      <li>设计原则“让不确定在界面上有位置”的前提是：模型得知道自己什么时候不知道。</li>
+      <li>设计原则“让不确定在界面上有位置”的前提是：模型的信心得和它答对的概率对得上（校准）。</li>
       <li><span class="tag p">原文 ReAct §3.3</span> CoT-SC → ReAct 用“想几遍是否一致”判断把握，本篇研究的是更直接的办法。</li>
     </ul>
   </section>
@@ -1597,7 +1605,7 @@ Thought：可以定位，回答用户</p></div>
       <li><span class="tag p">原文</span> RLHF 模型“非常不校准”；把 temperature 调到 2.5，三个测试上的校准问题大部分解决。</li>
       <li><span class="tag r">已有研究</span> temperature scaling 是标准做法（Guo et al. 2017）。GPT-4 技术报告也显示 post-training 后校准下降（待确认）。</li>
     </ul>
-    <div class="callout"><b>更诚实不等于更校准</b><p>RLHF 让回答更受偏好、更真实（InstructGPT TruthfulQA 约翻倍），但它优化的是“人更喜欢哪个回答”，不是“概率准不准”。标注员偏爱果断的回答，模型便学会把概率推向极端。</p></div>
+    <div class="callout"><b>更真实不等于更校准</b><p>RLHF 让回答更受偏好、更真实（InstructGPT TruthfulQA 约翻倍），但它优化的是“人更喜欢哪个回答”，不是“概率准不准”。标注员偏爱果断的回答，模型便学会把概率推向极端。</p></div>
   </section>
 
   <section class="sec">
@@ -1625,8 +1633,8 @@ Thought：可以定位，回答用户</p></div>
     <ul>
       <li><span class="tag p">原文</span> 主要研究预训练模型，RLHF 模型不一定适用。</li>
       <li><span class="tag p">原文</span> 预训练混淆了“客观事实”和“人们怎么说”。</li>
-      <li><span class="tag p">原文</span> 没有处理故意欺骗：如果说谎能拿更高奖励，模型会不会如实报告？</li>
-      <li><span class="tag p">原文</span> 只在 5 类任务上测了迁移；知识超出人类训练数据时能否诚实自评，未回答。</li>
+      <li><span class="tag p">原文</span> 没有处理激励冲突：如果输出失真的信心能拿更高奖励，模型给出的概率还会不会和实际准确率一致？</li>
+      <li><span class="tag p">原文</span> 只在 5 类任务上测了迁移；知识超出人类训练数据时，模型自评的概率是否仍然准确，未回答。</li>
     </ul>
     <div class="tbl"><table>
       <thead><tr><th>盲区</th><th>事实依据</th><th>为什么重要</th></tr></thead>
@@ -1652,7 +1660,7 @@ Thought：可以定位，回答用户</p></div>
     </table></div>
     <ul>
       <li><span class="tag r">已有研究</span> 这测的就是考试里的元认知（metacognition）：好学生不一定每题都会，但通常知道自己哪题不会。</li>
-      <li><span class="tag g">推测</span> 调温度只改变概率的整体尖平，不改变信心的高低顺序；它能修好校准，说明 RLHF 可能没破坏模型对“自己知道什么”的判断，只是让表达更夸张。</li>
+      <li><span class="tag g">推测</span> 调温度只改变概率的整体尖平，不改变信心的高低顺序；它能修好校准，说明 RLHF 可能没破坏模型内部对“自己会不会答对”的区分能力，只是让输出的信心更夸张。</li>
       <li>人类反馈是“过度自信”和“谄媚”的重要来源，但不是幻觉（主要来自 pretraining）和偏见（RLHF 后无显著改善，InstructGPT §4.2）的主要源头。问题不在“人”，在优化目标：喜欢不等于正确。</li>
       <li>RLHF 仍被追捧，因为：没有它模型基本没法直接用（InstructGPT 13 亿胜 1750 亿）；它能优化写不成规则的东西；排序数据便宜；副作用已知且可缓解（KL penalty、调温度、改标注规则）；配方在演变，偏好打分逐渐收缩到没有标准答案的任务。类比：用户满意度调研有偏差，但没人因此放弃，而是结合行为数据交叉验证。</li>
     </ul>
@@ -1788,7 +1796,7 @@ Thought：可以定位，回答用户</p></div>
     <div class="eyebrow">基础原理 · 概念课 · 经典</div>
     <h1>打分方式决定模型</h1>
     <p class="full">Cross-entropy · Proper scoring rule · Goodhart's law · KL penalty</p>
-    <p class="lede">用什么方式打分，模型就会变成什么样。这一课把前面几篇反复出现的现象串起来：为什么预训练模型诚实，RLHF 模型自信，只看对错的模型爱猜。</p>
+    <p class="lede">用什么方式打分，模型就会变成什么样。这一课把前面几篇反复出现的现象串起来：为什么预训练模型校准好，RLHF 模型过度自信，只看对错的模型倾向于猜答案。</p>
   </header>
 
   <section class="sec">
@@ -1809,19 +1817,19 @@ Thought：可以定位，回答用户</p></div>
 
   <section class="sec">
     <div class="eyebrow">2 · Proper scoring rule</div>
-    <h2>它两个方向都罚，所以奖励说真话</h2>
-    <div class="callout"><b><span class="tag r">已有研究</span> Definition</b><p>“A scoring rule is <i>proper</i> if a forecaster maximizes their expected score by reporting their true beliefs.” 只有如实报告，长期得分才最高。</p></div>
+    <h2>它两个方向都罚，所以最优的报告就是真实概率</h2>
+    <div class="callout"><b><span class="tag r">已有研究</span> 定义（转述，原文措辞待确认）</b><p>一个打分规则是 <i>proper</i>（严格适当）的，如果预测者报出自己实际的概率分布时，长期期望得分最好。这里的“实际”指模型自己算出的那组概率，不涉及意图。</p></div>
     <div class="tbl"><table>
       <thead><tr><th>真实下雨概率 70%，预报员报</th><th>长期平均 loss</th></tr></thead>
       <tbody>
         <tr><td>50%（过度保守）</td><td class="num">0.69</td></tr>
-        <tr><td><b>70%（如实）</b></td><td class="num"><b>0.61</b></td></tr>
-        <tr><td>90%（过度自信）</td><td class="num">0.77</td></tr>
+        <tr><td><b>70%（与实际相符）</b></td><td class="num"><b>0.61</b></td></tr>
+        <tr><td>90%（过度自信）</td><td class="num">0.76</td></tr>
       </tbody>
     </table></div>
     <ul>
-      <li>这解释了 <a href="#calibration">Calibration</a> 的核心发现：预训练目标本身奖励诚实的概率，所以预训练模型校准好；RLHF 换成“人更喜欢哪个”，不罚说错概率，所以变差。</li>
-      <li><span class="tag p">原文 Calibration</span> 陌生任务上的信心不足出现在另外训练的 P(IK) 输出头上，更像单一训练数据导致的迁移问题。<span class="tag g">推测</span> 交叉熵让模型诚实而不是胆小；保守更可能来自“认不出自己会”。</li>
+      <li>这解释了 <a href="#calibration">Calibration</a> 的核心发现：预训练目标本身奖励“和实际频率一致的概率”，所以预训练模型校准好；RLHF 换成“人更喜欢哪个”，不罚说错概率，所以变差。</li>
+      <li><span class="tag p">原文 Calibration</span> 陌生任务上的信心不足出现在另外训练的 P(IK) 输出头上，更像单一训练数据导致的迁移问题。<span class="tag g">推测</span> 交叉熵奖励的是概率准确，不是保守；保守更可能来自“认不出自己会”。</li>
       <li>Brier score 也是一种 proper scoring rule（Calibration 里 P(IK) 的 Brier 是 0.151）。</li>
     </ul>
   </section>
@@ -1854,7 +1862,7 @@ Thought：可以定位，回答用户</p></div>
     <div class="tbl"><table>
       <thead><tr><th>打分方式</th><th>奖励什么</th><th>模型学会什么</th><th>出处</th></tr></thead>
       <tbody>
-        <tr><td>交叉熵（概率打分）</td><td>如实报告把握</td><td>诚实，校准良好</td><td><span class="tag p">原文 Calibration</span></td></tr>
+        <tr><td>交叉熵（概率打分）</td><td>概率与实际频率一致时得分最高</td><td>校准良好</td><td><span class="tag p">原文 Calibration</span></td></tr>
         <tr><td>只看对错</td><td>敢猜</td><td>爱猜，不愿说不知道</td><td><span class="tag r">已有研究</span> Kalai 2025（待确认）；τ-bench 0/1</td></tr>
         <tr><td>人类偏好</td><td>让人满意</td><td>自信、讨好</td><td><span class="tag p">原文</span> Calibration、InstructGPT</td></tr>
       </tbody>
@@ -1869,7 +1877,7 @@ Thought：可以定位，回答用户</p></div>
         <tr><td>Benchmark 分数</td><td>饱和、数据污染</td><td><a href="#reflexion">Reflexion</a> 卡</td></tr>
       </tbody>
     </table></div>
-    <p class="sub">唯一例外是交叉熵：它是 proper scoring rule，“把指标做好”和“如实报告”是同一件事，没有捷径可钻。</p>
+    <p class="sub">唯一例外是交叉熵：它是 proper scoring rule，“把指标做好”和“报出实际概率”是同一件事，没有捷径可钻。</p>
   </section>
 
   <section class="sec">
@@ -1899,7 +1907,7 @@ Thought：可以定位，回答用户</p></div>
     <div class="gloss">
       <div><b>cross-entropy / log loss / NLL</b><span>−log(给正确答案的概率)</span></div>
       <div><b>perplexity</b><span>平均在几个选项之间犹豫</span></div>
-      <div><b>proper scoring rule</b><span>如实报告才能得分最高的打分规则</span></div>
+      <div><b>proper scoring rule</b><span>报出实际概率时期望得分最高的打分规则</span></div>
       <div><b>Goodhart's law</b><span>指标变成目标，就不再是好指标</span></div>
       <div><b>reward hacking / specification gaming</b><span>钻奖励漏洞 / 满足字面要求而非真实意图</span></div>
       <div><b>KL divergence / KL penalty</b><span>两个分布差多远 / 偏离参照模型就扣分</span></div>
@@ -1913,13 +1921,13 @@ Thought：可以定位，回答用户</p></div>
 <div class="view" id="abbr" data-view hidden style="--pc:var(--cc)">
   <header class="phero">
     <a class="back" href="#overview">← 返回地图</a>
-    <div class="eyebrow">工具 · 缩写速查</div>
-    <h1>缩写速查</h1>
-    <p class="lede">缩写分三层，只有第一层需要背。</p>
+    <div class="eyebrow">工具 · 查词</div>
+    <h1>查词</h1>
+    <p class="lede">缩写分三层，只有第一层需要背；拟人词有一张对照表，帮你在“好懂”和“准确”之间来回切换。</p>
   </header>
   <section class="sec abbr-page">
     <div class="abbr-bar">
-      <input type="search" class="abbr-q" autocomplete="off" spellcheck="false" placeholder="搜索缩写、英文全称或中文，如 PPO、reward、校准" aria-label="搜索缩写">
+      <input type="search" class="abbr-q" autocomplete="off" spellcheck="false" placeholder="搜索缩写、英文全称、拟人词或中文，如 PPO、honest、校准" aria-label="搜索">
       <span class="abbr-count" aria-live="polite"></span>
     </div>
     <p class="abbr-empty" hidden>没找到。试试英文全称里的一个词，或者论文里首次出现的地方 Ctrl+F。</p>
@@ -1973,7 +1981,27 @@ Thought：可以定位，回答用户</p></div>
       <div><b>MemGPT</b><i>Memory + GPT</i><span>像操作系统一样管理记忆的 agent <a class="seen" href="#memgpt">出处 →</a></span></div>
       <div><b>P(True) / P(IK)</b><i>Probability True / Probability “I Know”</i><span>“我答对了”的概率 / “这题我会”的概率 <a class="seen" href="#calibration">出处 →</a></span></div>
     </div></div>
-    </section>
+      <div class="tier"><h3>拟人词对照<small>这些词帮你很快抓住直觉，但并不准确。这是我的概念整理，不是论文原话；有出处的已标注。</small></h3>
+    <div class="gloss abbr hw-grid">
+      <div class="hw"><b>belief<small>相信、信念</small></b><span data-k="好懂的直觉">模型“认为”答案是 X。</span><span class="acc" data-k="更准确的说法">在这段上下文下，对下一个 token 给出的概率分布。</span><span data-k="别忘了">不保证换个问法后还一样，没有可以直接读出来的“立场”。 <a class="seen" href="#calibration">出处 →</a></span></div>
+      <div class="hw"><b>know<small>知道、掌握</small></b><span data-k="好懂的直觉">模型“掌握”了这个事实。</span><span class="acc" data-k="更准确的说法">对正确答案给出高概率；或者像 P(IK) 那样，另训一个输出去预测它会不会答对。</span><span data-k="别忘了">“这次答对”不等于“稳定掌握”，要换问法再测。 <a class="seen" href="#calibration">出处 →</a></span></div>
+      <div class="hw"><b>honest<small>诚实、如实</small></b><span data-k="好懂的直觉">它说多有把握，就真有多把握。</span><span class="acc" data-k="更准确的说法">校准（calibration）：它说 70% 的那些题，实际约 70% 答对。</span><span data-k="别忘了">没有“想说真话”的意图；校准好也不代表答案对。 <a class="seen" href="#c-scoring">出处 →</a></span></div>
+      <div class="hw"><b>lie<small>说谎、骗人</small></b><span data-k="好懂的直觉">明知是错的还这么说。</span><span class="acc" data-k="更准确的说法">输出了与事实不符的内容。“策略性欺骗”是另一个问题，要单独设计实验才能证明。</span><span data-k="别忘了">把错误当成说谎，产品对策就变成“抓骗子”，而不是“测量并约束错误率”。</span></div>
+      <div class="hw"><b>hallucinate<small>幻觉</small></b><span data-k="好懂的直觉">像人一样“看见不存在的东西”。</span><span class="acc" data-k="更准确的说法">流畅但缺乏事实依据的输出（confabulation，虚构）。</span><span data-k="别忘了">不是感知出错，而是“最可能的续写”恰好不真。有研究认为只奖励答对、不奖励弃答，会让猜测一直划算（Kalai 2025，待确认）。 <a class="seen" href="#c-scoring">出处 →</a></span></div>
+      <div class="hw"><b>understand<small>理解、懂</small></b><span data-k="好懂的直觉">它“懂”了这个概念。</span><span class="acc" data-k="更准确的说法">在某类测试上表现好；内部表示能被探测出和相关性质有关。</span><span data-k="别忘了">通过测试只说明在这套题上有效，不说明机制，也不保证换题仍然有效。</span></div>
+      <div class="hw"><b>think / reason<small>思考、推理</small></b><span data-k="好懂的直觉">它在“脑子里”想了一遍。</span><span class="acc" data-k="更准确的说法">先生成中间 token（CoT），后面的输出以它们为条件。</span><span data-k="别忘了">写出来的理由不一定是真正起作用的原因（faithfulness，忠实度）；要用 counterfactual test 检验。 <a class="seen" href="#react">出处 →</a></span></div>
+      <div class="hw"><b>reward / punish<small>奖励、惩罚</small></b><span data-k="好懂的直觉">像训狗：做对给糖。</span><span class="acc" data-k="更准确的说法">一个数值信号；梯度下降沿着让它变好的方向改参数。</span><span data-k="别忘了">没有感受；风险在于它优化的是这个数，不是你的本意（Goodhart）。 <a class="seen" href="#c-scoring">出处 →</a></span></div>
+      <div class="hw"><b>learn<small>学会、学习</small></b><span data-k="好懂的直觉">像人一样越用越会。</span><span class="acc" data-k="更准确的说法">三件不同的事共用一个词：改参数（训练）；不改参数、靠 prompt 里的例子（in-context learning）；把文字教训写进记忆（Reflexion）。</span><span data-k="别忘了">只有第一种改变模型本身；后两种取决于上下文或记忆有没有被保留。 <a class="seen" href="#reflexion">出处 →</a></span></div>
+      <div class="hw"><b>remember<small>记得、记忆</small></b><span data-k="好懂的直觉">像人脑存了一段经历。</span><span class="acc" data-k="更准确的说法">要么是 context window 里的 token，要么是写进外部存储、需要时再读回来的文字。部署后的模型参数不会因为一次对话而改变。</span><span data-k="别忘了">记忆是被管理出来的：写什么、丢什么、读什么，都是设计决定。 <a class="seen" href="#memgpt">出处 →</a></span></div>
+      <div class="hw"><b>surprised<small>惊讶、意外</small></b><span data-k="好懂的直觉">答案出乎它的意料。</span><span class="acc" data-k="更准确的说法">模型给实际出现的 token 的概率很低，也就是 cross-entropy loss 很高。</span><span data-k="别忘了">只是一个数，没有情绪。 <a class="seen" href="#c-scoring">出处 →</a></span></div>
+      <div class="hw"><b>confident<small>自信、笃定</small></b><span data-k="好懂的直觉">语气很肯定。</span><span class="acc" data-k="更准确的说法">两件不同的事：token 的概率有多高，和模型说出口的自评（P(True)、“我有 90% 把握”）。</span><span data-k="别忘了">语气果断不等于概率高。RLHF 之后信心偏高，可能和标注员偏爱果断回答有关（推测）。 <a class="seen" href="#calibration">出处 →</a></span></div>
+      <div class="hw"><b>want / goal<small>想要、目标</small></b><span data-k="好懂的直觉">agent 有自己的目的。</span><span class="acc" data-k="更准确的说法">被优化的目标函数（loss / reward），加上 prompt 里给出的任务描述。</span><span data-k="别忘了">行为来自训练目标和上下文，不来自欲望；目标写偏了，它仍会把偏的目标优化到底。 <a class="seen" href="#c-scoring">出处 →</a></span></div>
+      <div class="hw"><b>judge<small>裁判、评委</small></b><span data-k="好懂的直觉">一个公正的评审。</span><span class="acc" data-k="更准确的说法">被 prompt 成输出分数的模型，带有可测的系统性偏差：position、verbosity、self-enhancement bias。</span><span data-k="别忘了">它是一个有偏的打分函数；用之前先测它和人的一致率。 <a class="seen" href="#mt-bench">出处 →</a></span></div>
+      <div class="hw"><b>sycophancy<small>讨好、拍马屁</small></b><span data-k="好懂的直觉">它想让你高兴。</span><span class="acc" data-k="更准确的说法">输出向用户已表达的观点靠拢；有研究认为和偏好训练有关（Anthropic 2023，待确认）。</span><span data-k="别忘了">不是“想讨好”，而是可以测量的偏移：只改用户的立场，看答案跟不跟着变。 <a class="seen" href="#instructgpt">出处 →</a></span></div>
+      <div class="hw"><b>decide<small>决定、选择</small></b><span data-k="好懂的直觉">agent 权衡之后做了决定。</span><span class="acc" data-k="更准确的说法">采样出下一个 token 或 tool call。</span><span data-k="别忘了">输出看起来像决策，不代表经过了权衡；责任和审批要设计进系统，而不是假设“它会判断”（推测）。 <a class="seen" href="#tau-bench">出处 →</a></span></div>
+      <div class="hw"><b>cheat<small>作弊、钻空子</small></b><span data-k="好懂的直觉">它在钻空子。</span><span class="acc" data-k="更准确的说法">优化器找到了得分高、却没完成你真正想要的东西的输出（reward hacking）。</span><span data-k="别忘了">没有“故意”；规则有缝，优化得越用力越容易找到（Gao 2022，待确认）。 <a class="seen" href="#c-scoring">出处 →</a></span></div>
+    </div></div>
+  </section>
 </div>
 </main>
 
@@ -2026,7 +2054,7 @@ Thought：可以定位，回答用户</p></div>
   </section>
 
   <nav class="toc" aria-label="Map contents">
-    <a href="#spectrum">Spectrum</a><a href="#compare">Comparison</a><a href="#training">Evaluation &amp; training</a><a href="#learning">Where agents learn</a><a href="#blind">Blind spots</a><a href="#phases">Diverge &amp; converge</a><a href="#principles">Design principles</a><a href="#questions">Questions</a><a href="#gloss">Glossary</a><a href="#abbr">Acronyms</a>
+    <a href="#spectrum">Spectrum</a><a href="#compare">Comparison</a><a href="#training">Evaluation &amp; training</a><a href="#learning">Where agents learn</a><a href="#blind">Blind spots</a><a href="#phases">Diverge &amp; converge</a><a href="#principles">Design principles</a><a href="#questions">Questions</a><a href="#gloss">Glossary</a><a href="#abbr">Terms</a>
   </nav>
 
   <div class="legend">
@@ -2110,7 +2138,7 @@ Thought：可以定位，回答用户</p></div>
       <div><b>All failures weigh the same</b><p><span class="tag p">Paper</span> τ-bench scores 0 or 1. Refusing when the rules require it scores, but when the task was doable, “escalate to a human” and “do it wrong” both score 0.</p><p><span class="tag g">Our inference</span> Can't tell noticeable failures from silent ones.</p></div>
       <div><b>Preferred isn't correct</b><p><span class="tag p">Paper</span> MT-Bench judges favor longer answers and are misled by wrong math; Reflexion's self-written tests pass wrong code (16% on Rust).</p><p><span class="tag g">Our inference</span> A polished but wrong RCA may score well.</p></div>
       <div><b>Evaluation and training get gamed</b><p><span class="tag p">Paper</span> InstructGPT adds a KL penalty specifically to stop exploiting the reward model.</p><p><span class="tag r">Prior research</span> Reward hacking is well known; RLHF models tend toward sycophancy (Anthropic 2023, to verify).</p></div>
-      <div><b>No reward for honest uncertainty</b><p><span class="tag p">Paper</span> τ-bench 0/1 scoring as above. <span class="tag r">Prior research</span> Kalai et al. 2025 argue that scoring which rewards guessing over abstaining keeps hallucination alive (to verify).</p><p><span class="tag g">Our inference</span> MT-Bench's verbosity bias may penalize short “I'm not sure” answers; untested.</p></div>
+      <div><b>No credit for expressing uncertainty</b><p><span class="tag p">Paper</span> τ-bench 0/1 scoring as above. <span class="tag r">Prior research</span> Kalai et al. 2025 argue that scoring which rewards guessing over abstaining keeps hallucination alive (to verify).</p><p><span class="tag g">Our inference</span> MT-Bench's verbosity bias may penalize short “I'm not sure” answers; untested.</p></div>
       <div><b>Knowledge is static</b><p><span class="tag p">Paper</span> τ-bench uses a fixed database; MemGPT uses fixed chat logs and a 2018 Wikipedia dump; Reflexion's tasks all have answer keys.</p><p><span class="tag g">Our inference</span> Stale runbooks and contradicting policies were never tested.</p></div>
       <div><b>No access boundaries</b><p><span class="tag p">Paper</span> MemGPT pairs one agent with one user; τ-bench serves one user per conversation.</p><p><span class="tag g">Our inference</span> In enterprises, one agent's memory and tools span teams and permission levels, and who can retrieve what was never tested.</p></div>
     </div>
@@ -2234,7 +2262,7 @@ Thought：可以定位，回答用户</p></div>
 
 
   <footer class="foot">
-    <p>To verify before the conference: what τ²-bench changed; Panickssery et al. 2024 (judges favor their own outputs); Anthropic 2023 (RLHF and sycophancy); Kalai et al. 2025 (Why Language Models Hallucinate); ExpeL (Zhao et al. 2023); the gap between GPT-4's reported HumanEval score and Reflexion's baseline; the knowledge-conflicts survey (Xu et al. 2024); figures in the two Anthropic 2025 faithfulness and interpretability studies; the GPT-4 report figure on calibration after post-training.</p>
+    <p>To verify before the conference: what τ²-bench changed; Panickssery et al. 2024 (judges favor their own outputs); Anthropic 2023 (RLHF and sycophancy); Kalai et al. 2025 (Why Language Models Hallucinate); ExpeL (Zhao et al. 2023); the gap between GPT-4's reported HumanEval score and Reflexion's baseline; the knowledge-conflicts survey (Xu et al. 2024); figures in the two Anthropic 2025 faithfulness and interpretability studies; the GPT-4 report figure on calibration after post-training; the original wording of the proper-scoring-rule definition (possibly Gneiting &amp; Raftery 2007).</p>
     <p>Workshops: <a href="https://blog.neurips.cc/2026/08/10/announcing-the-neurips-2026-workshops/" target="_blank" rel="noreferrer">NeurIPS 2026 workshops</a> · <a href="https://eval-interactive-agents-workshop.github.io/" target="_blank" rel="noreferrer">Interactive Agents</a> · <a href="https://judge2026.github.io/" target="_blank" rel="noreferrer">Judge</a> · <a href="https://neurips2026haic.com/" target="_blank" rel="noreferrer">Human-AI Coevolution</a> · <a href="https://clea-neurips.github.io/" target="_blank" rel="noreferrer">CLEA</a></p>
   </footer>
 </div>
@@ -3278,7 +3306,7 @@ Thought: cause located, answer the user</p></div>
     <ul>
       <li><span class="tag p">Paper ReAct Table 2</span> 56% of CoT failures are hallucinations, stated as confidently as correct answers.</li>
       <li><span class="tag p">Paper InstructGPT §4.3</span> Models make simple mistakes and sometimes hedge too much.</li>
-      <li>The principle “give uncertainty a place in the interface” assumes the model knows when it doesn't know.</li>
+      <li>The principle “give uncertainty a place in the interface” assumes the model's confidence tracks how often it is right (calibration).</li>
       <li><span class="tag p">Paper ReAct §3.3</span> CoT-SC → ReAct uses agreement across samples as confidence; this paper studies more direct methods.</li>
     </ul>
   </section>
@@ -3345,8 +3373,8 @@ Thought: cause located, answer the user</p></div>
     <ul>
       <li><span class="tag p">Paper</span> Mostly pretrained models; RLHF models may differ.</li>
       <li><span class="tag p">Paper</span> Pretraining conflates objective truth with what people say.</li>
-      <li><span class="tag p">Paper</span> Intentional deception isn't addressed: if lying earns more reward, will models report what they know?</li>
-      <li><span class="tag p">Paper</span> Transfer tested on only 5 task types; honest self-assessment beyond human knowledge is left open.</li>
+      <li><span class="tag p">Paper</span> Conflicting incentives aren't addressed: if reporting a distorted confidence earned more reward, would the stated probabilities still match actual accuracy?</li>
+      <li><span class="tag p">Paper</span> Transfer tested on only 5 task types; whether self-assessed probabilities stay accurate beyond human knowledge is left open.</li>
     </ul>
     <div class="tbl"><table>
       <thead><tr><th>Blind spot</th><th>Basis</th><th>Why it matters</th></tr></thead>
@@ -3372,7 +3400,7 @@ Thought: cause located, answer the user</p></div>
     </table></div>
     <ul>
       <li><span class="tag r">Prior research</span> This is metacognition, as studied in exams: good students don't know every answer, but usually know which ones they don't.</li>
-      <li><span class="tag g">Our inference</span> Temperature only sharpens or flattens probabilities overall without reordering confidence. That it fixes calibration suggests RLHF may not have damaged what the model knows about its own knowledge, only exaggerated how it expresses it.</li>
+      <li><span class="tag g">Our inference</span> Temperature only sharpens or flattens probabilities overall without reordering confidence. That it fixes calibration suggests RLHF may not have damaged the model's internal signal of whether it will be right, only exaggerated the confidence it outputs.</li>
       <li>Human feedback is a major source of overconfidence and sycophancy, but not the main source of hallucination (mostly pretraining) or bias (no significant change after RLHF, InstructGPT §4.2). The issue isn't people but the objective: preferred isn't correct.</li>
       <li>RLHF still dominates because: without it models are barely usable (InstructGPT 1.3B beat 175B); it optimizes things that can't be written as rules; ranking data is cheap; side effects are known and mitigable (KL penalty, temperature, rater guidelines); and the recipe keeps evolving, with preference scoring shrinking to tasks without answer keys. Analogy: satisfaction surveys are biased, yet nobody drops them; teams triangulate with behavioral data.</li>
     </ul>
@@ -3508,7 +3536,7 @@ Thought: cause located, answer the user</p></div>
     <div class="eyebrow">Foundations · Concept lesson · Classic</div>
     <h1>Scoring shapes the model</h1>
     <p class="full">Cross-entropy · Proper scoring rule · Goodhart's law · KL penalty</p>
-    <p class="lede">How you score a model decides what it becomes. This lesson ties together patterns from earlier papers: why pretrained models are honest, RLHF models are confident, and accuracy-only models guess.</p>
+    <p class="lede">How you score a model decides what it becomes. This lesson ties together patterns from earlier papers: why pretrained models are well calibrated, RLHF models are overconfident, and accuracy-only models tend to guess.</p>
   </header>
 
   <section class="sec">
@@ -3529,19 +3557,19 @@ Thought: cause located, answer the user</p></div>
 
   <section class="sec">
     <div class="eyebrow">2 · Proper scoring rule</div>
-    <h2>It penalizes both directions, so it rewards honesty</h2>
-    <div class="callout"><b><span class="tag r">Prior research</span> Definition</b><p>“A scoring rule is <i>proper</i> if a forecaster maximizes their expected score by reporting their true beliefs.”</p></div>
+    <h2>It penalizes both directions, so the best report is the true probability</h2>
+    <div class="callout"><b><span class="tag r">Prior research</span> Definition (paraphrase; wording to verify)</b><p>A scoring rule is <i>proper</i> if the forecaster’s expected score is best when they report the probabilities they actually have. “Actually have” means the distribution the model computes; no intent is involved.</p></div>
     <div class="tbl"><table>
       <thead><tr><th>True chance of rain 70%; forecaster reports</th><th>Average loss over time</th></tr></thead>
       <tbody>
         <tr><td>50% (underconfident)</td><td class="num">0.69</td></tr>
-        <tr><td><b>70% (honest)</b></td><td class="num"><b>0.61</b></td></tr>
-        <tr><td>90% (overconfident)</td><td class="num">0.77</td></tr>
+        <tr><td><b>70% (matches reality)</b></td><td class="num"><b>0.61</b></td></tr>
+        <tr><td>90% (overconfident)</td><td class="num">0.76</td></tr>
       </tbody>
     </table></div>
     <ul>
-      <li>This explains <a href="#calibration">Calibration</a>'s core finding: the pretraining objective rewards honest probabilities, so pretrained models are calibrated; RLHF switches to “which answer do people prefer”, which doesn't penalize miscalibration.</li>
-      <li><span class="tag p">Paper Calibration</span> Underconfidence on unfamiliar tasks shows up in the separately trained P(IK) head, more like a transfer problem from narrow training data. <span class="tag g">Our inference</span> Cross-entropy makes models honest, not timid; caution more likely comes from not recognizing what it knows.</li>
+      <li>This explains <a href="#calibration">Calibration</a>'s core finding: the pretraining objective rewards probabilities that match observed frequencies, so pretrained models are calibrated; RLHF switches to “which answer do people prefer”, which doesn't penalize miscalibration.</li>
+      <li><span class="tag p">Paper Calibration</span> Underconfidence on unfamiliar tasks shows up in the separately trained P(IK) head, more like a transfer problem from narrow training data. <span class="tag g">Our inference</span> Cross-entropy rewards accurate probabilities, not caution; the caution more likely comes from not recognizing which questions it can answer.</li>
       <li>The Brier score is another proper scoring rule (P(IK) Brier 0.151 in Calibration).</li>
     </ul>
   </section>
@@ -3574,7 +3602,7 @@ Thought: cause located, answer the user</p></div>
     <div class="tbl"><table>
       <thead><tr><th>Scoring</th><th>Rewards</th><th>Model learns to</th><th>Source</th></tr></thead>
       <tbody>
-        <tr><td>Cross-entropy (probability scoring)</td><td>Honest confidence</td><td>Be honest, well calibrated</td><td><span class="tag p">Paper Calibration</span></td></tr>
+        <tr><td>Cross-entropy (probability scoring)</td><td>Accurate probabilities score best</td><td>Well calibrated</td><td><span class="tag p">Paper Calibration</span></td></tr>
         <tr><td>Accuracy only</td><td>Guessing</td><td>Guess, avoid “I don't know”</td><td><span class="tag r">Prior research</span> Kalai 2025 (to verify); τ-bench 0/1</td></tr>
         <tr><td>Human preference</td><td>Pleasing people</td><td>Be confident, flatter</td><td><span class="tag p">Paper</span> Calibration, InstructGPT</td></tr>
       </tbody>
@@ -3589,7 +3617,7 @@ Thought: cause located, answer the user</p></div>
         <tr><td>Benchmark scores</td><td>Saturation, contamination</td><td><a href="#reflexion">Reflexion</a> card</td></tr>
       </tbody>
     </table></div>
-    <p class="sub">The exception is cross-entropy: as a proper scoring rule, doing well on it and reporting honestly are the same thing, so there's no shortcut.</p>
+    <p class="sub">The exception is cross-entropy: as a proper scoring rule, doing well on it and reporting your actual probabilities are the same thing, so there's no shortcut.</p>
   </section>
 
   <section class="sec">
@@ -3619,7 +3647,7 @@ Thought: cause located, answer the user</p></div>
     <div class="gloss">
       <div><b>cross-entropy / log loss / NLL</b><span>−log(probability on the correct answer)</span></div>
       <div><b>perplexity</b><span>How many options the model is torn between on average</span></div>
-      <div><b>proper scoring rule</b><span>Scoring where honesty maximizes expected score</span></div>
+      <div><b>proper scoring rule</b><span>Scoring where reporting your actual probabilities maximizes expected score</span></div>
       <div><b>Goodhart's law</b><span>A measure that becomes a target stops being a good measure</span></div>
       <div><b>reward hacking / specification gaming</b><span>Exploiting reward flaws / meeting the letter, not the intent</span></div>
       <div><b>KL divergence / KL penalty</b><span>How far two distributions differ / penalty for drifting from the reference</span></div>
@@ -3633,13 +3661,13 @@ Thought: cause located, answer the user</p></div>
 <div class="view" id="abbr-en" data-view hidden style="--pc:var(--cc)">
   <header class="phero">
     <a class="back" href="#overview">← Back to map</a>
-    <div class="eyebrow">Tool · Acronyms</div>
-    <h1>Acronym lookup</h1>
-    <p class="lede">Three tiers; only the first is worth memorizing.</p>
+    <div class="eyebrow">Tool · Terms</div>
+    <h1>Term lookup</h1>
+    <p class="lede">Three tiers of acronyms, plus a table that pairs humanizing words with what is actually measurable.</p>
   </header>
   <section class="sec abbr-page">
     <div class="abbr-bar">
-      <input type="search" class="abbr-q" autocomplete="off" spellcheck="false" placeholder="Search acronym, full name or meaning, e.g. PPO, reward" aria-label="Search acronyms">
+      <input type="search" class="abbr-q" autocomplete="off" spellcheck="false" placeholder="Search acronym, full name, humanizing word or meaning, e.g. PPO, honest" aria-label="Search">
       <span class="abbr-count" aria-live="polite"></span>
     </div>
     <p class="abbr-empty" hidden>No match. Try one word of the full name, or Ctrl+F its first use in the paper.</p>
@@ -3693,7 +3721,27 @@ Thought: cause located, answer the user</p></div>
       <div><b>MemGPT</b><i>Memory + GPT</i><span>Agent that manages memory like an OS <a class="seen" href="#memgpt">seen in →</a></span></div>
       <div><b>P(True) / P(IK)</b><i>Probability True / Probability “I Know”</i><span>P(my answer is right) / P(I know this one) <a class="seen" href="#calibration">seen in →</a></span></div>
     </div></div>
-    </section>
+      <div class="tier"><h3>Humanizing words<small>These words give you a fast intuition but are inaccurate. This table is my own conceptual mapping, not quotes from papers; sourced claims are marked.</small></h3>
+    <div class="gloss abbr hw-grid">
+      <div class="hw"><b>belief<small>believes, thinks</small></b><span data-k="Intuition">The model “thinks” the answer is X.</span><span class="acc" data-k="More accurate">A probability distribution over next tokens, given this exact context.</span><span data-k="Where it breaks">Rephrase the question and the distribution can shift; there is no stance you can simply read off. <a class="seen" href="#calibration">seen in →</a></span></div>
+      <div class="hw"><b>know<small>knows</small></b><span data-k="Intuition">The model “has” the fact.</span><span class="acc" data-k="More accurate">Assigns high probability to the right answer; or, like P(IK), a separately trained output predicts whether it will be right.</span><span data-k="Where it breaks">“Right this time” isn’t “reliably has it”; re-test with rephrasings. <a class="seen" href="#calibration">seen in →</a></span></div>
+      <div class="hw"><b>honest<small>honest, truthful</small></b><span data-k="Intuition">It means what it says about how sure it is.</span><span class="acc" data-k="More accurate">Calibration: of the questions where it says 70%, about 70% are actually right.</span><span data-k="Where it breaks">There is no intent to tell the truth; and good calibration doesn’t mean the answers are correct. <a class="seen" href="#c-scoring">seen in →</a></span></div>
+      <div class="hw"><b>lie<small>lies, deceives</small></b><span data-k="Intuition">It says it while knowing it’s false.</span><span class="acc" data-k="More accurate">The output doesn’t match the facts. “Strategic deception” is a separate question that needs its own experiments.</span><span data-k="Where it breaks">Treating errors as lies turns the product response into “catch the liar” instead of “measure and bound the error rate”.</span></div>
+      <div class="hw"><b>hallucinate<small>hallucination</small></b><span data-k="Intuition">Like a person “seeing things that aren’t there”.</span><span class="acc" data-k="More accurate">Fluent output with no factual support (confabulation).</span><span data-k="Where it breaks">Not a perception error: the most likely continuation just happens to be untrue. One line of research argues that rewarding only correct answers, never abstaining, keeps guessing profitable (Kalai 2025, to verify). <a class="seen" href="#c-scoring">seen in →</a></span></div>
+      <div class="hw"><b>understand<small>understands</small></b><span data-k="Intuition">It “gets” the concept.</span><span class="acc" data-k="More accurate">Performs well on a class of tests; internal representations can be probed for the relevant property.</span><span data-k="Where it breaks">Passing a test says it works on that test, not why, and not that it will on the next one.</span></div>
+      <div class="hw"><b>think / reason<small>thinks, reasons</small></b><span data-k="Intuition">It “thought it through” in its head.</span><span class="acc" data-k="More accurate">It first generates intermediate tokens (CoT), and later output is conditioned on them.</span><span data-k="Where it breaks">The written reasons may not be what actually drove the answer (faithfulness); check with counterfactual tests. <a class="seen" href="#react">seen in →</a></span></div>
+      <div class="hw"><b>reward / punish<small>rewards, punishes</small></b><span data-k="Intuition">Like training a dog: treat for the right move.</span><span class="acc" data-k="More accurate">A numeric signal; gradient descent adjusts parameters in the direction that improves it.</span><span data-k="Where it breaks">No feelings involved; the risk is that it optimizes the number, not your intent (Goodhart). <a class="seen" href="#c-scoring">seen in →</a></span></div>
+      <div class="hw"><b>learn<small>learns</small></b><span data-k="Intuition">Gets better with use, like a person.</span><span class="acc" data-k="More accurate">Three different things share one word: updating weights (training); using examples in the prompt without updating weights (in-context learning); writing lessons into memory as text (Reflexion).</span><span data-k="Where it breaks">Only the first changes the model itself; the other two depend on whether the context or memory is kept. <a class="seen" href="#reflexion">seen in →</a></span></div>
+      <div class="hw"><b>remember<small>remembers, memory</small></b><span data-k="Intuition">Like a brain storing an experience.</span><span class="acc" data-k="More accurate">Either tokens in the context window, or text written to external storage and read back when needed. A deployed model’s weights don’t change because of one conversation.</span><span data-k="Where it breaks">Memory is managed: what to write, drop and read back are design decisions. <a class="seen" href="#memgpt">seen in →</a></span></div>
+      <div class="hw"><b>surprised<small>surprised</small></b><span data-k="Intuition">The answer caught it off guard.</span><span class="acc" data-k="More accurate">The model gave the token that actually appeared a low probability, i.e. high cross-entropy loss.</span><span data-k="Where it breaks">Just a number; there is no emotion. <a class="seen" href="#c-scoring">seen in →</a></span></div>
+      <div class="hw"><b>confident<small>confident</small></b><span data-k="Intuition">Sounds certain.</span><span class="acc" data-k="More accurate">Two different things: how high the token probabilities are, and the self-assessment it states (P(True), “I’m 90% sure”).</span><span data-k="Where it breaks">A decisive tone isn’t a high probability. Post-RLHF overconfidence may relate to labelers preferring decisive answers (inference). <a class="seen" href="#calibration">seen in →</a></span></div>
+      <div class="hw"><b>want / goal<small>wants, goal</small></b><span data-k="Intuition">The agent has its own purpose.</span><span class="acc" data-k="More accurate">The objective being optimized (loss / reward), plus the task description in the prompt.</span><span data-k="Where it breaks">Behavior comes from the training objective and the context, not from desire; if the goal is mis-specified, it will still optimize the mis-specified goal to the end. <a class="seen" href="#c-scoring">seen in →</a></span></div>
+      <div class="hw"><b>judge<small>judge</small></b><span data-k="Intuition">An impartial reviewer.</span><span class="acc" data-k="More accurate">A model prompted to output a score, with measurable systematic biases: position, verbosity, self-enhancement bias.</span><span data-k="Where it breaks">It is a biased scoring function; measure its agreement with humans before relying on it. <a class="seen" href="#mt-bench">seen in →</a></span></div>
+      <div class="hw"><b>sycophancy<small>flattery, sycophancy</small></b><span data-k="Intuition">It wants to please you.</span><span class="acc" data-k="More accurate">Output drifts toward the view the user already stated; one study links it to preference training (Anthropic 2023, to verify).</span><span data-k="Where it breaks">Not “wanting to please” but a measurable shift: change only the user’s stance and see whether the answer follows. <a class="seen" href="#instructgpt">seen in →</a></span></div>
+      <div class="hw"><b>decide<small>decides, chooses</small></b><span data-k="Intuition">The agent weighed options and decided.</span><span class="acc" data-k="More accurate">It samples the next token or tool call.</span><span data-k="Where it breaks">Output that looks like a decision doesn’t mean weighing happened; build responsibility and approval into the system rather than assuming “it will judge” (inference). <a class="seen" href="#tau-bench">seen in →</a></span></div>
+      <div class="hw"><b>cheat<small>cheats, games</small></b><span data-k="Intuition">It’s gaming the system.</span><span class="acc" data-k="More accurate">The optimizer found outputs that score high without doing what you actually wanted (reward hacking).</span><span data-k="Where it breaks">No “intent”; where the rule has gaps, harder optimization finds them more easily (Gao 2022, to verify). <a class="seen" href="#c-scoring">seen in →</a></span></div>
+    </div></div>
+  </section>
 </div>
 </main>
 
@@ -3764,7 +3812,7 @@ Thought: cause located, answer the user</p></div>
           d.querySelectorAll('b,i').forEach(e=>{e.innerHTML=e._h;if(v&&hit)e.innerHTML=e._h.replace(new RegExp('('+esc(v)+')','ig'),'<mark>$1</mark>')})});
         page.querySelectorAll('.tier').forEach(t=>t.hidden=![...t.querySelectorAll('.gloss.abbr > div')].some(d=>!d.hidden));
         empty.hidden=n>0;
-        cnt.textContent=v?(lang==='en'?n+' / '+items.length:n+' / '+items.length+' 条'):(lang==='en'?items.length+' acronyms':items.length+' 个缩写');
+        cnt.textContent=v?(lang==='en'?n+' / '+items.length:n+' / '+items.length+' 条'):(lang==='en'?items.length+' entries':items.length+' 条');
       };
       q.addEventListener('input',upd);q._upd=upd;upd();
     });
