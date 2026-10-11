@@ -27,6 +27,7 @@ All credit for the research belongs to the original authors. The cards are perso
 | Card | Paper | Authors | Venue |
 |---|---|---|---|
 | [InstructGPT](https://mengxuebi-mush.github.io/ai-papers-to-product/#instructgpt) | [Training language models to follow instructions with human feedback](https://arxiv.org/abs/2203.02155) | Ouyang, Wu, Jiang, Almeida, Wainwright, et al. | NeurIPS 2022 |
+| [DeepSeek-R1](https://mengxuebi-mush.github.io/ai-papers-to-product/#r1) | [DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning](https://arxiv.org/abs/2501.12948) | DeepSeek-AI | arXiv 2025 |
 
 ### Agent 怎么运作 · How agents work
 
@@ -56,6 +57,7 @@ All credit for the research belongs to the original authors. The cards are perso
 - Wang et al., [Self-Consistency Improves Chain of Thought Reasoning in Language Models](https://arxiv.org/abs/2203.11171) (ICLR 2023)
 - Turpin et al., [Language Models Don't Always Say What They Think](https://arxiv.org/abs/2305.04388) (NeurIPS 2023)
 - Lanham et al., [Measuring Faithfulness in Chain-of-Thought Reasoning](https://arxiv.org/abs/2307.13702) (2023)
+- Helff et al., [LLMs Gaming Verifiers: RLVR can Lead to Reward Hacking](https://arxiv.org/abs/2604.15149) (2026; abstract read only)
 
 Items still being verified are listed in the site footer.
 
@@ -69,7 +71,7 @@ Items still being verified are listed in the site footer.
 
 ## Coming next
 
-Reasoning models (DeepSeek-R1, RL with verifiable rewards) · human–agent teaming studies · RAG and prompt injection · fine-tuning / LoRA vs in-context learning
+Human–agent teaming studies · RAG and prompt injection · fine-tuning / LoRA vs in-context learning
 
 ## About
 

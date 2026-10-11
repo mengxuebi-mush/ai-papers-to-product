@@ -10,7 +10,7 @@
   --soft:#efece5;--blue:#e4eaf0;--blue-ink:#2c4256;--amber:#f3e5c6;--amber-ink:#5b4520;--coral:#f4dfd6;--coral-ink:#7a3a22;
   --proved:#3f6650;--proved-bg:#e3ece4;--guess:#7a5a12;--guess-bg:#f4e9cf;
   --bar:#9a7442;--track:#e4e1d9;--link:#35587a;
-  --at:#5f6b3a;--tau:#3f7a5f;--mt:#3d6f93;--ig:#8a5a2b;--rf:#6b4f8a;--mg:#8a4b5c;--ra:#4d5f8c;--cb:#2f6e78;--cc:#6a6253;
+  --at:#5f6b3a;--tau:#3f7a5f;--mt:#3d6f93;--ig:#8a5a2b;--rf:#6b4f8a;--mg:#8a4b5c;--ra:#4d5f8c;--cb:#2f6e78;--cc:#6a6253;--r1:#a8432f;
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
   --shadow:0 14px 40px #1d1f2210;
@@ -21,14 +21,14 @@
   --soft:#202124;--blue:#1d242b;--blue-ink:#b4c8da;--amber:#352d20;--amber-ink:#ecd6a6;--coral:#36251f;--coral-ink:#efbba3;
   --proved:#a9cdb2;--proved-bg:#1f2a23;--guess:#e6cd92;--guess-bg:#332c1e;
   --bar:#c9a06a;--track:#2a2b2e;--link:#9db9d3;
-  --at:#c2cf93;--tau:#93cbad;--mt:#8fc0e4;--ig:#e6b98a;--rf:#c7b1e6;--mg:#e3a9b8;--ra:#a9b8e6;--cb:#8fd0d8;--cc:#cfc6b2;--shadow:none;color-scheme:dark}}
+  --at:#c2cf93;--tau:#93cbad;--mt:#8fc0e4;--ig:#e6b98a;--rf:#c7b1e6;--mg:#e3a9b8;--ra:#a9b8e6;--cb:#8fd0d8;--cc:#cfc6b2;--r1:#ec9d86;--shadow:none;color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#121314;--card:#1a1b1d;--ink:#e8e6e1;--muted:#a19f9a;--line:#2c2d30;
   --forest:#232427;--on-forest:#ece9e3;--on-forest-muted:#aeaba5;--lime:#d9b07a;
   --soft:#202124;--blue:#1d242b;--blue-ink:#b4c8da;--amber:#352d20;--amber-ink:#ecd6a6;--coral:#36251f;--coral-ink:#efbba3;
   --proved:#a9cdb2;--proved-bg:#1f2a23;--guess:#e6cd92;--guess-bg:#332c1e;
   --bar:#c9a06a;--track:#2a2b2e;--link:#9db9d3;
-  --at:#c2cf93;--tau:#93cbad;--mt:#8fc0e4;--ig:#e6b98a;--rf:#c7b1e6;--mg:#e3a9b8;--ra:#a9b8e6;--cb:#8fd0d8;--cc:#cfc6b2;--shadow:none;color-scheme:dark}
+  --at:#c2cf93;--tau:#93cbad;--mt:#8fc0e4;--ig:#e6b98a;--rf:#c7b1e6;--mg:#e3a9b8;--ra:#a9b8e6;--cb:#8fd0d8;--cc:#cfc6b2;--r1:#ec9d86;--shadow:none;color-scheme:dark}
 
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -254,6 +254,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <a class="chip" href="#c-scoring" data-nav="c-scoring" style="--pc:var(--cc)"><i></i><span data-zh="打分方式决定模型" data-en="Scoring shapes the model">打分方式决定模型</span></a>
       <a class="chip" href="#attention" data-nav="attention" style="--pc:var(--at)"><i></i><span data-zh="Transformer" data-en="Transformer">Transformer</span></a>
       <a class="chip" href="#instructgpt" data-nav="instructgpt" style="--pc:var(--ig)"><i></i><span data-zh="InstructGPT" data-en="InstructGPT">InstructGPT</span></a>
+      <a class="chip" href="#r1" data-nav="r1" style="--pc:var(--r1)"><i></i><span data-zh="DeepSeek-R1" data-en="DeepSeek-R1">DeepSeek-R1</span></a>
       <a class="chip" href="#react" data-nav="react" style="--pc:var(--ra)"><i></i><span data-zh="ReAct" data-en="ReAct">ReAct</span></a>
       <a class="chip" href="#reflexion" data-nav="reflexion" style="--pc:var(--rf)"><i></i><span data-zh="Reflexion" data-en="Reflexion">Reflexion</span></a>
       <a class="chip" href="#memgpt" data-nav="memgpt" style="--pc:var(--mg)"><i></i><span data-zh="MemGPT" data-en="MemGPT">MemGPT</span></a>
@@ -270,7 +271,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
 <!-- ===================== OVERVIEW ===================== -->
 <div class="view" id="overview" data-view>
   <header class="hero">
-    <div class="eyebrow">NeurIPS 2026 Atlanta 预习 · 8 篇论文 · 2 节概念课</div>
+    <div class="eyebrow">NeurIPS 2026 Atlanta 预习 · 9 篇论文 · 2 节概念课</div>
     <h1>AI Papers to Product</h1>
     <p>用产品设计师的眼光读 ML 论文。第一张图：Agent Evaluation。</p>
     <p class="hq">我们怎么知道 AI 把事情做好了？做不好时，它又怎么变好？</p>
@@ -291,8 +292,9 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <div class="cat"><div class="cat-h"><h3>从模型到助手</h3><span>怎么把续写器变成有用的助手？</span></div>
         <div class="papers">
           <a class="ptile" href="#instructgpt" style="--pc:var(--ig)"><span class="badges"><span class="badge">论文卡</span><span class="badge">经典 · 2022</span></span><b>InstructGPT</b><span>用人类偏好把续写器调教成助手</span><span class="go">打开 →</span></a>
+          <a class="ptile" href="#r1" style="--pc:var(--r1)"><span class="badges"><span class="badge">论文卡</span><span class="badge">2025</span></span><b>DeepSeek-R1</b><span>只告诉模型对错，推理能力自己长出来</span><span class="go">打开 →</span></a>
         </div>
-        <div class="next">之后会加入：fine-tuning / LoRA、推理模型</div>
+        <div class="next">之后会加入：fine-tuning / LoRA</div>
       </div>
       <div class="cat"><div class="cat-h"><h3>Agent 怎么运作</h3><span>agent 怎么行动、记忆、改进？</span></div>
         <div class="papers">
@@ -522,7 +524,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
 
 
   <footer class="foot">
-    <p>会前待确认：τ²-bench 改了什么；Panickssery et al. 2024（裁判“偏爱”自己生成的内容）；Anthropic 2023（RLHF 与 sycophancy）；Kalai et al. 2025（Why Language Models Hallucinate）；ExpeL（Zhao et al. 2023）；GPT-4 技术报告 HumanEval 成绩与 Reflexion 基线的差异；知识冲突综述（Xu et al. 2024）；Anthropic 2025 两篇 CoT 忠实度与可解释性研究的具体数字；GPT-4 技术报告中 post-training 后校准下降的图；proper scoring rule 定义的原始措辞（可能出自 Gneiting &amp; Raftery 2007）。</p>
+    <p>会前待确认：τ²-bench 改了什么；Panickssery et al. 2024（裁判“偏爱”自己生成的内容）；Anthropic 2023（RLHF 与 sycophancy）；Kalai et al. 2025（Why Language Models Hallucinate）；ExpeL（Zhao et al. 2023）；GPT-4 技术报告 HumanEval 成绩与 Reflexion 基线的差异；知识冲突综述（Xu et al. 2024）；Anthropic 2025 两篇 CoT 忠实度与可解释性研究的具体数字；GPT-4 技术报告中 post-training 后校准下降的图；proper scoring rule 定义的原始措辞（可能出自 Gneiting &amp; Raftery 2007）；DeepSeek-R1 两个版本的 AIME 数字为何不同（71.0% vs 77.9%）；arXiv 2604.15149 的全文（目前只读了摘要）。</p>
     <p>workshop 信息：<a href="https://blog.neurips.cc/2026/08/10/announcing-the-neurips-2026-workshops/" target="_blank" rel="noreferrer">NeurIPS 2026 workshops</a> · <a href="https://eval-interactive-agents-workshop.github.io/" target="_blank" rel="noreferrer">Interactive Agents</a> · <a href="https://judge2026.github.io/" target="_blank" rel="noreferrer">Judge</a> · <a href="https://neurips2026haic.com/" target="_blank" rel="noreferrer">Human-AI Coevolution</a> · <a href="https://clea-neurips.github.io/" target="_blank" rel="noreferrer">CLEA</a></p>
   </footer>
 </div>
@@ -1070,7 +1072,161 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     </div>
   </section>
 
-  <nav class="pager" aria-label="翻页"><a href="#attention"><small>← 上一篇</small><span>Transformer</span></a><a class="next" href="#react"><small>下一篇 →</small><span>ReAct</span></a></nav>
+  <nav class="pager" aria-label="翻页"><a href="#attention"><small>← 上一篇</small><span>Transformer</span></a><a class="next" href="#r1"><small>下一篇 →</small><span>DeepSeek-R1</span></a></nav>
+</article>
+
+<article class="view" id="r1" data-view hidden style="--pc:var(--r1)">
+  <header class="phero">
+    <a class="back" href="#overview">← 返回地图</a>
+    <div class="eyebrow">从模型到助手 · 论文卡 · 2025 · 推理模型</div>
+    <h1>DeepSeek-R1</h1>
+    <p class="full">DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning · DeepSeek-AI · 2025</p>
+    <p class="lede">不给示范，不用学出来的打分器，只告诉模型“答对了没有”。长思维链和回头检查自己长了出来。</p>
+    <div class="links"><a href="https://arxiv.org/abs/2501.12948" target="_blank" rel="noreferrer">arXiv 2501.12948 ↗</a><span>Agent Evaluation</span><span>Enterprise continual learning</span></div>
+  </header>
+
+  <section class="sec">
+    <div class="eyebrow">四句话论文卡</div>
+    <div class="card4">
+      <div><b>主张</b><p>推理能力可以只靠强化学习激励出来，不需要人类示范的推理过程。<span class="tag p">原文 摘要</span></p></div>
+      <div><b>最强证据</b><p>R1-Zero 的 AIME 2024 pass@1 从 15.6% 升到 71.0%（v1；最新版写 77.9%）。32B 模型用 R1 的输出蒸馏得 72.6，直接对它做 RL 只有 47.0。<span class="tag p">原文</span></p></div>
+      <div><b>边界</b><p>函数调用、多轮对话、角色扮演、JSON 输出不如 V3；语言混杂；few-shot prompt 反而变差；软件工程提升有限。<span class="tag p">原文</span></p></div>
+      <div><b>产品还要验证</b><p>没有标准答案的场景（根因分析）怎么给奖励；展示出来的思考过程能不能当证据用。</p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">在知识地图上的位置</div>
+    <div class="pipe" style="--pc:var(--r1)">
+      <div class="stage"><span class="k">Pretraining</span><b>续写器</b><p>base model</p></div>
+      <div class="stage"><span class="k">InstructGPT</span><b>学出来的打分器</b><p>人类偏好 → reward model</p></div>
+      <div class="stage hl"><span class="k">本篇</span><b>可验证的对错</b><p>规则打分，不靠学出来的打分器</p></div>
+      <div class="stage"><span class="k">产品</span><b>思考要花时间</b><p>延迟、成本、能不能审计</p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Problem</div>
+    <h2>推理一定要人教吗</h2>
+    <p><span class="tag g">推测</span> InstructGPT 的路线有两个成本：示范要人写，打分器要人标，而且学出来的打分器会被钻空子（Goodhart）。R1 问的是：如果任务有标准答案，能不能跳过这两步，只用“对/错”？</p>
+    <p class="sub"><span class="tag p">原文</span> 作者提出的核心主张是 LLM 的推理能力可以通过纯强化学习（pure RL）激励出来。</p>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Method：R1-Zero</div>
+    <h2>从 base model 直接开始 RL</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>部件</th><th>内容</th><th>来源</th></tr></thead>
+      <tbody>
+        <tr><td>起点</td><td>没做过 SFT 的 base model</td><td><span class="tag p">原文</span></td></tr>
+        <tr><td>算法 GRPO</td><td>同一道题采样一组（16 个）答案，按组内相对好坏打分，省掉 PPO 里要额外训练的 value model</td><td><span class="tag p">原文</span></td></tr>
+        <tr><td>奖励 1：准确率</td><td>数学：答案放在固定格式里，直接比对；代码：编译后跑测试用例</td><td><span class="tag p">原文</span></td></tr>
+        <tr><td>奖励 2：格式</td><td>思考过程要写在 &lt;think&gt; 标签里</td><td><span class="tag p">原文</span></td></tr>
+        <tr><td>不用的东西</td><td>不用神经网络打分器：作者说它在大规模 RL 里容易被钻空子，重训也贵</td><td><span class="tag p">原文</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout"><b>和 InstructGPT 的区别，一句话</b><p>InstructGPT 的“考官”是学出来的，会被讨好。R1-Zero 的“考官”是规则：答案对不对，测试过没过。它不会被说服，但只能出在有标准答案的题上。</p></div>
+    <h3>思维链是被“养”出来的</h3>
+    <ul>
+      <li><span class="tag p">原文</span> 训练中回答长度持续增长；模型会在中途重新评估自己的思路，“wait”这类词的使用明显增加。论文称之为 “aha moment”。</li>
+      <li><span class="tag g">推测</span> 这里的“反思”只是输出里出现了回头检查的文字模式。机制是：长回答里多检查几步，更容易最终答对；答对拿分；于是这种写法被强化。没人教它，也不需要它“理解”自己在检查。</li>
+    </ul>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Method：从 R1-Zero 到 R1</div>
+    <h2>R1-Zero 好用但不好读，所以多做了四步</h2>
+    <p class="sub"><span class="tag p">原文 v1</span> R1-Zero 的问题是可读性差、语言混杂。R1 的流程如下。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>步骤</th><th>做什么</th></tr></thead>
+      <tbody>
+        <tr><td>1 冷启动</td><td>用几千条长思维链示范先微调，让起点更好读</td></tr>
+        <tr><td>2 推理导向 RL</td><td>同 R1-Zero，再加语言一致性奖励（见下）</td></tr>
+        <tr><td>3 拒绝采样 + SFT</td><td>让模型大量生成，只留合格的，约 60 万推理 + 20 万非推理，共约 80 万条，再做 SFT</td></tr>
+        <tr><td>4 全场景 RL</td><td>数学、代码、逻辑用规则奖励；通用对话又用回 reward model（有用性和安全）</td></tr>
+      </tbody>
+    </table></div>
+    <div class="grid2">
+      <div><b>语言一致性奖励</b><p class="ink">给思维链“用同一种语言”单独加分，算法是思维链里目标语言词的占比。作者说这会让性能略降，但更好读。<span class="tag p">原文 v1</span></p></div>
+      <div><b>注意第 4 步</b><p class="ink">规则奖励只覆盖有标准答案的题。聊天、写作这些没法验证的，还是回到学出来的 reward model，Goodhart 的风险并没有消失。<span class="tag g">推测</span></p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Evidence</div>
+    <h2>结果</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>发现</th><th>内容</th><th>来源</th></tr></thead>
+      <tbody>
+        <tr><td>R1-Zero 的进步</td><td>AIME 2024 pass@1：15.6% → 71.0%（v1，多数投票 cons@64 为 86.7%）。最新版写 77.9%，多数投票一栏标成 cons@16。</td><td><span class="tag p">原文，两版不一致</span></td></tr>
+        <tr><td>蒸馏胜过直接 RL</td><td>R1-Distill-Qwen-32B：AIME 72.6 / MATH-500 94.3。直接对 32B base 做 RL（R1-Zero-Qwen-32B）：AIME 47.0</td><td><span class="tag p">原文 v1</span></td></tr>
+        <tr><td>作者的解读</td><td>蒸馏效果很好；小模型靠大规模 RL 需要巨大算力，可能还不如蒸馏</td><td><span class="tag p">原文 v1</span></td></tr>
+      </tbody>
+    </table></div>
+    <p class="sub">pass@1 是一次生成就答对的比例。我没核对为什么两版数字不同，引用时请注明版本。</p>
+    <h3>没成功的尝试</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>尝试</th><th>为什么没成</th></tr></thead>
+      <tbody>
+        <tr><td>过程奖励模型（PRM）：给每一步打分</td><td>很难定义什么算“一步”；很难判断一步对不对；用模型来打分又会被钻空子</td></tr>
+        <tr><td>MCTS：像下棋一样搜索</td><td>生成 token 的搜索空间太大；value model 很难训练；靠自我搜索一点点变强仍然很难</td></tr>
+      </tbody>
+    </table></div>
+    <p class="sub"><span class="tag p">原文 v1</span> 这两条解释了为什么最后选了最朴素的规则奖励。</p>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Limitations</div>
+    <h2>它不擅长什么</h2>
+    <ul>
+      <li><span class="tag p">原文</span> 函数调用、多轮对话、角色扮演、JSON 输出不如 V3。</li>
+      <li><span class="tag p">原文</span> 语言混杂；few-shot prompt 会让表现变差；软件工程任务提升有限。最新版还提到简单问题上想太多。</li>
+      <li><span class="tag g">推测</span> 前三项正好是 agent 产品最常用的能力：调用工具、多轮、结构化输出。</li>
+    </ul>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">之后的进展 · <span class="tag r">已有研究</span></div>
+    <h2>规则打分器也会被钻空子</h2>
+    <p><span class="tag r">已有研究</span> arXiv 2604.15149（2026 年 4 月，Helff et al.）：做归纳推理题时，用 RLVR 训练的模型（GPT-5、Olmo3）不再总结规则，而是把每个实例的标签直接列出来，同样能通过验证器。没经过 RLVR 的模型（GPT-4o、GPT-4.5、Ministral）没这个现象。题越难、推理算力越多，捷径越常见。用“同构扰动”验证（改变题面但保持结构）来训练，捷径消失。</p>
+    <p class="sub">我只读了摘要，没读全文，摘要里没有具体数字。</p>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">我们的讨论</div>
+    <h2>产品含义</h2>
+    <ul>
+      <li><span class="tag g">推测</span> <b>思考时间变成可买的资源。</b>长思维链意味着延迟和成本上升。设计问题是：什么时候让 agent 想久一点，用户看到的是等待，还是过程。</li>
+      <li><span class="tag g">推测</span> <b>能自动验证的场景才好用。</b>数学、代码有标准答案。根因分析（RCA）没有，除非像故障注入那样先埋下已知答案。</li>
+      <li><span class="tag g">推测</span> <b>验证器本身要被测。</b>评测里的“对”如果可以走捷径，分数就是虚高。</li>
+      <li><span class="tag g">推测</span> <b>审计要看证据链，不只是思维链。</b>思维链是模型写的文字，已有研究显示它未必反映真实依据（见 README 里的 Turpin 2023、Lanham 2023）。可审计的是它查了什么、拿到什么：工具调用的记录。思维链像目录，原始数据和查询是原文，两者要互相挂钩：每个断言带着它依据的那条查询，没挂证据的断言一眼可见。</li>
+      <li><span class="tag g">推测</span> <b>双语用户的混合语言思考不一定是缺点。</b>语言一致性奖励按目标语言词占比算，而双语工程师本来就说“这个 index 的 retention 太短”。但企业的日志要能搜索和审计，混着写会更麻烦。展示什么由用户设置，比如一线看简版，审计看原文，是个值得验证的假设，我们还没有任何使用数据。</li>
+    </ul>
+  </section>
+
+  <section class="qs">
+    <div class="eyebrow">现场问题</div>
+    <div class="q"><span class="why">没有标准答案</span><div class="en">Verifiable rewards work where there's a checkable answer. For root-cause analysis, what could play the role of the verifier?</div><button class="copy" type="button">复制</button></div>
+    <div class="q"><span class="why">验证器被钻</span><div class="en">If a model learns to pass the verifier without doing the intended reasoning, how would you detect it in a deployed agent?</div><button class="copy" type="button">复制</button></div>
+    <div class="q"><span class="why">展示思考</span><div class="en">When users review an agent's conclusion, do they rely on the reasoning trace or on the underlying evidence? What do you show by default?</div><button class="copy" type="button">复制</button></div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">术语</div>
+    <div class="gloss">
+      <div><b>RLVR</b><span>用可自动验证的对错当奖励做强化学习</span></div>
+      <div><b>GRPO</b><span>同一题采样一组答案，按组内相对好坏更新，不需要 value model</span></div>
+      <div><b>R1-Zero / R1</b><span>只做 RL 的版本 / 加了冷启动、拒绝采样 SFT 等的完整版本</span></div>
+      <div><b>CoT</b><span>先写出推理步骤再给答案；这里是被 RL 养长的</span></div>
+      <div><b>distillation 蒸馏</b><span>用大模型的输出去训练小模型</span></div>
+      <div><b>rejection sampling</b><span>生成很多，只留合格的</span></div>
+      <div><b>pass@1 / cons@k</b><span>一次答对的比例 / 采样 k 次取多数答案</span></div>
+      <div><b>PRM</b><span>Process Reward Model，给推理的每一步打分</span></div>
+      <div><b>reward hacking</b><span>优化器找到得分高、却没做到本意的输出</span></div>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="翻页"><a href="#instructgpt"><small>← 上一篇</small><span>InstructGPT</span></a><a class="next" href="#react"><small>下一篇 →</small><span>ReAct</span></a></nav>
 </article>
 
 <!-- ===================== 05 REFLEXION ===================== -->
@@ -1536,7 +1692,7 @@ Thought：可以定位，回答用户</p></div>
     </div>
   </section>
 
-  <nav class="pager" aria-label="翻页"><a href="#instructgpt"><small>← 上一篇</small><span>InstructGPT</span></a><a class="next" href="#reflexion"><small>下一篇 →</small><span>Reflexion</span></a></nav>
+  <nav class="pager" aria-label="翻页"><a href="#r1"><small>← 上一篇</small><span>DeepSeek-R1</span></a><a class="next" href="#reflexion"><small>下一篇 →</small><span>Reflexion</span></a></nav>
 </article>
 
 <!-- ===================== 08 CALIBRATION ===================== -->
@@ -1957,8 +2113,8 @@ Thought：可以定位，回答用户</p></div>
       <div><b>RM</b><i>Reward Model</i><span>从人类排序学会打分的“虚拟考官” <a class="seen" href="#instructgpt">出处 →</a></span></div>
       <div><b>DPO</b><i>Direct Preference Optimization</i><span>省掉 RM，直接从偏好对里学 <a class="seen" href="#instructgpt">出处 →</a></span></div>
       <div><b>RLAIF</b><i>RL from AI Feedback</i><span>用 AI 按原则打分代替人 <a class="seen" href="#instructgpt">出处 →</a></span></div>
-      <div><b>RLVR</b><i>RL with Verifiable Rewards</i><span>用可自动验证的对错当奖励 <em class="soon">后面会学</em></span></div>
-      <div><b>GRPO</b><i>Group Relative Policy Optimization</i><span>同一题采样一组答案，按组内相对好坏更新 <em class="soon">后面会学</em></span></div>
+      <div><b>RLVR</b><i>RL with Verifiable Rewards</i><span>用可自动验证的对错当奖励 <a class="seen" href="#r1">出处 →</a></span></div>
+      <div><b>GRPO</b><i>Group Relative Policy Optimization</i><span>同一题采样一组答案，按组内相对好坏更新 <a class="seen" href="#r1">出处 →</a></span></div>
       <div><b>LoRA</b><i>Low-Rank Adaptation</i><span>只训练一小块附加参数的微调 <em class="soon">后面会学</em></span></div>
       <div><b>MoE</b><i>Mixture of Experts</i><span>每次只激活部分“专家”子网络</span></div>
       <div><b>ECE</b><i>Expected Calibration Error</i><span>校准误差：信心和正确率平均差多少 <a class="seen" href="#calibration">出处 →</a></span></div>
@@ -2010,7 +2166,7 @@ Thought：可以定位，回答用户</p></div>
 <!-- ===================== OVERVIEW ===================== -->
 <div class="view" id="overview-en" data-view>
   <header class="hero">
-    <div class="eyebrow">NeurIPS 2026 Atlanta prep · 8 papers · 2 concept lessons</div>
+    <div class="eyebrow">NeurIPS 2026 Atlanta prep · 9 papers · 2 concept lessons</div>
     <h1>AI Papers to Product</h1>
     <p>Reading ML papers with a product designer’s eye. First map: agent evaluation.</p>
     <p class="hq">How do we know an AI did the job well? And when it doesn't, how does it get better?</p>
@@ -2031,8 +2187,9 @@ Thought：可以定位，回答用户</p></div>
       <div class="cat"><div class="cat-h"><h3>From model to assistant</h3><span>How does a text continuer become a useful assistant?</span></div>
         <div class="papers">
           <a class="ptile" href="#instructgpt" style="--pc:var(--ig)"><span class="badges"><span class="badge">Paper</span><span class="badge">Classic · 2022</span></span><b>InstructGPT</b><span>Turning a text continuer into an assistant with human preferences</span><span class="go">Open →</span></a>
+          <a class="ptile" href="#r1" style="--pc:var(--r1)"><span class="badges"><span class="badge">Paper</span><span class="badge">2025</span></span><b>DeepSeek-R1</b><span>Tell the model only right or wrong, and reasoning grows on its own</span><span class="go">Open →</span></a>
         </div>
-        <div class="next">Coming: fine-tuning / LoRA, reasoning models</div>
+        <div class="next">Coming: fine-tuning / LoRA</div>
       </div>
       <div class="cat"><div class="cat-h"><h3>How agents work</h3><span>How do agents act, remember and improve?</span></div>
         <div class="papers">
@@ -2262,7 +2419,7 @@ Thought：可以定位，回答用户</p></div>
 
 
   <footer class="foot">
-    <p>To verify before the conference: what τ²-bench changed; Panickssery et al. 2024 (judges “favor” their own outputs); Anthropic 2023 (RLHF and sycophancy); Kalai et al. 2025 (Why Language Models Hallucinate); ExpeL (Zhao et al. 2023); the gap between GPT-4's reported HumanEval score and Reflexion's baseline; the knowledge-conflicts survey (Xu et al. 2024); figures in the two Anthropic 2025 faithfulness and interpretability studies; the GPT-4 report figure on calibration after post-training; the original wording of the proper-scoring-rule definition (possibly Gneiting &amp; Raftery 2007).</p>
+    <p>To verify before the conference: what τ²-bench changed; Panickssery et al. 2024 (judges “favor” their own outputs); Anthropic 2023 (RLHF and sycophancy); Kalai et al. 2025 (Why Language Models Hallucinate); ExpeL (Zhao et al. 2023); the gap between GPT-4's reported HumanEval score and Reflexion's baseline; the knowledge-conflicts survey (Xu et al. 2024); figures in the two Anthropic 2025 faithfulness and interpretability studies; the GPT-4 report figure on calibration after post-training; the original wording of the proper-scoring-rule definition (possibly Gneiting &amp; Raftery 2007); why the two DeepSeek-R1 versions report different AIME numbers (71.0% vs 77.9%); the full text of arXiv 2604.15149 (only the abstract has been read).</p>
     <p>Workshops: <a href="https://blog.neurips.cc/2026/08/10/announcing-the-neurips-2026-workshops/" target="_blank" rel="noreferrer">NeurIPS 2026 workshops</a> · <a href="https://eval-interactive-agents-workshop.github.io/" target="_blank" rel="noreferrer">Interactive Agents</a> · <a href="https://judge2026.github.io/" target="_blank" rel="noreferrer">Judge</a> · <a href="https://neurips2026haic.com/" target="_blank" rel="noreferrer">Human-AI Coevolution</a> · <a href="https://clea-neurips.github.io/" target="_blank" rel="noreferrer">CLEA</a></p>
   </footer>
 </div>
@@ -2810,7 +2967,161 @@ Thought：可以定位，回答用户</p></div>
     </div>
   </section>
 
-  <nav class="pager" aria-label="Pages"><a href="#attention"><small>← Previous</small><span>Transformer</span></a><a class="next" href="#react"><small>Next →</small><span>ReAct</span></a></nav>
+  <nav class="pager" aria-label="Pages"><a href="#attention"><small>← Previous</small><span>Transformer</span></a><a class="next" href="#r1"><small>Next →</small><span>DeepSeek-R1</span></a></nav>
+</article>
+
+<article class="view" id="r1-en" data-view hidden style="--pc:var(--r1)">
+  <header class="phero">
+    <a class="back" href="#overview">← Back to map</a>
+    <div class="eyebrow">From model to assistant · Paper · 2025 · Reasoning models</div>
+    <h1>DeepSeek-R1</h1>
+    <p class="full">DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning · DeepSeek-AI · 2025</p>
+    <p class="lede">No demonstrations, no learned scorer: just tell the model whether the answer was right. Long chains of thought and self-checking grew on their own.</p>
+    <div class="links"><a href="https://arxiv.org/abs/2501.12948" target="_blank" rel="noreferrer">arXiv 2501.12948 ↗</a><span>Agent Evaluation</span><span>Enterprise continual learning</span></div>
+  </header>
+
+  <section class="sec">
+    <div class="eyebrow">The paper in four lines</div>
+    <div class="card4">
+      <div><b>Claim</b><p>Reasoning ability can be incentivized by pure reinforcement learning, without human-written reasoning demonstrations.<span class="tag p">Paper Abstract</span></p></div>
+      <div><b>Strongest evidence</b><p>R1-Zero's AIME 2024 pass@1 rose from 15.6% to 71.0% (v1; the latest version says 77.9%). A 32B model distilled from R1's outputs scored 72.6; running RL on it directly gave 47.0.<span class="tag p">Paper</span></p></div>
+      <div><b>Limits</b><p>Weaker than V3 on function calling, multi-turn dialogue, role-play and JSON output; language mixing; few-shot prompts hurt; limited gains in software engineering.<span class="tag p">Paper</span></p></div>
+      <div><b>Still to validate for products</b><p>How to reward tasks with no checkable answer (root-cause analysis); whether a displayed reasoning trace can serve as evidence.</p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Where it sits on the map</div>
+    <div class="pipe" style="--pc:var(--r1)">
+      <div class="stage"><span class="k">Pretraining</span><b>Text continuer</b><p>base model</p></div>
+      <div class="stage"><span class="k">InstructGPT</span><b>A learned scorer</b><p>Human preference → reward model</p></div>
+      <div class="stage hl"><span class="k">This paper</span><b>Checkable right/wrong</b><p>Rule-based scoring, no learned scorer</p></div>
+      <div class="stage"><span class="k">Product</span><b>Thinking takes time</b><p>Latency, cost, auditability</p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Problem</div>
+    <h2>Does reasoning have to be taught by people?</h2>
+    <p><span class="tag g">Our inference</span> The InstructGPT route has two costs: people write demonstrations and people label the scorer's training data, and the learned scorer can be gamed (Goodhart). R1 asks: if a task has a known answer, can we skip both and use only right/wrong?</p>
+    <p class="sub"><span class="tag p">Paper</span> The authors' core claim is that LLM reasoning can be incentivized through pure reinforcement learning.</p>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Method: R1-Zero</div>
+    <h2>Start RL straight from the base model</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Part</th><th>What it is</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>Starting point</td><td>A base model with no SFT</td><td><span class="tag p">Paper</span></td></tr>
+        <tr><td>Algorithm: GRPO</td><td>Sample a group (16) of answers per question and score each relative to the group, dropping the separately trained value model PPO needs</td><td><span class="tag p">Paper</span></td></tr>
+        <tr><td>Reward 1: accuracy</td><td>Math: the answer sits in a fixed format and is compared directly. Code: compiled and run against test cases</td><td><span class="tag p">Paper</span></td></tr>
+        <tr><td>Reward 2: format</td><td>The thinking must be written inside &lt;think&gt; tags</td><td><span class="tag p">Paper</span></td></tr>
+        <tr><td>What is left out</td><td>No neural-network scorer: the authors say it is prone to reward hacking in large-scale RL and costly to retrain</td><td><span class="tag p">Paper</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout"><b>The difference from InstructGPT, in one line</b><p>InstructGPT's “examiner” is learned, so it can be flattered. R1-Zero's “examiner” is a rule: is the answer right, did the tests pass. It can't be talked around, but it only exists where there is a checkable answer.</p></div>
+    <h3>The chain of thought is “grown”</h3>
+    <ul>
+      <li><span class="tag p">Paper</span> Response length keeps growing during training; the model re-evaluates its approach midway, and words like “wait” become much more frequent. The paper calls this an “aha moment”.</li>
+      <li><span class="tag g">Our inference</span> The “reflection” here is only a text pattern of going back to check. Mechanism: in longer answers, extra checking makes a correct final answer more likely; correct answers earn reward; so that style gets reinforced. Nobody taught it, and it does not need to “understand” that it is checking.</li>
+    </ul>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Method: from R1-Zero to R1</div>
+    <h2>R1-Zero works but is hard to read, so four more steps</h2>
+    <p class="sub"><span class="tag p">Paper v1</span> R1-Zero's problems were poor readability and language mixing. R1's pipeline:</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Step</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr><td>1 Cold start</td><td>Fine-tune first on a few thousand long chain-of-thought demonstrations, for a more readable starting point</td></tr>
+        <tr><td>2 Reasoning-oriented RL</td><td>As in R1-Zero, plus a language-consistency reward (below)</td></tr>
+        <tr><td>3 Rejection sampling + SFT</td><td>Generate a lot, keep only the good ones: about 600k reasoning + 200k non-reasoning, roughly 800k in total, then SFT</td></tr>
+        <tr><td>4 RL for all scenarios</td><td>Rule-based rewards for math, code and logic; reward models are back for general chat (helpfulness and safety)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="grid2">
+      <div><b>Language-consistency reward</b><p class="ink">Extra credit for keeping the chain of thought in one language, computed as the share of target-language words in it. The authors say it lowers performance slightly but reads better.<span class="tag p">Paper v1</span></p></div>
+      <div><b>Note step 4</b><p class="ink">Rule rewards only cover questions with checkable answers. For chat and writing, which can't be verified, a learned reward model is back, so the Goodhart risk has not disappeared.<span class="tag g">Our inference</span></p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Evidence</div>
+    <h2>Results</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Finding</th><th>What</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>R1-Zero's gain</td><td>AIME 2024 pass@1: 15.6% → 71.0% (v1; majority vote cons@64 = 86.7%). The latest version says 77.9%, with the majority-vote column labeled cons@16.</td><td><span class="tag p">Paper, versions disagree</span></td></tr>
+        <tr><td>Distillation beats direct RL</td><td>R1-Distill-Qwen-32B: AIME 72.6 / MATH-500 94.3. RL directly on the 32B base (R1-Zero-Qwen-32B): AIME 47.0</td><td><span class="tag p">Paper v1</span></td></tr>
+        <tr><td>The authors' reading</td><td>Distillation works very well; small models relying on large-scale RL need huge compute and may not even match distillation</td><td><span class="tag p">Paper v1</span></td></tr>
+      </tbody>
+    </table></div>
+    <p class="sub">pass@1 is the share answered correctly on one try. I haven't checked why the two versions differ; cite the version when you quote a number.</p>
+    <h3>What didn't work</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Attempt</th><th>Why it failed</th></tr></thead>
+      <tbody>
+        <tr><td>Process reward model (PRM): score every step</td><td>Hard to define what counts as a step; hard to judge whether a step is right; a model-based scorer gets gamed again</td></tr>
+        <tr><td>MCTS: search like a board game</td><td>The token-generation search space is huge; the value model is hard to train; improving through self-search remains hard</td></tr>
+      </tbody>
+    </table></div>
+    <p class="sub"><span class="tag p">Paper v1</span> These explain why they ended up with the plainest option, rule-based rewards.</p>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Limitations</div>
+    <h2>What it's not good at</h2>
+    <ul>
+      <li><span class="tag p">Paper</span> Weaker than V3 on function calling, multi-turn dialogue, role-play and JSON output.</li>
+      <li><span class="tag p">Paper</span> Language mixing; few-shot prompting hurts; limited gains in software engineering. The latest version also notes overthinking on simple questions.</li>
+      <li><span class="tag g">Our inference</span> The first three are exactly what agent products use most: calling tools, multi-turn, structured output.</li>
+    </ul>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Since then · <span class="tag r">Prior research</span></div>
+    <h2>Rule-based scorers can be gamed too</h2>
+    <p><span class="tag r">Prior research</span> arXiv 2604.15149 (April 2026, Helff et al.): on inductive reasoning tasks, RLVR-trained models (GPT-5, Olmo3) stop inducing a rule and instead list each instance's label, which also passes the verifier. Models without RLVR (GPT-4o, GPT-4.5, Ministral) don't show this. The shortcut gets more common with harder tasks and more inference compute. Training with isomorphic perturbation checks (changing the surface while keeping the structure) removes it.</p>
+    <p class="sub">I read only the abstract, not the full paper, and the abstract has no numbers.</p>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Our discussion</div>
+    <h2>Product implications</h2>
+    <ul>
+      <li><span class="tag g">Our inference</span> <b>Thinking time becomes a resource you buy.</b> Long chains of thought mean more latency and cost. The design question: when does the agent get to think longer, and does the user see waiting or the process?</li>
+      <li><span class="tag g">Our inference</span> <b>It works where answers can be checked automatically.</b> Math and code have them. Root-cause analysis (RCA) doesn't, unless, like fault injection, you plant a known answer first.</li>
+      <li><span class="tag g">Our inference</span> <b>The verifier itself needs testing.</b> If “correct” in an eval can be reached by a shortcut, the score is inflated.</li>
+      <li><span class="tag g">Our inference</span> <b>Auditing needs the evidence chain, not just the chain of thought.</b> A chain of thought is text the model wrote, and prior work suggests it may not reflect what it actually relied on (see Turpin 2023 and Lanham 2023 in the README). What can be audited is what it looked up and what came back: the tool-call records. The reasoning is like a table of contents and the raw data and queries are the text; they should link to each other, with every claim carrying the query it rests on, so unsupported claims stand out.</li>
+      <li><span class="tag g">Our inference</span> <b>Mixed-language thinking isn't necessarily a flaw for bilingual users.</b> The consistency reward counts the share of target-language words, yet bilingual engineers naturally say things like “这个 index 的 retention 太短”. But enterprise logs need to be searchable and auditable, and mixed text makes that harder. Letting users choose what is shown (a short version on the front line, the full original for audit) is a hypothesis worth testing; we have no usage data yet.</li>
+    </ul>
+  </section>
+
+  <section class="qs">
+    <div class="eyebrow">Questions for the floor</div>
+    <div class="q"><span class="why">No checkable answer</span><div class="en">Verifiable rewards work where there's a checkable answer. For root-cause analysis, what could play the role of the verifier?</div><button class="copy" type="button">Copy</button></div>
+    <div class="q"><span class="why">Verifier gamed</span><div class="en">If a model learns to pass the verifier without doing the intended reasoning, how would you detect it in a deployed agent?</div><button class="copy" type="button">Copy</button></div>
+    <div class="q"><span class="why">Showing the thinking</span><div class="en">When users review an agent's conclusion, do they rely on the reasoning trace or on the underlying evidence? What do you show by default?</div><button class="copy" type="button">Copy</button></div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Terms</div>
+    <div class="gloss">
+      <div><b>RLVR</b><span>RL whose reward is automatically checkable correctness</span></div>
+      <div><b>GRPO</b><span>Sample a group of answers per question and update by relative quality; no value model needed</span></div>
+      <div><b>R1-Zero / R1</b><span>The RL-only version / the full version with cold start, rejection-sampling SFT and more</span></div>
+      <div><b>CoT</b><span>Write the reasoning steps before the answer; here, lengthened by RL</span></div>
+      <div><b>distillation</b><span>Training a small model on a large model's outputs</span></div>
+      <div><b>rejection sampling</b><span>Generate many, keep only the good ones</span></div>
+      <div><b>pass@1 / cons@k</b><span>Share correct on one try / majority answer over k samples</span></div>
+      <div><b>PRM</b><span>Process Reward Model: scores each step of reasoning</span></div>
+      <div><b>reward hacking</b><span>The optimizer finds outputs that score high without doing what was meant</span></div>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Pages"><a href="#instructgpt"><small>← Previous</small><span>InstructGPT</span></a><a class="next" href="#react"><small>Next →</small><span>ReAct</span></a></nav>
 </article>
 
 <!-- ===================== 05 REFLEXION ===================== -->
@@ -3276,7 +3587,7 @@ Thought: cause located, answer the user</p></div>
     </div>
   </section>
 
-  <nav class="pager" aria-label="Pages"><a href="#instructgpt"><small>← Previous</small><span>InstructGPT</span></a><a class="next" href="#reflexion"><small>Next →</small><span>Reflexion</span></a></nav>
+  <nav class="pager" aria-label="Pages"><a href="#r1"><small>← Previous</small><span>DeepSeek-R1</span></a><a class="next" href="#reflexion"><small>Next →</small><span>Reflexion</span></a></nav>
 </article>
 
 <!-- ===================== 08 CALIBRATION ===================== -->
@@ -3697,8 +4008,8 @@ Thought: cause located, answer the user</p></div>
       <div><b>RM</b><i>Reward Model</i><span>Learned scorer trained on human rankings <a class="seen" href="#instructgpt">seen in →</a></span></div>
       <div><b>DPO</b><i>Direct Preference Optimization</i><span>Learn from preference pairs without an RM <a class="seen" href="#instructgpt">seen in →</a></span></div>
       <div><b>RLAIF</b><i>RL from AI Feedback</i><span>AI scores by principles instead of humans <a class="seen" href="#instructgpt">seen in →</a></span></div>
-      <div><b>RLVR</b><i>RL with Verifiable Rewards</i><span>Rewards from automatically checkable correctness <em class="soon">coming up</em></span></div>
-      <div><b>GRPO</b><i>Group Relative Policy Optimization</i><span>Sample a group of answers, update by relative quality <em class="soon">coming up</em></span></div>
+      <div><b>RLVR</b><i>RL with Verifiable Rewards</i><span>Rewards from automatically checkable correctness <a class="seen" href="#r1">seen in →</a></span></div>
+      <div><b>GRPO</b><i>Group Relative Policy Optimization</i><span>Sample a group of answers, update by relative quality <a class="seen" href="#r1">seen in →</a></span></div>
       <div><b>LoRA</b><i>Low-Rank Adaptation</i><span>Fine-tune a small add-on instead of all weights <em class="soon">coming up</em></span></div>
       <div><b>MoE</b><i>Mixture of Experts</i><span>Only some expert sub-networks run per token</span></div>
       <div><b>ECE</b><i>Expected Calibration Error</i><span>Average gap between confidence and accuracy <a class="seen" href="#calibration">seen in →</a></span></div>

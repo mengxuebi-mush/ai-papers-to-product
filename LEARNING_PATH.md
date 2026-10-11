@@ -23,10 +23,11 @@ This repo's map is my own set of study notes. What you can borrow is the *path*:
 | 8 | **τ-bench** (2024) | Succeeding once is not reliable. Measure whether it succeeds every time (pass^k). | 5 | [arXiv 2406.12045](https://arxiv.org/abs/2406.12045) |
 | 9 | **MT-Bench / LLM-as-a-judge** (2023) | Using a model to grade models works, and has measurable biases. | 4 | [arXiv 2306.05685](https://arxiv.org/abs/2306.05685) |
 | 10 | **Language Models (Mostly) Know What They Know** (2022) | Does stated confidence match how often the answer is right? RLHF can break that match. | 2, 4 | [arXiv 2207.05221](https://arxiv.org/abs/2207.05221) |
+| 11 | **DeepSeek-R1** (2025) | If answers can be checked automatically, rewarding only right/wrong is enough to grow long reasoning. Rule-based scorers can still be gamed. | 2, 4 | [arXiv 2501.12948](https://arxiv.org/abs/2501.12948) |
 
 **Why this order, in one example.** Goodhart's law (item 2) has to land before InstructGPT (item 4), because only then can you see *why* learning from a human-preference scorer can go wrong. The "Read it after" column is the dependency list. If a step feels hard, the missing piece is almost always in that column.
 
-**Not covered yet:** reasoning models (RL with verifiable rewards), human–agent teaming studies, RAG and prompt injection, fine-tuning vs in-context learning. These are planned.
+**Not covered yet:** human–agent teaming studies, RAG and prompt injection, fine-tuning vs in-context learning. These are planned.
 
 Full citations and authors: [README](README.md#paper-index).
 
