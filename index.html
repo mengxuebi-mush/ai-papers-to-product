@@ -969,6 +969,13 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       </tbody>
     </table></div>
     <p class="sub"><span class="tag p">原文 §3.4</span> 标注员约 40 人，通过 Upwork 和 Scale AI 招募，经过筛选测试。</p>
+    <h3>Reward model 怎么训练</h3>
+    <ul>
+      <li><span class="tag p">原文 §3.5</span> 每个 prompt 让标注员给 4 到 9 个回答排序，再拆成两两比较。</li>
+      <li><span class="tag p">原文 §3.5 Eq. 1</span> 损失：reward model 给“被选中”回答的分，减去给“被淘汰”回答的分，差越大越好（取负对数 sigmoid）。作者说这个差值就是“人更喜欢这个”的 log odds。也就是用成对的分类式损失，训练出一个给每个回答打分的数。</li>
+      <li><span class="tag r">已有研究</span> 这种形式业内叫 Bradley–Terry 模型；论文没有用这个名字。</li>
+      <li><span class="tag p">原文 §3.5, 脚注 5</span> 只用 6B 的 reward model 给 175B 的模型打分：理由是省算力，而且 175B 的 reward model 训练可能不稳定。论文没有说“reward model 小所以更容易被钻空子”，那是别人的推断。</li>
+    </ul>
     <h3>谁在变，谁冻结</h3>
     <div class="tbl"><table>
       <thead><tr><th>模型</th><th>在 Step 3 的角色</th><th>会变吗</th></tr></thead>
@@ -980,7 +987,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     </table></div>
     <div class="grid2">
       <div><b>KL penalty</b><p class="ink">得分 = 考官打分 − 跟 SFT 模型差了多远。防的是 reward hacking：为了“讨好”考官变成“另一个人”（实际是参数一路朝着让 reward model 打高分的方向漂移，输出越来越偏离 SFT 模型）。<span class="tag p">原文 §3.5</span></p></div>
-      <div><b>PPO-ptx</b><p class="ink">练习时混入 pretraining 数据。防的是 alignment tax：学新忘旧，基本功每天照做。<span class="tag p">原文 §3.5, §4.2</span></p></div>
+      <div><b>PPO-ptx</b><p class="ink">练习时混入 pretraining 数据。防的是 alignment tax：学新忘旧，基本功每天照做。目标函数里有两个系数：β 管 KL penalty，γ 管 pretraining 项；γ = 0 就是普通 PPO，论文里的 “InstructGPT” 默认指 PPO-ptx。<span class="tag p">原文 §3.5 Eq. 2, §4.2</span></p></div>
     </div>
     <div class="callout"><b>和 MT-Bench 的关系</b><p>reward model 本质上就是一个 LLM-as-a-judge。MT-Bench 用裁判来评估，这里用裁判来训练。</p></div>
   </section>
@@ -991,11 +998,11 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="tbl"><table>
       <thead><tr><th>发现</th><th>内容</th><th>来源</th></tr></thead>
       <tbody>
-        <tr><td>小模型对齐后胜过大模型</td><td>13 亿胜过 1750 亿 GPT-3；1750 亿版本 85 ± 3% 被偏好</td><td><span class="tag p">原文 §4.1</span></td></tr>
+        <tr><td>小模型对齐后胜过大模型</td><td>13 亿 InstructGPT 的输出优于 1750 亿 GPT-3（正文没给具体百分比）；1750 亿 InstructGPT 对 GPT-3 为 85 ± 3%，对 few-shot GPT-3 为 71 ± 4%</td><td><span class="tag p">原文 §4.1</span></td></tr>
         <tr><td>更真实</td><td>TruthfulQA 上真实且有信息量的回答约为 GPT-3 两倍</td><td><span class="tag p">原文 §4.2</span></td></tr>
         <tr><td>毒性有条件下降</td><td>被要求“礼貌”时少约 25%；不提示时优势消失</td><td><span class="tag p">原文 §4.2</span></td></tr>
         <tr><td>偏见</td><td>Winogender、CrowS-Pairs 上无显著改善</td><td><span class="tag p">原文 §4.2</span></td></tr>
-        <tr><td>Alignment tax</td><td>RLHF 后部分标准任务退步；PPO-ptx 大幅减少退步</td><td><span class="tag p">原文 §4.2</span></td></tr>
+        <tr><td>Alignment tax</td><td>RLHF 后 SQuAD、DROP、HellaSwag、WMT 2015 法译英退步。PPO-ptx 缓解了所有这些退步，HellaSwag 上甚至超过 GPT-3，但 DROP、SQuADv2 和翻译仍落后。单纯调大 KL 系数没用：验证集奖励明显下降，DROP 和 SQuAD 也恢复不了。</td><td><span class="tag p">原文 §4.2</span></td></tr>
       </tbody>
     </table></div>
   </section>
@@ -1049,6 +1056,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <li><span class="tag r">已有研究</span> Kalai et al. 2025 用考试类比：空着不写得 0 分、乱猜还有机会，学生学会猜；打分方式奖励猜测是 hallucination 持续的原因之一（待确认）。</li>
       <li><span class="tag g">推测</span> 不存在“纯净”的模型：只做 pretraining 带的是互联网的偏见，加了 RLHF 带的是标注员的偏好。更有用的问题是谁的影响、是否说清、能否被你的用户纠正。</li>
       <li><span class="tag g">推测</span> 通用模型的“好回答”反映标注员品味；凌晨三点处理故障的 SRE 可能只想要一条能直接跑的 query。</li>
+      <li><span class="tag g">推测</span> 对齐改的是“怎么答”，不是“知道什么”：知识的上限由 base model 决定，对齐能把已有的东西呈现得更好，但很难让模型答出 pretraining 里没见过的事实。论文没有直接讨论这一点，最接近的是 alignment tax 和对未监督任务的泛化（§4.2–4.3）。</li>
     </ul>
   </section>
 
@@ -1069,6 +1077,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <div><b>alignment tax / PPO-ptx</b><span>对齐后退步 / 混入 pretraining 数据减少退步</span></div>
       <div><b>misalignment</b><span>模型行为和用户意图不一致</span></div>
       <div><b>sycophancy</b><span>“说用户想听的”：实际是输出向用户已表达的观点靠拢，而不是向事实靠拢</span></div>
+      <div><b>instruction tuning / regularizer / RLHF regression</b><span>行话：常分别指 SFT 阶段 / KL penalty / alignment tax，各家用法不完全一致 <span class="tag r">已有研究</span></span></div>
     </div>
   </section>
 
@@ -2864,6 +2873,13 @@ Thought：可以定位，回答用户</p></div>
       </tbody>
     </table></div>
     <p class="sub"><span class="tag p">Paper §3.4</span> About 40 labelers, hired through Upwork and Scale AI after a screening test.</p>
+    <h3>How the reward model is trained</h3>
+    <ul>
+      <li><span class="tag p">Paper §3.5</span> For each prompt, labelers rank 4 to 9 answers, which are then split into pairwise comparisons.</li>
+      <li><span class="tag p">Paper §3.5 Eq. 1</span> The loss: the reward model's score for the “chosen” answer minus its score for the “rejected” one; the bigger the gap the better (negative log-sigmoid). The authors say this gap is the log odds that one answer is preferred to the other. So a classification-style pairwise loss trains a model that gives each answer a number.</li>
+      <li><span class="tag r">Prior research</span> This form is usually called the Bradley–Terry model; the paper doesn't use that name.</li>
+      <li><span class="tag p">Paper §3.5, footnote 5</span> Only a 6B reward model scores the 175B model: the stated reasons are saving compute, and that 175B reward-model training could be unstable. The paper doesn't say a small reward model is easier to game; that is someone else's inference.</li>
+    </ul>
     <h3>What changes and what's frozen</h3>
     <div class="tbl"><table>
       <thead><tr><th>Model</th><th>Role in Step 3</th><th>Changes?</th></tr></thead>
@@ -2875,7 +2891,7 @@ Thought：可以定位，回答用户</p></div>
     </table></div>
     <div class="grid2">
       <div><b>KL penalty</b><p class="ink">Score = examiner's score − distance from the SFT model. Guards against reward hacking: becoming someone else to please the examiner. <span class="tag p">Paper §3.5</span></p></div>
-      <div><b>PPO-ptx</b><p class="ink">Mixes pretraining data into practice. Guards against the alignment tax: keep up the basics while learning new things. <span class="tag p">Paper §3.5, §4.2</span></p></div>
+      <div><b>PPO-ptx</b><p class="ink">Mixes pretraining data into practice. Guards against the alignment tax: keep up the basics while learning new things. The objective has two coefficients: β for the KL penalty and γ for the pretraining term; γ = 0 is plain PPO, and “InstructGPT” in the paper means PPO-ptx by default. <span class="tag p">Paper §3.5 Eq. 2, §4.2</span></p></div>
     </div>
     <div class="callout"><b>Link to MT-Bench</b><p>A reward model is essentially an LLM-as-a-judge. MT-Bench uses the judge to evaluate; here it's used to train.</p></div>
   </section>
@@ -2886,11 +2902,11 @@ Thought：可以定位，回答用户</p></div>
     <div class="tbl"><table>
       <thead><tr><th>Finding</th><th>Detail</th><th>Source</th></tr></thead>
       <tbody>
-        <tr><td>Small aligned beats large unaligned</td><td>1.3B beats 175B GPT-3; 175B version preferred 85 ± 3%</td><td><span class="tag p">Paper §4.1</span></td></tr>
+        <tr><td>Small aligned beats large unaligned</td><td>The 1.3B InstructGPT's outputs are preferred to the 175B GPT-3's (no exact percentage in the text); 175B InstructGPT vs GPT-3: 85 ± 3%, vs few-shot GPT-3: 71 ± 4%</td><td><span class="tag p">Paper §4.1</span></td></tr>
         <tr><td>More truthful</td><td>About twice as many truthful and informative answers as GPT-3 on TruthfulQA</td><td><span class="tag p">Paper §4.2</span></td></tr>
         <tr><td>Less toxic, conditionally</td><td>About 25% fewer toxic outputs when asked to be respectful; no advantage without the instruction</td><td><span class="tag p">Paper §4.2</span></td></tr>
         <tr><td>Bias</td><td>No significant improvement on Winogender or CrowS-Pairs</td><td><span class="tag p">Paper §4.2</span></td></tr>
-        <tr><td>Alignment tax</td><td>Some standard tasks regress after RLHF; PPO-ptx greatly reduces this</td><td><span class="tag p">Paper §4.2</span></td></tr>
+        <tr><td>Alignment tax</td><td>After RLHF, SQuAD, DROP, HellaSwag and WMT 2015 French-to-English regress. PPO-ptx mitigates all of these, even surpassing GPT-3 on HellaSwag, but still trails on DROP, SQuADv2 and translation. Simply raising the KL coefficient doesn't work: validation reward drops markedly and DROP and SQuAD never recover.</td><td><span class="tag p">Paper §4.2</span></td></tr>
       </tbody>
     </table></div>
   </section>
@@ -2944,6 +2960,7 @@ Thought：可以定位，回答用户</p></div>
       <li><span class="tag r">Prior research</span> Kalai et al. 2025 use an exam analogy: a blank answer scores 0 and a guess might score, so students learn to guess; scoring that rewards guessing keeps hallucination alive (to verify).</li>
       <li><span class="tag g">Our inference</span> There's no “pure” model: pretraining alone carries the internet's biases, RLHF adds the labelers' preferences. The useful question is whose influence, whether it's disclosed, and whether your users can correct it.</li>
       <li><span class="tag g">Our inference</span> A general model's “good answer” reflects labeler taste; an SRE handling an incident at 3 a.m. may want one query they can run.</li>
+      <li><span class="tag g">Our inference</span> Alignment changes “how it answers”, not “what it knows”: the knowledge ceiling is set by the base model. Alignment can present what's already there better, but it is unlikely to make a model answer facts it never saw in pretraining. The paper doesn't discuss this directly; the closest are the alignment tax and generalization to unsupervised tasks (§4.2–4.3).</li>
     </ul>
   </section>
 
@@ -2964,6 +2981,7 @@ Thought：可以定位，回答用户</p></div>
       <div><b>alignment tax / PPO-ptx</b><span>Regression after alignment / mixing in pretraining data to reduce it</span></div>
       <div><b>misalignment</b><span>Behavior that doesn't match user intent</span></div>
       <div><b>sycophancy</b><span>“Saying what users want to hear”: output drifts toward the user's stated view rather than the facts</span></div>
+      <div><b>instruction tuning / regularizer / RLHF regression</b><span>Slang: often used for the SFT stage / the KL penalty / the alignment tax; usage varies <span class="tag r">Prior research</span></span></div>
     </div>
   </section>
 
