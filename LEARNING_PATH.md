@@ -53,6 +53,7 @@ Facts first, inference after. A beginner can't yet tell which is which, so the l
 **Language rules (this is what keeps jargon from scaring you):**
 - Define each term the first time it appears: plain-language analogy first, then the precise term, then the original English definition if one exists.
 - No acronym without its expansion.
+- Explain the concept and how it happens (the mechanism, with an analogy) before naming any benchmark, dataset, loss function or other jargon. A list of test names is not an explanation.
 - Mark analogies as analogies.
 - Human words (*believes, knows, honest, lies, wants*) are fine as a shortcut, because they help you grasp the behavior fast. But put them in quotation marks, and follow with a few sentences on what is actually happening inside: what is computed, what is measured, and where the metaphor stops working. Otherwise you may come away with the wrong mechanism. The site's [Term lookup](https://mengxuebi-mush.github.io/ai-papers-to-product/#abbr) has a table of these. Example: the model is "honest" about uncertainty → it outputs a probability, and when it says 70%, it is right about 70% of the time; there is no intent to tell the truth.
 
@@ -85,6 +86,8 @@ Rules:
    If you can't open it, tell me instead of answering from memory.
 4. Explain every term in plain language with an everyday example from my
    field, then give the precise term. Never use an acronym unexpanded.
+   Explain what a concept means and how it happens; don't stack test
+   names, dataset names or equations in place of an explanation.
 5. You may use human words like "believes", "knows", "honest" or "lies"
    as shortcuts, but always in quotation marks, followed by a few
    sentences on the actual mechanism and where the metaphor breaks.

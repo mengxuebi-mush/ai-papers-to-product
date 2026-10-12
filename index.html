@@ -972,8 +972,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <h3>Reward model 怎么训练</h3>
     <ul>
       <li><span class="tag p">原文 §3.5</span> 每个 prompt 让标注员给 4 到 9 个回答排序，再拆成两两比较。</li>
-      <li><span class="tag p">原文 §3.5 Eq. 1</span> 损失：reward model 给“被选中”回答的分，减去给“被淘汰”回答的分，差越大越好（取负对数 sigmoid）。作者说这个差值就是“人更喜欢这个”的 log odds。也就是用成对的分类式损失，训练出一个给每个回答打分的数。</li>
-      <li><span class="tag r">已有研究</span> 这种形式业内叫 Bradley–Terry 模型；论文没有用这个名字。</li>
+      <li><span class="tag p">原文 §3.5 Eq. 1</span> 训练目标：让“被选中”回答的分数比“被淘汰”回答的高。分差越大，代表“人更喜欢前者”的把握越大。结果是一个给每个回答打分的模型。</li>
       <li><span class="tag p">原文 §3.5, 脚注 5</span> 只用 6B 的 reward model 给 175B 的模型打分：理由是省算力，而且 175B 的 reward model 训练可能不稳定。论文没有说“reward model 小所以更容易被钻空子”，那是别人的推断。</li>
     </ul>
     <h3>谁在变，谁冻结</h3>
@@ -987,8 +986,9 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     </table></div>
     <div class="grid2">
       <div><b>KL penalty</b><p class="ink">得分 = 考官打分 − 跟 SFT 模型差了多远。防的是 reward hacking：为了“讨好”考官变成“另一个人”（实际是参数一路朝着让 reward model 打高分的方向漂移，输出越来越偏离 SFT 模型）。<span class="tag p">原文 §3.5</span></p></div>
-      <div><b>PPO-ptx</b><p class="ink">练习时混入 pretraining 数据。防的是 alignment tax：学新忘旧，基本功每天照做。目标函数里有两个系数：β 管 KL penalty，γ 管 pretraining 项；γ = 0 就是普通 PPO，论文里的 “InstructGPT” 默认指 PPO-ptx。<span class="tag p">原文 §3.5 Eq. 2, §4.2</span></p></div>
+      <div><b>PPO-ptx</b><p class="ink">练习时混入 pretraining 数据。防的是 alignment tax：学新忘旧，基本功每天照做。目标里有两个旋钮：一个管 KL penalty 的力度（β），一个管混入 pretraining 的比重（γ）；后者调成 0 就是普通 PPO。论文里的 “InstructGPT” 默认指 PPO-ptx。<span class="tag p">原文 §3.5 Eq. 2, §4.2</span></p></div>
     </div>
+    <div class="callout"><b>Alignment tax 是什么，怎么发生的</b><p><span class="tag p">原文 §4.2</span> 是什么：模型被调教成好助手之后，在一些原本做得不错的通用能力上反而变差了。像为了作文拿高分只练作文，数学退步了：这就是“税”。</p><p><span class="tag g">推测</span> 怎么发生：RL 阶段，整个模型的参数都在朝“让 reward model 打高分”的方向被推。参数是共用的，推向“会当助手”的同时，没有任何东西保护别的本事，其中一部分就被挤掉了。</p><p><span class="tag g">推测</span> 为什么 KL penalty 治不了：KL penalty 管的是“练习时的回答别离 SFT 模型太远”，它盯着练习题。退步发生在练习没覆盖的地方，拴住练习题的回答，拴不住别的本事。论文的观察和这个解释一致：把 KL 调大，补不回来。</p><p><span class="tag p">原文 §3.5</span> 怎么补：PPO-ptx 每天练习时还做几道原来的 pretraining 题，等于“练作文的同时也复习数学”，补回大部分，但不是全部。</p></div>
     <div class="callout"><b>和 MT-Bench 的关系</b><p>reward model 本质上就是一个 LLM-as-a-judge。MT-Bench 用裁判来评估，这里用裁判来训练。</p></div>
   </section>
 
@@ -1002,7 +1002,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
         <tr><td>更真实</td><td>TruthfulQA 上真实且有信息量的回答约为 GPT-3 两倍</td><td><span class="tag p">原文 §4.2</span></td></tr>
         <tr><td>毒性有条件下降</td><td>被要求“礼貌”时少约 25%；不提示时优势消失</td><td><span class="tag p">原文 §4.2</span></td></tr>
         <tr><td>偏见</td><td>Winogender、CrowS-Pairs 上无显著改善</td><td><span class="tag p">原文 §4.2</span></td></tr>
-        <tr><td>Alignment tax</td><td>RLHF 后 SQuAD、DROP、HellaSwag、WMT 2015 法译英退步。PPO-ptx 缓解了所有这些退步，HellaSwag 上甚至超过 GPT-3，但 DROP、SQuADv2 和翻译仍落后。单纯调大 KL 系数没用：验证集奖励明显下降，DROP 和 SQuAD 也恢复不了。</td><td><span class="tag p">原文 §4.2</span></td></tr>
+        <tr><td>Alignment tax</td><td>RLHF 之后，模型在几个公开的通用测试（阅读理解、问答、翻译）上比原来的 GPT-3 差。混入 pretraining 数据（PPO-ptx）能补回大部分，但不是全部。只把 KL penalty 调大补不回来。机制见上面的 alignment tax 说明。</td><td><span class="tag p">原文 §4.2</span></td></tr>
       </tbody>
     </table></div>
   </section>
@@ -2876,8 +2876,7 @@ Thought：可以定位，回答用户</p></div>
     <h3>How the reward model is trained</h3>
     <ul>
       <li><span class="tag p">Paper §3.5</span> For each prompt, labelers rank 4 to 9 answers, which are then split into pairwise comparisons.</li>
-      <li><span class="tag p">Paper §3.5 Eq. 1</span> The loss: the reward model's score for the “chosen” answer minus its score for the “rejected” one; the bigger the gap the better (negative log-sigmoid). The authors say this gap is the log odds that one answer is preferred to the other. So a classification-style pairwise loss trains a model that gives each answer a number.</li>
-      <li><span class="tag r">Prior research</span> This form is usually called the Bradley–Terry model; the paper doesn't use that name.</li>
+      <li><span class="tag p">Paper §3.5 Eq. 1</span> The training goal: make the “chosen” answer's score higher than the “rejected” one's. The bigger the gap, the more confident it is that people prefer the first. The result is a model that gives each answer a score.</li>
       <li><span class="tag p">Paper §3.5, footnote 5</span> Only a 6B reward model scores the 175B model: the stated reasons are saving compute, and that 175B reward-model training could be unstable. The paper doesn't say a small reward model is easier to game; that is someone else's inference.</li>
     </ul>
     <h3>What changes and what's frozen</h3>
@@ -2891,8 +2890,9 @@ Thought：可以定位，回答用户</p></div>
     </table></div>
     <div class="grid2">
       <div><b>KL penalty</b><p class="ink">Score = examiner's score − distance from the SFT model. Guards against reward hacking: becoming someone else to please the examiner. <span class="tag p">Paper §3.5</span></p></div>
-      <div><b>PPO-ptx</b><p class="ink">Mixes pretraining data into practice. Guards against the alignment tax: keep up the basics while learning new things. The objective has two coefficients: β for the KL penalty and γ for the pretraining term; γ = 0 is plain PPO, and “InstructGPT” in the paper means PPO-ptx by default. <span class="tag p">Paper §3.5 Eq. 2, §4.2</span></p></div>
+      <div><b>PPO-ptx</b><p class="ink">Mixes pretraining data into practice. Guards against the alignment tax: keep up the basics while learning new things. The objective has two dials: how strong the KL penalty is (β) and how much pretraining is mixed in (γ); setting the second to 0 gives plain PPO. “InstructGPT” in the paper means PPO-ptx by default. <span class="tag p">Paper §3.5 Eq. 2, §4.2</span></p></div>
     </div>
+    <div class="callout"><b>What the alignment tax is, and how it happens</b><p><span class="tag p">Paper §4.2</span> What: after the model is shaped into a good assistant, it gets worse at some general abilities it used to have. Like practicing only essay writing to ace the essay exam and slipping in math: that's the “tax”.</p><p><span class="tag g">Our inference</span> How it happens: during RL, all of the model's parameters are pushed toward whatever the reward model scores high. The parameters are shared, so while they are pushed toward “acts like an assistant”, nothing protects other skills, and some get crowded out.</p><p><span class="tag g">Our inference</span> Why the KL penalty can't fix it: the KL penalty says “don't let answers on the practice prompts drift too far from the SFT model”; it watches the practice questions. The regression happens where practice didn't reach, and holding the practice answers in place doesn't hold the other skills. The paper's observation fits: turning KL up doesn't win it back.</p><p><span class="tag p">Paper §3.5</span> The fix: PPO-ptx also does a few of the original pretraining problems during practice, like reviewing math while practicing essays. It wins back most of it, but not all.</p></div>
     <div class="callout"><b>Link to MT-Bench</b><p>A reward model is essentially an LLM-as-a-judge. MT-Bench uses the judge to evaluate; here it's used to train.</p></div>
   </section>
 
@@ -2906,7 +2906,7 @@ Thought：可以定位，回答用户</p></div>
         <tr><td>More truthful</td><td>About twice as many truthful and informative answers as GPT-3 on TruthfulQA</td><td><span class="tag p">Paper §4.2</span></td></tr>
         <tr><td>Less toxic, conditionally</td><td>About 25% fewer toxic outputs when asked to be respectful; no advantage without the instruction</td><td><span class="tag p">Paper §4.2</span></td></tr>
         <tr><td>Bias</td><td>No significant improvement on Winogender or CrowS-Pairs</td><td><span class="tag p">Paper §4.2</span></td></tr>
-        <tr><td>Alignment tax</td><td>After RLHF, SQuAD, DROP, HellaSwag and WMT 2015 French-to-English regress. PPO-ptx mitigates all of these, even surpassing GPT-3 on HellaSwag, but still trails on DROP, SQuADv2 and translation. Simply raising the KL coefficient doesn't work: validation reward drops markedly and DROP and SQuAD never recover.</td><td><span class="tag p">Paper §4.2</span></td></tr>
+        <tr><td>Alignment tax</td><td>After RLHF, the model does worse than the original GPT-3 on several public general-ability tests (reading comprehension, question answering, translation). Mixing in pretraining data (PPO-ptx) wins back most of it, but not all. Turning the KL penalty up alone doesn't. See the alignment tax note above for the mechanism.</td><td><span class="tag p">Paper §4.2</span></td></tr>
       </tbody>
     </table></div>
   </section>
