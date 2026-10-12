@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Papers to Product</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap">
@@ -210,6 +215,10 @@ input[type=range]{width:100%;accent-color:var(--bar)}
 .hw span[data-k]::before{content:attr(data-k);color:var(--muted);font-weight:700;font-size:12px}
 .hw .acc{background:var(--soft);border-radius:8px;padding:6px 8px;margin-inline:-8px}
 @media(max-width:640px){.hw span[data-k]{grid-template-columns:1fr;gap:2px}}
+.tip{border-bottom:1px dotted var(--muted);cursor:help}
+.tip:focus-visible{outline:2px solid var(--link);outline-offset:2px;border-radius:3px}
+#tipbox{white-space:pre-line;position:fixed;z-index:60;max-width:min(320px,calc(100vw - 24px));background:var(--ink);color:var(--bg);font:500 13px/1.55 var(--sans);padding:8px 11px;border-radius:9px;box-shadow:0 6px 24px rgba(0,0,0,.22);pointer-events:none;opacity:0;transition:opacity .12s}
+#tipbox.on{opacity:1}
 .foot{font-size:13px;color:var(--muted);display:grid;gap:6px}
 
 /* paper detail */
@@ -244,6 +253,8 @@ input[type=range]{width:100%;accent-color:var(--bar)}
 @media (max-width:440px){.pipe,.pager{grid-template-columns:1fr}.pager a.next{text-align:left}}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
+</head>
+<body>
 
 <nav class="topbar" aria-label="页面导航">
   <div class="topbar-in">
@@ -365,7 +376,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <div class="stage hl"><span class="k">Step 2 · Reward model</span><b>培养考官</b><p>标注员排序，训练模型拟合这些排序（也就是他们的“品味”）</p></div>
       <div class="stage hl"><span class="k">Step 3 · PPO</span><b>考官打分下练习</b><p>KL penalty 防跑偏，PPO-ptx 防学新忘旧</p></div>
     </div>
-    <div class="callout"><b>和光谱的关系</b><p>有标准答案的任务可以用对错来训练和评估，没有标准答案的才需要人或 AI 的偏好。训练和评估遵循同一套逻辑，也继承同样的风险：裁判有偏差，模型就学会那个偏差。<span class="tag r">已有研究</span> 后来的 DPO、RLAIF、可验证奖励都是在替换这条流水线里的某一块。</p></div>
+    <div class="callout"><b>和光谱的关系</b><p>有标准答案的任务可以用对错来训练和评估，没有标准答案的才需要人或 AI 的偏好。训练和评估遵循同一套逻辑，也继承同样的风险：裁判有偏差，模型就学会那个偏差。<span class="tag r">已有研究</span>后来的 DPO、RLAIF、可验证奖励都是在替换这条流水线里的某一块。</p></div>
   </section>
 
   <section class="sec" id="learning">
@@ -393,33 +404,33 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <h2>共同的盲区</h2>
     <p class="sub">每条的事实部分都来自原文，最后一句“对产品意味着什么”才是推测。</p>
     <div class="grid2">
-      <div><b>都用 LLM 代替人</b><p><span class="tag p">原文</span> τ-bench 用 gpt-4 模拟用户；MT-Bench 用 GPT-4 当裁判；InstructGPT 用 reward model 代替标注员；Reflexion 在部分任务里用 LLM 或自写测试当 Evaluator。</p><p><span class="tag g">推测</span> 都没有拿 enterprise 领域专家验证过。</p></div>
-      <div><b>“人类”是一个很窄的群体</b><p><span class="tag p">原文</span> MT-Bench 是研究生和众包用户；InstructGPT 是约 40 名主要在美国或东南亚的标注员；τ-bench 没有报告 human baseline。</p><p><span class="tag g">推测</span> 和他们一致，不等于和 SRE、admin 一致。</p></div>
-      <div><b>人和人本身就会分歧</b><p><span class="tag p">原文</span> MT-Bench 专家之间一致率 81%；InstructGPT 标注员之间约 73–77%。分歧在训练和评分时被平均掉。</p><p><span class="tag g">推测</span> 少数用户群的偏好最容易在平均中消失。</p></div>
+      <div><b>都用 LLM 代替人</b><p><span class="tag p">原文</span> τ-bench 用 gpt-4 模拟用户；MT-Bench 用 GPT-4 当裁判；InstructGPT 用 reward model 代替标注员；Reflexion 在部分任务里用 LLM 或自写测试当 Evaluator。</p><p><span class="tag g">推测</span>都没有拿 enterprise 领域专家验证过。</p></div>
+      <div><b>“人类”是一个很窄的群体</b><p><span class="tag p">原文</span> MT-Bench 是研究生和众包用户；InstructGPT 是约 40 名主要在美国或东南亚的标注员；τ-bench 没有报告 human baseline。</p><p><span class="tag g">推测</span>和他们一致，不等于和 SRE、admin 一致。</p></div>
+      <div><b>人和人本身就会分歧</b><p><span class="tag p">原文</span> MT-Bench 专家之间一致率 81%；InstructGPT 标注员之间约 73–77%。分歧在训练和评分时被平均掉。</p><p><span class="tag g">推测</span>少数用户群的偏好最容易在平均中消失。</p></div>
       <div><b>只看结果，不看过程</b><p><span class="tag p">原文</span> τ-bench 作者写明 r=1 是必要不充分条件，没经确认就执行也算成功；MT-Bench 只评最终回答。</p><p><span class="tag g">推测</span> enterprise 需要知道谁批准的、agent 看到了什么。</p></div>
-      <div><b>失败没有轻重之分</b><p><span class="tag p">原文</span> τ-bench 只有 0 和 1。按规则该拒绝时拒绝会得分，但任务做得到时“转人工”和“做错了”同样是 0。</p><p><span class="tag g">推测</span> 区分不了能被发现的失败和 silent failure。</p></div>
-      <div><b>偏好不等于正确</b><p><span class="tag p">原文</span> MT-Bench 裁判“偏爱”更长的回答（长回答更容易得高分），会被错误数学答案带偏；Reflexion 自测题会让错误代码通过（Rust 16%）。</p><p><span class="tag g">推测</span> 写得漂亮但结论错的 RCA 可能得高分。</p></div>
+      <div><b>失败没有轻重之分</b><p><span class="tag p">原文</span> τ-bench 只有 0 和 1。按规则该拒绝时拒绝会得分，但任务做得到时“转人工”和“做错了”同样是 0。</p><p><span class="tag g">推测</span>区分不了能被发现的失败和 silent failure。</p></div>
+      <div><b>偏好不等于正确</b><p><span class="tag p">原文</span> MT-Bench 裁判“偏爱”更长的回答（长回答更容易得高分），会被错误数学答案带偏；Reflexion 自测题会让错误代码通过（Rust 16%）。</p><p><span class="tag g">推测</span>写得漂亮但结论错的 RCA 可能得高分。</p></div>
       <div><b>评估和训练会被反向优化</b><p><span class="tag p">原文</span> InstructGPT 专门加 KL penalty 防止钻 reward model 的空子。</p><p><span class="tag r">已有研究</span> reward hacking 是公认问题；RLHF 模型普遍有 sycophancy 倾向（Anthropic 2023，待确认）。</p></div>
       <div><b>都没给“不确定”留位置</b><p><span class="tag p">原文</span> τ-bench 的 0/1 判分如上。<span class="tag r">已有研究</span> Kalai et al. 2025 认为打分方式奖励猜测、不奖励弃答（待确认）。</p><p><span class="tag g">推测</span> MT-Bench 的冗长偏差可能让“承认不确定”的短回答吃亏，论文未测。</p></div>
-      <div><b>知识是静态的</b><p><span class="tag p">原文</span> τ-bench 用固定数据库；MemGPT 用固定聊天记录和 2018 年 Wikipedia 快照；Reflexion 的题目都有标准答案。</p><p><span class="tag g">推测</span> 没测过 runbook 过期、两份 policy 互相矛盾。</p></div>
-      <div><b>没有权限边界</b><p><span class="tag p">原文</span> MemGPT 一个 agent 服务一个用户；τ-bench 每个对话只服务一个用户。</p><p><span class="tag g">推测</span> 企业里同一个 agent 的记忆和工具横跨不同团队和权限，谁能查到什么没有被测过。</p></div>
+      <div><b>知识是静态的</b><p><span class="tag p">原文</span> τ-bench 用固定数据库；MemGPT 用固定聊天记录和 2018 年 Wikipedia 快照；Reflexion 的题目都有标准答案。</p><p><span class="tag g">推测</span>没测过 runbook 过期、两份 policy 互相矛盾。</p></div>
+      <div><b>没有权限边界</b><p><span class="tag p">原文</span> MemGPT 一个 agent 服务一个用户；τ-bench 每个对话只服务一个用户。</p><p><span class="tag g">推测</span>企业里同一个 agent 的记忆和工具横跨不同团队和权限，谁能查到什么没有被测过。</p></div>
     </div>
   </section>
 
   <section class="sec" id="phases">
-    <div class="eyebrow"><span class="tag g">推测</span> 依据：pass@k 与 pass^k 的定义（τ-bench §3 原文）</div>
+    <div class="eyebrow"><span class="tag g">推测</span>依据：pass@k 与 pass^k 的定义（τ-bench §3 原文）</div>
     <h2>发散用 pass@k，收敛用 pass^k</h2>
     <p>分界线不在领域之间，而在同一个 workflow 的不同步骤之间，和设计里的 double diamond 是同一个结构。</p>
     <div class="phases">
       <div class="phase tint" style="--pc:var(--mt)"><span class="k">发散</span><b>探索方案、提出假设</b><p>生成很多，人来挑，对应 <span class="num">pass@k</span>。失败的样子：假发散，同一个想法换三种配色。</p></div>
-      <div class="phase h"><span class="k">交接</span><b>锁定方案</b><p>要带过去：选了什么、为什么选、明确不要什么、约束。失败的样子：执行时滑回被否掉的方向。<span class="tag r">已有研究</span> 长 context 中间的信息容易被忽略（Lost in the Middle，Liu et al. 2023）；loop engineering 资料称之为 intent debt。</p></div>
+      <div class="phase h"><span class="k">交接</span><b>锁定方案</b><p>要带过去：选了什么、为什么选、明确不要什么、约束。失败的样子：执行时滑回被否掉的方向。<span class="tag r">已有研究</span>长 context 中间的信息容易被忽略（Lost in the Middle，Liu et al. 2023）；loop engineering 资料称之为 intent debt。</p></div>
       <div class="phase tint" style="--pc:var(--tau)"><span class="k">收敛</span><b>执行、验证假设</b><p>每次都对、做出来的就是选中的那个，对应 <span class="num">pass^k</span>。失败的样子：说“做好了”，其实偏离了选择。</p></div>
     </div>
-    <p class="sub">Reflexion 的错题本是收敛工具：在需要探索的 WebShop 上没有进步（Reflexion §4 原文）。</p>
+    <p class="sub">Reflexion 的错题本是收敛工具：在需要探索的<span class="tip" tabindex="0" data-tip="WebShop：模拟购物网站，约 100 万件商品，agent 要按要求找到并买对商品。">模拟网购任务</span>上没有进步（Reflexion §4 原文）。</p>
   </section>
 
   <section class="sec" id="principles">
-    <div class="eyebrow">带回产品 · <span class="tag g">推测</span> 每条注明依据</div>
+    <div class="eyebrow">带回产品 · <span class="tag g">推测</span>每条注明依据</div>
     <h2>十七条设计原则</h2>
     <div class="principles">
       <div class="pr"><b>危险程度看可发现性，不只看失败类型</b><p>会报错 / 不报错 × 可逆 / 不可逆。最危险的是不报错、且已被拿去做决策的失败。</p><span class="from">依据：τ-bench 0/1 判分与失败分类（§3, §5.2 原文）</span></div>
@@ -559,15 +570,15 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <div class="stage"><span class="k">之后</span><b>Post-training</b><p><a href="#instructgpt">InstructGPT</a>：调教成助手</p></div>
       <div class="stage"><span class="k">之后</span><b>评估与改进</b><p><a href="#tau-bench">τ-bench</a>、<a href="#mt-bench">MT-Bench</a>、<a href="#reflexion">Reflexion</a></p></div>
     </div>
-    <p class="sub"><span class="tag r">已有研究</span> 今天常见的 LLM 多数只用 decoder 部分，训练目标和规模也不同。听 talk 时先问作者说的是 encoder、decoder，还是两者都用。</p>
+    <p class="sub"><span class="tag r">已有研究</span>今天常见的 LLM 多数只用 decoder 部分，训练目标和规模也不同。听 talk 时先问作者说的是 encoder、decoder，还是两者都用。</p>
   </section>
 
   <section class="sec">
     <div class="eyebrow">Problem · §1–2</div>
     <h2>2017 年为什么需要它</h2>
     <ul>
-      <li><span class="tag p">原文</span> 旧方法 RNN 按顺序处理序列，长序列的训练难以并行。</li>
-      <li><span class="tag p">原文</span> 作者主张用 attention 取代 recurrence 和 convolution，同时比较翻译质量和训练成本。</li>
+      <li><span class="tag p">原文</span>旧方法 RNN 按顺序处理序列，长序列的训练难以并行。</li>
+      <li><span class="tag p">原文</span>作者主张用 attention 取代 recurrence 和 convolution，同时比较翻译质量和训练成本。</li>
     </ul>
   </section>
 
@@ -599,8 +610,8 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       </tbody>
     </table></div>
     <ul>
-      <li><span class="tag p">原文</span> 英→法的 41.0 超过此前所有 single model，但表中的 ConvS2S ensemble 是 41.29。读表时先确认 baseline 是 single model 还是 ensemble。</li>
-      <li><span class="tag p">原文 Table 3</span> 只用 1 个 head 比最佳设置低 0.9 BLEU，但 head 太多也会下降。单个组件有效，不代表越多越好。</li>
+      <li><span class="tag p">原文</span>英→法的 41.0 超过此前所有 single model，但表中的 ConvS2S ensemble 是 41.29。读表时先确认 baseline 是 single model 还是 ensemble。</li>
+      <li><span class="tag p">原文 Table 3</span>只用 1 个 head 比最佳设置低 0.9 BLEU，但 head 太多也会下降。单个组件有效，不代表越多越好。</li>
     </ul>
   </section>
 
@@ -608,11 +619,11 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="eyebrow">Limitations</div>
     <h2>边界</h2>
     <ul>
-      <li><span class="tag p">原文 §7</span> 作者把扩展到文本以外的模态、处理图像音视频等长输入、让生成不那么依赖顺序，列为后续方向。</li>
-      <li><span class="tag p">原文</span> 证据只有机器翻译的 BLEU 和训练成本，没有测聊天助手或 agent 任务。</li>
+      <li><span class="tag p">原文 §7</span>作者把扩展到文本以外的模态、处理图像音视频等长输入、让生成不那么依赖顺序，列为后续方向。</li>
+      <li><span class="tag p">原文</span>证据只有机器翻译的 BLEU 和训练成本，没有测聊天助手或 agent 任务。</li>
       <li><span class="tag r">已有研究</span> attention 权重可视化不等于模型决策的完整解释（Jain &amp; Wallace 2019, “Attention is not Explanation”）。</li>
     </ul>
-    <div class="callout"><b><span class="tag g">推测</span> 设计含义</b><p>听到“模型更好”时先问四件事：在哪个任务、用什么指标、和哪个 baseline 比、付出多少算力。界面上展示 attention 热力图时，不要把它说成“模型为什么这样回答”。</p></div>
+    <div class="callout"><b><span class="tag g">推测</span>设计含义</b><p>听到“模型更好”时先问四件事：在哪个任务、用什么指标、和哪个 baseline 比、付出多少算力。界面上展示 attention 热力图时，不要把它说成“模型为什么这样回答”。</p></div>
   </section>
 
   <section class="qs">
@@ -675,7 +686,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <li><span class="tag p">原文 §3</span> 8 次是完全独立的重跑：同一份任务剧本，从零开始，没有记忆，也不会被纠正。</li>
       <li><span class="tag p">原文 §5</span> agent 的 temperature 是 0.0，模拟用户是 1.0。不稳定主要来自用户换了说法。</li>
       <li><span class="tag p">原文 §3</span> pass@k 是 k 次至少一次成功，pass^k 要求全部成功。k 越大，前者越高、后者越低。</li>
-      <li><span class="tag p">原文 §5.1</span> retail 全部任务跑一轮约 200 美元。<span class="tag g">推测</span> 所以 k 取到 8 主要受成本限制，不是行业标准。产品的 k 应由真实使用频率倒推。</li>
+      <li><span class="tag p">原文 §5.1</span> retail 全部任务跑一轮约 200 美元。<span class="tag g">推测</span>所以 k 取到 8 主要受成本限制，不是行业标准。产品的 k 应由真实使用频率倒推。</li>
     </ul>
   </section>
 
@@ -716,7 +727,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       </tbody>
     </table></div>
     <ul>
-      <li><span class="tag p">原文 Table 3</span> 拿掉 policy：retail 61.2 → 56.8，几乎不掉；airline 33.2 → 10.8。规则反常识时，才看得出 agent 有没有在读规则。</li>
+      <li><span class="tag p">原文 Table 3</span>拿掉 policy：retail 61.2 → 56.8，几乎不掉；airline 33.2 → 10.8。规则反常识时，才看得出 agent 有没有在读规则。</li>
     </ul>
   </section>
 
@@ -724,23 +735,23 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="eyebrow">Limitations · §3, §6</div>
     <h2>作者承认的，和可以从原文核对的</h2>
     <ul>
-      <li><span class="tag p">原文 §6</span> 模拟用户不完美：剧本可能有错；用户不懂规则；推理有限。作者的立场是，兜底的责任在 agent。</li>
+      <li><span class="tag p">原文 §6</span>模拟用户不完美：剧本可能有错；用户不懂规则；推理有限。作者的立场是，兜底的责任在 agent。</li>
       <li><span class="tag p">原文 §3</span> r=1 是必要不充分条件：没经确认就执行，只要结果对也算成功。</li>
-      <li><span class="tag p">原文 §6</span> 只有客服场景；剧本用 gpt-4-turbo 试跑来调，题目可能对它有偏差。</li>
+      <li><span class="tag p">原文 §6</span>只有客服场景；剧本用 gpt-4-turbo 试跑来调，题目可能对它有偏差。</li>
     </ul>
     <div class="tbl"><table>
       <thead><tr><th>盲区</th><th>事实依据</th><th>为什么重要</th></tr></thead>
       <tbody>
-        <tr><td>没有 human baseline</td><td><span class="tag p">原文</span> 只报告模型分数</td><td>没法判断 61 分算好还是算差</td></tr>
-        <tr><td>失败没有轻重</td><td><span class="tag p">原文 §3</span> 做得到时“转人工”和“做错了”同样是 0</td><td><span class="tag g">推测</span> 区分不了 silent failure</td></tr>
-        <tr><td>模拟用户没有拿真人对话验证</td><td><span class="tag p">原文 §6</span> 列了局限，没做对照</td><td>考官可不可信，是 Judge workshop 的核心问题</td></tr>
-        <tr><td>用户永远清楚自己要什么</td><td><span class="tag p">原文 §3–4</span> 剧本写好了明确意图</td><td><span class="tag g">推测</span> 企业工作常常是把模糊问题变清楚</td></tr>
+        <tr><td>没有 human baseline</td><td><span class="tag p">原文</span>只报告模型分数</td><td>没法判断 61 分算好还是算差</td></tr>
+        <tr><td>失败没有轻重</td><td><span class="tag p">原文 §3</span>做得到时“转人工”和“做错了”同样是 0</td><td><span class="tag g">推测</span>区分不了 silent failure</td></tr>
+        <tr><td>模拟用户没有拿真人对话验证</td><td><span class="tag p">原文 §6</span>列了局限，没做对照</td><td>考官可不可信，是 Judge workshop 的核心问题</td></tr>
+        <tr><td>用户永远清楚自己要什么</td><td><span class="tag p">原文 §3–4</span>剧本写好了明确意图</td><td><span class="tag g">推测</span>企业工作常常是把模糊问题变清楚</td></tr>
       </tbody>
     </table></div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow"><span class="tag g">推测</span> 依据：0/1 判分与失败分类（§3, §5.2 原文）</div>
+    <div class="eyebrow"><span class="tag g">推测</span>依据：0/1 判分与失败分类（§3, §5.2 原文）</div>
     <h2>危险程度看可发现性</h2>
     <div class="matrix" role="table" aria-label="失败风险矩阵">
       <div class="h corner"></div><div class="h">会报错 · loud</div><div class="h">不报错 · silent</div>
@@ -755,7 +766,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
         <tr><td>batch operation 做一半</td><td>如实报 3/10 是 loud；报“已完成”是 silent</td><td>给覆盖率：处理了几个、跳过哪些、为什么</td></tr>
       </tbody>
     </table></div>
-    <div class="callout"><b>RCA 能不能做成这样的考题</b><p><span class="tag r">已有研究</span> 用 fault injection 在可控环境里埋故障，答案就已知，Microsoft 的 AIOpsLab 走的是这个路线。<span class="tag g">推测</span> 但结论是文字，字符串匹配判不了；蒙对也算对；真实工单往往没有标准答案。先给鉴别诊断、再给结论，结论错了用户也能顺着证据链发现。</p></div>
+    <div class="callout"><b>RCA 能不能做成这样的考题</b><p><span class="tag r">已有研究</span>用 fault injection 在可控环境里埋故障，答案就已知，Microsoft 的 AIOpsLab 走的是这个路线。<span class="tag g">推测</span>但结论是文字，字符串匹配判不了；蒙对也算对；真实工单往往没有标准答案。先给鉴别诊断、再给结论，结论错了用户也能顺着证据链发现。</p></div>
   </section>
 
   <section class="qs">
@@ -805,8 +816,8 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="eyebrow">Problem · §1</div>
     <h2>2023 年的困境</h2>
     <ul>
-      <li><span class="tag p">原文</span> 主流 benchmark 多是选择题（如 MMLU），测知识，测不出聊天助手好不好用。</li>
-      <li><span class="tag p">原文</span> 开放式回答的质量只能靠人评，但人评又慢又贵。</li>
+      <li><span class="tag p">原文</span>主流 benchmark 多是选择题（如某个著名的<span class="tip" tabindex="0" data-tip="MMLU：覆盖几十个学科的选择题测试集。">多学科测试</span>），测知识，测不出聊天助手好不好用。</li>
+      <li><span class="tag p">原文</span>开放式回答的质量只能靠人评，但人评又慢又贵。</li>
     </ul>
   </section>
 
@@ -860,8 +871,8 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       </tbody>
     </table></div>
     <ul>
-      <li><span class="tag p">原文</span> 摘要里的“超过 80%”用的是 S2。被排除的是难判的题。</li>
-      <li><span class="tag p">原文</span> 在 GPT-4 和人类意见不一致的案例里，人类有 75% 觉得 GPT-4 的判断也说得通，34% 愿意改掉自己的判断。</li>
+      <li><span class="tag p">原文</span>摘要里的“超过 80%”用的是 S2。被排除的是难判的题。</li>
+      <li><span class="tag p">原文</span>在 GPT-4 和人类意见不一致的案例里，人类有 75% 觉得 GPT-4 的判断也说得通，34% 愿意改掉自己的判断。</li>
     </ul>
   </section>
 
@@ -869,10 +880,10 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="eyebrow">Limitations · §4, §6</div>
     <h2>作者承认的，和可以从原文核对的</h2>
     <ul>
-      <li><span class="tag p">原文 §6</span> 只评 helpfulness，几乎没管安全；多个维度被压成一个分数；缓解办法是初步的。</li>
+      <li><span class="tag p">原文 §6</span>只评 helpfulness，几乎没管安全；多个维度被压成一个分数；缓解办法是初步的。</li>
       <li><span class="tag p">原文 §4</span> MT-Bench 的专家是 58 位标注员，主要是研究生；Arena 是 2,114 位自愿来玩的众包用户。</li>
-      <li><span class="tag p">原文</span> 只评两轮对话，不评几十步的 agent 轨迹。</li>
-      <li><span class="tag r">已有研究</span> 后续研究发现 LLM 裁判能“认出”（区分自己和别人的输出）并“偏爱”（给自己的输出打分偏高）自己生成的内容（Panickssery et al. 2024，待确认）。</li>
+      <li><span class="tag p">原文</span>只评两轮对话，不评几十步的 agent 轨迹。</li>
+      <li><span class="tag r">已有研究</span>后续研究发现 LLM 裁判能“认出”（区分自己和别人的输出）并“偏爱”（给自己的输出打分偏高）自己生成的内容（Panickssery et al. 2024，待确认）。</li>
     </ul>
   </section>
 
@@ -933,7 +944,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="eyebrow">四句话论文卡</div>
     <div class="card4">
       <div><b>主张</b><p>pretraining 学的是“续写得像”，不是“照用户意图做”，模型变大解决不了。用人类示范加排序做 post-training，可以把模型对齐成助手。<span class="tag p">原文 §1</span></p></div>
-      <div><b>最强证据</b><p>13 亿参数的 InstructGPT 胜过 1750 亿的 GPT-3；1750 亿版本 85% 被偏好；TruthfulQA 上真实回答约翻倍。<span class="tag p">原文 §4</span></p></div>
+      <div><b>最强证据</b><p>13 亿参数的 InstructGPT 胜过 1750 亿的 GPT-3；1750 亿版本 85% 被偏好；在<span class="tip" tabindex="0" data-tip="TruthfulQA：专门测模型会不会重复流传已久的错误说法的问答集。">真实性测试</span>上，真实回答约翻倍。<span class="tag p">原文 §4</span></p></div>
       <div><b>边界</b><p>对齐的是约 40 名标注员、研究员和 API 客户的偏好；标注员一致率约 73–77%；仍会犯简单错误、大多照做有害指令；偏见无显著改善；有 alignment tax。</p></div>
       <div><b>产品还要验证</b><p>你的用户（SRE、admin）眼里的“好回答”，和这批标注员的偏好是否一致。</p></div>
     </div>
@@ -952,7 +963,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
   <section class="sec">
     <div class="eyebrow">Problem · §1</div>
     <h2>续写不等于回答</h2>
-    <p><span class="tag p">原文</span> 对只做过 pretraining 的模型说“用 6 岁小孩能听懂的话解释登月”，它可能接着写出一串类似的题目，因为网上这句话后面常跟着列表。作者把模型编造事实、输出有害内容、答非所问统称为 misalignment，并指出模型变大不能解决。</p>
+    <p><span class="tag p">原文</span>对只做过 pretraining 的模型说“用 6 岁小孩能听懂的话解释登月”，它可能接着写出一串类似的题目，因为网上这句话后面常跟着列表。作者把模型编造事实、输出有害内容、答非所问统称为 misalignment，并指出模型变大不能解决。</p>
   </section>
 
   <section class="sec">
@@ -968,12 +979,12 @@ input[type=range]{width:100%;accent-color:var(--bar)}
         <tr><td>直接交给他做</td><td>部署 / inference</td><td></td></tr>
       </tbody>
     </table></div>
-    <p class="sub"><span class="tag p">原文 §3.4</span> 标注员约 40 人，通过 Upwork 和 Scale AI 招募，经过筛选测试。</p>
+    <p class="sub"><span class="tag p">原文 §3.4</span>标注员约 40 人，通过 Upwork 和 Scale AI 招募，经过筛选测试。</p>
     <h3>Reward model 怎么训练</h3>
     <ul>
-      <li><span class="tag p">原文 §3.5</span> 每个 prompt 让标注员给 4 到 9 个回答排序，再拆成两两比较。</li>
-      <li><span class="tag p">原文 §3.5 Eq. 1</span> 训练目标：让“被选中”回答的分数比“被淘汰”回答的高。分差越大，代表“人更喜欢前者”的把握越大。结果是一个给每个回答打分的模型。</li>
-      <li><span class="tag p">原文 §3.5, 脚注 5</span> 只用 6B 的 reward model 给 175B 的模型打分：理由是省算力，而且 175B 的 reward model 训练可能不稳定。论文没有说“reward model 小所以更容易被钻空子”，那是别人的推断。</li>
+      <li><span class="tag p">原文 §3.5</span>每个 prompt 让标注员给 4 到 9 个回答排序，再拆成两两比较。</li>
+      <li><span class="tag p">原文 §3.5 Eq. 1</span>训练目标：让“被选中”回答的分数比“被淘汰”回答的高。分差越大，代表“人更喜欢前者”的把握越大。结果是一个给每个回答打分的模型。</li>
+      <li><span class="tag p">原文 §3.5, 脚注 5</span>只用 6B 的 reward model 给 175B 的模型打分：理由是省算力，而且 175B 的 reward model 训练可能不稳定。论文没有说“reward model 小所以更容易被钻空子”，那是别人的推断。</li>
     </ul>
     <h3>谁在变，谁冻结</h3>
     <div class="tbl"><table>
@@ -988,7 +999,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <div><b>KL penalty</b><p class="ink">得分 = 考官打分 − 跟 SFT 模型差了多远。防的是 reward hacking：为了“讨好”考官变成“另一个人”（实际是参数一路朝着让 reward model 打高分的方向漂移，输出越来越偏离 SFT 模型）。<span class="tag p">原文 §3.5</span></p></div>
       <div><b>PPO-ptx</b><p class="ink">练习时混入 pretraining 数据。防的是 alignment tax：学新忘旧，基本功每天照做。目标里有两个旋钮：一个管 KL penalty 的力度（β），一个管混入 pretraining 的比重（γ）；后者调成 0 就是普通 PPO。论文里的 “InstructGPT” 默认指 PPO-ptx。<span class="tag p">原文 §3.5 Eq. 2, §4.2</span></p></div>
     </div>
-    <div class="callout"><b>Alignment tax 是什么，怎么发生的</b><p><span class="tag p">原文 §4.2</span> 是什么：模型被调教成好助手之后，在一些原本做得不错的通用能力上反而变差了。像为了作文拿高分只练作文，数学退步了：这就是“税”。</p><p><span class="tag g">推测</span> 怎么发生：RL 阶段，整个模型的参数都在朝“让 reward model 打高分”的方向被推。参数是共用的，推向“会当助手”的同时，没有任何东西保护别的本事，其中一部分就被挤掉了。</p><p><span class="tag g">推测</span> 为什么 KL penalty 治不了：KL penalty 管的是“练习时的回答别离 SFT 模型太远”，它盯着练习题。退步发生在练习没覆盖的地方，拴住练习题的回答，拴不住别的本事。论文的观察和这个解释一致：把 KL 调大，补不回来。</p><p><span class="tag p">原文 §3.5</span> 怎么补：PPO-ptx 每天练习时还做几道原来的 pretraining 题，等于“练作文的同时也复习数学”，补回大部分，但不是全部。</p></div>
+    <div class="callout"><b>Alignment tax 是什么，怎么发生的</b><p><span class="tag p">原文 §4.2</span>是什么：模型被调教成好助手之后，在一些原本做得不错的通用能力上反而变差了。像为了作文拿高分只练作文，数学退步了：这就是“税”。</p><p><span class="tag g">推测</span>怎么发生：RL 阶段，整个模型的参数都在朝“让 reward model 打高分”的方向被推。参数是共用的，推向“会当助手”的同时，没有任何东西保护别的本事，其中一部分就被挤掉了。</p><p><span class="tag g">推测</span>为什么 KL penalty 治不了：KL penalty 管的是“练习时的回答别离 SFT 模型太远”，它盯着练习题。退步发生在练习没覆盖的地方，拴住练习题的回答，拴不住别的本事。论文的观察和这个解释一致：把 KL 调大，补不回来。</p><p><span class="tag p">原文 §3.5</span>怎么补：PPO-ptx 每天练习时还做几道原来的 pretraining 题，等于“练作文的同时也复习数学”，补回大部分，但不是全部。</p></div>
     <div class="callout"><b>和 MT-Bench 的关系</b><p>reward model 本质上就是一个 LLM-as-a-judge。MT-Bench 用裁判来评估，这里用裁判来训练。</p></div>
   </section>
 
@@ -999,9 +1010,9 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <thead><tr><th>发现</th><th>内容</th><th>来源</th></tr></thead>
       <tbody>
         <tr><td>小模型对齐后胜过大模型</td><td>13 亿 InstructGPT 的输出优于 1750 亿 GPT-3（正文没给具体百分比）；1750 亿 InstructGPT 对 GPT-3 为 85 ± 3%，对 few-shot GPT-3 为 71 ± 4%</td><td><span class="tag p">原文 §4.1</span></td></tr>
-        <tr><td>更真实</td><td>TruthfulQA 上真实且有信息量的回答约为 GPT-3 两倍</td><td><span class="tag p">原文 §4.2</span></td></tr>
+        <tr><td>更真实</td><td>在<span class="tip" tabindex="0" data-tip="TruthfulQA：专门测模型会不会重复流传已久的错误说法的问答集。">真实性测试</span>上，真实且有信息量的回答约为 GPT-3 两倍</td><td><span class="tag p">原文 §4.2</span></td></tr>
         <tr><td>毒性有条件下降</td><td>被要求“礼貌”时少约 25%；不提示时优势消失</td><td><span class="tag p">原文 §4.2</span></td></tr>
-        <tr><td>偏见</td><td>Winogender、CrowS-Pairs 上无显著改善</td><td><span class="tag p">原文 §4.2</span></td></tr>
+        <tr><td>偏见</td><td>在<span class="tip" tabindex="0" data-tip="Winogender 和 CrowS-Pairs：两个测模型是否带性别、社会偏见的测试集。">两个偏见测试</span>上无显著改善</td><td><span class="tag p">原文 §4.2</span></td></tr>
         <tr><td>Alignment tax</td><td>RLHF 之后，模型在几个公开的通用测试（阅读理解、问答、翻译）上比原来的 GPT-3 差。混入 pretraining 数据（PPO-ptx）能补回大部分，但不是全部。只把 KL penalty 调大补不回来。机制见上面的 alignment tax 说明。</td><td><span class="tag p">原文 §4.2</span></td></tr>
       </tbody>
     </table></div>
@@ -1020,8 +1031,8 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       </tbody>
     </table></div>
     <ul>
-      <li><span class="tag p">原文 §3.4</span> 训练用标注员之间一致率 72.6%，另一批 77.3%，约每四次有一次分歧，分歧被平均掉。</li>
-      <li><span class="tag p">原文 §4.3, §5.3</span> 仍会犯简单错误；会顺着错误前提回答；有时过度含糊；用户要求时大多会照做有害指令。</li>
+      <li><span class="tag p">原文 §3.4</span>训练用标注员之间一致率 72.6%，另一批 77.3%，约每四次有一次分歧，分歧被平均掉。</li>
+      <li><span class="tag p">原文 §4.3, §5.3</span>仍会犯简单错误；会顺着错误前提回答；有时过度含糊；用户要求时大多会照做有害指令。</li>
     </ul>
   </section>
 
@@ -1049,14 +1060,14 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <tbody>
         <tr><td>表现</td><td>语气肯定地输出不存在的事实、引用</td><td>输出向用户的观点靠拢，一被质疑就改口</td></tr>
         <tr><td>主要根源</td><td>Pretraining：目标是“续写得像”</td><td>RLHF：标注员偏爱让自己舒服的回答</td></tr>
-        <tr><td>RLHF 的作用</td><td>可能放大也可能缓解（本篇 TruthfulQA 改善）</td><td>主要来源之一</td></tr>
+        <tr><td>RLHF 的作用</td><td>可能放大也可能缓解（本篇在<span class="tip" tabindex="0" data-tip="TruthfulQA：专门测模型会不会重复流传已久的错误说法的问答集。">真实性测试</span>上有改善）</td><td>主要来源之一</td></tr>
       </tbody>
     </table></div>
     <ul>
       <li><span class="tag r">已有研究</span> Kalai et al. 2025 用考试类比：空着不写得 0 分、乱猜还有机会，学生学会猜；打分方式奖励猜测是 hallucination 持续的原因之一（待确认）。</li>
-      <li><span class="tag g">推测</span> 不存在“纯净”的模型：只做 pretraining 带的是互联网的偏见，加了 RLHF 带的是标注员的偏好。更有用的问题是谁的影响、是否说清、能否被你的用户纠正。</li>
-      <li><span class="tag g">推测</span> 通用模型的“好回答”反映标注员品味；凌晨三点处理故障的 SRE 可能只想要一条能直接跑的 query。</li>
-      <li><span class="tag g">推测</span> 对齐改的是“怎么答”，不是“知道什么”：知识的上限由 base model 决定，对齐能把已有的东西呈现得更好，但很难让模型答出 pretraining 里没见过的事实。论文没有直接讨论这一点，最接近的是 alignment tax 和对未监督任务的泛化（§4.2–4.3）。</li>
+      <li><span class="tag g">推测</span>不存在“纯净”的模型：只做 pretraining 带的是互联网的偏见，加了 RLHF 带的是标注员的偏好。更有用的问题是谁的影响、是否说清、能否被你的用户纠正。</li>
+      <li><span class="tag g">推测</span>通用模型的“好回答”反映标注员品味；凌晨三点处理故障的 SRE 可能只想要一条能直接跑的 query。</li>
+      <li><span class="tag g">推测</span>对齐改的是“怎么答”，不是“知道什么”：知识的上限由 base model 决定，对齐能把已有的东西呈现得更好，但很难让模型答出 pretraining 里没见过的事实。论文没有直接讨论这一点，最接近的是 alignment tax 和对未监督任务的泛化（§4.2–4.3）。</li>
     </ul>
   </section>
 
@@ -1098,7 +1109,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="eyebrow">四句话论文卡</div>
     <div class="card4">
       <div><b>主张</b><p>推理能力可以只靠强化学习激励出来，不需要人类示范的推理过程。<span class="tag p">原文 摘要</span></p></div>
-      <div><b>最强证据</b><p>R1-Zero 的 AIME 2024 pass@1 从 15.6% 升到 71.0%（v1；最新版写 77.9%）。32B 模型用 R1 的输出蒸馏得 72.6，直接对它做 RL 只有 47.0。<span class="tag p">原文</span></p></div>
+      <div><b>最强证据</b><p>R1-Zero 的<span class="tip" tabindex="0" data-tip="AIME 2024：2024 年美国数学邀请赛的题目，难度高于普通高中数学。&#10;pass@1：每题只生成一次，答对的比例。">数学竞赛题一次通过率</span>从 15.6% 升到 71.0%（v1；最新版写 77.9%）。32B 模型用 R1 的输出蒸馏得 72.6，直接对它做 RL 只有 47.0。<span class="tag p">原文</span></p></div>
       <div><b>边界</b><p>函数调用、多轮对话、角色扮演、JSON 输出不如 V3；语言混杂；few-shot prompt 反而变差；软件工程提升有限。<span class="tag p">原文</span></p></div>
       <div><b>产品还要验证</b><p>没有标准答案的场景（根因分析）怎么给奖励；展示出来的思考过程能不能当证据用。</p></div>
     </div>
@@ -1118,7 +1129,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="eyebrow">Problem</div>
     <h2>推理一定要人教吗</h2>
     <p><span class="tag g">推测</span> InstructGPT 的路线有两个成本：示范要人写，打分器要人标，而且学出来的打分器会被钻空子（Goodhart）。R1 问的是：如果任务有标准答案，能不能跳过这两步，只用“对/错”？</p>
-    <p class="sub"><span class="tag p">原文</span> 作者提出的核心主张是 LLM 的推理能力可以通过纯强化学习（pure RL）激励出来。</p>
+    <p class="sub"><span class="tag p">原文</span>作者提出的核心主张是 LLM 的推理能力可以通过纯强化学习（pure RL）激励出来。</p>
   </section>
 
   <section class="sec">
@@ -1137,8 +1148,8 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="callout"><b>和 InstructGPT 的区别，一句话</b><p>InstructGPT 的“考官”是学出来的，会被讨好。R1-Zero 的“考官”是规则：答案对不对，测试过没过。它不会被说服，但只能出在有标准答案的题上。</p></div>
     <h3>思维链是被“养”出来的</h3>
     <ul>
-      <li><span class="tag p">原文</span> 训练中回答长度持续增长；模型会在中途重新评估自己的思路，“wait”这类词的使用明显增加。论文称之为 “aha moment”。</li>
-      <li><span class="tag g">推测</span> 这里的“反思”只是输出里出现了回头检查的文字模式。机制是：长回答里多检查几步，更容易最终答对；答对拿分；于是这种写法被强化。没人教它，也不需要它“理解”自己在检查。</li>
+      <li><span class="tag p">原文</span>训练中回答长度持续增长；模型会在中途重新评估自己的思路，“wait”这类词的使用明显增加。论文称之为 “aha moment”。</li>
+      <li><span class="tag g">推测</span>这里的“反思”只是输出里出现了回头检查的文字模式。机制是：长回答里多检查几步，更容易最终答对；答对拿分；于是这种写法被强化。没人教它，也不需要它“理解”自己在检查。</li>
     </ul>
   </section>
 
@@ -1167,12 +1178,12 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="tbl"><table>
       <thead><tr><th>发现</th><th>内容</th><th>来源</th></tr></thead>
       <tbody>
-        <tr><td>R1-Zero 的进步</td><td>AIME 2024 pass@1：15.6% → 71.0%（v1，多数投票 cons@64 为 86.7%）。最新版写 77.9%，多数投票一栏标成 cons@16。</td><td><span class="tag p">原文，两版不一致</span></td></tr>
-        <tr><td>蒸馏胜过直接 RL</td><td>R1-Distill-Qwen-32B：AIME 72.6 / MATH-500 94.3。直接对 32B base 做 RL（R1-Zero-Qwen-32B）：AIME 47.0</td><td><span class="tag p">原文 v1</span></td></tr>
+        <tr><td>R1-Zero 的进步</td><td><span class="tip" tabindex="0" data-tip="AIME 2024：2024 年美国数学邀请赛的题目，难度高于普通高中数学。&#10;pass@1：每题只生成一次，答对的比例。">数学竞赛题一次通过率</span>：15.6% → 71.0%（v1；让模型答 64 次、取多数答案<span class="tip" tabindex="0" data-tip="cons@64：同一题采样 64 次，取出现最多的答案当最终答案（最新版写 cons@16）。">的结果</span>为 86.7%）。最新版写 77.9%，多数答案那一栏改成了答 16 次。</td><td><span class="tag p">原文，两版不一致</span></td></tr>
+        <tr><td>蒸馏胜过直接 RL</td><td><span class="tip" tabindex="0" data-tip="R1-Distill-Qwen-32B">用 R1 的输出蒸馏出的 32B 模型</span>：<span class="tip" tabindex="0" data-tip="AIME 2024：2024 年美国数学邀请赛的题目，难度高于普通高中数学。">数学竞赛题</span> 72.6 / <span class="tip" tabindex="0" data-tip="MATH-500：500 道数学题的测试集。">500 道数学题</span> 94.3。<span class="tip" tabindex="0" data-tip="R1-Zero-Qwen-32B">直接对 32B base 做 RL</span>：<span class="tip" tabindex="0" data-tip="AIME 2024：2024 年美国数学邀请赛的题目，难度高于普通高中数学。">数学竞赛题</span> 47.0</td><td><span class="tag p">原文 v1</span></td></tr>
         <tr><td>作者的解读</td><td>蒸馏效果很好；小模型靠大规模 RL 需要巨大算力，可能还不如蒸馏</td><td><span class="tag p">原文 v1</span></td></tr>
       </tbody>
     </table></div>
-    <p class="sub">pass@1 是一次生成就答对的比例。我没核对为什么两版数字不同，引用时请注明版本。</p>
+    <p class="sub">一次通过率指每题只生成一次、答对的比例。我没核对为什么两版数字不同，引用时请注明版本。</p>
     <h3>没成功的尝试</h3>
     <div class="tbl"><table>
       <thead><tr><th>尝试</th><th>为什么没成</th></tr></thead>
@@ -1181,16 +1192,16 @@ input[type=range]{width:100%;accent-color:var(--bar)}
         <tr><td>MCTS：像下棋一样搜索</td><td>生成 token 的搜索空间太大；value model 很难训练；靠自我搜索一点点变强仍然很难</td></tr>
       </tbody>
     </table></div>
-    <p class="sub"><span class="tag p">原文 v1</span> 这两条解释了为什么最后选了最朴素的规则奖励。</p>
+    <p class="sub"><span class="tag p">原文 v1</span>这两条解释了为什么最后选了最朴素的规则奖励。</p>
   </section>
 
   <section class="sec">
     <div class="eyebrow">Limitations</div>
     <h2>它不擅长什么</h2>
     <ul>
-      <li><span class="tag p">原文</span> 函数调用、多轮对话、角色扮演、JSON 输出不如 V3。</li>
-      <li><span class="tag p">原文</span> 语言混杂；few-shot prompt 会让表现变差；软件工程任务提升有限。最新版还提到简单问题上想太多。</li>
-      <li><span class="tag g">推测</span> 前三项正好是 agent 产品最常用的能力：调用工具、多轮、结构化输出。</li>
+      <li><span class="tag p">原文</span>函数调用、多轮对话、角色扮演、JSON 输出不如 V3。</li>
+      <li><span class="tag p">原文</span>语言混杂；few-shot prompt 会让表现变差；软件工程任务提升有限。最新版还提到简单问题上想太多。</li>
+      <li><span class="tag g">推测</span>前三项正好是 agent 产品最常用的能力：调用工具、多轮、结构化输出。</li>
     </ul>
   </section>
 
@@ -1253,8 +1264,8 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="eyebrow">四句话论文卡</div>
     <div class="card4">
       <div><b>主张</b><p>agent 不用改模型参数，只靠把失败写成文字反思、存进记忆，就能在重做时变好。</p></div>
-      <div><b>最强证据</b><p>AlfWorld 134 个任务解决 130 个，比 ReAct 高 22 个百分点；HumanEval pass@1 91%，作者跑的 GPT-4 基线 80.1%。<span class="tag p">原文 §4</span></p></div>
-      <div><b>边界</b><p>需要可重做的任务和可靠的 Evaluator；错题本只有 1–3 条；会卡在局部最优（WebShop 无进步）；自测题会误判。</p></div>
+      <div><b>最强证据</b><p><span class="tip" tabindex="0" data-tip="ALFWorld：用文字描述的虚拟家居环境，agent 要完成“把某个物品放到某处”这类任务。">文字版家务任务</span> 134 个任务解决 130 个，比 ReAct 高 22 个百分点；<span class="tip" tabindex="0" data-tip="HumanEval：164 道 Python 函数题（OpenAI 2021），用隐藏的测试用例判对错。&#10;pass@1：每题只生成一次，答对的比例。">Python 编程题一次通过率</span> 91%，作者跑的 GPT-4 基线 80.1%。<span class="tag p">原文 §4</span></p></div>
+      <div><b>边界</b><p>需要可重做的任务和可靠的 Evaluator；错题本只有 1–3 条；会卡在局部最优（<span class="tip" tabindex="0" data-tip="WebShop：模拟购物网站，约 100 万件商品，agent 要按要求找到并买对商品。">模拟网购任务</span>无进步）；自测题会误判。</p></div>
       <div><b>产品还要验证</b><p>没有标准答案、有用户参与、只有一次机会的场景能否用；教训能否跨任务迁移、由谁审核。</p></div>
     </div>
   </section>
@@ -1266,7 +1277,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <div class="tint" style="--pc:var(--rf)"><span class="k">改记忆 · 本篇</span><b>Reflexion</b><p>便宜、即时、人能读懂，容量有限</p></div>
       <div class="plain"><span class="k">改 harness</span><b>prompt、工具、流程</b><p>CLEA 征稿主题之一</p></div>
     </div>
-    <p class="sub"><span class="tag p">原文</span> 作者里 Shinn、Narasimhan 也是 τ-bench 作者，Yao 是 ReAct 一作。τ-bench §5 原文说过：self-reflection 不适合直接面对用户的场景，因为真实 agent 只有一次机会。</p>
+    <p class="sub"><span class="tag p">原文</span>作者里 Shinn、Narasimhan 也是 τ-bench 作者，Yao 是 ReAct 一作。τ-bench §5 原文说过：self-reflection 不适合直接面对用户的场景，因为真实 agent 只有一次机会。</p>
   </section>
 
   <section class="sec">
@@ -1288,7 +1299,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
         <tr><td>编程</td><td>agent 自己写的测试（最多 6 个）</td><td>看情况，Rust 题 16% 误判</td></tr>
       </tbody>
     </table></div>
-    <div class="callout"><b>pass@1 91% 怎么读</b><p>只交一次给隐藏测试，但交之前用自测题反复改了几轮。没有偷看标准答案，只是背后多花了算力。对手 GPT-4 的 80.1% 是写一次就交。<span class="tag r">已有研究</span> GPT-4 技术报告里的 HumanEval 成绩是 67%，80.1% 是作者自己跑的基线（待确认）。</p></div>
+    <div class="callout"><b><span class="tip" tabindex="0" data-tip="pass@1：每题只生成一次，答对的比例。">一次通过率</span> 91% 怎么读</b><p>只交一次给隐藏测试，但交之前用自测题反复改了几轮。没有偷看标准答案，只是背后多花了算力。对手 GPT-4 的 80.1% 是写一次就交。<span class="tag r">已有研究</span> GPT-4 技术报告里的<span class="tip" tabindex="0" data-tip="HumanEval：164 道 Python 函数题（OpenAI 2021），用隐藏的测试用例判对错。">Python 编程题测试</span>成绩是 67%，80.1% 是作者自己跑的基线（待确认）。</p></div>
   </section>
 
   <section class="sec">
@@ -1299,13 +1310,13 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <tbody>
         <tr><td>AlfWorld（文字版家务游戏）</td><td>134 个任务解决 130 个，比 ReAct 高 22 个百分点，12 轮尝试</td></tr>
         <tr><td>HotPotQA（多跳问答）</td><td>提升 20 个百分点</td></tr>
-        <tr><td>HumanEval（Python）</td><td>pass@1 91%</td></tr>
-        <tr><td>LeetcodeHardGym</td><td>pass@1 15%（作者新建的 benchmark）</td></tr>
-        <tr><td>WebShop（模拟网购）</td><td>4 轮无进步，需要大量探索</td></tr>
-        <tr><td>自测题误判</td><td>错误代码通过自测：MBPP Rust 16%，HumanEval 约 1%</td></tr>
+        <tr><td><span class="tip" tabindex="0" data-tip="HumanEval：164 道 Python 函数题（OpenAI 2021），用隐藏的测试用例判对错。">Python 编程题测试</span></td><td><span class="tip" tabindex="0" data-tip="pass@1：每题只生成一次，答对的比例。">一次通过率</span> 91%</td></tr>
+        <tr><td><span class="tip" tabindex="0" data-tip="LeetcodeHardGym：作者新建的高难度编程题集。">高难度编程题</span></td><td><span class="tip" tabindex="0" data-tip="pass@1：每题只生成一次，答对的比例。">一次通过率</span> 15%（作者新建的 benchmark）</td></tr>
+        <tr><td><span class="tip" tabindex="0" data-tip="WebShop：模拟购物网站，约 100 万件商品，agent 要按要求找到并买对商品。">模拟网购任务</span></td><td>4 轮无进步，需要大量探索</td></tr>
+        <tr><td>自测题误判</td><td>错误代码通过自测：<span class="tip" tabindex="0" data-tip="MBPP：约 1,000 道入门 Python 编程题（Google 2021）；这里用的是它的 Rust 版本。">Rust 入门编程题</span> 16%，<span class="tip" tabindex="0" data-tip="HumanEval：164 道 Python 函数题（OpenAI 2021），用隐藏的测试用例判对错。">Python 编程题测试</span>约 1%</td></tr>
       </tbody>
     </table></div>
-    <h3><span class="tag r">已有研究</span> 这些 benchmark 有多权威</h3>
+    <h3><span class="tag r">已有研究</span>这些 benchmark 有多权威</h3>
     <div class="tbl"><table>
       <thead><tr><th>Benchmark</th><th>出处</th><th>考什么</th></tr></thead>
       <tbody>
@@ -1323,16 +1334,16 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="eyebrow">Limitations · §5–6</div>
     <h2>作者承认的，和可以从原文核对的</h2>
     <ul>
-      <li><span class="tag p">原文 §5</span> 会卡在局部最优；依赖自我评估的质量；记忆容量受 context 长度限制；编程测试难覆盖不确定结果、副作用和并发。</li>
-      <li><span class="tag p">原文 §6</span> 优点：反思是人能读懂的文字，比改参数更容易检查。</li>
+      <li><span class="tag p">原文 §5</span>会卡在局部最优；依赖自我评估的质量；记忆容量受 context 长度限制；编程测试难覆盖不确定结果、副作用和并发。</li>
+      <li><span class="tag p">原文 §6</span>优点：反思是人能读懂的文字，比改参数更容易检查。</li>
     </ul>
     <div class="tbl"><table>
       <thead><tr><th>盲区</th><th>事实依据</th><th>为什么重要</th></tr></thead>
       <tbody>
         <tr><td>没有用户参与</td><td><span class="tag p">原文 §4</span> agent 单独作战</td><td>真实场景里重试可能被用户看见</td></tr>
-        <tr><td>只用于同一道题</td><td><span class="tag p">原文 §3–4</span> 反思用于同一任务的下一次尝试</td><td>continual learning 关心的是跨任务积累。<span class="tag r">已有研究</span> ExpeL（Zhao et al. 2023，待确认）</td></tr>
+        <tr><td>只用于同一道题</td><td><span class="tag p">原文 §3–4</span>反思用于同一任务的下一次尝试</td><td>continual learning 关心的是跨任务积累。<span class="tag r">已有研究</span> ExpeL（Zhao et al. 2023，待确认）</td></tr>
         <tr><td>全是有标准答案的任务</td><td><span class="tag p">原文 §4</span></td><td>不能直接推到开放式任务</td></tr>
-        <tr><td>没人检查反思对不对</td><td><span class="tag p">原文 §3</span> 由模型生成直接存入</td><td>错的教训会被反复使用</td></tr>
+        <tr><td>没人检查反思对不对</td><td><span class="tag p">原文 §3</span>由模型生成直接存入</td><td>错的教训会被反复使用</td></tr>
       </tbody>
     </table></div>
   </section>
@@ -1341,11 +1352,11 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="eyebrow">我们的讨论</div>
     <h2>风险高不等于不能试错，而是不能在真实环境里试错</h2>
     <ul>
-      <li><span class="tag g">推测</span> 能不能用错题本，取决于有没有一个失败不要钱、又能可靠判对错的沙盒。Infrastructure 可以先 dry-run，data pipeline 可以先用样本验证；紧急事故的瓶颈是时间。</li>
-      <li><span class="tag g">推测</span> 低风险的 chatbot 未必能接受 12 次重试：每次失败用户都看得见，信任会先耗光。</li>
-      <li><span class="tag g">推测</span> 人的位置从“盯每一次尝试”换成“定义什么算成功、搭沙盒、看最终提交”。评估器定错了，agent 越自主，就越稳定地收敛到错误答案（循环里没有任何东西会叫停它）。</li>
+      <li><span class="tag g">推测</span>能不能用错题本，取决于有没有一个失败不要钱、又能可靠判对错的沙盒。Infrastructure 可以先 dry-run，data pipeline 可以先用样本验证；紧急事故的瓶颈是时间。</li>
+      <li><span class="tag g">推测</span>低风险的 chatbot 未必能接受 12 次重试：每次失败用户都看得见，信任会先耗光。</li>
+      <li><span class="tag g">推测</span>人的位置从“盯每一次尝试”换成“定义什么算成功、搭沙盒、看最终提交”。评估器定错了，agent 越自主，就越稳定地收敛到错误答案（循环里没有任何东西会叫停它）。</li>
     </ul>
-    <div class="callout"><b><span class="tag r">已有研究</span> 和 loop engineering 的关系</b><p>Loop engineering 通常被描述为 Goal → Action → Observation → Adjustment，再加持久记忆（spine），和 Actor、Evaluator、Self-Reflection、长期记忆一一对应。但 loop 不一定包含反思：逐个处理一批对象、或单纯重试到通过，都不需要写教训。相关资料列出的风险包括 intent debt、comprehension debt、cognitive surrender。</p></div>
+    <div class="callout"><b><span class="tag r">已有研究</span>和 loop engineering 的关系</b><p>Loop engineering 通常被描述为 Goal → Action → Observation → Adjustment，再加持久记忆（spine），和 Actor、Evaluator、Self-Reflection、长期记忆一一对应。但 loop 不一定包含反思：逐个处理一批对象、或单纯重试到通过，都不需要写教训。相关资料列出的风险包括 intent debt、comprehension debt、cognitive surrender。</p></div>
   </section>
 
   <section class="qs">
@@ -1397,15 +1408,15 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       <div class="tint" style="--pc:var(--mg)"><span class="k">改记忆 · 本篇</span><b><a href="#reflexion">Reflexion</a> → MemGPT</b><p>Reflexion 的错题本只能放 1–3 条，受 context 长度限制（Reflexion §5 原文）。MemGPT 处理的正是这个限制。</p></div>
       <div class="plain"><span class="k">改 harness</span><b>prompt、工具、流程</b><p>CLEA 征稿主题之一</p></div>
     </div>
-    <p class="sub"><span class="tag p">原文</span> Stoica、Gonzalez 也是 MT-Bench 的作者。<span class="tag r">已有研究</span> 这个项目后来发展成了公司 Letta。</p>
+    <p class="sub"><span class="tag p">原文</span> Stoica、Gonzalez 也是 MT-Bench 的作者。<span class="tag r">已有研究</span>这个项目后来发展成了公司 Letta。</p>
   </section>
 
   <section class="sec">
     <div class="eyebrow">Problem · 摘要, §1</div>
     <h2>Context 有限，但有两类任务需要很多记忆</h2>
     <ul>
-      <li><span class="tag p">原文</span> 分析比 context 还长的文档。</li>
-      <li><span class="tag p">原文</span> 多次会话的长期对话：agent 要在很多次对话之间“记住”用户，并随交流不断更新对用户的“了解”。</li>
+      <li><span class="tag p">原文</span>分析比 context 还长的文档。</li>
+      <li><span class="tag p">原文</span>多次会话的长期对话：agent 要在很多次对话之间“记住”用户，并随交流不断更新对用户的“了解”。</li>
     </ul>
     <div class="callout"><b>操作系统类比</b><p>电脑的内存小而快，硬盘大而慢；操作系统决定什么放内存、什么换到硬盘，让程序感觉自己有很大的内存（virtual memory）。MemGPT 把 context window 当内存、外部存储当硬盘，让 LLM 自己当操作系统。</p></div>
   </section>
@@ -1450,23 +1461,23 @@ input[type=range]{width:100%;accent-color:var(--bar)}
         <tr><td>嵌套查找</td><td>查 A 得 B，再查 B 得 C，最多 4 层</td><td>GPT-4 版 4 层稳定；基线第 3 层降到 0%；GPT-3.5 完成不了</td></tr>
       </tbody>
     </table></div>
-    <div class="callout"><b>读数字时要注意</b><p><span class="tag p">原文 §3.1</span> 基线只能看前 5 次对话的有损摘要，MemGPT 能查完整记录，提升里有一部分来自“看得更多”。准确率用 ROUGE-L 加 GPT-4 裁判判定，作者引用的理由正是“GPT-4 与人类一致率高”，所以 <a href="#mt-bench">MT-Bench</a> 讲的偏差在这里同样适用。</p></div>
+    <div class="callout"><b>读数字时要注意</b><p><span class="tag p">原文 §3.1</span>基线只能看前 5 次对话的有损摘要，MemGPT 能查完整记录，提升里有一部分来自“看得更多”。准确率用 ROUGE-L 加 GPT-4 裁判判定，作者引用的理由正是“GPT-4 与人类一致率高”，所以 <a href="#mt-bench">MT-Bench</a> 讲的偏差在这里同样适用。</p></div>
   </section>
 
   <section class="sec">
     <div class="eyebrow">Limitations · §3.2</div>
     <h2>作者承认的，和可以从原文核对的</h2>
     <ul>
-      <li><span class="tag p">原文 §3.2</span> 依赖 embedding 检索，有局限；agent 经常没翻完检索结果就停下。</li>
+      <li><span class="tag p">原文 §3.2</span>依赖 embedding 检索，有局限；agent 经常没翻完检索结果就停下。</li>
       <li><span class="tag p">原文 §3.2</span> GPT-3.5 因为函数调用能力有限，用了 MemGPT 后表现明显变差。</li>
     </ul>
     <div class="tbl"><table>
       <thead><tr><th>盲区</th><th>事实依据</th><th>为什么重要</th></tr></thead>
       <tbody>
-        <tr><td>知识是静态的</td><td><span class="tag p">原文 §3</span> 固定聊天记录、2018 年 Wikipedia 快照、人工键值对</td><td>没测文档过期、两份文档冲突</td></tr>
-        <tr><td>记忆没有来源和时间</td><td><span class="tag p">原文 §2</span> 可以改写和新增，但没有记录出处、版本，也没有冲突规则</td><td><span class="tag g">推测</span> 新旧说法冲突时，没有规则决定用哪一条</td></tr>
-        <tr><td>摘要由 agent 自己决定</td><td><span class="tag p">原文 §2</span> 挤出时 agent 生成摘要，无人审核</td><td>和 Reflexion 一样，丢掉什么没人知道</td></tr>
-        <tr><td>一个 agent 服务一个用户</td><td><span class="tag p">原文 §3</span> 实验设定</td><td><span class="tag g">推测</span> 企业里不同团队、权限的内容在同一个柜子里，谁能查到什么没有涉及</td></tr>
+        <tr><td>知识是静态的</td><td><span class="tag p">原文 §3</span>固定聊天记录、2018 年 Wikipedia 快照、人工键值对</td><td>没测文档过期、两份文档冲突</td></tr>
+        <tr><td>记忆没有来源和时间</td><td><span class="tag p">原文 §2</span>可以改写和新增，但没有记录出处、版本，也没有冲突规则</td><td><span class="tag g">推测</span>新旧说法冲突时，没有规则决定用哪一条</td></tr>
+        <tr><td>摘要由 agent 自己决定</td><td><span class="tag p">原文 §2</span>挤出时 agent 生成摘要，无人审核</td><td>和 Reflexion 一样，丢掉什么没人知道</td></tr>
+        <tr><td>一个 agent 服务一个用户</td><td><span class="tag p">原文 §3</span>实验设定</td><td><span class="tag g">推测</span>企业里不同团队、权限的内容在同一个柜子里，谁能查到什么没有涉及</td></tr>
       </tbody>
     </table></div>
   </section>
@@ -1486,10 +1497,10 @@ input[type=range]{width:100%;accent-color:var(--bar)}
       </tbody>
     </table></div>
     <ul>
-      <li><span class="tag g">推测</span> 记忆系统放大强模型，而不是弥补弱模型：不加 MemGPT 时三个模型都在 32–39%，答案不在看得见的地方，模型再强也没用；加了之后，靠函数调用驱动，强模型才会用柜子。</li>
-      <li><span class="tag g">推测</span> 可见的记忆目录：标明柜子里有什么、多新、有没有冲突，对 agent 和对人都有用，能缓解“翻页提前停”。</li>
+      <li><span class="tag g">推测</span>记忆系统放大强模型，而不是弥补弱模型：不加 MemGPT 时三个模型都在 32–39%，答案不在看得见的地方，模型再强也没用；加了之后，靠函数调用驱动，强模型才会用柜子。</li>
+      <li><span class="tag g">推测</span>可见的记忆目录：标明柜子里有什么、多新、有没有冲突，对 agent 和对人都有用，能缓解“翻页提前停”。</li>
       <li><span class="tag g">推测</span> troubleshooting 需要嵌套查找和多文档调查。引用 runbook 或 policy 时带上来源、时间、负责人；冲突要摆出来，不要默默选一个。</li>
-      <li><span class="tag r">已有研究</span> 知识冲突（knowledge conflicts）是专门的研究方向，包括模型内部记忆与检索文档之间、多份文档之间的冲突（Xu et al. 2024 综述，待确认）。<span class="tag p">原文 τ-bench §6</span> 也把“有冲突事实时找到对的信息”列为 agent 的挑战。</li>
+      <li><span class="tag r">已有研究</span>知识冲突（knowledge conflicts）是专门的研究方向，包括模型内部记忆与检索文档之间、多份文档之间的冲突（Xu et al. 2024 综述，待确认）。<span class="tag p">原文 τ-bench §6</span>也把“有冲突事实时找到对的信息”列为 agent 的挑战。</li>
     </ul>
   </section>
 
@@ -1530,7 +1541,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="eyebrow">四句话论文卡</div>
     <div class="card4">
       <div><b>主张</b><p>把推理和行动交替起来：想帮助做（规划、调整、处理意外），做帮助想（拿到外部真实信息、减少编造），而且过程人能读懂。<span class="tag p">原文 摘要</span></p></div>
-      <div><b>最强证据</b><p>ALFWorld 成功率 71%，只做 45%；WebShop 40%，比模仿学习高约 11 个点。HotpotQA 上 ReAct 与 CoT 结合达到 35.1，两者单独都更低。<span class="tag p">原文 §3–4</span></p></div>
+      <div><b>最强证据</b><p><span class="tip" tabindex="0" data-tip="ALFWorld：用文字描述的虚拟家居环境，agent 要完成“把某个物品放到某处”这类任务。">文字版家务任务</span>成功率 71%，只做 45%；<span class="tip" tabindex="0" data-tip="WebShop：模拟购物网站，约 100 万件商品，agent 要按要求找到并买对商品。">模拟网购任务</span> 40%，比模仿学习高约 11 个点。<span class="tip" tabindex="0" data-tip="HotpotQA：需要连查多个资料才能答的问答集，按答案是否和标准答案完全一致判分。">多跳问答测试</span>上 ReAct 与 CoT 结合达到 35.1，两者单独都更低。<span class="tag p">原文 §3–4</span></p></div>
       <div><b>边界</b><p>知识问答上单独的 ReAct（27.4）不如只想的 CoT（29.4）；搜索没结果会被带偏，会陷入重复循环；搜索工具很简陋；离各领域最好的专门方法还很远。</p></div>
       <div><b>产品还要验证</b><p>推理写出来的理由是不是真实原因；什么时候该凭“直觉”、什么时候该去查；有用户参与时循环怎么设计。</p></div>
     </div>
@@ -1540,9 +1551,9 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <div class="eyebrow">在知识地图上的位置</div>
     <h2>后面几篇的共同起点</h2>
     <ul>
-      <li><span class="tag p">原文</span> 一作 Shunyu Yao 也是 <a href="#tau-bench">τ-bench</a> 和 <a href="#reflexion">Reflexion</a> 的作者。</li>
-      <li><span class="tag p">原文 τ-bench §5</span> 拿 ReAct 和 function calling 做了比较。</li>
-      <li><span class="tag p">原文 Reflexion §4</span> 在 ReAct 上加了错题本，AlfWorld 比它高 22 个百分点。</li>
+      <li><span class="tag p">原文</span>一作 Shunyu Yao 也是 <a href="#tau-bench">τ-bench</a> 和 <a href="#reflexion">Reflexion</a> 的作者。</li>
+      <li><span class="tag p">原文 τ-bench §5</span>拿 ReAct 和 function calling 做了比较。</li>
+      <li><span class="tag p">原文 Reflexion §4</span>在 ReAct 上加了错题本，AlfWorld 比它高 22 个百分点。</li>
       <li><span class="tag r">已有研究</span> Loop engineering、MemGPT 的 heartbeat 函数链，都是这个循环的变体。</li>
     </ul>
   </section>
@@ -1571,9 +1582,9 @@ Action：查 web 服务周二的部署和配置记录
 Observation：一次部署把日志级别改成了 debug
 Thought：可以定位，回答用户</p></div>
     <ul>
-      <li><span class="tag p">原文 §3</span> 模型是 PaLM-540B，不训练，只在 prompt 里给示范：HotpotQA 6 个，FEVER 3 个。</li>
-      <li><span class="tag p">原文 §3</span> 知识类任务只有三个动作：<span class="mono">search[实体]</span> 返回 Wikipedia 页面前 5 句；<span class="mono">lookup[关键词]</span> 在页面里找下一句；<span class="mono">finish[答案]</span> 结束。</li>
-      <li><span class="tag r">已有研究</span> HotpotQA 是多跳问答：桥接题要先查 A 才知道查 B（如 Apple Remote → Front Row → 键盘功能键），比较题分别查两个再比较；按精确匹配判分。FEVER 判断一个说法真假。</li>
+      <li><span class="tag p">原文 §3</span>模型是 PaLM-540B，不训练，只在 prompt 里给示范：<span class="tip" tabindex="0" data-tip="HotpotQA：需要连查多个资料才能答的问答集，按答案是否和标准答案完全一致判分。">多跳问答测试</span> 6 个，<span class="tip" tabindex="0" data-tip="FEVER：给一个说法，判断它是真、假，还是资料不足。">事实核查测试</span> 3 个。</li>
+      <li><span class="tag p">原文 §3</span>知识类任务只有三个动作：<span class="mono">search[实体]</span>返回 Wikipedia 页面前 5 句；<span class="mono">lookup[关键词]</span>在页面里找下一句；<span class="mono">finish[答案]</span>结束。</li>
+      <li><span class="tag r">已有研究</span> <span class="tip" tabindex="0" data-tip="HotpotQA：需要连查多个资料才能答的问答集，按答案是否和标准答案完全一致判分。">多跳问答测试</span>：桥接题要先查 A 才知道查 B（如 Apple Remote → Front Row → 键盘功能键），比较题分别查两个再比较；按答案是否完全一致判分。<span class="tip" tabindex="0" data-tip="FEVER：给一个说法，判断它是真、假，还是资料不足。">事实核查测试</span>判断一个说法的真假。</li>
     </ul>
   </section>
 
@@ -1581,7 +1592,7 @@ Thought：可以定位，回答用户</p></div>
     <div class="eyebrow">Evidence · §3–4</div>
     <h2>能查资料的反而输了？</h2>
     <div class="tbl"><table>
-      <thead><tr><th>方法（Table 1）</th><th>HotpotQA（EM）</th><th>FEVER（准确率）</th></tr></thead>
+      <thead><tr><th>方法（Table 1）</th><th><span class="tip" tabindex="0" data-tip="HotpotQA：需要连查多个资料才能答的问答集，按答案是否和标准答案完全一致判分。">多跳问答测试</span><span class="tip" tabindex="0" data-tip="EM（Exact Match）：答案和标准答案字面完全一致才算对。">（完全一致率）</span></th><th><span class="tip" tabindex="0" data-tip="FEVER：给一个说法，判断它是真、假，还是资料不足。">事实核查测试</span>（准确率）</th></tr></thead>
       <tbody>
         <tr><td>Standard（直接回答）</td><td class="num">28.7</td><td class="num">57.1</td></tr>
         <tr><td>CoT（只想）</td><td class="num">29.4</td><td class="num">56.3</td></tr>
@@ -1598,10 +1609,10 @@ Thought：可以定位，回答用户</p></div>
       </tbody>
     </table></div>
     <ul>
-      <li><span class="tag p">原文 §3.3</span> 两种组合：ReAct 在规定步数内答不出，就退回 CoT-SC；或先让 CoT 想多遍，不到一半答案相同（自己没把握）就转去 ReAct 查资料。<span class="tag r">已有研究</span> CoT-SC（self-consistency）来自 Wang et al. 2022。</li>
-      <li><span class="tag p">原文 §4</span> ALFWorld：ReAct 71%，只做 45%，专门训练的 BUTLER 37%。WebShop：ReAct 40%，模仿学习 29.1%，人类专家 59.6%。</li>
-      <li><span class="tag p">原文 §4</span> 人可以直接编辑 agent 的 Thought：删掉一句错误想法、补一句提示，agent 就能纠正方向，不用改模型。</li>
-      <li><span class="tag p">原文 §3.3</span> 用 3,000 条轨迹微调后，PaLM-8B 的 ReAct 超过 PaLM-62B 的所有 prompting 方法。</li>
+      <li><span class="tag p">原文 §3.3</span>两种组合：ReAct 在规定步数内答不出，就退回 CoT-SC；或先让 CoT 想多遍，不到一半答案相同（自己没把握）就转去 ReAct 查资料。<span class="tag r">已有研究</span> CoT-SC（self-consistency）来自 Wang et al. 2022。</li>
+      <li><span class="tag p">原文 §4</span> <span class="tip" tabindex="0" data-tip="ALFWorld：用文字描述的虚拟家居环境，agent 要完成“把某个物品放到某处”这类任务。">文字版家务任务</span>：ReAct 71%，只做 45%，专门训练的 BUTLER 37%。<span class="tip" tabindex="0" data-tip="WebShop：模拟购物网站，约 100 万件商品，agent 要按要求找到并买对商品。">模拟网购任务</span>：ReAct 40%，模仿学习 29.1%，人类专家 59.6%。</li>
+      <li><span class="tag p">原文 §4</span>人可以直接编辑 agent 的 Thought：删掉一句错误想法、补一句提示，agent 就能纠正方向，不用改模型。</li>
+      <li><span class="tag p">原文 §3.3</span>用 3,000 条轨迹微调后，PaLM-8B 的 ReAct 超过 PaLM-62B 的所有 prompting 方法。</li>
     </ul>
   </section>
 
@@ -1609,15 +1620,15 @@ Thought：可以定位，回答用户</p></div>
     <div class="eyebrow">Limitations · §3.3, §6</div>
     <h2>作者承认的，和可以从原文核对的</h2>
     <ul>
-      <li><span class="tag p">原文</span> 动作空间大的复杂任务需要更多示范，可能超出输入长度。</li>
-      <li><span class="tag p">原文</span> 离各领域最好的专门方法还很远；会重复生成同样的想法和动作，陷入循环。</li>
+      <li><span class="tag p">原文</span>动作空间大的复杂任务需要更多示范，可能超出输入长度。</li>
+      <li><span class="tag p">原文</span>离各领域最好的专门方法还很远；会重复生成同样的想法和动作，陷入循环。</li>
     </ul>
     <div class="tbl"><table>
       <thead><tr><th>盲区</th><th>事实依据</th><th>为什么重要</th></tr></thead>
       <tbody>
-        <tr><td>搜索工具非常简陋</td><td><span class="tag p">原文 §3</span> 只返回前 5 句，23% 的失败来自搜不到有用结果</td><td>工具质量直接决定 ReAct 好不好用</td></tr>
+        <tr><td>搜索工具非常简陋</td><td><span class="tag p">原文 §3</span>只返回前 5 句，23% 的失败来自搜不到有用结果</td><td>工具质量直接决定 ReAct 好不好用</td></tr>
         <tr><td>没有用户参与</td><td><span class="tag p">原文 §3–4</span> agent 单独完成任务</td><td>真实场景里，循环中间什么时候该问人没有被研究</td></tr>
-        <tr><td>“人能读懂”没有被测</td><td><span class="tag p">原文</span> 可解释性来自展示轨迹，没有用户研究</td><td>读得懂不等于读得出错误（见下一节）</td></tr>
+        <tr><td>“人能读懂”没有被测</td><td><span class="tag p">原文</span>可解释性来自展示轨迹，没有用户研究</td><td>读得懂不等于读得出错误（见下一节）</td></tr>
         <tr><td>依赖不公开的大模型</td><td><span class="tag p">原文 §3</span> PaLM-540B</td><td>外部难以复现</td></tr>
       </tbody>
     </table></div>
@@ -1629,7 +1640,7 @@ Thought：可以定位，回答用户</p></div>
     <ul>
       <li><span class="tag r">已有研究</span> Kahneman 的系统 1（快、凭直觉）和系统 2（慢、推理查证）：凭 pretraining 记忆直接回答像系统 1，ReAct 去查像系统 2。</li>
       <li><span class="tag r">已有研究</span> Kahneman 与 Klein 2009：专家直觉只在环境有规律、能快速得到反馈时可靠，有经验的人大致知道自己的直觉在哪里靠谱。</li>
-      <li><span class="tag p">原文 Table 2</span> CoT 失败有 56% 是编造，编造时和答对时一样“自信”。<span class="tag g">推测</span> 模型有“直觉”，但不一定“知道”它什么时候不可靠：也就是它的信心高低，不一定和它答对的概率对得上，这正是 calibration 要研究的。</li>
+      <li><span class="tag p">原文 Table 2</span> CoT 失败有 56% 是编造，编造时和答对时一样“自信”。<span class="tag g">推测</span>模型有“直觉”，但不一定“知道”它什么时候不可靠：也就是它的信心高低，不一定和它答对的概率对得上，这正是 calibration 要研究的。</li>
       <li><span class="tag g">推测</span> CoT-SC → ReAct 用“想几遍答案是否一致”判断有没有把握，像人换几个角度检查直觉。产品里可以把“不一致”当作去查证或交给人的信号。</li>
     </ul>
   </section>
@@ -1677,8 +1688,8 @@ Thought：可以定位，回答用户</p></div>
     <ul>
       <li><span class="tag p">原文</span> MT-Bench 的交换位置和冗长攻击（§3.3–3.4）、τ-bench 模拟用户每次换说法（§3, §5），本质都是不变性测试。</li>
       <li><span class="tag g">推测</span> RCA 示例：删掉“周二新增 debug 日志源”这条证据，结论应变成“不确定”；仍坚持原结论，说明是先有答案再找理由。</li>
-      <li><span class="tag g">推测</span> 评估阶段为高风险任务准备变体题；运行阶段对高风险结论后台跑几个轻量变体，不稳定就提示人工核实。每个变体都要多跑一次模型，只值得用在高风险决策上。</li>
-      <li><span class="tag g">推测</span> 如果 agent 写的“决策理由”不是真实原因，就不能直接当审计记录。</li>
+      <li><span class="tag g">推测</span>评估阶段为高风险任务准备变体题；运行阶段对高风险结论后台跑几个轻量变体，不稳定就提示人工核实。每个变体都要多跑一次模型，只值得用在高风险决策上。</li>
+      <li><span class="tag g">推测</span>如果 agent 写的“决策理由”不是真实原因，就不能直接当审计记录。</li>
     </ul>
   </section>
 
@@ -1718,8 +1729,8 @@ Thought：可以定位，回答用户</p></div>
   <section class="sec">
     <div class="eyebrow">四句话论文卡</div>
     <div class="card4">
-      <div><b>主张</b><p>语言模型在很大程度上“知道自己知道什么”：大模型在格式合适的题目上校准良好，能评估自己答案的对错，还能预测自己会不会答对。<span class="tag p">原文 摘要</span> 这里的“知道”只指这三项可测的表现，不是理解。</p></div>
-      <div><b>最强证据</b><p>520 亿模型在选择题和判断题上校准良好；P(IK) 在 TriviaQA 上 AUROC 0.864；给相关文章时 P(IK) 上升，给错误提示时下降。<span class="tag p">原文</span></p></div>
+      <div><b>主张</b><p>语言模型在很大程度上“知道自己知道什么”：大模型在格式合适的题目上校准良好，能评估自己答案的对错，还能预测自己会不会答对。<span class="tag p">原文 摘要</span>这里的“知道”只指这三项可测的表现，不是理解。</p></div>
+      <div><b>最强证据</b><p>520 亿模型在选择题和判断题上校准良好；P(IK) 在<span class="tip" tabindex="0" data-tip="TriviaQA：冷知识问答集。">冷知识问答</span>上的<span class="tip" tabindex="0" data-tip="AUROC：随机抽一道会答对的题和一道会答错的题，模型给前者更高“我会”概率的可能性。0.5 是瞎猜，1.0 是完美。">区分度评分</span> 0.864；给相关文章时 P(IK) 上升，给错误提示时下降。<span class="tag p">原文</span></p></div>
       <div><b>边界</b><p>RLHF 模型很不校准，需调温度修补；对格式敏感（“以上都不是”会破坏校准）；陌生任务上信心不足；P(IK) 需要训练模型内部；只测了有标准答案的任务。</p></div>
       <div><b>产品还要验证</b><p>在自己的任务上重新校准；开放式任务如何估计把握；置信度怎么展示，才能让人做出更好的决定。</p></div>
     </div>
@@ -1730,7 +1741,7 @@ Thought：可以定位，回答用户</p></div>
     <h2>前面几篇反复撞到的同一个前提</h2>
     <ul>
       <li><span class="tag p">原文 ReAct Table 2</span> CoT 失败有 56% 是编造，编造时和答对时一样“自信”。</li>
-      <li><span class="tag p">原文 InstructGPT §4.3</span> 模型会犯简单错误，也会过度含糊。</li>
+      <li><span class="tag p">原文 InstructGPT §4.3</span>模型会犯简单错误，也会过度含糊。</li>
       <li>设计原则“让不确定在界面上有位置”的前提是：模型的信心得和它答对的概率对得上（校准）。</li>
       <li><span class="tag p">原文 ReAct §3.3</span> CoT-SC → ReAct 用“想几遍是否一致”判断把握，本篇研究的是更直接的办法。</li>
     </ul>
@@ -1741,7 +1752,7 @@ Thought：可以定位，回答用户</p></div>
     <h2>校准、区分能力、模型大小</h2>
     <div class="grid2">
       <div><b>校准（calibration）</b><p class="ink">天气预报说“70% 下雨”的那些日子，约 70% 真的下雨，就是校准良好。衡量的是信心和实际表现是否匹配，不等于准确。</p></div>
-      <div><b>区分能力（discrimination）</b><p class="ink">某城市 30% 的日子下雨，每天都报“30%”的预报员完全校准，却毫无用处。还要能把会对的和会错的分开，用 AUROC 衡量：0.5 是瞎猜，1.0 是完美。</p></div>
+      <div><b>区分能力（discrimination）</b><p class="ink">某城市 30% 的日子下雨，每天都报“30%”的预报员完全校准，却毫无用处。还要能把会对的和会错的分开，用<span class="tip" tabindex="0" data-tip="AUROC：随机抽一道会答对的题和一道会答错的题，模型给前者更高“我会”概率的可能性。0.5 是瞎猜，1.0 是完美。">区分度评分</span>衡量：0.5 是瞎猜，1.0 是完美。</p></div>
       <div><b>模型“大”指什么</b><p class="ink">通常指参数多：可调的“旋钮”数量，代表容量。训练数据量是另一回事。本篇四个模型（8 亿到 520 亿）数据都是 8500 亿 token，只改参数。</p></div>
       <div><b>规模定律</b><p class="ink"><span class="tag r">已有研究</span> Kaplan et al. 2020：表现随参数、数据、算力可预测地提升。Hoffmann et al. 2022（Chinchilla）：参数和数据要同步加，约每个参数 20 个 token。</p></div>
     </div>
@@ -1765,25 +1776,25 @@ Thought：可以定位，回答用户</p></div>
     <div class="eyebrow">Evidence · 校准</div>
     <h2>模型越大越校准，但 RLHF 之后变差</h2>
     <ul>
-      <li><span class="tag p">原文</span> 选择题上模型越大、给示范越多，校准越好；字母选项格式更好；判断对错格式下 520 亿模型校准非常好。</li>
-      <li><span class="tag p">原文 Figure 7</span> 加“以上都不是”选项，准确率和校准都明显变差。</li>
+      <li><span class="tag p">原文</span>选择题上模型越大、给示范越多，校准越好；字母选项格式更好；判断对错格式下 520 亿模型校准非常好。</li>
+      <li><span class="tag p">原文 Figure 7</span>加“以上都不是”选项，准确率和校准都明显变差。</li>
       <li><span class="tag p">原文</span> RLHF 模型“非常不校准”；把 temperature 调到 2.5，三个测试上的校准问题大部分解决。</li>
       <li><span class="tag r">已有研究</span> temperature scaling 是标准做法（Guo et al. 2017）。GPT-4 技术报告也显示 post-training 后校准下降（待确认）。</li>
     </ul>
-    <div class="callout"><b>更真实不等于更校准</b><p>RLHF 让回答更受偏好、更真实（InstructGPT TruthfulQA 约翻倍），但它优化的是“人更喜欢哪个回答”，不是“概率准不准”。标注员偏爱果断的回答，模型便学会把概率推向极端。</p></div>
+    <div class="callout"><b>更真实不等于更校准</b><p>RLHF 让回答更受偏好、更真实（InstructGPT <span class="tip" tabindex="0" data-tip="TruthfulQA：专门测模型会不会重复流传已久的错误说法的问答集。">真实性测试</span>约翻倍），但它优化的是“人更喜欢哪个回答”，不是“概率准不准”。标注员偏爱果断的回答，模型便学会把概率推向极端。</p></div>
   </section>
 
   <section class="sec">
     <div class="eyebrow">Evidence · P(True) 与 P(IK)</div>
     <h2>自我评估</h2>
     <ul>
-      <li><span class="tag p">原文</span> 先生成 5 个备选答案再判断其中一个，P(True) 明显提升，模型越大提升越多。有比较才有判断，和 CoT-SC、SelfCheckGPT 同理。</li>
-      <li><span class="tag p">原文</span> P(IK) 在 TriviaQA 上，520 亿模型 AUROC 0.864。“标准答案”由同一题答 30 次的正确比例得出。</li>
-      <li><span class="tag p">原文</span> 给相关 Wikipedia 文章或正确的数学提示，P(IK) 上升；给错误或干扰提示，P(IK) 下降。</li>
-      <li><span class="tag p">原文</span> 两个预训练数据不同的 120 亿模型，在知识不同的题上 P(IK) 反映各自的知识，差异约 6%。</li>
+      <li><span class="tag p">原文</span>先生成 5 个备选答案再判断其中一个，P(True) 明显提升，模型越大提升越多。有比较才有判断，和 CoT-SC、SelfCheckGPT 同理。</li>
+      <li><span class="tag p">原文</span> P(IK) 在<span class="tip" tabindex="0" data-tip="TriviaQA：冷知识问答集。">冷知识问答</span>上，520 亿模型<span class="tip" tabindex="0" data-tip="AUROC：随机抽一道会答对的题和一道会答错的题，模型给前者更高“我会”概率的可能性。0.5 是瞎猜，1.0 是完美。">区分度评分</span> 0.864。“标准答案”由同一题答 30 次的正确比例得出。</li>
+      <li><span class="tag p">原文</span>给相关 Wikipedia 文章或正确的数学提示，P(IK) 上升；给错误或干扰提示，P(IK) 下降。</li>
+      <li><span class="tag p">原文</span>两个预训练数据不同的 120 亿模型，在知识不同的题上 P(IK) 反映各自的知识，差异约 6%。</li>
     </ul>
     <div class="tbl"><table>
-      <thead><tr><th>只在 TriviaQA 训练 P(IK)，测算术、填词、写代码</th><th>结果</th></tr></thead>
+      <thead><tr><th>只在<span class="tip" tabindex="0" data-tip="TriviaQA：冷知识问答集。">冷知识问答</span>训练 P(IK)，测算术、填词、写代码</th><th>结果</th></tr></thead>
       <tbody>
         <tr><td>区分能力</td><td>能迁移，模型越大越好</td></tr>
         <tr><td>校准</td><td>明显变差，常常信心不足</td></tr>
@@ -1796,16 +1807,16 @@ Thought：可以定位，回答用户</p></div>
     <div class="eyebrow">Limitations</div>
     <h2>作者承认的，和可以从原文核对的</h2>
     <ul>
-      <li><span class="tag p">原文</span> 主要研究预训练模型，RLHF 模型不一定适用。</li>
-      <li><span class="tag p">原文</span> 预训练混淆了“客观事实”和“人们怎么说”。</li>
-      <li><span class="tag p">原文</span> 没有处理激励冲突：如果输出失真的信心能拿更高奖励，模型给出的概率还会不会和实际准确率一致？</li>
-      <li><span class="tag p">原文</span> 只在 5 类任务上测了迁移；知识超出人类训练数据时，模型自评的概率是否仍然准确，未回答。</li>
+      <li><span class="tag p">原文</span>主要研究预训练模型，RLHF 模型不一定适用。</li>
+      <li><span class="tag p">原文</span>预训练混淆了“客观事实”和“人们怎么说”。</li>
+      <li><span class="tag p">原文</span>没有处理激励冲突：如果输出失真的信心能拿更高奖励，模型给出的概率还会不会和实际准确率一致？</li>
+      <li><span class="tag p">原文</span>只在 5 类任务上测了迁移；知识超出人类训练数据时，模型自评的概率是否仍然准确，未回答。</li>
     </ul>
     <div class="tbl"><table>
       <thead><tr><th>盲区</th><th>事实依据</th><th>为什么重要</th></tr></thead>
       <tbody>
-        <tr><td>全是有标准答案的题</td><td><span class="tag p">原文</span> 选择题、短答案、代码测试</td><td>开放式任务的“我会不会”没测</td></tr>
-        <tr><td>P(IK) 需要改造模型内部</td><td><span class="tag p">原文</span> 在模型上加专门的输出头训练</td><td><span class="tag g">推测</span> 通过 API 用别人模型的团队做不到，只能用提问或抽样一致性</td></tr>
+        <tr><td>全是有标准答案的题</td><td><span class="tag p">原文</span>选择题、短答案、代码测试</td><td>开放式任务的“我会不会”没测</td></tr>
+        <tr><td>P(IK) 需要改造模型内部</td><td><span class="tag p">原文</span>在模型上加专门的输出头训练</td><td><span class="tag g">推测</span>通过 API 用别人模型的团队做不到，只能用提问或抽样一致性</td></tr>
         <tr><td>只测了 2022 年的自家模型</td><td><span class="tag p">原文</span> 8 亿到 520 亿参数</td><td>新一代模型需另行验证</td></tr>
       </tbody>
     </table></div>
@@ -1824,12 +1835,12 @@ Thought：可以定位，回答用户</p></div>
       </tbody>
     </table></div>
     <ul>
-      <li><span class="tag r">已有研究</span> 这测的就是考试里的元认知（metacognition）：好学生不一定每题都会，但通常知道自己哪题不会。</li>
-      <li><span class="tag g">推测</span> 调温度只改变概率的整体尖平，不改变信心的高低顺序；它能修好校准，说明 RLHF 可能没破坏模型内部对“自己会不会答对”的区分能力，只是让输出的信心更夸张。</li>
+      <li><span class="tag r">已有研究</span>这测的就是考试里的元认知（metacognition）：好学生不一定每题都会，但通常知道自己哪题不会。</li>
+      <li><span class="tag g">推测</span>调温度只改变概率的整体尖平，不改变信心的高低顺序；它能修好校准，说明 RLHF 可能没破坏模型内部对“自己会不会答对”的区分能力，只是让输出的信心更夸张。</li>
       <li>人类反馈是“过度自信”和“谄媚”的重要来源，但不是幻觉（主要来自 pretraining）和偏见（RLHF 后无显著改善，InstructGPT §4.2）的主要源头。问题不在“人”，在优化目标：喜欢不等于正确。</li>
       <li>RLHF 仍被追捧，因为：没有它模型基本没法直接用（InstructGPT 13 亿胜 1750 亿）；它能优化写不成规则的东西；排序数据便宜；副作用已知且可缓解（KL penalty、调温度、改标注规则）；配方在演变，偏好打分逐渐收缩到没有标准答案的任务。类比：用户满意度调研有偏差，但没人因此放弃，而是结合行为数据交叉验证。</li>
     </ul>
-    <div class="callout"><b><span class="tag g">推测</span> 设计含义</b><p>不能直接把 RLHF 模型的概率当置信度展示，要在自己的任务上重新校准（用真实工单和查询）。陌生领域偏保守是相对安全的失败方式，但保守过度会回到审批疲劳。区分能力比精确数字更有用：用“高 / 中 / 低”把需要复核的挑出来，可能就够了。</p></div>
+    <div class="callout"><b><span class="tag g">推测</span>设计含义</b><p>不能直接把 RLHF 模型的概率当置信度展示，要在自己的任务上重新校准（用真实工单和查询）。陌生领域偏保守是相对安全的失败方式，但保守过度会回到审批疲劳。区分能力比精确数字更有用：用“高 / 中 / 低”把需要复核的挑出来，可能就够了。</p></div>
   </section>
 
   <section class="qs">
@@ -1935,7 +1946,7 @@ Thought：可以定位，回答用户</p></div>
       <li><span class="tag r">已有研究</span> Kaplan et al. 2020：表现随参数、数据、算力可预测地提升（scaling laws）。Hoffmann et al. 2022（Chinchilla）：参数和数据要同步加，约每个参数 20 个 token。</li>
       <li>参数越多，每次回答越贵、越慢，直接影响 inference 的成本和延迟。</li>
       <li>大不等于好：<a href="#instructgpt">InstructGPT</a> 13 亿参数打败了 1750 亿的 GPT-3。</li>
-      <li><span class="tag r">已有研究</span> 前沿模型多不公布参数量；mixture of experts 结构总参数很多，每次只启用一部分。</li>
+      <li><span class="tag r">已有研究</span>前沿模型多不公布参数量；mixture of experts 结构总参数很多，每次只启用一部分。</li>
     </ul>
   </section>
 
@@ -1967,7 +1978,7 @@ Thought：可以定位，回答用户</p></div>
   <section class="sec">
     <div class="eyebrow">1 · Cross-entropy loss</div>
     <h2>交叉熵：重罚“自信地错”</h2>
-    <div class="callout"><b>Definition</b><p>Cross-entropy loss = −log(probability the model assigned to the correct answer). 别名：log loss、negative log-likelihood (NLL)。</p></div>
+    <div class="callout"><b>Definition</b><p>Cross-entropy loss：模型给正确答案的概率越低，罚得越重（<span class="tip" tabindex="0" data-tip="−log(模型给正确答案的概率)。概率为 1 时损失为 0，概率越接近 0，损失越大。">公式</span>）。别名：log loss、negative log-likelihood (NLL)。</p></div>
     <div class="tbl"><table>
       <thead><tr><th>给正确答案的概率</th><th>Loss = −ln(p)</th><th>说明</th></tr></thead>
       <tbody>
@@ -1983,7 +1994,7 @@ Thought：可以定位，回答用户</p></div>
   <section class="sec">
     <div class="eyebrow">2 · Proper scoring rule</div>
     <h2>它两个方向都罚，所以最优的报告就是真实概率</h2>
-    <div class="callout"><b><span class="tag r">已有研究</span> 定义（转述，原文措辞待确认）</b><p>一个打分规则是 <i>proper</i>（严格适当）的，如果预测者报出自己实际的概率分布时，长期期望得分最好。这里的“实际”指模型自己算出的那组概率，不涉及意图。</p></div>
+    <div class="callout"><b><span class="tag r">已有研究</span>定义（转述，原文措辞待确认）</b><p>一个打分规则是 <i>proper</i>（严格适当）的，如果预测者报出自己实际的概率分布时，长期期望得分最好。这里的“实际”指模型自己算出的那组概率，不涉及意图。</p></div>
     <div class="tbl"><table>
       <thead><tr><th>真实下雨概率 70%，预报员报</th><th>长期平均 loss</th></tr></thead>
       <tbody>
@@ -1994,8 +2005,8 @@ Thought：可以定位，回答用户</p></div>
     </table></div>
     <ul>
       <li>这解释了 <a href="#calibration">Calibration</a> 的核心发现：预训练目标本身奖励“和实际频率一致的概率”，所以预训练模型校准好；RLHF 换成“人更喜欢哪个”，不罚说错概率，所以变差。</li>
-      <li><span class="tag p">原文 Calibration</span> 陌生任务上的信心不足出现在另外训练的 P(IK) 输出头上，更像单一训练数据导致的迁移问题。<span class="tag g">推测</span> 交叉熵奖励的是概率准确，不是保守；保守更可能来自“认不出自己会”。</li>
-      <li>Brier score 也是一种 proper scoring rule（Calibration 里 P(IK) 的 Brier 是 0.151）。</li>
+      <li><span class="tag p">原文 Calibration</span>陌生任务上的信心不足出现在另外训练的 P(IK) 输出头上，更像单一训练数据导致的迁移问题。<span class="tag g">推测</span>交叉熵奖励的是概率准确，不是保守；保守更可能来自“认不出自己会”。</li>
+      <li><span class="tip" tabindex="0" data-tip="Brier score：（预测概率 − 实际结果）的平方，取平均；越低越好。">Brier score（概率误差评分）</span>也是一种 proper scoring rule（Calibration 里 P(IK) 的这个分数是 0.151）。</li>
     </ul>
   </section>
 
@@ -2059,7 +2070,7 @@ Thought：可以定位，回答用户</p></div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow"><span class="tag g">推测</span> 带回产品</div>
+    <div class="eyebrow"><span class="tag g">推测</span>带回产品</div>
     <h2>每个指标都配一个“会被怎么钻空子”的检查</h2>
     <ul>
       <li>你熟悉的版本：客服以“平均结单时间”为 KPI，工单被草草关闭；推荐系统只优化点击率，出现标题党。</li>
@@ -2319,7 +2330,7 @@ Thought：可以定位，回答用户</p></div>
       <div class="phase h"><span class="k">Hand-off</span><b>Lock the direction</b><p>Carry over what was chosen, why, what's ruled out, and the constraints. Failure looks like drifting back to rejected directions. <span class="tag r">Prior research</span> Information in the middle of long contexts gets ignored (Lost in the Middle, Liu et al. 2023); loop engineering writers call this intent debt.</p></div>
       <div class="phase tint" style="--pc:var(--tau)"><span class="k">Converge</span><b>Execute, verify</b><p>Right every time, and it's what was chosen: <span class="num">pass^k</span>. Failure looks like “done” while quietly deviating.</p></div>
     </div>
-    <p class="sub">Reflexion's mistake notebook is a converging tool: it made no progress on exploration-heavy WebShop (Reflexion §4 Paper).</p>
+    <p class="sub">Reflexion's mistake notebook is a converging tool: it made no progress on exploration-heavy <span class="tip" tabindex="0" data-tip="WebShop: a simulated shopping site with about 1 million products; the agent must find and buy the right one.">simulated shopping</span> (Reflexion §4 Paper).</p>
   </section>
 
   <section class="sec" id="principles-en">
@@ -2709,7 +2720,7 @@ Thought：可以定位，回答用户</p></div>
     <div class="eyebrow">Problem · §1</div>
     <h2>The 2023 problem</h2>
     <ul>
-      <li><span class="tag p">Paper</span> Mainstream benchmarks were mostly multiple choice (e.g. MMLU): they test knowledge, not whether a chat assistant is useful.</li>
+      <li><span class="tag p">Paper</span> Mainstream benchmarks were mostly multiple choice (e.g. a well-known <span class="tip" tabindex="0" data-tip="MMLU: multiple-choice questions across dozens of subjects.">multi-subject test</span>): they test knowledge, not whether a chat assistant is useful.</li>
       <li><span class="tag p">Paper</span> Open-ended answer quality needs human rating, which is slow and expensive.</li>
     </ul>
   </section>
@@ -2837,7 +2848,7 @@ Thought：可以定位，回答用户</p></div>
     <div class="eyebrow">The paper in four lines</div>
     <div class="card4">
       <div><b>Claim</b><p>Pretraining learns to continue text plausibly, not to follow user intent, and scale alone doesn't fix that. Post-training on human demonstrations and rankings aligns the model into an assistant. <span class="tag p">Paper §1</span></p></div>
-      <div><b>Strongest evidence</b><p>The 1.3B InstructGPT beats 175B GPT-3; the 175B version is preferred 85% of the time; truthful answers on TruthfulQA roughly double. <span class="tag p">Paper §4</span></p></div>
+      <div><b>Strongest evidence</b><p>The 1.3B InstructGPT beats 175B GPT-3; the 175B version is preferred 85% of the time; truthful answers on <span class="tip" tabindex="0" data-tip="TruthfulQA: a question set that tests whether a model repeats widely believed falsehoods.">a truthfulness test</span> roughly double. <span class="tag p">Paper §4</span></p></div>
       <div><b>Limits</b><p>Aligned to about 40 labelers, researchers and API customers; labeler agreement about 73–77%; still makes simple mistakes and mostly follows harmful instructions; no real gain on bias; an alignment tax.</p></div>
       <div><b>Still to validate for products</b><p>Whether your users' idea of a good answer (SREs, admins) matches these labelers'.</p></div>
     </div>
@@ -2903,9 +2914,9 @@ Thought：可以定位，回答用户</p></div>
       <thead><tr><th>Finding</th><th>Detail</th><th>Source</th></tr></thead>
       <tbody>
         <tr><td>Small aligned beats large unaligned</td><td>The 1.3B InstructGPT's outputs are preferred to the 175B GPT-3's (no exact percentage in the text); 175B InstructGPT vs GPT-3: 85 ± 3%, vs few-shot GPT-3: 71 ± 4%</td><td><span class="tag p">Paper §4.1</span></td></tr>
-        <tr><td>More truthful</td><td>About twice as many truthful and informative answers as GPT-3 on TruthfulQA</td><td><span class="tag p">Paper §4.2</span></td></tr>
+        <tr><td>More truthful</td><td>About twice as many truthful and informative answers as GPT-3 on <span class="tip" tabindex="0" data-tip="TruthfulQA: a question set that tests whether a model repeats widely believed falsehoods.">a truthfulness test</span></td><td><span class="tag p">Paper §4.2</span></td></tr>
         <tr><td>Less toxic, conditionally</td><td>About 25% fewer toxic outputs when asked to be respectful; no advantage without the instruction</td><td><span class="tag p">Paper §4.2</span></td></tr>
-        <tr><td>Bias</td><td>No significant improvement on Winogender or CrowS-Pairs</td><td><span class="tag p">Paper §4.2</span></td></tr>
+        <tr><td>Bias</td><td>No significant improvement on <span class="tip" tabindex="0" data-tip="Winogender and CrowS-Pairs: two test sets that probe a model for gender and social bias.">either of two bias tests</span></td><td><span class="tag p">Paper §4.2</span></td></tr>
         <tr><td>Alignment tax</td><td>After RLHF, the model does worse than the original GPT-3 on several public general-ability tests (reading comprehension, question answering, translation). Mixing in pretraining data (PPO-ptx) wins back most of it, but not all. Turning the KL penalty up alone doesn't. See the alignment tax note above for the mechanism.</td><td><span class="tag p">Paper §4.2</span></td></tr>
       </tbody>
     </table></div>
@@ -2953,7 +2964,7 @@ Thought：可以定位，回答用户</p></div>
       <tbody>
         <tr><td>What it looks like</td><td>Confidently stating facts or citations that don't exist</td><td>Agreeing with the user, backing down when challenged</td></tr>
         <tr><td>Main source</td><td>Pretraining: the goal is plausible continuation</td><td>RLHF: raters favor answers that feel good</td></tr>
-        <tr><td>RLHF's role</td><td>Can amplify or reduce it (TruthfulQA improved here)</td><td>One of the main sources</td></tr>
+        <tr><td>RLHF's role</td><td>Can amplify or reduce it (<span class="tip" tabindex="0" data-tip="TruthfulQA: a question set that tests whether a model repeats widely believed falsehoods.">a truthfulness test</span> improved here)</td><td>One of the main sources</td></tr>
       </tbody>
     </table></div>
     <ul>
@@ -3002,7 +3013,7 @@ Thought：可以定位，回答用户</p></div>
     <div class="eyebrow">The paper in four lines</div>
     <div class="card4">
       <div><b>Claim</b><p>Reasoning ability can be incentivized by pure reinforcement learning, without human-written reasoning demonstrations.<span class="tag p">Paper Abstract</span></p></div>
-      <div><b>Strongest evidence</b><p>R1-Zero's AIME 2024 pass@1 rose from 15.6% to 71.0% (v1; the latest version says 77.9%). A 32B model distilled from R1's outputs scored 72.6; running RL on it directly gave 47.0.<span class="tag p">Paper</span></p></div>
+      <div><b>Strongest evidence</b><p>R1-Zero's <span class="tip" tabindex="0" data-tip="AIME 2024: problems from the 2024 American Invitational Mathematics Examination, harder than ordinary high-school math. pass@1: the share of questions answered correctly when the model generates just once.">competition-math one-try pass rate</span> rose from 15.6% to 71.0% (v1; the latest version says 77.9%). A 32B model distilled from R1's outputs scored 72.6; running RL on it directly gave 47.0.<span class="tag p">Paper</span></p></div>
       <div><b>Limits</b><p>Weaker than V3 on function calling, multi-turn dialogue, role-play and JSON output; language mixing; few-shot prompts hurt; limited gains in software engineering.<span class="tag p">Paper</span></p></div>
       <div><b>Still to validate for products</b><p>How to reward tasks with no checkable answer (root-cause analysis); whether a displayed reasoning trace can serve as evidence.</p></div>
     </div>
@@ -3071,12 +3082,12 @@ Thought：可以定位，回答用户</p></div>
     <div class="tbl"><table>
       <thead><tr><th>Finding</th><th>What</th><th>Source</th></tr></thead>
       <tbody>
-        <tr><td>R1-Zero's gain</td><td>AIME 2024 pass@1: 15.6% → 71.0% (v1; majority vote cons@64 = 86.7%). The latest version says 77.9%, with the majority-vote column labeled cons@16.</td><td><span class="tag p">Paper, versions disagree</span></td></tr>
-        <tr><td>Distillation beats direct RL</td><td>R1-Distill-Qwen-32B: AIME 72.6 / MATH-500 94.3. RL directly on the 32B base (R1-Zero-Qwen-32B): AIME 47.0</td><td><span class="tag p">Paper v1</span></td></tr>
+        <tr><td>R1-Zero's gain</td><td><span class="tip" tabindex="0" data-tip="AIME 2024: problems from the 2024 American Invitational Mathematics Examination, harder than ordinary high-school math. pass@1: the share of questions answered correctly when the model generates just once.">Competition-math one-try pass rate</span>: 15.6% → 71.0% (v1; letting the model answer 64 times and taking the most common answer<span class="tip" tabindex="0" data-tip="cons@64: sample the same question 64 times and take the most common answer (the latest version says cons@16)."> gives</span> 86.7%). The latest version says 77.9%, with the majority-answer column changed to 16 tries.</td><td><span class="tag p">Paper, versions disagree</span></td></tr>
+        <tr><td>Distillation beats direct RL</td><td><span class="tip" tabindex="0" data-tip="R1-Distill-Qwen-32B">A 32B model distilled from R1's outputs</span>: <span class="tip" tabindex="0" data-tip="AIME 2024: problems from the 2024 American Invitational Mathematics Examination, harder than ordinary high-school math.">competition math</span> 72.6 / <span class="tip" tabindex="0" data-tip="MATH-500: a 500-problem math test set.">a 500-problem math test</span> 94.3. <span class="tip" tabindex="0" data-tip="R1-Zero-Qwen-32B">RL directly on the 32B base</span>: <span class="tip" tabindex="0" data-tip="AIME 2024: problems from the 2024 American Invitational Mathematics Examination, harder than ordinary high-school math.">competition math</span> 47.0</td><td><span class="tag p">Paper v1</span></td></tr>
         <tr><td>The authors' reading</td><td>Distillation works very well; small models relying on large-scale RL need huge compute and may not even match distillation</td><td><span class="tag p">Paper v1</span></td></tr>
       </tbody>
     </table></div>
-    <p class="sub">pass@1 is the share answered correctly on one try. I haven't checked why the two versions differ; cite the version when you quote a number.</p>
+    <p class="sub">One-try pass rate means the share answered correctly when the model generates just once. I haven't checked why the two versions differ; cite the version when you quote a number.</p>
     <h3>What didn't work</h3>
     <div class="tbl"><table>
       <thead><tr><th>Attempt</th><th>Why it failed</th></tr></thead>
@@ -3157,8 +3168,8 @@ Thought：可以定位，回答用户</p></div>
     <div class="eyebrow">The paper in four lines</div>
     <div class="card4">
       <div><b>Claim</b><p>Without changing weights, an agent can improve on retries just by writing failures down as reflections and keeping them in memory.</p></div>
-      <div><b>Strongest evidence</b><p>AlfWorld: 130 of 134 tasks solved, 22 points above ReAct; HumanEval pass@1 91% against the authors' GPT-4 baseline of 80.1%. <span class="tag p">Paper §4</span></p></div>
-      <div><b>Limits</b><p>Needs retryable tasks and a reliable Evaluator; memory holds only 1–3 reflections; gets stuck in local minima (no progress on WebShop); self-written tests misjudge.</p></div>
+      <div><b>Strongest evidence</b><p><span class="tip" tabindex="0" data-tip="ALFWorld: a virtual home described in text; the agent must do tasks like “put an item somewhere”.">household tasks</span>: 130 of 134 tasks solved, 22 points above ReAct; <span class="tip" tabindex="0" data-tip="HumanEval: 164 Python function problems (OpenAI 2021), judged by hidden test cases. pass@1: the share of questions answered correctly when the model generates just once.">Python-problem one-try pass rate</span> 91% against the authors' GPT-4 baseline of 80.1%. <span class="tag p">Paper §4</span></p></div>
+      <div><b>Limits</b><p>Needs retryable tasks and a reliable Evaluator; memory holds only 1–3 reflections; gets stuck in local minima (no progress on <span class="tip" tabindex="0" data-tip="WebShop: a simulated shopping site with about 1 million products; the agent must find and buy the right one.">simulated shopping</span>); self-written tests misjudge.</p></div>
       <div><b>Still to validate for products</b><p>Settings with no right answer, a user in the loop, or one chance; whether lessons transfer across tasks, and who reviews them.</p></div>
     </div>
   </section>
@@ -3192,7 +3203,7 @@ Thought：可以定位，回答用户</p></div>
         <tr><td>Coding</td><td>The agent's own tests (up to 6)</td><td>Varies; 16% false passes on Rust</td></tr>
       </tbody>
     </table></div>
-    <div class="callout"><b>How to read pass@1 = 91%</b><p>One submission to the hidden tests, but revised several rounds against self-written tests first. No peeking at the answer key, just more compute behind the scenes. The GPT-4 80.1% was a single attempt. <span class="tag r">Prior research</span> GPT-4's technical report lists 67% on HumanEval; 80.1% is the authors' own baseline run (to verify).</p></div>
+    <div class="callout"><b>How to read <span class="tip" tabindex="0" data-tip="pass@1: the share of questions answered correctly when the model generates just once.">one-try pass rate</span> = 91%</b><p>One submission to the hidden tests, but revised several rounds against self-written tests first. No peeking at the answer key, just more compute behind the scenes. The GPT-4 80.1% was a single attempt. <span class="tag r">Prior research</span> GPT-4's technical report lists 67% on <span class="tip" tabindex="0" data-tip="HumanEval: 164 Python function problems (OpenAI 2021), judged by hidden test cases.">Python problems</span>; 80.1% is the authors' own baseline run (to verify).</p></div>
   </section>
 
   <section class="sec">
@@ -3202,11 +3213,11 @@ Thought：可以定位，回答用户</p></div>
       <thead><tr><th>Task</th><th>Result</th></tr></thead>
       <tbody>
         <tr><td>AlfWorld (text household game)</td><td>130 of 134 tasks solved, 22 points above ReAct, over 12 trials</td></tr>
-        <tr><td>HotPotQA (multi-hop QA)</td><td>Up 20 points</td></tr>
-        <tr><td>HumanEval (Python)</td><td>pass@1 91%</td></tr>
-        <tr><td>LeetcodeHardGym</td><td>pass@1 15% (a benchmark the authors created)</td></tr>
-        <tr><td>WebShop (simulated shopping)</td><td>No progress over 4 trials; needs heavy exploration</td></tr>
-        <tr><td>Self-test false passes</td><td>Wrong code passing its own tests: MBPP Rust 16%, HumanEval about 1%</td></tr>
+        <tr><td><span class="tip" tabindex="0" data-tip="HotpotQA: questions that need several lookups to answer; scored by whether the answer exactly matches the reference.">Multi-hop QA</span></td><td>Up 20 points</td></tr>
+        <tr><td><span class="tip" tabindex="0" data-tip="HumanEval: 164 Python function problems (OpenAI 2021), judged by hidden test cases.">Python coding problems</span></td><td><span class="tip" tabindex="0" data-tip="pass@1: the share of questions answered correctly when the model generates just once.">One-try pass rate</span> 91%</td></tr>
+        <tr><td><span class="tip" tabindex="0" data-tip="LeetcodeHardGym: a set of hard coding problems built by the authors.">Hard coding problems</span></td><td><span class="tip" tabindex="0" data-tip="pass@1: the share of questions answered correctly when the model generates just once.">One-try pass rate</span> 15% (a benchmark the authors created)</td></tr>
+        <tr><td><span class="tip" tabindex="0" data-tip="WebShop: a simulated shopping site with about 1 million products; the agent must find and buy the right one.">Simulated shopping</span></td><td>No progress over 4 trials; needs heavy exploration</td></tr>
+        <tr><td>Self-test false passes</td><td>Wrong code passing its own tests: <span class="tip" tabindex="0" data-tip="MBPP: about 1,000 entry-level Python problems (Google 2021); the Rust version is used here.">Rust entry-level problems</span> 16%, <span class="tip" tabindex="0" data-tip="HumanEval: 164 Python function problems (OpenAI 2021), judged by hidden test cases.">Python problems</span> about 1%</td></tr>
       </tbody>
     </table></div>
     <h3><span class="tag r">Prior research</span> How authoritative are these benchmarks?</h3>
@@ -3434,7 +3445,7 @@ Thought：可以定位，回答用户</p></div>
     <div class="eyebrow">The paper in four lines</div>
     <div class="card4">
       <div><b>Claim</b><p>Interleave reasoning and acting: thinking helps acting (plan, adjust, handle exceptions), acting helps thinking (fetch real information, hallucinate less), and the trace is human-readable. <span class="tag p">Paper Abstract</span></p></div>
-      <div><b>Strongest evidence</b><p>ALFWorld success 71% vs 45% for acting only; WebShop 40%, about 11 points above imitation learning. On HotpotQA, combining ReAct and CoT reaches 35.1, above either alone. <span class="tag p">Paper §3–4</span></p></div>
+      <div><b>Strongest evidence</b><p><span class="tip" tabindex="0" data-tip="ALFWorld: a virtual home described in text; the agent must do tasks like “put an item somewhere”.">Household tasks</span>: success 71% vs 45% for acting only; <span class="tip" tabindex="0" data-tip="WebShop: a simulated shopping site with about 1 million products; the agent must find and buy the right one.">simulated shopping</span> 40%, about 11 points above imitation learning. On <span class="tip" tabindex="0" data-tip="HotpotQA: questions that need several lookups to answer; scored by whether the answer exactly matches the reference.">the multi-hop QA test</span>, combining ReAct and CoT reaches 35.1, above either alone. <span class="tag p">Paper §3–4</span></p></div>
       <div><b>Limits</b><p>On knowledge QA, ReAct alone (27.4) trails thinking-only CoT (29.4); empty searches derail it and it can loop; the search tool is crude; far from domain-specific state of the art.</p></div>
       <div><b>Still to validate for products</b><p>Whether written reasoning reflects the real cause; when to trust “intuition” versus looking things up; how the loop works with a user in it.</p></div>
     </div>
@@ -3475,9 +3486,9 @@ Action: check Tuesday's deploys and config changes for the web service
 Observation: a deploy switched the log level to debug
 Thought: cause located, answer the user</p></div>
     <ul>
-      <li><span class="tag p">Paper §3</span> PaLM-540B with no training, only examples in the prompt: 6 for HotpotQA, 3 for FEVER.</li>
+      <li><span class="tag p">Paper §3</span> PaLM-540B with no training, only examples in the prompt: 6 for <span class="tip" tabindex="0" data-tip="HotpotQA: questions that need several lookups to answer; scored by whether the answer exactly matches the reference.">the multi-hop QA test</span>, 3 for <span class="tip" tabindex="0" data-tip="FEVER: given a claim, decide whether it is true, false, or lacks enough evidence.">the fact-checking test</span>.</li>
       <li><span class="tag p">Paper §3</span> Knowledge tasks use three actions: <span class="mono">search[entity]</span> returns the first 5 sentences of a Wikipedia page; <span class="mono">lookup[string]</span> finds the next matching sentence; <span class="mono">finish[answer]</span> ends.</li>
-      <li><span class="tag r">Prior research</span> HotpotQA is multi-hop QA: bridge questions need A before you know to look up B (Apple Remote → Front Row → keyboard function keys); comparison questions look up two things and compare; scored by exact match. FEVER checks whether a claim is true.</li>
+      <li><span class="tag r">Prior research</span> <span class="tip" tabindex="0" data-tip="HotpotQA: questions that need several lookups to answer; scored by whether the answer exactly matches the reference.">The multi-hop QA test</span>: bridge questions need A before you know to look up B (Apple Remote → Front Row → keyboard function keys); comparison questions look up two things and compare; scored by whether the answer matches exactly. <span class="tip" tabindex="0" data-tip="FEVER: given a claim, decide whether it is true, false, or lacks enough evidence.">The fact-checking test</span> checks whether a claim is true.</li>
     </ul>
   </section>
 
@@ -3485,7 +3496,7 @@ Thought: cause located, answer the user</p></div>
     <div class="eyebrow">Evidence · §3–4</div>
     <h2>Looking things up lost?</h2>
     <div class="tbl"><table>
-      <thead><tr><th>Method (Table 1)</th><th>HotpotQA (EM)</th><th>FEVER (accuracy)</th></tr></thead>
+      <thead><tr><th>Method (Table 1)</th><th><span class="tip" tabindex="0" data-tip="HotpotQA: questions that need several lookups to answer; scored by whether the answer exactly matches the reference.">Multi-hop QA test</span> <span class="tip" tabindex="0" data-tip="EM (Exact Match): an answer counts only if it matches the reference word for word.">(exact-match rate)</span></th><th><span class="tip" tabindex="0" data-tip="FEVER: given a claim, decide whether it is true, false, or lacks enough evidence.">Fact-checking test</span> (accuracy)</th></tr></thead>
       <tbody>
         <tr><td>Standard</td><td class="num">28.7</td><td class="num">57.1</td></tr>
         <tr><td>CoT (think only)</td><td class="num">29.4</td><td class="num">56.3</td></tr>
@@ -3503,7 +3514,7 @@ Thought: cause located, answer the user</p></div>
     </table></div>
     <ul>
       <li><span class="tag p">Paper §3.3</span> Two combinations: if ReAct can't answer within the step budget, fall back to CoT-SC; or sample CoT several times, and if fewer than half agree (low confidence), switch to ReAct. <span class="tag r">Prior research</span> CoT-SC (self-consistency) is from Wang et al. 2022.</li>
-      <li><span class="tag p">Paper §4</span> ALFWorld: ReAct 71%, act-only 45%, trained BUTLER 37%. WebShop: ReAct 40%, imitation learning 29.1%, human experts 59.6%.</li>
+      <li><span class="tag p">Paper §4</span> <span class="tip" tabindex="0" data-tip="ALFWorld: a virtual home described in text; the agent must do tasks like “put an item somewhere”.">Household tasks</span>: ReAct 71%, act-only 45%, trained BUTLER 37%. <span class="tip" tabindex="0" data-tip="WebShop: a simulated shopping site with about 1 million products; the agent must find and buy the right one.">Simulated shopping</span>: ReAct 40%, imitation learning 29.1%, human experts 59.6%.</li>
       <li><span class="tag p">Paper §4</span> A person can edit the agent's Thoughts directly: delete a wrong thought, add a hint, and the agent corrects course without any model change.</li>
       <li><span class="tag p">Paper §3.3</span> Fine-tuned on 3,000 trajectories, PaLM-8B ReAct beats every PaLM-62B prompting method.</li>
     </ul>
@@ -3623,7 +3634,7 @@ Thought: cause located, answer the user</p></div>
     <div class="eyebrow">The paper in four lines</div>
     <div class="card4">
       <div><b>Claim</b><p>Language models largely “know what they know”: large models are well calibrated on suitably formatted questions, can evaluate their own answers, and can predict whether they'll answer correctly. <span class="tag p">Paper Abstract</span> “Know” here means only those three measurable behaviors, not understanding.</p></div>
-      <div><b>Strongest evidence</b><p>The 52B model is well calibrated on multiple-choice and true/false; P(IK) reaches AUROC 0.864 on TriviaQA; P(IK) rises with relevant articles and falls with wrong hints. <span class="tag p">Paper</span></p></div>
+      <div><b>Strongest evidence</b><p>The 52B model is well calibrated on multiple-choice and true/false; P(IK) reaches <span class="tip" tabindex="0" data-tip="AUROC: the chance that, picking one question the model will get right and one it will get wrong, it gives the right one the higher “I know this” probability. 0.5 is chance, 1.0 is perfect.">separation score</span> 0.864 on <span class="tip" tabindex="0" data-tip="TriviaQA: a trivia question-answering set.">trivia questions</span>; P(IK) rises with relevant articles and falls with wrong hints. <span class="tag p">Paper</span></p></div>
       <div><b>Limits</b><p>RLHF models are badly calibrated and need temperature fixes; format-sensitive (“none of the above” breaks calibration); underconfident on unfamiliar tasks; P(IK) needs training inside the model; only tasks with answer keys.</p></div>
       <div><b>Still to validate for products</b><p>Recalibrating on your own tasks; estimating confidence on open-ended work; displaying confidence so people make better decisions.</p></div>
     </div>
@@ -3645,7 +3656,7 @@ Thought: cause located, answer the user</p></div>
     <h2>Calibration, discrimination, model size</h2>
     <div class="grid2">
       <div><b>Calibration</b><p class="ink">If it rains on about 70% of the days a forecaster says “70%”, the forecaster is well calibrated. It measures whether confidence matches performance; it isn't accuracy.</p></div>
-      <div><b>Discrimination</b><p class="ink">In a city where it rains 30% of days, a forecaster who always says “30%” is perfectly calibrated and useless. You also need to separate right from wrong cases, measured by AUROC: 0.5 is chance, 1.0 is perfect.</p></div>
+      <div><b>Discrimination</b><p class="ink">In a city where it rains 30% of days, a forecaster who always says “30%” is perfectly calibrated and useless. You also need to separate right from wrong cases, measured by <span class="tip" tabindex="0" data-tip="AUROC: the chance that, picking one question the model will get right and one it will get wrong, it gives the right one the higher “I know this” probability. 0.5 is chance, 1.0 is perfect.">a separation score</span>: 0.5 is chance, 1.0 is perfect.</p></div>
       <div><b>What “bigger” means</b><p class="ink">Usually more parameters: the number of adjustable “knobs”, a measure of capacity. Training data is separate. Here all four models (800M to 52B) saw the same 850B tokens; only parameters vary.</p></div>
       <div><b>Scaling laws</b><p class="ink"><span class="tag r">Prior research</span> Kaplan et al. 2020: performance improves predictably with parameters, data and compute. Hoffmann et al. 2022 (Chinchilla): grow parameters and data together, about 20 tokens per parameter.</p></div>
     </div>
@@ -3674,7 +3685,7 @@ Thought: cause located, answer the user</p></div>
       <li><span class="tag p">Paper</span> RLHF models are “very miscalibrated”; setting temperature to 2.5 largely fixes calibration on three evaluations.</li>
       <li><span class="tag r">Prior research</span> Temperature scaling is a standard method (Guo et al. 2017). The GPT-4 technical report also shows calibration dropping after post-training (to verify).</li>
     </ul>
-    <div class="callout"><b>More truthful isn't more calibrated</b><p>RLHF makes answers more preferred and more truthful (InstructGPT roughly doubled TruthfulQA), but it optimizes for which answer people prefer, not whether probabilities are accurate. Raters favor decisive answers, so the model learns to push probabilities to extremes.</p></div>
+    <div class="callout"><b>More truthful isn't more calibrated</b><p>RLHF makes answers more preferred and more truthful (InstructGPT roughly doubled <span class="tip" tabindex="0" data-tip="TruthfulQA: a question set that tests whether a model repeats widely believed falsehoods.">a truthfulness test</span>), but it optimizes for which answer people prefer, not whether probabilities are accurate. Raters favor decisive answers, so the model learns to push probabilities to extremes.</p></div>
   </section>
 
   <section class="sec">
@@ -3682,12 +3693,12 @@ Thought: cause located, answer the user</p></div>
     <h2>Self-evaluation</h2>
     <ul>
       <li><span class="tag p">Paper</span> Showing 5 sampled answers before judging one clearly improves P(True), more so for larger models. Comparison enables judgment, as with CoT-SC and SelfCheckGPT.</li>
-      <li><span class="tag p">Paper</span> P(IK) on TriviaQA reaches AUROC 0.864 at 52B. The “ground truth” is the fraction correct over 30 samples per question.</li>
+      <li><span class="tag p">Paper</span> P(IK) on <span class="tip" tabindex="0" data-tip="TriviaQA: a trivia question-answering set.">trivia questions</span> reaches <span class="tip" tabindex="0" data-tip="AUROC: the chance that, picking one question the model will get right and one it will get wrong, it gives the right one the higher “I know this” probability. 0.5 is chance, 1.0 is perfect.">separation score</span> 0.864 at 52B. The “ground truth” is the fraction correct over 30 samples per question.</li>
       <li><span class="tag p">Paper</span> P(IK) rises with a relevant Wikipedia article or a correct math hint, and falls with wrong or distracting hints.</li>
       <li><span class="tag p">Paper</span> Two 12B models with different pretraining data show P(IK) tracking their own knowledge, differing by about 6% on disputed questions.</li>
     </ul>
     <div class="tbl"><table>
-      <thead><tr><th>P(IK) trained only on TriviaQA, tested on arithmetic, Lambada, code</th><th>Result</th></tr></thead>
+      <thead><tr><th>P(IK) trained only on <span class="tip" tabindex="0" data-tip="TriviaQA: a trivia question-answering set.">trivia questions</span>, tested on arithmetic, Lambada, code</th><th>Result</th></tr></thead>
       <tbody>
         <tr><td>Discrimination</td><td>Transfers, better with larger models</td></tr>
         <tr><td>Calibration</td><td>Clearly worse, often underconfident</td></tr>
@@ -3871,7 +3882,7 @@ Thought: cause located, answer the user</p></div>
   <section class="sec">
     <div class="eyebrow">1 · Cross-entropy loss</div>
     <h2>Cross-entropy punishes confident mistakes</h2>
-    <div class="callout"><b>Definition</b><p>Cross-entropy loss = −log(probability the model assigned to the correct answer). Also called log loss or negative log-likelihood (NLL).</p></div>
+    <div class="callout"><b>Definition</b><p>Cross-entropy loss: the lower the probability the model gave the correct answer, the heavier the penalty (<span class="tip" tabindex="0" data-tip="−log(probability the model gave the correct answer). Probability 1 means loss 0; the closer to 0, the larger the loss.">formula</span>). Also called log loss or negative log-likelihood (NLL).</p></div>
     <div class="tbl"><table>
       <thead><tr><th>Probability on the correct answer</th><th>Loss = −ln(p)</th><th>Meaning</th></tr></thead>
       <tbody>
@@ -3899,7 +3910,7 @@ Thought: cause located, answer the user</p></div>
     <ul>
       <li>This explains <a href="#calibration">Calibration</a>'s core finding: the pretraining objective rewards probabilities that match observed frequencies, so pretrained models are calibrated; RLHF switches to “which answer do people prefer”, which doesn't penalize miscalibration.</li>
       <li><span class="tag p">Paper Calibration</span> Underconfidence on unfamiliar tasks shows up in the separately trained P(IK) head, more like a transfer problem from narrow training data. <span class="tag g">Our inference</span> Cross-entropy rewards accurate probabilities, not caution; the caution more likely comes from not recognizing which questions it can answer.</li>
-      <li>The Brier score is another proper scoring rule (P(IK) Brier 0.151 in Calibration).</li>
+      <li><span class="tip" tabindex="0" data-tip="Brier score: the average of (predicted probability − actual outcome) squared; lower is better.">The Brier score (a probability-error score)</span> is another proper scoring rule (P(IK) scores 0.151 on it in Calibration).</li>
     </ul>
   </section>
 
@@ -4153,6 +4164,27 @@ Thought: cause located, answer the user</p></div>
       if(v&&!v.hidden){e.preventDefault();v.querySelector('.abbr-q').focus();}
     }
   });
+
+  (function(){
+    const box=document.createElement('div');box.id='tipbox';box.setAttribute('role','tooltip');document.body.appendChild(box);
+    let cur=null;
+    function show(el){
+      cur=el;box.textContent=el.getAttribute('data-tip');box.classList.add('on');
+      const r=el.getBoundingClientRect(),w=box.offsetWidth,h=box.offsetHeight,m=12;
+      let x=Math.min(Math.max(m,r.left+r.width/2-w/2),innerWidth-w-m);
+      let y=r.top-h-8; if(y<m) y=r.bottom+8;
+      box.style.left=x+'px';box.style.top=y+'px';
+    }
+    function hide(){cur=null;box.classList.remove('on')}
+    document.addEventListener('mouseover',e=>{if(matchMedia('(hover:none)').matches)return;const t=e.target.closest&&e.target.closest('.tip');if(t)show(t)});
+    document.addEventListener('mouseout',e=>{if(matchMedia('(hover:none)').matches)return;const t=e.target.closest&&e.target.closest('.tip');if(t&&!(e.relatedTarget&&t.contains(e.relatedTarget)))hide()});
+    document.addEventListener('focusin',e=>{if(matchMedia('(hover:none)').matches)return;const t=e.target.closest&&e.target.closest('.tip');if(t)show(t)});
+    document.addEventListener('focusout',hide);
+    document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('.tip');if(t){if(cur===t&&box.classList.contains('on')&&matchMedia('(hover:none)').matches)hide();else show(t)}else hide()});
+    addEventListener('keydown',e=>{if(e.key==='Escape')hide()});
+    addEventListener('scroll',hide,{passive:true});
+    addEventListener('hashchange',hide);
+  })();
   document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{
     const el=b.previousElementSibling,t=el.textContent,orig=b.textContent;
     const done=()=>{b.textContent=lang==='en'?'Copied':'已复制';setTimeout(()=>b.textContent=orig,1500)};
@@ -4162,3 +4194,5 @@ Thought: cause located, answer the user</p></div>
   setLang(lang);
 })();
 </script>
+</body>
+</html>
