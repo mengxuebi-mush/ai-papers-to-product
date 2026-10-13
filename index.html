@@ -65,6 +65,11 @@ ul,ol{margin:0;padding-left:20px;display:grid;gap:7px}
 .chip:hover{background:var(--soft)}
 .chip[aria-current="page"]{border-color:var(--pc);background:color-mix(in srgb,var(--pc) 16%,var(--card));font-weight:700}
 
+.subnav{border-top:1px solid var(--line)}
+.subnav-in{max-width:980px;margin:0 auto;padding:8px 20px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.subnav-in::-webkit-scrollbar{display:none}
+.subnav .chip[hidden]{display:none}
+.chip.sc[aria-current="true"]{border-color:var(--pc);background:color-mix(in srgb,var(--pc) 16%,var(--card));font-weight:700}
 .lang{display:flex;flex:none;margin-left:auto;border:1px solid var(--line);border-radius:999px;padding:2px;background:var(--card)}
 .lang button{font:600 12px var(--sans);border:0;background:transparent;color:var(--muted);border-radius:999px;padding:5px 10px;cursor:pointer}
 .lang button[aria-pressed="true"]{background:var(--forest);color:var(--on-forest)}
@@ -257,6 +262,11 @@ details.ws summary::-webkit-details-marker{display:none}
 details.ws summary::before{content:"\25B8";flex:none;transition:transform .12s}
 details.ws[open] summary::before{transform:rotate(90deg)}
 details.ws .q{margin-top:10px}
+@media(max-width:640px){
+  .topbar-in{flex-wrap:wrap;row-gap:8px}
+  .chips{order:3;flex:1 0 100%}
+  .topbar[data-sub="on"] .chips{display:none}
+}
 @media(max-width:760px){
   .flow{grid-template-columns:1fr;gap:26px}
   .flow .stg:not(:last-child)::after{content:"\2193";right:auto;left:50%;top:auto;bottom:-25px;transform:translateX(-50%)}
@@ -304,21 +314,10 @@ details.ws .q{margin-top:10px}
   <div class="topbar-in">
     <a class="home" href="#overview" data-nav="overview" data-zh="地图" data-en="Map">地图</a>
     <a class="home tool" href="#abbr" data-nav="abbr"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span data-zh="查词" data-en="Terms">查词</span></a>
-    <div class="chips">
-      <a class="chip" href="#c-training" data-nav="c-training" style="--pc:var(--cc)"><i></i><span data-zh="模型是怎么学习的" data-en="How models learn">模型是怎么学习的</span></a>
-      <a class="chip" href="#c-scoring" data-nav="c-scoring" style="--pc:var(--cc)"><i></i><span data-zh="打分方式决定模型" data-en="Scoring shapes the model">打分方式决定模型</span></a>
-      <a class="chip" href="#attention" data-nav="attention" style="--pc:var(--at)"><i></i><span data-zh="Transformer" data-en="Transformer">Transformer</span></a>
-      <a class="chip" href="#instructgpt" data-nav="instructgpt" style="--pc:var(--ig)"><i></i><span data-zh="InstructGPT" data-en="InstructGPT">InstructGPT</span></a>
-      <a class="chip" href="#r1" data-nav="r1" style="--pc:var(--r1)"><i></i><span data-zh="DeepSeek-R1" data-en="DeepSeek-R1">DeepSeek-R1</span></a>
-      <a class="chip" href="#react" data-nav="react" style="--pc:var(--ra)"><i></i><span data-zh="ReAct" data-en="ReAct">ReAct</span></a>
-      <a class="chip" href="#reflexion" data-nav="reflexion" style="--pc:var(--rf)"><i></i><span data-zh="Reflexion" data-en="Reflexion">Reflexion</span></a>
-      <a class="chip" href="#memgpt" data-nav="memgpt" style="--pc:var(--mg)"><i></i><span data-zh="MemGPT" data-en="MemGPT">MemGPT</span></a>
-      <a class="chip" href="#tau-bench" data-nav="tau-bench" style="--pc:var(--tau)"><i></i><span data-zh="τ-bench" data-en="τ-bench">τ-bench</span></a>
-      <a class="chip" href="#mt-bench" data-nav="mt-bench" style="--pc:var(--mt)"><i></i><span data-zh="MT-Bench" data-en="MT-Bench">MT-Bench</span></a>
-      <a class="chip" href="#calibration" data-nav="calibration" style="--pc:var(--cb)"><i></i><span data-zh="Calibration" data-en="Calibration">Calibration</span></a>
-    </div>
+    <div class="chips" role="group" aria-label="Stages"><a class="chip sc" href="#dir-pre" data-stage="pre" style="--pc:var(--at)"><i></i><span data-zh="预训练" data-en="Pretraining">预训练</span></a><a class="chip sc" href="#dir-post" data-stage="post" style="--pc:var(--ig)"><i></i><span data-zh="后训练" data-en="Post-training">后训练</span></a><a class="chip sc" href="#dir-harness" data-stage="harness" style="--pc:var(--ra)"><i></i><span data-zh="Harness" data-en="Harness">Harness</span></a><a class="chip sc" href="#dir-eval" data-stage="eval" style="--pc:var(--tau)"><i></i><span data-zh="评估" data-en="Evaluation">评估</span></a></div>
     <div class="lang" role="group" aria-label="语言 / Language"><button type="button" data-lang="zh" aria-pressed="true">中文</button><button type="button" data-lang="en" aria-pressed="false">EN</button></div>
   </div>
+  <div class="subnav" id="subnav" hidden><div class="subnav-in"><a class="chip" href="#c-training" data-nav="c-training" data-stage="pre" style="--pc:var(--cc)"><i></i><span data-zh="模型是怎么学习的" data-en="How models learn">模型是怎么学习的</span></a><a class="chip" href="#c-scoring" data-nav="c-scoring" data-stage="post" style="--pc:var(--cc)"><i></i><span data-zh="打分方式决定模型" data-en="Scoring shapes the model">打分方式决定模型</span></a><a class="chip" href="#attention" data-nav="attention" data-stage="pre" style="--pc:var(--at)"><i></i><span data-zh="Transformer" data-en="Transformer">Transformer</span></a><a class="chip" href="#instructgpt" data-nav="instructgpt" data-stage="post" style="--pc:var(--ig)"><i></i><span data-zh="InstructGPT" data-en="InstructGPT">InstructGPT</span></a><a class="chip" href="#r1" data-nav="r1" data-stage="post" style="--pc:var(--r1)"><i></i><span data-zh="DeepSeek-R1" data-en="DeepSeek-R1">DeepSeek-R1</span></a><a class="chip" href="#react" data-nav="react" data-stage="harness" style="--pc:var(--ra)"><i></i><span data-zh="ReAct" data-en="ReAct">ReAct</span></a><a class="chip" href="#reflexion" data-nav="reflexion" data-stage="harness" style="--pc:var(--rf)"><i></i><span data-zh="Reflexion" data-en="Reflexion">Reflexion</span></a><a class="chip" href="#memgpt" data-nav="memgpt" data-stage="harness" style="--pc:var(--mg)"><i></i><span data-zh="MemGPT" data-en="MemGPT">MemGPT</span></a><a class="chip" href="#tau-bench" data-nav="tau-bench" data-stage="eval" style="--pc:var(--tau)"><i></i><span data-zh="τ-bench" data-en="τ-bench">τ-bench</span></a><a class="chip" href="#mt-bench" data-nav="mt-bench" data-stage="eval" style="--pc:var(--mt)"><i></i><span data-zh="MT-Bench" data-en="MT-Bench">MT-Bench</span></a><a class="chip" href="#calibration" data-nav="calibration" data-stage="eval" style="--pc:var(--cb)"><i></i><span data-zh="Calibration" data-en="Calibration">Calibration</span></a></div></div>
 </nav>
 
 <main class="wrap" id="main-zh" lang="zh-CN">
@@ -3849,8 +3848,15 @@ Thought: cause located, answer the user</p></div>
     main.querySelectorAll('[data-view]').forEach(v=>{v.hidden=v!==target});
     const cur=base(target.id);
     document.querySelectorAll('[data-nav]').forEach(a=>{if(a.dataset.nav===cur)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
-    const active=document.querySelector('.chip[aria-current="page"]');
-    if(active)active.scrollIntoView({block:'nearest',inline:'nearest'});
+    const curChip=document.querySelector('#subnav .chip[data-nav="'+cur+'"]');
+    const st=curChip?curChip.dataset.stage:null;
+    const subnav=document.getElementById('subnav');
+    subnav.hidden=!st;
+    subnav.closest('.topbar').dataset.sub=st?'on':'off';
+    subnav.querySelectorAll('.chip').forEach(c=>{c.hidden=c.dataset.stage!==st});
+    document.querySelectorAll('.chip.sc').forEach(c=>{if(c.dataset.stage===st)c.setAttribute('aria-current','true');else c.removeAttribute('aria-current')});
+    const active=document.querySelector('#subnav .chip[aria-current="page"]');
+    if(active&&st)active.scrollIntoView({block:'nearest',inline:'nearest'});
     if(anchor)anchor.scrollIntoView();else{window.scrollTo(0,0);requestAnimationFrame(()=>window.scrollTo(0,0));}
     if(cur==='abbr'){const q=target.querySelector('.abbr-q');if(q){if(q._upd)q._upd();if(matchMedia('(hover:hover)').matches)q.focus({preventScroll:true});}}
   }
