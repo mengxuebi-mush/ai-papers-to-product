@@ -219,6 +219,50 @@ input[type=range]{width:100%;accent-color:var(--bar)}
 .tip:focus-visible{outline:2px solid var(--link);outline-offset:2px;border-radius:3px}
 #tipbox{white-space:pre-line;position:fixed;z-index:60;max-width:min(320px,calc(100vw - 24px));background:var(--ink);color:var(--bg);font:500 13px/1.55 var(--sans);padding:8px 11px;border-radius:9px;box-shadow:0 6px 24px rgba(0,0,0,.22);pointer-events:none;opacity:0;transition:opacity .12s}
 #tipbox.on{opacity:1}
+/* overview map */
+.map{display:grid;gap:14px}
+.flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px}
+.stg{position:relative;display:grid;gap:6px;align-content:start;padding:16px;border-radius:16px;border:1px solid var(--line);border-top:4px solid var(--pc);background:color-mix(in srgb,var(--pc) 7%,var(--card));text-decoration:none;color:var(--ink);min-width:0}
+.stg:hover{background:color-mix(in srgb,var(--pc) 15%,var(--card))}
+.stg .k{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--pc)}
+.stg b{font-size:18px;line-height:1.25}
+.stg p{font-size:13px;color:var(--muted)}
+.stg .on{font-size:12px;color:var(--ink);font-weight:600}
+.stg .soon2{font-size:12px;color:var(--muted)}
+.flow .stg:not(:last-child)::after{content:"\2192";position:absolute;right:-24px;top:50%;transform:translateY(-50%);font-size:20px;color:var(--muted)}
+.evalbar{display:grid;gap:4px;padding:14px 16px;border-radius:16px;border:1px dashed var(--pc);background:color-mix(in srgb,var(--pc) 8%,var(--card));text-decoration:none;color:var(--ink)}
+.evalbar:hover{background:color-mix(in srgb,var(--pc) 15%,var(--card))}
+.evalbar .k{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--pc)}
+.evalbar p{font-size:13px;color:var(--muted);max-width:none}
+.dir{display:grid;gap:20px}
+.dg{display:grid;gap:4px;scroll-margin-top:72px}
+.dg h3{font-size:15px;display:flex;gap:8px;align-items:center;margin-bottom:2px}
+.dg h3 i{width:10px;height:10px;border-radius:50%;background:var(--pc);flex:none}
+.dg h3 small{font-size:12px;font-weight:400;color:var(--muted)}
+.drow{display:grid;grid-template-columns:minmax(0,190px) minmax(0,1fr) auto;gap:6px 14px;align-items:baseline;padding:9px 10px;border-radius:10px;text-decoration:none;color:var(--ink);border-top:1px solid var(--line)}
+.drow:hover{background:color-mix(in srgb,var(--pc) 8%,var(--card))}
+.drow b{font-size:14px}
+.drow span{font-size:13px;color:var(--muted)}
+.drow em{font-style:normal;font-size:12px;color:var(--muted);white-space:nowrap}
+.dg .soon3{font-size:12px;color:var(--muted);padding:6px 10px}
+details.pr{display:block}
+details.pr summary{cursor:pointer;list-style:none;display:flex;gap:8px;align-items:baseline}
+details.pr summary::-webkit-details-marker{display:none}
+details.pr summary::before{content:"\25B8";color:var(--muted);flex:none;transition:transform .12s}
+details.pr[open] summary::before{transform:rotate(90deg)}
+details.pr > p,details.pr > .from{display:block;margin-top:6px;margin-left:18px}
+details.ws{display:block}
+details.ws summary{cursor:pointer;list-style:none;color:var(--lime);font-weight:700;font-size:15px;display:flex;gap:8px;align-items:baseline}
+details.ws summary::-webkit-details-marker{display:none}
+details.ws summary::before{content:"\25B8";flex:none;transition:transform .12s}
+details.ws[open] summary::before{transform:rotate(90deg)}
+details.ws .q{margin-top:10px}
+@media(max-width:760px){
+  .flow{grid-template-columns:1fr;gap:26px}
+  .flow .stg:not(:last-child)::after{content:"\2193";right:auto;left:50%;top:auto;bottom:-25px;transform:translateX(-50%)}
+  .drow{grid-template-columns:1fr auto}
+  .drow span{grid-column:1 / -1;order:3}
+}
 .foot{font-size:13px;color:var(--muted);display:grid;gap:6px}
 
 /* paper detail */
@@ -284,50 +328,22 @@ input[type=range]{width:100%;accent-color:var(--bar)}
   <header class="hero">
     <div class="eyebrow">NeurIPS 2026 Atlanta 预习 · 9 篇论文 · 2 节概念课</div>
     <h1>AI Papers to Product</h1>
-    <p>用产品设计师的眼光读 ML 论文。第一张图：Agent Evaluation。</p>
+    <p>用产品设计师的眼光读 ML 论文，把它们放进一张图里。</p>
     <p class="hq">我们怎么知道 AI 把事情做好了？做不好时，它又怎么变好？</p>
-    <p>这张图把读过的论文放在一起：评估方法的光谱、评估与训练的关系、agent 在哪里学习、共同盲区、设计原则和现场问题。论文和概念课按层次归进知识库，点击即可打开。</p>
   </header>
 
   <section class="sec" id="papers">
-    <div class="eyebrow">知识库</div>
-    <h2>按层次组织：概念课和论文卡</h2>
-    <div class="cats">
-      <div class="cat"><div class="cat-h"><h3>基础原理</h3><span>模型是怎么学习的？</span></div>
-        <div class="papers">
-          <a class="ptile" href="#c-training" style="--pc:var(--cc)"><span class="badges"><span class="badge">概念课</span><span class="badge">经典</span></span><b>模型是怎么学习的</b><span>Loss、梯度下降、过拟合、参数与规模</span><span class="go">打开 →</span></a>
-          <a class="ptile" href="#c-scoring" style="--pc:var(--cc)"><span class="badges"><span class="badge">概念课</span><span class="badge">经典</span></span><b>打分方式决定模型</b><span>交叉熵、Goodhart 定律、KL penalty</span><span class="go">打开 →</span></a>
-          <a class="ptile" href="#attention" style="--pc:var(--at)"><span class="badges"><span class="badge">论文卡</span><span class="badge">经典 · 2017</span></span><b>Attention Is All You Need</b><span>Transformer 架构：后来大模型的骨架</span><span class="go">打开 →</span></a>
-        </div>
-      </div>
-      <div class="cat"><div class="cat-h"><h3>从模型到助手</h3><span>怎么把续写器变成有用的助手？</span></div>
-        <div class="papers">
-          <a class="ptile" href="#instructgpt" style="--pc:var(--ig)"><span class="badges"><span class="badge">论文卡</span><span class="badge">经典 · 2022</span></span><b>InstructGPT</b><span>用人类偏好把续写器调教成助手</span><span class="go">打开 →</span></a>
-          <a class="ptile" href="#r1" style="--pc:var(--r1)"><span class="badges"><span class="badge">论文卡</span><span class="badge">2025</span></span><b>DeepSeek-R1</b><span>只告诉模型对错，推理能力自己长出来</span><span class="go">打开 →</span></a>
-        </div>
-        <div class="next">之后会加入：fine-tuning / LoRA</div>
-      </div>
-      <div class="cat"><div class="cat-h"><h3>Agent 怎么运作</h3><span>agent 怎么行动、记忆、改进？</span></div>
-        <div class="papers">
-          <a class="ptile" href="#react" style="--pc:var(--ra)"><span class="badges"><span class="badge">论文卡</span><span class="badge">经典 · 2022</span></span><b>ReAct</b><span>想、做、看结果：agent 循环的起点</span><span class="go">打开 →</span></a>
-          <a class="ptile" href="#reflexion" style="--pc:var(--rf)"><span class="badges"><span class="badge">论文卡</span><span class="badge">经典 · 2023</span></span><b>Reflexion</b><span>不改参数，靠错题本变好</span><span class="go">打开 →</span></a>
-          <a class="ptile" href="#memgpt" style="--pc:var(--mg)"><span class="badges"><span class="badge">论文卡</span><span class="badge">经典 · 2023</span></span><b>MemGPT</b><span>context 不够时，agent 怎么管理记忆</span><span class="go">打开 →</span></a>
-        </div>
-        <div class="next">之后会加入：RAG、prompt injection</div>
-      </div>
-      <div class="cat"><div class="cat-h"><h3>评估与信任</h3><span>怎么知道它做得好、能不能信？</span></div>
-        <div class="papers">
-          <a class="ptile" href="#tau-bench" style="--pc:var(--tau)"><span class="badges"><span class="badge">论文卡</span><span class="badge">经典 · 2024</span></span><b>τ-bench</b><span>有标准答案时，agent 能否稳定办成事</span><span class="go">打开 →</span></a>
-          <a class="ptile" href="#mt-bench" style="--pc:var(--mt)"><span class="badges"><span class="badge">论文卡</span><span class="badge">经典 · 2023</span></span><b>MT-Bench</b><span>没有标准答案时，LLM 能否当裁判</span><span class="go">打开 →</span></a>
-          <a class="ptile" href="#calibration" style="--pc:var(--cb)"><span class="badges"><span class="badge">论文卡</span><span class="badge">经典 · 2022</span></span><b>Calibration</b><span>模型“知不知道”自己不知道</span><span class="go">打开 →</span></a>
-        </div>
-        <div class="next">之后会加入：人机协作研究</div>
-      </div>
-    </div>
+    <div class="eyebrow">大图</div>
+    <h2>模型怎么训出来，怎么被用起来，怎么被量</h2>
+    <div class="map"><div class="flow"><a class="stg" href="#dir-pre" style="--pc:var(--at)"><span class="k">Pretraining · 预训练</span><b>学会续写</b><p>在海量文本上预测下一个词，学到语言和知识。结果是个续写器，并不知道用户要什么。</p><span class="on">Transformer · 模型是怎么学习的</span></a><a class="stg" href="#dir-post" style="--pc:var(--ig)"><span class="k">Post-training · 后训练</span><b>调教成助手</b><p>用示范、人类偏好、可验证的对错来打分，改模型的参数，让它听得懂指令、会推理。</p><span class="on">打分方式 · InstructGPT · DeepSeek-R1</span><span class="soon2">之后：fine-tuning / LoRA</span></a><a class="stg" href="#dir-harness" style="--pc:var(--ra)"><span class="k">Harness · 外壳</span><b>包成能干活的产品</b><p>不改参数，改模型外面的东西：上下文里放什么、能用什么工具、记什么、失败了怎么重来。</p><span class="on">ReAct · Reflexion · MemGPT</span><span class="soon2">之后：context engineering · subagent · 记忆分层 · RAG · prompt injection</span></a></div><a class="evalbar" href="#dir-eval" style="--pc:var(--tau)"><span class="k">Evaluation · 评估，贯穿三段</span><p>每一段都要回答：怎么知道它变好了、能不能信？评估用的打分，也正是后训练的训练信号，所以它不是最后一步，而是一条贯穿的轴。τ-bench · MT-Bench · Calibration</p></a></div>
   </section>
-
+  <section class="sec" id="library">
+    <div class="eyebrow">目录</div>
+    <h2>全部论文和概念课</h2>
+    <div class="dir"><div class="dg" id="dir-pre" style="--pc:var(--at)"><h3><i></i>预训练</h3><a class="drow" href="#c-training" style="--pc:var(--cc)"><b>模型是怎么学习的</b><span>Loss、梯度下降、过拟合、参数与规模</span><em>概念课</em></a><a class="drow" href="#attention" style="--pc:var(--at)"><b>Attention Is All You Need</b><span>Transformer 架构：后来大模型的骨架</span><em>论文 · 2017</em></a></div><div class="dg" id="dir-post" style="--pc:var(--ig)"><h3><i></i>后训练</h3><a class="drow" href="#c-scoring" style="--pc:var(--cc)"><b>打分方式决定模型</b><span>交叉熵、Goodhart 定律、KL penalty</span><em>概念课</em></a><a class="drow" href="#instructgpt" style="--pc:var(--ig)"><b>InstructGPT</b><span>用人类偏好把续写器调教成助手</span><em>论文 · 2022</em></a><a class="drow" href="#r1" style="--pc:var(--r1)"><b>DeepSeek-R1</b><span>只告诉模型对错，推理能力自己长出来</span><em>论文 · 2025</em></a><div class="soon3">之后：fine-tuning / LoRA</div></div><div class="dg" id="dir-harness" style="--pc:var(--ra)"><h3><i></i>Harness 外壳</h3><a class="drow" href="#react" style="--pc:var(--ra)"><b>ReAct</b><span>想、做、看结果：agent 循环的起点</span><em>论文 · 2022</em></a><a class="drow" href="#reflexion" style="--pc:var(--rf)"><b>Reflexion</b><span>不改参数，靠错题本变好</span><em>论文 · 2023</em></a><a class="drow" href="#memgpt" style="--pc:var(--mg)"><b>MemGPT</b><span>context 不够时，agent 怎么管理记忆</span><em>论文 · 2023</em></a><div class="soon3">之后：context engineering · subagent · 记忆分层 · RAG · prompt injection</div></div><div class="dg" id="dir-eval" style="--pc:var(--tau)"><h3><i></i>评估 <small>贯穿三段</small></h3><a class="drow" href="#tau-bench" style="--pc:var(--tau)"><b>τ-bench</b><span>有标准答案时，agent 能否稳定办成事</span><em>论文 · 2024</em></a><a class="drow" href="#mt-bench" style="--pc:var(--mt)"><b>MT-Bench</b><span>没有标准答案时，LLM 能否当裁判</span><em>论文 · 2023</em></a><a class="drow" href="#calibration" style="--pc:var(--cb)"><b>Calibration</b><span>模型“知不知道”自己不知道</span><em>论文 · 2022</em></a></div></div>
+  </section>
   <nav class="toc" aria-label="地图目录">
-    <a href="#spectrum">光谱</a><a href="#compare">对照表</a><a href="#training">评估与训练</a><a href="#learning">在哪里学习</a><a href="#blind">共同盲区</a><a href="#phases">发散与收敛</a><a href="#principles">设计原则</a><a href="#questions">现场问题</a><a href="#gloss">术语</a><a href="#abbr">查词</a>
+    <a href="#papers">大图</a><a href="#library">目录</a><a href="#blind">共同盲区</a><a href="#principles">设计原则</a><a href="#questions">现场问题</a>
   </nav>
 
   <div class="legend">
@@ -335,69 +351,6 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     <span class="item"><span class="tag r">已有研究</span>其他论文、行业资料或领域共识；标“待确认”的会前要核对</span>
     <span class="item"><span class="tag g">推测</span>把研究套到产品上的判断，论文没有测</span>
   </div>
-
-  <section class="sec" id="spectrum">
-    <div class="eyebrow">核心坐标</div>
-    <h2>评估方法取决于“有没有标准答案”</h2>
-    <div class="axis"><span>有唯一正确结果</span><span>没有标准答案</span></div>
-    <div class="rail" aria-hidden="true"></div>
-    <div class="zones">
-      <div class="zone tint" style="--pc:var(--tau)"><span class="pill" style="--pc:var(--tau)">τ-bench、Reflexion 覆盖</span><b>执行一个清楚的请求</b><p><span class="k">例子</span><br>退货、改订单地址、填 dataset configuration、写能通过测试的代码</p><p><span class="k">怎么判</span><br>对比最终状态或跑测试，快、客观、可以跑成千上万次</p></div>
-      <div class="zone plain"><span class="pill none">都没覆盖</span><b>结论唯一，但输出是文字</b><p><span class="k">例子</span><br>root cause analysis：云存储费用突然偏高，是某个后台任务太重，还是计费计算有 bug？</p><p><span class="k">怎么判</span><br>fault injection 埋好答案（如 AIOpsLab）；限定原因类别，或用 reference-guided 的 LLM judge</p></div>
-      <div class="zone tint" style="--pc:var(--mt)"><span class="pill" style="--pc:var(--mt)">MT-Bench、InstructGPT 覆盖</span><b>开放式、创意类回答</b><p><span class="k">例子</span><br>写作、给建议、设计方案探索</p><p><span class="k">怎么判</span><br>人类偏好，或用 LLM judge / reward model 近似人类偏好；人和人本身就会分歧</p></div>
-    </div>
-    <p class="sub">越往右，“正确”越难定义，越依赖某个裁判，裁判本身可不可信就越重要。</p>
-  </section>
-
-  <section class="sec" id="compare">
-    <div class="eyebrow">两个 benchmark 对照 · 全部为 <span class="tag p">原文</span></div>
-    <h2>同一个问题，两种考法</h2>
-    <div class="tbl"><table>
-      <thead><tr><th></th><th><a href="#tau-bench">τ-bench →</a></th><th><a href="#mt-bench">MT-Bench →</a></th></tr></thead>
-      <tbody>
-        <tr><th>研究问题</th><td>agent 一边对话、一边调工具、一边守规则时，能不能稳定办成事</td><td>没有标准答案时，强 LLM 能不能替代人类当裁判</td></tr>
-        <tr><th>出题与判分</th><td>人写剧本，确保只有一个正确结果；对比最终数据库，只有 0 和 1（§3）</td><td>58 位专家标注员和 2,114 位众包用户投票；GPT-4 作为裁判对照（§4）</td></tr>
-        <tr><th>LLM 扮演谁</th><td>模拟用户</td><td>裁判</td></tr>
-        <tr><th>核心指标</th><td><span class="num">pass^k</span>：k 次独立运行全部成功</td><td>裁判与人类的一致率（S1 计入平局 / S2 排除平局）</td></tr>
-        <tr><th>关键数字</th><td>gpt-4o retail pass^1 <span class="num">61.2</span>，pass^8 低于 <span class="num">25%</span></td><td>GPT-4 与专家 S2 <span class="num">85%</span>，人与人 <span class="num">81%</span>；计入平局 <span class="num">66%</span></td></tr>
-        <tr><th>主要失败方式</th><td>参数或信息错 ~55%、没守规则 25%、做一半 19%</td><td>位置偏差、冗长偏差、自我偏好、推理能力有限</td></tr>
-        <tr><th>对应 workshop</th><td>Evaluation of Interactive Agents</td><td>Can We Trust the Judge?；Human-AI Coevolution</td></tr>
-      </tbody>
-    </table></div>
-  </section>
-
-  <section class="sec" id="training">
-    <div class="eyebrow"><a href="#instructgpt">InstructGPT 复习卡 →</a></div>
-    <h2>同一个“裁判”，既能评估，也能训练</h2>
-    <p>MT-Bench 用 LLM 裁判<b>评估</b>模型；InstructGPT 先把标注员的排序学成一个 reward model，再用它<b>训练</b>模型。两者是同一种东西的两种用法。<span class="tag p">原文 InstructGPT §3</span></p>
-    <div class="pipe" style="--pc:var(--ig)">
-      <div class="stage"><span class="k">Pretraining</span><b>续写器</b><p>学“怎么接下去”，不是“用户要什么”</p></div>
-      <div class="stage hl"><span class="k">Step 1 · SFT</span><b>看示范</b><p>标注员写好回答，模型照着学</p></div>
-      <div class="stage hl"><span class="k">Step 2 · Reward model</span><b>培养考官</b><p>标注员排序，训练模型拟合这些排序（也就是他们的“品味”）</p></div>
-      <div class="stage hl"><span class="k">Step 3 · PPO</span><b>考官打分下练习</b><p>KL penalty 防跑偏，PPO-ptx 防学新忘旧</p></div>
-    </div>
-    <div class="callout"><b>和光谱的关系</b><p>有标准答案的任务可以用对错来训练和评估，没有标准答案的才需要人或 AI 的偏好。训练和评估遵循同一套逻辑，也继承同样的风险：裁判有偏差，模型就学会那个偏差。<span class="tag r">已有研究</span>后来的 DPO、RLAIF、可验证奖励都是在替换这条流水线里的某一块。</p></div>
-  </section>
-
-  <section class="sec" id="learning">
-    <div class="eyebrow"><a href="#reflexion">Reflexion 复习卡 →</a> · 对应 CLEA workshop</div>
-    <h2>Agent 在哪里学习：参数、记忆、harness</h2>
-    <div class="where">
-      <div class="tint" style="--pc:var(--ig)"><span class="k">改模型参数</span><b>InstructGPT、fine-tuning</b><p>效果持久，但贵、慢，可能学新忘旧。学到了什么，人看不见。</p></div>
-      <div class="tint" style="--pc:var(--rf)"><span class="k">改 context / 记忆</span><b>Reflexion 错题本、<a href="#memgpt">MemGPT</a> 档案柜</b><p>把“为什么错、下次怎么做”写成文字，重做时放进 prompt。便宜、人能读懂，但容量有限。</p></div>
-      <div class="plain"><span class="k">改外层框架</span><b>harness：prompt、工具、流程</b><p><span class="tag p">原文 CLEA 征稿</span> “harness-level continual improvement”</p></div>
-    </div>
-    <h3>三种 loop，只有一种需要反思</h3>
-    <div class="tbl"><table>
-      <thead><tr><th>类型</th><th>循环的是什么</th><th>需要反思吗</th><th>主要风险</th></tr></thead>
-      <tbody>
-        <tr><td>逐个处理</td><td>一批不同的对象，每个做一次（如改表格每一行的字体）</td><td>不需要</td><td>做一半就停：τ-bench 里占失败的 19%（§5.2 原文），需要覆盖率检查</td></tr>
-        <tr><td>重试到通过</td><td>同一件事反复做，直到评估器说成功</td><td>不一定</td><td>评估器判错，就会停在错误答案上</td></tr>
-        <tr><td>带反思的重试</td><td>同一件事，每次失败后写下教训再来（Reflexion）</td><td>需要</td><td>错的教训被记住；卡在局部最优</td></tr>
-      </tbody>
-    </table></div>
-    <p class="sub"><span class="tag r">已有研究</span> Loop engineering 通常被描述为 Goal → Action → Observation → Adjustment 的循环，再加上持久记忆（IBM 称为 spine），和 Reflexion 的结构几乎一一对应。</p>
-  </section>
 
   <section class="sec" id="blind">
     <div class="eyebrow">把论文叠在一起看</div>
@@ -417,121 +370,63 @@ input[type=range]{width:100%;accent-color:var(--bar)}
     </div>
   </section>
 
-  <section class="sec" id="phases">
-    <div class="eyebrow"><span class="tag g">推测</span>依据：pass@k 与 pass^k 的定义（τ-bench §3 原文）</div>
-    <h2>发散用 pass@k，收敛用 pass^k</h2>
-    <p>分界线不在领域之间，而在同一个 workflow 的不同步骤之间，和设计里的 double diamond 是同一个结构。</p>
-    <div class="phases">
-      <div class="phase tint" style="--pc:var(--mt)"><span class="k">发散</span><b>探索方案、提出假设</b><p>生成很多，人来挑，对应 <span class="num">pass@k</span>。失败的样子：假发散，同一个想法换三种配色。</p></div>
-      <div class="phase h"><span class="k">交接</span><b>锁定方案</b><p>要带过去：选了什么、为什么选、明确不要什么、约束。失败的样子：执行时滑回被否掉的方向。<span class="tag r">已有研究</span>长 context 中间的信息容易被忽略（Lost in the Middle，Liu et al. 2023）；loop engineering 资料称之为 intent debt。</p></div>
-      <div class="phase tint" style="--pc:var(--tau)"><span class="k">收敛</span><b>执行、验证假设</b><p>每次都对、做出来的就是选中的那个，对应 <span class="num">pass^k</span>。失败的样子：说“做好了”，其实偏离了选择。</p></div>
-    </div>
-    <p class="sub">Reflexion 的错题本是收敛工具：在需要探索的<span class="tip" tabindex="0" data-tip="WebShop：模拟购物网站，约 100 万件商品，agent 要按要求找到并买对商品。">模拟网购任务</span>上没有进步（Reflexion §4 原文）。</p>
-  </section>
-
   <section class="sec" id="principles">
     <div class="eyebrow">带回产品 · <span class="tag g">推测</span>每条注明依据</div>
     <h2>十七条设计原则</h2>
     <div class="principles">
-      <div class="pr"><b>危险程度看可发现性，不只看失败类型</b><p>会报错 / 不报错 × 可逆 / 不可逆。最危险的是不报错、且已被拿去做决策的失败。</p><span class="from">依据：τ-bench 0/1 判分与失败分类（§3, §5.2 原文）</span></div>
-      <div class="pr"><b>对 silent 的失败，把证据摆出来</b><p>展示实际执行的 query 和数据范围；batch 操作给覆盖率，不要只给一个 Done。</p><span class="from">依据：τ-bench“复合请求做一半”占 19%（§5.2 原文）</span></div>
-      <div class="pr"><b>写操作前，结构化确认关键参数</b><p>列出型号、金额、ID、旧值→新值，比让 agent 复述一段话更能拦住错误。</p><span class="from">依据：τ-bench 参数或信息错占失败约 55%（§5.2 原文）</span></div>
-      <div class="pr"><b>审批要分级，并且要让批准有意义</b><p>按风险分只读、可逆写、不可逆写。每步都批准会变成橡皮图章，出事时责任落在点按钮的人身上。</p><span class="from">依据：τ-bench 判分不看过程（§3 原文）；moral crumple zone（Elish，已有研究）</span></div>
-      <div class="pr"><b>先让人独立判断，再揭示 AI 的意见</b><p>AI 建议出现的时机，决定人的判断还独不独立。</p><span class="from">依据：MT-Bench 分歧案例中 34% 的人改了判断（§4 原文）；anchoring、automation bias（已有研究）</span></div>
-      <div class="pr"><b>LLM judge 筛明显的，接近平局的交给人</b><p>被排除的难判题，恰恰最需要人的判断。</p><span class="from">依据：85% 一致率是排除平局后的 S2，计入平局是 66%（MT-Bench §4 原文）</span></div>
-      <div class="pr"><b>用反常识的规则测 agent 是否真的在守 SOP</b><p>demo 好看，可能只是因为任务碰巧符合常识。</p><span class="from">依据：retail 拿掉 policy 只降 4.4 分，airline 降 22.4 分（τ-bench Table 3 原文）</span></div>
-      <div class="pr"><b>交接点要显式化</b><p>把“锁定方案”做成一步：agent 先复述选定方案、理由、不要的东西和约束，人核对后存成 brief。</p><span class="from">依据：Lost in the Middle（已有研究）；intent debt（loop engineering 资料）</span></div>
-      <div class="pr"><b>明确“谁的品味”定义了好回答</b><p>通用模型默认反映一小群标注员的偏好。用 system prompt、领域示例或自己用户的反馈，把“好”的定义换成你的用户。</p><span class="from">依据：InstructGPT §5.2“Who are we aligning to?”（原文）</span></div>
-      <div class="pr"><b>给 agent 一个可以安全犯错的沙盒</b><p>风险高不等于不能试错，而是不能在真实环境里试错。dry-run、测试环境、样本数据验证让 agent 在沙盒里反复试，提交只有一次。人的位置从“盯每一次尝试”换成“定义什么算成功、看最终提交”。紧急事故的瓶颈是时间。</p><span class="from">依据：Reflexion 先自测再提交（§3–4 原文）；τ-bench“直接面对用户只有一次机会”（§5 原文）</span></div>
-      <div class="pr"><b>让 agent 学到的东西可查看、可编辑</b><p>让用户或管理员能审核、修改、删除 agent 记忆里存的教训，像管理一份共享 SOP。</p><span class="from">依据：Reflexion 反思可读（§6 原文）、Evaluator 会误判（§4 原文）；CLEA 征稿的 memory 与 alignment drift（原文）</span></div>
-      <div class="pr"><b>让“不确定”在界面上有位置</b><p>区分查到的和推断的，展示依据，置信度低时主动建议核实，并且不惩罚模型说“不知道”。</p><span class="from">依据：InstructGPT 仍会犯简单错误（§4.3 原文）；Kalai et al. 2025（已有研究，待确认）</span></div>
-      <div class="pr"><b>记忆和文档要带来源、时间、负责人，冲突要摆出来</b><p>引用 runbook 或 policy 时说明出处和更新日期；两份说法矛盾时让用户看到，而不是默默选一个。</p><span class="from">依据：MemGPT 记忆没有来源和冲突规则、测试材料全是静态的（§2–3 原文）；τ-bench 把冲突事实列为挑战（§6 原文）</span></div>
-      <div class="pr"><b>给记忆一份可见的目录</b><p>标明柜子里有什么、多新、哪里有冲突。agent 不再只能“凭感觉搜”（实际是对存储内容做相似度检索，并不知道里面有什么），人也能看到存储里有什么。</p><span class="from">依据：MemGPT 检索有局限、翻页常提前停（§3.2 原文）</span></div>
-      <div class="pr"><b>不把解释当证据，用反事实测试审计</b><p>流畅的推理是表达，不是验证。高风险结论要能指回具体的查询结果；审计时换顺序、删证据、去掉用户表态，看结论会不会变。</p><span class="from">依据：ReAct 中 CoT 有 14% 答对但推理错（Table 2 原文）；MT-Bench 位置偏差与交换测试（§3.3 原文）；Turpin et al. 2023 等（已有研究）</span></div>
-      <div class="pr"><b>置信度要在自己的任务上校准，优先展示“区分”而不是精确数字</b><p>RLHF 模型的概率不能直接当置信度。用真实工单和查询重新校准；界面上用“高 / 中 / 低”把需要复核的挑出来，往往比“73%”更有用。</p><span class="from">依据：RLHF 模型很不校准、调温度可修补，陌生任务上校准变差但区分能力能迁移（Calibration 原文）</span></div>
-      <div class="pr"><b>每个指标都配一个“会被怎么钻空子”的检查</b><p>指标一旦被当成目标，就会被钻空子（Goodhart's law）。任何用来训练或评估 agent 的指标，都配一个反事实测试或交叉检查。</p><span class="from">依据：MT-Bench 冗长偏差（§3.3 原文）、InstructGPT KL penalty（§3.5 原文）、Reflexion 自测误判（§4 原文）；Goodhart 1975、Strathern 1997（已有研究）</span></div>
+      <details class="pr"><summary><b>危险程度看可发现性，不只看失败类型</b></summary><p>会报错 / 不报错 × 可逆 / 不可逆。最危险的是不报错、且已被拿去做决策的失败。</p><span class="from">依据：τ-bench 0/1 判分与失败分类（§3, §5.2 原文）</span></details>
+      <details class="pr"><summary><b>对 silent 的失败，把证据摆出来</b></summary><p>展示实际执行的 query 和数据范围；batch 操作给覆盖率，不要只给一个 Done。</p><span class="from">依据：τ-bench“复合请求做一半”占 19%（§5.2 原文）</span></details>
+      <details class="pr"><summary><b>写操作前，结构化确认关键参数</b></summary><p>列出型号、金额、ID、旧值→新值，比让 agent 复述一段话更能拦住错误。</p><span class="from">依据：τ-bench 参数或信息错占失败约 55%（§5.2 原文）</span></details>
+      <details class="pr"><summary><b>审批要分级，并且要让批准有意义</b></summary><p>按风险分只读、可逆写、不可逆写。每步都批准会变成橡皮图章，出事时责任落在点按钮的人身上。</p><span class="from">依据：τ-bench 判分不看过程（§3 原文）；moral crumple zone（Elish，已有研究）</span></details>
+      <details class="pr"><summary><b>先让人独立判断，再揭示 AI 的意见</b></summary><p>AI 建议出现的时机，决定人的判断还独不独立。</p><span class="from">依据：MT-Bench 分歧案例中 34% 的人改了判断（§4 原文）；anchoring、automation bias（已有研究）</span></details>
+      <details class="pr"><summary><b>LLM judge 筛明显的，接近平局的交给人</b></summary><p>被排除的难判题，恰恰最需要人的判断。</p><span class="from">依据：85% 一致率是排除平局后的 S2，计入平局是 66%（MT-Bench §4 原文）</span></details>
+      <details class="pr"><summary><b>用反常识的规则测 agent 是否真的在守 SOP</b></summary><p>demo 好看，可能只是因为任务碰巧符合常识。</p><span class="from">依据：retail 拿掉 policy 只降 4.4 分，airline 降 22.4 分（τ-bench Table 3 原文）</span></details>
+      <details class="pr"><summary><b>交接点要显式化</b></summary><p>把“锁定方案”做成一步：agent 先复述选定方案、理由、不要的东西和约束，人核对后存成 brief。</p><span class="from">依据：Lost in the Middle（已有研究）；intent debt（loop engineering 资料）</span></details>
+      <details class="pr"><summary><b>明确“谁的品味”定义了好回答</b></summary><p>通用模型默认反映一小群标注员的偏好。用 system prompt、领域示例或自己用户的反馈，把“好”的定义换成你的用户。</p><span class="from">依据：InstructGPT §5.2“Who are we aligning to?”（原文）</span></details>
+      <details class="pr"><summary><b>给 agent 一个可以安全犯错的沙盒</b></summary><p>风险高不等于不能试错，而是不能在真实环境里试错。dry-run、测试环境、样本数据验证让 agent 在沙盒里反复试，提交只有一次。人的位置从“盯每一次尝试”换成“定义什么算成功、看最终提交”。紧急事故的瓶颈是时间。</p><span class="from">依据：Reflexion 先自测再提交（§3–4 原文）；τ-bench“直接面对用户只有一次机会”（§5 原文）</span></details>
+      <details class="pr"><summary><b>让 agent 学到的东西可查看、可编辑</b></summary><p>让用户或管理员能审核、修改、删除 agent 记忆里存的教训，像管理一份共享 SOP。</p><span class="from">依据：Reflexion 反思可读（§6 原文）、Evaluator 会误判（§4 原文）；CLEA 征稿的 memory 与 alignment drift（原文）</span></details>
+      <details class="pr"><summary><b>让“不确定”在界面上有位置</b></summary><p>区分查到的和推断的，展示依据，置信度低时主动建议核实，并且不惩罚模型说“不知道”。</p><span class="from">依据：InstructGPT 仍会犯简单错误（§4.3 原文）；Kalai et al. 2025（已有研究，待确认）</span></details>
+      <details class="pr"><summary><b>记忆和文档要带来源、时间、负责人，冲突要摆出来</b></summary><p>引用 runbook 或 policy 时说明出处和更新日期；两份说法矛盾时让用户看到，而不是默默选一个。</p><span class="from">依据：MemGPT 记忆没有来源和冲突规则、测试材料全是静态的（§2–3 原文）；τ-bench 把冲突事实列为挑战（§6 原文）</span></details>
+      <details class="pr"><summary><b>给记忆一份可见的目录</b></summary><p>标明柜子里有什么、多新、哪里有冲突。agent 不再只能“凭感觉搜”（实际是对存储内容做相似度检索，并不知道里面有什么），人也能看到存储里有什么。</p><span class="from">依据：MemGPT 检索有局限、翻页常提前停（§3.2 原文）</span></details>
+      <details class="pr"><summary><b>不把解释当证据，用反事实测试审计</b></summary><p>流畅的推理是表达，不是验证。高风险结论要能指回具体的查询结果；审计时换顺序、删证据、去掉用户表态，看结论会不会变。</p><span class="from">依据：ReAct 中 CoT 有 14% 答对但推理错（Table 2 原文）；MT-Bench 位置偏差与交换测试（§3.3 原文）；Turpin et al. 2023 等（已有研究）</span></details>
+      <details class="pr"><summary><b>置信度要在自己的任务上校准，优先展示“区分”而不是精确数字</b></summary><p>RLHF 模型的概率不能直接当置信度。用真实工单和查询重新校准；界面上用“高 / 中 / 低”把需要复核的挑出来，往往比“73%”更有用。</p><span class="from">依据：RLHF 模型很不校准、调温度可修补，陌生任务上校准变差但区分能力能迁移（Calibration 原文）</span></details>
+      <details class="pr"><summary><b>每个指标都配一个“会被怎么钻空子”的检查</b></summary><p>指标一旦被当成目标，就会被钻空子（Goodhart's law）。任何用来训练或评估 agent 的指标，都配一个反事实测试或交叉检查。</p><span class="from">依据：MT-Bench 冗长偏差（§3.3 原文）、InstructGPT KL penalty（§3.5 原文）、Reflexion 自测误判（§4 原文）；Goodhart 1975、Strathern 1997（已有研究）</span></details>
     </div>
   </section>
 
   <section class="qs" id="questions">
     <div class="eyebrow">带去 Atlanta · 12 月 12–13 日</div>
     <h2>按 workshop 分组的现场问题</h2>
-    <div class="ws"><h3>Evaluation of Interactive Agents</h3>
+    <details class="ws"><summary>Evaluation of Interactive Agents</summary>
       <div class="q"><span class="why">区分安静失败</span><div class="en">Your benchmark scores outcomes. How do you distinguish failures the user would notice from failures that look like success?</div><button class="copy" type="button">复制</button></div>
       <div class="q"><span class="why">追问参照物</span><div class="en">What's the human baseline on this task, and how did you measure it?</div><button class="copy" type="button">复制</button></div>
       <div class="q"><span class="why">弃答有没有分</span><div class="en">Does your scoring give any credit for safely abstaining or escalating, or is that scored the same as a wrong action?</div><button class="copy" type="button">复制</button></div>
-    </div>
-    <div class="ws"><h3>Can We Trust the Judge?</h3>
+    </details>
+    <details class="ws"><summary>Can We Trust the Judge?</summary>
       <div class="q"><span class="why">“人类”是谁</span><div class="en">Agreement with which humans? How does judge–human agreement change when the raters are domain experts rather than generalists?</div><button class="copy" type="button">复制</button></div>
       <div class="q"><span class="why">共享偏差</span><div class="en">When the judge and humans agree, how do you know they aren't sharing the same bias, for example toward fluent, confident answers?</div><button class="copy" type="button">复制</button></div>
       <div class="q"><span class="why">模拟用户可不可信</span><div class="en">How do you validate that your simulated users behave like real users, especially ones who aren't sure what they want?</div><button class="copy" type="button">复制</button></div>
       <div class="q"><span class="why">理由能不能当审计依据</span><div class="en">If a judge's written rationale doesn't reflect what actually drove its score, how should we audit LLM judges: by reading rationales, or only through counterfactual tests?</div><button class="copy" type="button">复制</button></div>
       <div class="q"><span class="why">置信度在我们的领域准不准</span><div class="en">After post-training, how do you recalibrate a model's confidence for a specific enterprise domain, and how much labeled data does that take?</div><button class="copy" type="button">复制</button></div>
-    </div>
-    <div class="ws"><h3>Human-AI Coevolution</h3>
+    </details>
+    <details class="ws"><summary>Human-AI Coevolution</summary>
       <div class="q"><span class="why">被说对还是被说服</span><div class="en">When people revise their judgment after seeing the model's reasoning, how do you tell whether they were corrected or just persuaded?</div><button class="copy" type="button">复制</button></div>
       <div class="q"><span class="why">审批疲劳</span><div class="en">As approvals become routine, how do you keep human oversight meaningful instead of a rubber stamp?</div><button class="copy" type="button">复制</button></div>
       <div class="q"><span class="why">谁的偏好</span><div class="en">Preference data comes from a small group of raters but shapes how millions of people work. How do you account for users whose preferences aren't in that group?</div><button class="copy" type="button">复制</button></div>
-    </div>
-    <div class="ws"><h3>Continual Learning for Enterprise AI Agents</h3>
+    </details>
+    <details class="ws"><summary>Continual Learning for Enterprise AI Agents</summary>
       <div class="q"><span class="why">规则变了怎么办</span><div class="en">When a company's policies change, how do you re-validate the agent, and who updates the ground truth it's evaluated against?</div><button class="copy" type="button">复制</button></div>
       <div class="q"><span class="why">谁审核学到的教训</span><div class="en">When an agent learns from its own reflections, who reviews what it learned? How do you catch a wrong lesson before it spreads to future tasks?</div><button class="copy" type="button">复制</button></div>
       <div class="q"><span class="why">能不能跨任务迁移</span><div class="en">Reflexion improves retries on the same task. What evidence do we have that lessons transfer across tasks in an enterprise setting?</div><button class="copy" type="button">复制</button></div>
       <div class="q"><span class="why">学新忘旧</span><div class="en">InstructGPT mixed in pretraining data to limit the alignment tax. What's the equivalent safeguard when an enterprise agent keeps learning from its own users?</div><button class="copy" type="button">复制</button></div>
       <div class="q"><span class="why">知识过期和冲突</span><div class="en">Your memory benchmarks use static data. How should an agent handle runbooks that go stale or policies that contradict each other, and how does it tell the user?</div><button class="copy" type="button">复制</button></div>
-    </div>
-    <div class="ws"><h3>任何 talk 都能用</h3>
+    </details>
+    <details class="ws"><summary>任何 talk 都能用</summary>
       <div class="q"><span class="why">快的是哪一段</span><div class="en">When you say it's faster, is that training, inference, or end-to-end latency the user actually sees?</div><button class="copy" type="button">复制</button></div>
       <div class="q"><span class="why">指标能不能迁移</span><div class="en">Was this metric measured on tasks like my users' workflows, and what would you expect to change in a multi-step enterprise setting?</div><button class="copy" type="button">复制</button></div>
-    </div>
+    </details>
   </section>
 
-  <section class="sec" id="gloss">
-    <div class="eyebrow">术语速查</div>
-    <h2>全部关键词</h2>
-    <div class="gloss">
-      <div><b>loss / gradient descent</b><span>给错误打分 / 沿着让 loss 下降的方向调参数</span></div>
-      <div><b>overfitting / generalization</b><span>背答案 / 学会了</span></div>
-      <div><b>cross-entropy / perplexity</b><span>−log(给正确答案的概率) / 平均在几个选项间犹豫</span></div>
-      <div><b>Goodhart's law / KL divergence</b><span>指标变目标就失效 / 两个分布差多远</span></div>
-      <div><b>token / embedding</b><span>切分后的文本单位 / 把 token 映射成可计算的向量</span></div>
-      <div><b>self-attention</b><span>处理某个位置时，参考同一序列其他位置并加权组合信息</span></div>
-      <div><b>encoder / decoder</b><span>把输入变成表示 / 根据表示逐步生成输出</span></div>
-      <div><b>training / inference</b><span>用数据更新参数 / 用训练好的模型处理新输入</span></div>
-      <div><b>benchmark</b><span>考卷 + 判分规则；没有及格线，只用来比较</span></div>
-      <div><b>ground truth</b><span>标准答案；τ-bench 里是正确的最终数据库状态</span></div>
-      <div><b>pass^k / pass@k</b><span>k 次全部成功 / k 次至少一次成功</span></div>
-      <div><b>LLM-as-a-judge</b><span>用一个强 LLM 给其他模型的回答打分</span></div>
-      <div><b>position / verbosity bias</b><span>裁判偏向某个位置 / 偏向更长的回答</span></div>
-      <div><b>S1 / S2 agreement</b><span>计入平局 / 排除平局的一致率</span></div>
-      <div><b>pretraining / post-training</b><span>在海量文本上学续写 / 把续写器调教成助手</span></div>
-      <div><b>SFT / reward model</b><span>照着示范学 / 从人类排序里学会打分的“虚拟考官”</span></div>
-      <div><b>RLHF / PPO</b><span>用人类偏好打分来强化学习 / RLHF 里小步调整的算法</span></div>
-      <div><b>KL penalty / PPO-ptx</b><span>防止偏离 SFT 模型太远 / 混入 pretraining 数据防学新忘旧</span></div>
-      <div><b>alignment tax</b><span>对齐后通用能力退步</span></div>
-      <div><b>catastrophic forgetting</b><span>学新任务时忘掉旧能力，continual learning 的核心问题</span></div>
-      <div><b>DPO / RLAIF</b><span>省掉 reward model 直接学排序 / 用 AI 按原则打分代替人</span></div>
-      <div><b>hallucination / sycophancy</b><span>流畅但没有事实依据的输出 / 输出向用户已表达的观点靠拢</span></div>
-      <div><b>reward hacking</b><span>被评的一方“讨好”裁判或指标：实际是优化器找到了得分高、却没做到本意的输出</span></div>
-      <div><b>verbal reinforcement learning</b><span>不改参数，把反馈变成文字教训存进记忆</span></div>
-      <div><b>Actor / Evaluator / Self-Reflection</b><span>做题的 / 批改的 / 写错题本的</span></div>
-      <div><b>local minima</b><span>越改越确定某个方向，却跳不出去</span></div>
-      <div><b>data contamination</b><span>考题被模型在训练时读过，分数因此虚高</span></div>
-      <div><b>benchmark saturation</b><span>分数被刷满，考卷失去区分度</span></div>
-      <div><b>automation bias / anchoring</b><span>人顺从机器的判断 / 先看到的意见拉住后面的判断</span></div>
-      <div><b>moral crumple zone</b><span>人被放在系统里，主要作用是出事时吸收责任</span></div>
-      <div><b>silent failure / fault injection</b><span>看起来像成功的失败 / 故意埋故障让答案已知</span></div>
-      <div><b>context window / virtual memory</b><span>模型一次能看见的范围（书桌）/ 让程序感觉内存很大的机制</span></div>
-      <div><b>recall / archival storage</b><span>MemGPT 柜子里的对话原文 / 任意长期信息</span></div>
-      <div><b>recursive summary</b><span>内容被挤出时留下的滚动摘要</span></div>
-      <div><b>knowledge conflict</b><span>不同来源的信息互相矛盾</span></div>
-      <div><b>CoT / CoT-SC</b><span>一步步写推理 / 想多遍取多数答案</span></div>
-      <div><b>CoT faithfulness / counterfactual test</b><span>推理是否真实原因 / 只改一处看结论变不变</span></div>
-      <div><b>calibration / discrimination</b><span>信心与正确率是否匹配 / 能否把对的和错的分开（AUROC）</span></div>
-      <div><b>P(True) / P(IK) / temperature scaling</b><span>“我答对了”的概率 / “这题我会”的概率 / 用温度修校准</span></div>
-      <div><b>harness / loop engineering</b><span>模型外层的 prompt、工具、流程 / 设计让 agent 自主迭代到目标的循环</span></div>
-    </div>
-  </section>
 
 
   <footer class="foot">
@@ -2188,50 +2083,22 @@ Thought：可以定位，回答用户</p></div>
   <header class="hero">
     <div class="eyebrow">NeurIPS 2026 Atlanta prep · 9 papers · 2 concept lessons</div>
     <h1>AI Papers to Product</h1>
-    <p>Reading ML papers with a product designer’s eye. First map: agent evaluation.</p>
+    <p>Reading ML papers with a product designer’s eye, and placing them on one map.</p>
     <p class="hq">How do we know an AI did the job well? And when it doesn't, how does it get better?</p>
-    <p>This map puts the papers we've read side by side: a spectrum of evaluation methods, how evaluation relates to training, where agents learn, shared blind spots, design principles, and questions for the workshops. Papers and concept lessons are organized by layer in the library, one click away.</p>
   </header>
 
   <section class="sec" id="papers-en">
-    <div class="eyebrow">Library</div>
-    <h2>Organized by layer: concept lessons and paper cards</h2>
-    <div class="cats">
-      <div class="cat"><div class="cat-h"><h3>Foundations</h3><span>How do models learn?</span></div>
-        <div class="papers">
-          <a class="ptile" href="#c-training" style="--pc:var(--cc)"><span class="badges"><span class="badge">Concept</span><span class="badge">Classic</span></span><b>How models learn</b><span>Loss, gradient descent, overfitting, parameters and scale</span><span class="go">Open →</span></a>
-          <a class="ptile" href="#c-scoring" style="--pc:var(--cc)"><span class="badges"><span class="badge">Concept</span><span class="badge">Classic</span></span><b>Scoring shapes the model</b><span>Cross-entropy, Goodhart's law, KL penalty</span><span class="go">Open →</span></a>
-          <a class="ptile" href="#attention" style="--pc:var(--at)"><span class="badges"><span class="badge">Paper</span><span class="badge">Classic · 2017</span></span><b>Attention Is All You Need</b><span>The Transformer: skeleton of later large models</span><span class="go">Open →</span></a>
-        </div>
-      </div>
-      <div class="cat"><div class="cat-h"><h3>From model to assistant</h3><span>How does a text continuer become a useful assistant?</span></div>
-        <div class="papers">
-          <a class="ptile" href="#instructgpt" style="--pc:var(--ig)"><span class="badges"><span class="badge">Paper</span><span class="badge">Classic · 2022</span></span><b>InstructGPT</b><span>Turning a text continuer into an assistant with human preferences</span><span class="go">Open →</span></a>
-          <a class="ptile" href="#r1" style="--pc:var(--r1)"><span class="badges"><span class="badge">Paper</span><span class="badge">2025</span></span><b>DeepSeek-R1</b><span>Tell the model only right or wrong, and reasoning grows on its own</span><span class="go">Open →</span></a>
-        </div>
-        <div class="next">Coming: fine-tuning / LoRA</div>
-      </div>
-      <div class="cat"><div class="cat-h"><h3>How agents work</h3><span>How do agents act, remember and improve?</span></div>
-        <div class="papers">
-          <a class="ptile" href="#react" style="--pc:var(--ra)"><span class="badges"><span class="badge">Paper</span><span class="badge">Classic · 2022</span></span><b>ReAct</b><span>Think, act, observe: where the agent loop began</span><span class="go">Open →</span></a>
-          <a class="ptile" href="#reflexion" style="--pc:var(--rf)"><span class="badges"><span class="badge">Paper</span><span class="badge">Classic · 2023</span></span><b>Reflexion</b><span>Getting better from a mistake notebook, without changing weights</span><span class="go">Open →</span></a>
-          <a class="ptile" href="#memgpt" style="--pc:var(--mg)"><span class="badges"><span class="badge">Paper</span><span class="badge">Classic · 2023</span></span><b>MemGPT</b><span>How agents manage memory when context runs out</span><span class="go">Open →</span></a>
-        </div>
-        <div class="next">Coming: RAG, prompt injection</div>
-      </div>
-      <div class="cat"><div class="cat-h"><h3>Evaluation & trust</h3><span>How do we know it did well, and can we trust it?</span></div>
-        <div class="papers">
-          <a class="ptile" href="#tau-bench" style="--pc:var(--tau)"><span class="badges"><span class="badge">Paper</span><span class="badge">Classic · 2024</span></span><b>τ-bench</b><span>When there is a right answer, can an agent get the job done reliably?</span><span class="go">Open →</span></a>
-          <a class="ptile" href="#mt-bench" style="--pc:var(--mt)"><span class="badges"><span class="badge">Paper</span><span class="badge">Classic · 2023</span></span><b>MT-Bench</b><span>When there is no right answer, can an LLM be the judge?</span><span class="go">Open →</span></a>
-          <a class="ptile" href="#calibration" style="--pc:var(--cb)"><span class="badges"><span class="badge">Paper</span><span class="badge">Classic · 2022</span></span><b>Calibration</b><span>Do models “know” what they don't know?</span><span class="go">Open →</span></a>
-        </div>
-        <div class="next">Coming: human–agent teaming studies</div>
-      </div>
-    </div>
+    <div class="eyebrow">Big picture</div>
+    <h2>How a model is trained, used and measured</h2>
+    <div class="map"><div class="flow"><a class="stg" href="#dir-pre" style="--pc:var(--at)"><span class="k">Pretraining</span><b>Learn to continue text</b><p>Predict the next word over huge amounts of text, picking up language and knowledge. The result is a text continuer that doesn’t know what a user wants.</p><span class="on">Transformer · How models learn</span></a><a class="stg" href="#dir-post" style="--pc:var(--ig)"><span class="k">Post-training</span><b>Shape it into an assistant</b><p>Score it with demonstrations, human preferences or checkable right/wrong, and change the weights so it follows instructions and reasons.</p><span class="on">Scoring · InstructGPT · DeepSeek-R1</span><span class="soon2">Coming: fine-tuning / LoRA</span></a><a class="stg" href="#dir-harness" style="--pc:var(--ra)"><span class="k">Harness</span><b>Wrap it into a product that works</b><p>Leave the weights alone and change what’s around the model: what goes in context, which tools it can use, what it remembers, how it retries.</p><span class="on">ReAct · Reflexion · MemGPT</span><span class="soon2">Coming: context engineering · subagents · memory layers · RAG · prompt injection</span></a></div><a class="evalbar" href="#dir-eval" style="--pc:var(--tau)"><span class="k">Evaluation, across all three</span><p>Every stage has to answer: how do we know it got better, and can we trust it? The scoring used to evaluate is also the training signal in post-training, so evaluation is not a last step but an axis running through. τ-bench · MT-Bench · Calibration</p></a></div>
   </section>
-
+  <section class="sec" id="library-en">
+    <div class="eyebrow">Index</div>
+    <h2>All papers and concept lessons</h2>
+    <div class="dir"><div class="dg" id="dir-pre-en" style="--pc:var(--at)"><h3><i></i>Pretraining</h3><a class="drow" href="#c-training" style="--pc:var(--cc)"><b>How models learn</b><span>Loss, gradient descent, overfitting, parameters and scale</span><em>Concept</em></a><a class="drow" href="#attention" style="--pc:var(--at)"><b>Attention Is All You Need</b><span>The Transformer: the skeleton of later large models</span><em>Paper · 2017</em></a></div><div class="dg" id="dir-post-en" style="--pc:var(--ig)"><h3><i></i>Post-training</h3><a class="drow" href="#c-scoring" style="--pc:var(--cc)"><b>Scoring shapes the model</b><span>Cross-entropy, Goodhart’s law, KL penalty</span><em>Concept</em></a><a class="drow" href="#instructgpt" style="--pc:var(--ig)"><b>InstructGPT</b><span>Turning a text continuer into an assistant with human preferences</span><em>Paper · 2022</em></a><a class="drow" href="#r1" style="--pc:var(--r1)"><b>DeepSeek-R1</b><span>Tell the model only right or wrong, and reasoning grows by itself</span><em>Paper · 2025</em></a><div class="soon3">Coming: fine-tuning / LoRA</div></div><div class="dg" id="dir-harness-en" style="--pc:var(--ra)"><h3><i></i>Harness</h3><a class="drow" href="#react" style="--pc:var(--ra)"><b>ReAct</b><span>Think, act, observe: where the agent loop began</span><em>Paper · 2022</em></a><a class="drow" href="#reflexion" style="--pc:var(--rf)"><b>Reflexion</b><span>Getting better from a mistake notebook, without changing weights</span><em>Paper · 2023</em></a><a class="drow" href="#memgpt" style="--pc:var(--mg)"><b>MemGPT</b><span>How agents manage memory when context runs out</span><em>Paper · 2023</em></a><div class="soon3">Coming: context engineering · subagents · memory layers · RAG · prompt injection</div></div><div class="dg" id="dir-eval-en" style="--pc:var(--tau)"><h3><i></i>Evaluation <small>across all three</small></h3><a class="drow" href="#tau-bench" style="--pc:var(--tau)"><b>τ-bench</b><span>When there is a right answer, can an agent get the job done reliably</span><em>Paper · 2024</em></a><a class="drow" href="#mt-bench" style="--pc:var(--mt)"><b>MT-Bench</b><span>When there is no right answer, can an LLM be the judge?</span><em>Paper · 2023</em></a><a class="drow" href="#calibration" style="--pc:var(--cb)"><b>Calibration</b><span>Do models “know” what they don’t know?</span><em>Paper · 2022</em></a></div></div>
+  </section>
   <nav class="toc" aria-label="Map contents">
-    <a href="#spectrum">Spectrum</a><a href="#compare">Comparison</a><a href="#training">Evaluation &amp; training</a><a href="#learning">Where agents learn</a><a href="#blind">Blind spots</a><a href="#phases">Diverge &amp; converge</a><a href="#principles">Design principles</a><a href="#questions">Questions</a><a href="#gloss">Glossary</a><a href="#abbr">Terms</a>
+    <a href="#papers">Map</a><a href="#library">Index</a><a href="#blind">Blind spots</a><a href="#principles">Principles</a><a href="#questions">Questions</a>
   </nav>
 
   <div class="legend">
@@ -2239,69 +2106,6 @@ Thought：可以定位，回答用户</p></div>
     <span class="item"><span class="tag r">Prior research</span>Other papers, industry sources or field consensus; items marked “to verify” need checking before the conference</span>
     <span class="item"><span class="tag g">Our inference</span>Applying the research to product decisions; the paper didn't test it</span>
   </div>
-
-  <section class="sec" id="spectrum-en">
-    <div class="eyebrow">The core axis</div>
-    <h2>How you evaluate depends on whether there is a right answer</h2>
-    <div class="axis"><span>One correct outcome</span><span>No right answer</span></div>
-    <div class="rail" aria-hidden="true"></div>
-    <div class="zones">
-      <div class="zone tint" style="--pc:var(--tau)"><span class="pill" style="--pc:var(--tau)">τ-bench, Reflexion</span><b>Carry out a clear request</b><p><span class="k">Examples</span><br>Process a return, change an order address, fill in a dataset configuration, write code that passes tests</p><p><span class="k">How it's judged</span><br>Compare the final state or run tests: fast, objective, repeatable thousands of times</p></div>
-      <div class="zone plain"><span class="pill none">Not covered</span><b>One right conclusion, but the output is text</b><p><span class="k">Example</span><br>Root cause analysis: is the cloud storage bill high because of a heavy background job, or a billing calculation bug?</p><p><span class="k">How it's judged</span><br>Plant the answer with fault injection (e.g. AIOpsLab); restrict answers to cause categories, or use a reference-guided LLM judge</p></div>
-      <div class="zone tint" style="--pc:var(--mt)"><span class="pill" style="--pc:var(--mt)">MT-Bench, InstructGPT</span><b>Open-ended, creative answers</b><p><span class="k">Examples</span><br>Writing, giving advice, exploring design directions</p><p><span class="k">How it's judged</span><br>Human preference, or an LLM judge / reward model that approximates it; humans themselves disagree</p></div>
-    </div>
-    <p class="sub">The further right, the harder it is to define “correct”, the more you depend on a judge, and the more that judge's reliability matters.</p>
-  </section>
-
-  <section class="sec" id="compare-en">
-    <div class="eyebrow">Two benchmarks compared · all <span class="tag p">Paper</span></div>
-    <h2>Same question, two kinds of exam</h2>
-    <div class="tbl"><table>
-      <thead><tr><th></th><th><a href="#tau-bench">τ-bench →</a></th><th><a href="#mt-bench">MT-Bench →</a></th></tr></thead>
-      <tbody>
-        <tr><th>Research question</th><td>Can an agent reliably get things done while talking to a user, calling tools and following rules?</td><td>When there's no right answer, can a strong LLM replace human judges?</td></tr>
-        <tr><th>Tasks &amp; scoring</th><td>Humans write scenarios with exactly one correct outcome; compare the final database, scored 0 or 1 (§3)</td><td>58 expert raters and 2,114 crowd users vote; GPT-4 as judge for comparison (§4)</td></tr>
-        <tr><th>The LLM plays</th><td>The simulated user</td><td>The judge</td></tr>
-        <tr><th>Core metric</th><td><span class="num">pass^k</span>: all k independent runs succeed</td><td>Judge–human agreement (S1 counts ties / S2 excludes them)</td></tr>
-        <tr><th>Key numbers</th><td>gpt-4o retail pass^1 <span class="num">61.2</span>, pass^8 under <span class="num">25%</span></td><td>GPT-4 vs experts S2 <span class="num">85%</span>, human–human <span class="num">81%</span>; with ties <span class="num">66%</span></td></tr>
-        <tr><th>Main failure modes</th><td>Wrong arguments or info ~55%, rule violations 25%, partial completion 19%</td><td>Position bias, verbosity bias, self-enhancement, limited reasoning</td></tr>
-        <tr><th>Workshop</th><td>Evaluation of Interactive Agents</td><td>Can We Trust the Judge?; Human-AI Coevolution</td></tr>
-      </tbody>
-    </table></div>
-  </section>
-
-  <section class="sec" id="training-en">
-    <div class="eyebrow"><a href="#instructgpt">InstructGPT card →</a></div>
-    <h2>The same “judge” can evaluate and train</h2>
-    <p>MT-Bench uses an LLM judge to <b>evaluate</b> models. InstructGPT first learns a reward model from human rankings, then uses it to <b>train</b> the model. Two uses of the same thing. <span class="tag p">Paper InstructGPT §3</span></p>
-    <div class="pipe" style="--pc:var(--ig)">
-      <div class="stage"><span class="k">Pretraining</span><b>Text continuer</b><p>Learns “what comes next”, not “what the user wants”</p></div>
-      <div class="stage hl"><span class="k">Step 1 · SFT</span><b>Learn from demos</b><p>Labelers write good answers; the model imitates them</p></div>
-      <div class="stage hl"><span class="k">Step 2 · Reward model</span><b>Train an examiner</b><p>Labelers rank answers; a model is fitted to reproduce those rankings (their “taste”)</p></div>
-      <div class="stage hl"><span class="k">Step 3 · PPO</span><b>Practice under the examiner</b><p>KL penalty prevents drift; PPO-ptx prevents forgetting</p></div>
-    </div>
-    <div class="callout"><b>Link to the spectrum</b><p>Tasks with right answers can be trained and evaluated on correctness; only tasks without them need human or AI preference. Training and evaluation share the same logic and the same risk: if the judge is biased, the model learns the bias. <span class="tag r">Prior research</span> Later methods such as DPO, RLAIF and verifiable rewards each replace one piece of this pipeline.</p></div>
-  </section>
-
-  <section class="sec" id="learning-en">
-    <div class="eyebrow"><a href="#reflexion">Reflexion card →</a> · CLEA workshop</div>
-    <h2>Where agents learn: weights, memory, harness</h2>
-    <div class="where">
-      <div class="tint" style="--pc:var(--ig)"><span class="k">Change weights</span><b>InstructGPT, fine-tuning</b><p>Durable, but expensive, slow and prone to forgetting. What was learned isn't visible to people.</p></div>
-      <div class="tint" style="--pc:var(--rf)"><span class="k">Change context / memory</span><b>Reflexion notebook, <a href="#memgpt">MemGPT</a> filing cabinet</b><p>Write down why it failed and what to do next, then put that in the prompt on retry. Cheap and readable, but limited in size.</p></div>
-      <div class="plain"><span class="k">Change the harness</span><b>Prompts, tools, workflow</b><p><span class="tag p">Paper CLEA call</span> “Harness-level continual improvement”</p></div>
-    </div>
-    <h3>Three kinds of loop; only one needs reflection</h3>
-    <div class="tbl"><table>
-      <thead><tr><th>Type</th><th>What it loops over</th><th>Needs reflection?</th><th>Main risk</th></tr></thead>
-      <tbody>
-        <tr><td>Process each item</td><td>A batch of different items, each done once (e.g. change the font in every table row)</td><td>No</td><td>Stopping halfway: 19% of τ-bench failures (§5.2 Paper); needs a coverage check</td></tr>
-        <tr><td>Retry until it passes</td><td>The same task repeated until the evaluator says success</td><td>Not necessarily</td><td>If the evaluator is wrong, it stops on a wrong answer</td></tr>
-        <tr><td>Retry with reflection</td><td>The same task, writing down a lesson after each failure (Reflexion)</td><td>Yes</td><td>Wrong lessons get remembered; stuck in local minima</td></tr>
-      </tbody>
-    </table></div>
-    <p class="sub"><span class="tag r">Prior research</span> Loop engineering is usually described as a Goal → Action → Observation → Adjustment cycle plus persistent memory (IBM calls it the spine), which maps almost one-to-one onto Reflexion.</p>
-  </section>
 
   <section class="sec" id="blind-en">
     <div class="eyebrow">Reading the papers together</div>
@@ -2321,121 +2125,63 @@ Thought：可以定位，回答用户</p></div>
     </div>
   </section>
 
-  <section class="sec" id="phases-en">
-    <div class="eyebrow"><span class="tag g">Our inference</span> Based on the pass@k and pass^k definitions (τ-bench §3 Paper)</div>
-    <h2>Diverge with pass@k, converge with pass^k</h2>
-    <p>The line isn't between domains but between steps of the same workflow. It's the same shape as the design double diamond.</p>
-    <div class="phases">
-      <div class="phase tint" style="--pc:var(--mt)"><span class="k">Diverge</span><b>Explore directions, form hypotheses</b><p>Generate many, a person picks: <span class="num">pass@k</span>. Failure looks like fake divergence: one idea in three color schemes.</p></div>
-      <div class="phase h"><span class="k">Hand-off</span><b>Lock the direction</b><p>Carry over what was chosen, why, what's ruled out, and the constraints. Failure looks like drifting back to rejected directions. <span class="tag r">Prior research</span> Information in the middle of long contexts gets ignored (Lost in the Middle, Liu et al. 2023); loop engineering writers call this intent debt.</p></div>
-      <div class="phase tint" style="--pc:var(--tau)"><span class="k">Converge</span><b>Execute, verify</b><p>Right every time, and it's what was chosen: <span class="num">pass^k</span>. Failure looks like “done” while quietly deviating.</p></div>
-    </div>
-    <p class="sub">Reflexion's mistake notebook is a converging tool: it made no progress on exploration-heavy <span class="tip" tabindex="0" data-tip="WebShop: a simulated shopping site with about 1 million products; the agent must find and buy the right one.">simulated shopping</span> (Reflexion §4 Paper).</p>
-  </section>
-
   <section class="sec" id="principles-en">
     <div class="eyebrow">Back to product · <span class="tag g">Our inference</span> each with its basis</div>
     <h2>Seventeen design principles</h2>
     <div class="principles">
-      <div class="pr"><b>Rate risk by detectability, not just failure type</b><p>Loud / silent × reversible / irreversible. The worst failures are silent ones that have already fed a decision.</p><span class="from">Basis: τ-bench 0/1 scoring and failure breakdown (§3, §5.2 Paper)</span></div>
-      <div class="pr"><b>For silent failures, show the evidence</b><p>Show the query that actually ran and its data scope; give batch operations a coverage count, not just “Done”.</p><span class="from">Basis: partial completion is 19% of τ-bench failures (§5.2 Paper)</span></div>
-      <div class="pr"><b>Confirm key parameters in structured form before writes</b><p>List the model, amount, IDs, old → new values. This catches more errors than having the agent paraphrase.</p><span class="from">Basis: wrong arguments or info are about 55% of τ-bench failures (§5.2 Paper)</span></div>
-      <div class="pr"><b>Tier approvals and make them meaningful</b><p>Split by risk: read-only, reversible write, irreversible write. Approving every step becomes a rubber stamp, and blame lands on whoever clicked.</p><span class="from">Basis: τ-bench scores outcome, not process (§3 Paper); moral crumple zone (Elish, Prior research)</span></div>
-      <div class="pr"><b>Let people judge first, then reveal the AI's view</b><p>When the AI's suggestion appears decides whether human judgment stays independent.</p><span class="from">Basis: 34% of people revised their judgment in disagreement cases (MT-Bench §4 Paper); anchoring, automation bias (Prior research)</span></div>
-      <div class="pr"><b>LLM judges screen the obvious; humans take the close calls</b><p>The hard cases left out of the headline number are exactly the ones needing human judgment.</p><span class="from">Basis: 85% agreement is S2 without ties; with ties it's 66% (MT-Bench §4 Paper)</span></div>
-      <div class="pr"><b>Test SOP adherence with counter-intuitive rules</b><p>A good demo may only mean the tasks happened to match common sense.</p><span class="from">Basis: removing the policy cost 4.4 points in retail but 22.4 in airline (τ-bench Table 3 Paper)</span></div>
-      <div class="pr"><b>Make the hand-off explicit</b><p>Make “lock the direction” a step: the agent restates the chosen option, the reasons, what's ruled out and the constraints; a person checks it and saves it as a brief.</p><span class="from">Basis: Lost in the Middle (Prior research); intent debt (loop engineering writing)</span></div>
-      <div class="pr"><b>Be explicit about whose taste defines “good”</b><p>General models reflect a small group of labelers by default. Use system prompts, domain examples or your own users' feedback to redefine “good” for your users.</p><span class="from">Basis: InstructGPT §5.2 “Who are we aligning to?” (Paper)</span></div>
-      <div class="pr"><b>Give agents a sandbox to fail safely</b><p>High risk doesn't rule out trial and error; it rules out trial and error in production. Dry runs, test environments and sample-data validation let the agent iterate, then submit once. People move from watching every attempt to defining success and checking the final submission. In urgent incidents the bottleneck is time.</p><span class="from">Basis: Reflexion self-tests before submitting (§3–4 Paper); τ-bench “a user-facing agent gets one chance” (§5 Paper)</span></div>
-      <div class="pr"><b>Make what agents learn viewable and editable</b><p>Let users or admins review, edit and delete the lessons an agent keeps, like a shared SOP.</p><span class="from">Basis: Reflexion reflections are readable (§6 Paper), evaluators misjudge (§4 Paper); CLEA's memory and alignment drift topics (Paper)</span></div>
-      <div class="pr"><b>Give uncertainty a place in the interface</b><p>Separate what was looked up from what was inferred, show the basis, suggest verification when confidence is low, and don't penalize “I don't know”.</p><span class="from">Basis: InstructGPT still makes simple mistakes (§4.3 Paper); Kalai et al. 2025 (Prior research, to verify)</span></div>
-      <div class="pr"><b>Give memories and documents a source, date and owner; surface conflicts</b><p>When citing a runbook or policy, show where it came from and when it was updated; when two disagree, show the user instead of silently picking one.</p><span class="from">Basis: MemGPT memories have no provenance or conflict rules, and its test data is static (§2–3 Paper); τ-bench lists conflicting facts as a challenge (§6 Paper)</span></div>
-      <div class="pr"><b>Give memory a visible directory</b><p>Show what's in the cabinet, how fresh it is and where it conflicts, so the agent isn't searching blind and people know what it remembers.</p><span class="from">Basis: MemGPT retrieval has limits and often stops paging early (§3.2 Paper)</span></div>
-      <div class="pr"><b>Don't treat explanations as evidence; audit with counterfactuals</b><p>Fluent reasoning is expression, not verification. High-stakes conclusions should point back to specific lookups; audits should reorder inputs, remove evidence or drop the user's stated view and see if the conclusion moves.</p><span class="from">Basis: 14% of CoT answers were right with wrong reasoning (ReAct Table 2 Paper); MT-Bench position bias and swap test (§3.3 Paper); Turpin et al. 2023 and others (Prior research)</span></div>
-      <div class="pr"><b>Calibrate confidence on your own tasks; show discrimination, not precise numbers</b><p>An RLHF model's probabilities aren't confidence as-is. Recalibrate on real tickets and queries; in the interface, high / medium / low that flags what needs review often beats “73%”.</p><span class="from">Basis: RLHF models are badly calibrated and fixable with temperature; on unfamiliar tasks calibration degrades while discrimination transfers (Calibration Paper)</span></div>
-      <div class="pr"><b>Pair every metric with a “how could this be gamed?” check</b><p>Once a metric becomes a target it gets gamed (Goodhart's law). Pair any metric used to train or evaluate an agent with a counterfactual test or cross-check.</p><span class="from">Basis: MT-Bench verbosity bias (§3.3 Paper), InstructGPT KL penalty (§3.5 Paper), Reflexion self-test false passes (§4 Paper); Goodhart 1975, Strathern 1997 (Prior research)</span></div>
+      <details class="pr"><summary><b>Rate risk by detectability, not just failure type</b></summary><p>Loud / silent × reversible / irreversible. The worst failures are silent ones that have already fed a decision.</p><span class="from">Basis: τ-bench 0/1 scoring and failure breakdown (§3, §5.2 Paper)</span></details>
+      <details class="pr"><summary><b>For silent failures, show the evidence</b></summary><p>Show the query that actually ran and its data scope; give batch operations a coverage count, not just “Done”.</p><span class="from">Basis: partial completion is 19% of τ-bench failures (§5.2 Paper)</span></details>
+      <details class="pr"><summary><b>Confirm key parameters in structured form before writes</b></summary><p>List the model, amount, IDs, old → new values. This catches more errors than having the agent paraphrase.</p><span class="from">Basis: wrong arguments or info are about 55% of τ-bench failures (§5.2 Paper)</span></details>
+      <details class="pr"><summary><b>Tier approvals and make them meaningful</b></summary><p>Split by risk: read-only, reversible write, irreversible write. Approving every step becomes a rubber stamp, and blame lands on whoever clicked.</p><span class="from">Basis: τ-bench scores outcome, not process (§3 Paper); moral crumple zone (Elish, Prior research)</span></details>
+      <details class="pr"><summary><b>Let people judge first, then reveal the AI's view</b></summary><p>When the AI's suggestion appears decides whether human judgment stays independent.</p><span class="from">Basis: 34% of people revised their judgment in disagreement cases (MT-Bench §4 Paper); anchoring, automation bias (Prior research)</span></details>
+      <details class="pr"><summary><b>LLM judges screen the obvious; humans take the close calls</b></summary><p>The hard cases left out of the headline number are exactly the ones needing human judgment.</p><span class="from">Basis: 85% agreement is S2 without ties; with ties it's 66% (MT-Bench §4 Paper)</span></details>
+      <details class="pr"><summary><b>Test SOP adherence with counter-intuitive rules</b></summary><p>A good demo may only mean the tasks happened to match common sense.</p><span class="from">Basis: removing the policy cost 4.4 points in retail but 22.4 in airline (τ-bench Table 3 Paper)</span></details>
+      <details class="pr"><summary><b>Make the hand-off explicit</b></summary><p>Make “lock the direction” a step: the agent restates the chosen option, the reasons, what's ruled out and the constraints; a person checks it and saves it as a brief.</p><span class="from">Basis: Lost in the Middle (Prior research); intent debt (loop engineering writing)</span></details>
+      <details class="pr"><summary><b>Be explicit about whose taste defines “good”</b></summary><p>General models reflect a small group of labelers by default. Use system prompts, domain examples or your own users' feedback to redefine “good” for your users.</p><span class="from">Basis: InstructGPT §5.2 “Who are we aligning to?” (Paper)</span></details>
+      <details class="pr"><summary><b>Give agents a sandbox to fail safely</b></summary><p>High risk doesn't rule out trial and error; it rules out trial and error in production. Dry runs, test environments and sample-data validation let the agent iterate, then submit once. People move from watching every attempt to defining success and checking the final submission. In urgent incidents the bottleneck is time.</p><span class="from">Basis: Reflexion self-tests before submitting (§3–4 Paper); τ-bench “a user-facing agent gets one chance” (§5 Paper)</span></details>
+      <details class="pr"><summary><b>Make what agents learn viewable and editable</b></summary><p>Let users or admins review, edit and delete the lessons an agent keeps, like a shared SOP.</p><span class="from">Basis: Reflexion reflections are readable (§6 Paper), evaluators misjudge (§4 Paper); CLEA's memory and alignment drift topics (Paper)</span></details>
+      <details class="pr"><summary><b>Give uncertainty a place in the interface</b></summary><p>Separate what was looked up from what was inferred, show the basis, suggest verification when confidence is low, and don't penalize “I don't know”.</p><span class="from">Basis: InstructGPT still makes simple mistakes (§4.3 Paper); Kalai et al. 2025 (Prior research, to verify)</span></details>
+      <details class="pr"><summary><b>Give memories and documents a source, date and owner; surface conflicts</b></summary><p>When citing a runbook or policy, show where it came from and when it was updated; when two disagree, show the user instead of silently picking one.</p><span class="from">Basis: MemGPT memories have no provenance or conflict rules, and its test data is static (§2–3 Paper); τ-bench lists conflicting facts as a challenge (§6 Paper)</span></details>
+      <details class="pr"><summary><b>Give memory a visible directory</b></summary><p>Show what's in the cabinet, how fresh it is and where it conflicts, so the agent isn't searching blind and people know what it remembers.</p><span class="from">Basis: MemGPT retrieval has limits and often stops paging early (§3.2 Paper)</span></details>
+      <details class="pr"><summary><b>Don't treat explanations as evidence; audit with counterfactuals</b></summary><p>Fluent reasoning is expression, not verification. High-stakes conclusions should point back to specific lookups; audits should reorder inputs, remove evidence or drop the user's stated view and see if the conclusion moves.</p><span class="from">Basis: 14% of CoT answers were right with wrong reasoning (ReAct Table 2 Paper); MT-Bench position bias and swap test (§3.3 Paper); Turpin et al. 2023 and others (Prior research)</span></details>
+      <details class="pr"><summary><b>Calibrate confidence on your own tasks; show discrimination, not precise numbers</b></summary><p>An RLHF model's probabilities aren't confidence as-is. Recalibrate on real tickets and queries; in the interface, high / medium / low that flags what needs review often beats “73%”.</p><span class="from">Basis: RLHF models are badly calibrated and fixable with temperature; on unfamiliar tasks calibration degrades while discrimination transfers (Calibration Paper)</span></details>
+      <details class="pr"><summary><b>Pair every metric with a “how could this be gamed?” check</b></summary><p>Once a metric becomes a target it gets gamed (Goodhart's law). Pair any metric used to train or evaluate an agent with a counterfactual test or cross-check.</p><span class="from">Basis: MT-Bench verbosity bias (§3.3 Paper), InstructGPT KL penalty (§3.5 Paper), Reflexion self-test false passes (§4 Paper); Goodhart 1975, Strathern 1997 (Prior research)</span></details>
     </div>
   </section>
 
   <section class="qs" id="questions-en">
     <div class="eyebrow">For Atlanta · Dec 12–13</div>
     <h2>Questions by workshop</h2>
-    <div class="ws"><h3>Evaluation of Interactive Agents</h3>
+    <details class="ws"><summary>Evaluation of Interactive Agents</summary>
       <div class="q"><span class="why">Silent failures</span><div class="en">Your benchmark scores outcomes. How do you distinguish failures the user would notice from failures that look like success?</div><button class="copy" type="button">Copy</button></div>
       <div class="q"><span class="why">Reference point</span><div class="en">What's the human baseline on this task, and how did you measure it?</div><button class="copy" type="button">Copy</button></div>
       <div class="q"><span class="why">Credit for abstaining</span><div class="en">Does your scoring give any credit for safely abstaining or escalating, or is that scored the same as a wrong action?</div><button class="copy" type="button">Copy</button></div>
-    </div>
-    <div class="ws"><h3>Can We Trust the Judge?</h3>
+    </details>
+    <details class="ws"><summary>Can We Trust the Judge?</summary>
       <div class="q"><span class="why">Which humans</span><div class="en">Agreement with which humans? How does judge–human agreement change when the raters are domain experts rather than generalists?</div><button class="copy" type="button">Copy</button></div>
       <div class="q"><span class="why">Shared bias</span><div class="en">When the judge and humans agree, how do you know they aren't sharing the same bias, for example toward fluent, confident answers?</div><button class="copy" type="button">Copy</button></div>
       <div class="q"><span class="why">Simulated users</span><div class="en">How do you validate that your simulated users behave like real users, especially ones who aren't sure what they want?</div><button class="copy" type="button">Copy</button></div>
       <div class="q"><span class="why">Can rationales be audited</span><div class="en">If a judge's written rationale doesn't reflect what actually drove its score, how should we audit LLM judges: by reading rationales, or only through counterfactual tests?</div><button class="copy" type="button">Copy</button></div>
       <div class="q"><span class="why">Is confidence accurate in our domain</span><div class="en">After post-training, how do you recalibrate a model's confidence for a specific enterprise domain, and how much labeled data does that take?</div><button class="copy" type="button">Copy</button></div>
-    </div>
-    <div class="ws"><h3>Human-AI Coevolution</h3>
+    </details>
+    <details class="ws"><summary>Human-AI Coevolution</summary>
       <div class="q"><span class="why">Corrected or persuaded</span><div class="en">When people revise their judgment after seeing the model's reasoning, how do you tell whether they were corrected or just persuaded?</div><button class="copy" type="button">Copy</button></div>
       <div class="q"><span class="why">Approval fatigue</span><div class="en">As approvals become routine, how do you keep human oversight meaningful instead of a rubber stamp?</div><button class="copy" type="button">Copy</button></div>
       <div class="q"><span class="why">Whose preferences</span><div class="en">Preference data comes from a small group of raters but shapes how millions of people work. How do you account for users whose preferences aren't in that group?</div><button class="copy" type="button">Copy</button></div>
-    </div>
-    <div class="ws"><h3>Continual Learning for Enterprise AI Agents</h3>
+    </details>
+    <details class="ws"><summary>Continual Learning for Enterprise AI Agents</summary>
       <div class="q"><span class="why">When rules change</span><div class="en">When a company's policies change, how do you re-validate the agent, and who updates the ground truth it's evaluated against?</div><button class="copy" type="button">Copy</button></div>
       <div class="q"><span class="why">Reviewing lessons</span><div class="en">When an agent learns from its own reflections, who reviews what it learned? How do you catch a wrong lesson before it spreads to future tasks?</div><button class="copy" type="button">Copy</button></div>
       <div class="q"><span class="why">Transfer across tasks</span><div class="en">Reflexion improves retries on the same task. What evidence do we have that lessons transfer across tasks in an enterprise setting?</div><button class="copy" type="button">Copy</button></div>
       <div class="q"><span class="why">Forgetting</span><div class="en">InstructGPT mixed in pretraining data to limit the alignment tax. What's the equivalent safeguard when an enterprise agent keeps learning from its own users?</div><button class="copy" type="button">Copy</button></div>
       <div class="q"><span class="why">Stale and conflicting knowledge</span><div class="en">Your memory benchmarks use static data. How should an agent handle runbooks that go stale or policies that contradict each other, and how does it tell the user?</div><button class="copy" type="button">Copy</button></div>
-    </div>
-    <div class="ws"><h3>Works for any talk</h3>
+    </details>
+    <details class="ws"><summary>Works for any talk</summary>
       <div class="q"><span class="why">Faster where</span><div class="en">When you say it's faster, is that training, inference, or end-to-end latency the user actually sees?</div><button class="copy" type="button">Copy</button></div>
       <div class="q"><span class="why">Does the metric transfer</span><div class="en">Was this metric measured on tasks like my users' workflows, and what would you expect to change in a multi-step enterprise setting?</div><button class="copy" type="button">Copy</button></div>
-    </div>
+    </details>
   </section>
 
-  <section class="sec" id="gloss-en">
-    <div class="eyebrow">Glossary</div>
-    <h2>All key terms</h2>
-    <div class="gloss">
-      <div><b>loss / gradient descent</b><span>Scoring errors / adjusting parameters in the direction that lowers loss</span></div>
-      <div><b>overfitting / generalization</b><span>Memorizing / actually learning</span></div>
-      <div><b>cross-entropy / perplexity</b><span>−log(probability on the correct answer) / options torn between on average</span></div>
-      <div><b>Goodhart's law / KL divergence</b><span>A measure that becomes a target fails / how far two distributions differ</span></div>
-      <div><b>token / embedding</b><span>The unit text is split into / mapping a token to a computable vector</span></div>
-      <div><b>self-attention</b><span>While processing one position, weigh and combine information from the other positions</span></div>
-      <div><b>encoder / decoder</b><span>Turns input into a representation / generates output step by step from it</span></div>
-      <div><b>training / inference</b><span>Updating weights with data / running the trained model on new input</span></div>
-      <div><b>benchmark</b><span>An exam plus scoring rules; no pass mark, only for comparison</span></div>
-      <div><b>ground truth</b><span>The right answer; in τ-bench, the correct final database state</span></div>
-      <div><b>pass^k / pass@k</b><span>All k tries succeed / at least one of k succeeds</span></div>
-      <div><b>LLM-as-a-judge</b><span>A strong LLM scores other models' answers</span></div>
-      <div><b>position / verbosity bias</b><span>Judge “favors” a position / “favors” longer answers (scores them higher)</span></div>
-      <div><b>S1 / S2 agreement</b><span>Agreement counting ties / excluding ties</span></div>
-      <div><b>pretraining / post-training</b><span>Learning to continue text at scale / shaping the continuer into an assistant</span></div>
-      <div><b>SFT / reward model</b><span>Imitate demonstrations / a “virtual examiner” learned from human rankings</span></div>
-      <div><b>RLHF / PPO</b><span>Reinforcement learning scored by human preference / the small-step algorithm it uses</span></div>
-      <div><b>KL penalty / PPO-ptx</b><span>Penalize drifting from the SFT model / mix in pretraining data to avoid forgetting</span></div>
-      <div><b>alignment tax</b><span>General capability drops after alignment</span></div>
-      <div><b>catastrophic forgetting</b><span>Losing old abilities while learning new tasks; central to continual learning</span></div>
-      <div><b>DPO / RLAIF</b><span>Learn directly from rankings without a reward model / AI scores by written principles instead of people</span></div>
-      <div><b>hallucination / sycophancy</b><span>Fluent output with no factual support / output that drifts toward the view the user already stated</span></div>
-      <div><b>reward hacking</b><span>Learning to please the judge or metric instead of actually improving</span></div>
-      <div><b>verbal reinforcement learning</b><span>Turning feedback into written lessons kept in memory, without changing weights</span></div>
-      <div><b>Actor / Evaluator / Self-Reflection</b><span>Does the task / grades it / writes the mistake notebook</span></div>
-      <div><b>local minima</b><span>Growing more certain of one direction and unable to leave it</span></div>
-      <div><b>data contamination</b><span>Test items seen during training, inflating scores</span></div>
-      <div><b>benchmark saturation</b><span>Scores max out and the exam stops discriminating</span></div>
-      <div><b>automation bias / anchoring</b><span>Deferring to the machine / the first opinion seen pulls later judgment</span></div>
-      <div><b>moral crumple zone</b><span>A human placed in a system mainly to absorb blame when it fails</span></div>
-      <div><b>silent failure / fault injection</b><span>A failure that looks like success / deliberately planting a fault so the answer is known</span></div>
-      <div><b>context window / virtual memory</b><span>What the model can see at once (the desk) / how an OS makes memory feel large</span></div>
-      <div><b>recall / archival storage</b><span>MemGPT's cabinet: raw messages / any long-term information</span></div>
-      <div><b>recursive summary</b><span>A rolling summary left behind when content is evicted</span></div>
-      <div><b>knowledge conflict</b><span>Information from different sources that contradicts</span></div>
-      <div><b>CoT / CoT-SC</b><span>Step-by-step reasoning / sample many times, take the majority</span></div>
-      <div><b>CoT faithfulness / counterfactual test</b><span>Whether reasoning is the real cause / change one thing, see if the conclusion moves</span></div>
-      <div><b>calibration / discrimination</b><span>Confidence matching the hit rate / separating right from wrong (AUROC)</span></div>
-      <div><b>P(True) / P(IK) / temperature scaling</b><span>“My answer is right” / “I know this” / fixing calibration with temperature</span></div>
-      <div><b>harness / loop engineering</b><span>The prompts, tools and workflow around a model / designing loops that let agents iterate to a goal</span></div>
-    </div>
-  </section>
 
 
   <footer class="foot">

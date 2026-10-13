@@ -71,7 +71,7 @@ Items still being verified are listed in the site footer.
 
 ## Coming next
 
-Human–agent teaming studies · RAG and prompt injection · fine-tuning / LoRA vs in-context learning
+Context engineering, subagents and memory layers · RAG and prompt injection · fine-tuning / LoRA vs in-context learning
 
 ## About
 

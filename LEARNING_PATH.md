@@ -27,7 +27,7 @@ This repo's map is my own set of study notes. What you can borrow is the *path*:
 
 **Why this order, in one example.** Goodhart's law (item 2) has to land before InstructGPT (item 4), because only then can you see *why* learning from a human-preference scorer can go wrong. The "Read it after" column is the dependency list. If a step feels hard, the missing piece is almost always in that column.
 
-**Not covered yet:** human–agent teaming studies, RAG and prompt injection, fine-tuning vs in-context learning. These are planned.
+**Not covered yet:** context engineering and other harness topics, RAG and prompt injection, fine-tuning vs in-context learning. These are planned. Human–agent teaming (HCI) is planned as a separate repo.
 
 Full citations and authors: [README](README.md#paper-index).
 
