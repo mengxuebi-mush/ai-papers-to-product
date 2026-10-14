@@ -245,6 +245,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
 .drow b{font-size:14px}
 .drow span{font-size:13px;color:var(--muted)}
 .drow em{font-style:normal;font-size:12px;color:var(--muted);white-space:nowrap}
+.pill a{color:inherit;text-decoration:underline dotted}
 .dg .soon3{font-size:12px;color:var(--muted);padding:6px 10px}
 details.pr{display:block}
 details.pr summary{cursor:pointer;list-style:none;display:flex;gap:8px;align-items:baseline}
@@ -373,16 +374,10 @@ details.ws .q{margin-top:10px}
     <div class="dir"><div class="dg"><a class="drow" href="#c-scoring" style="--pc:var(--cc)"><b>打分方式决定模型</b><span>交叉熵、Goodhart 定律、KL penalty</span><em>概念课</em></a></div></div>
   </section>
   <section class="sec" id="training">
-    <div class="eyebrow"><a href="#instructgpt">InstructGPT 复习卡 →</a></div>
+    <div class="eyebrow">概念 · 评估和训练的关系</div>
     <h2>同一个“裁判”，既能评估，也能训练</h2>
-    <p>MT-Bench 用 LLM 裁判<b>评估</b>模型；InstructGPT 先把标注员的排序学成一个 reward model，再用它<b>训练</b>模型。两者是同一种东西的两种用法。<span class="tag p">原文 InstructGPT §3</span></p>
-    <div class="pipe" style="--pc:var(--ig)">
-      <div class="stage"><span class="k">Pretraining</span><b>续写器</b><p>学“怎么接下去”，不是“用户要什么”</p></div>
-      <div class="stage hl"><span class="k">Step 1 · SFT</span><b>看示范</b><p>标注员写好回答，模型照着学</p></div>
-      <div class="stage hl"><span class="k">Step 2 · Reward model</span><b>培养考官</b><p>标注员排序，训练模型拟合这些排序（也就是他们的“品味”）</p></div>
-      <div class="stage hl"><span class="k">Step 3 · PPO</span><b>考官打分下练习</b><p>KL penalty 防跑偏，PPO-ptx 防学新忘旧</p></div>
-    </div>
-    <div class="callout"><b>和光谱的关系</b><p>有标准答案的任务可以用对错来训练和评估，没有标准答案的才需要人或 AI 的偏好。训练和评估遵循同一套逻辑，也继承同样的风险：裁判有偏差，模型就学会那个偏差。<span class="tag r">已有研究</span>后来的 DPO、RLAIF、可验证奖励都是在替换这条流水线里的某一块。</p></div>
+    <p>评估和训练用的是同一种东西：一个能判断好坏的“裁判”（人、reward model 或另一个 LLM）。评估时，拿它给模型打分；训练时，把它的分数当信号去改模型的参数。<span class="tag r">已有研究</span></p>
+    <div class="callout"><b>和评估光谱的关系</b><p>有标准答案的任务可以用对错来训练和评估，没有标准答案的才需要人或 AI 的偏好（见<a href="#s-eval">评估页的光谱</a>）。训练和评估遵循同一套逻辑，也继承同样的风险：裁判有偏差，模型就学会那个偏差。<span class="tag r">已有研究</span> DPO、RLAIF、可验证奖励，都是在替换“谁来当裁判、怎么用它的分数”这一环。</p></div>
   </section>
 
   <nav class="pager" aria-label="翻页"><a href="#s-pre"><small>← 上一篇</small><span>预训练</span></a><a class="next" href="#s-harness"><small>下一篇 →</small><span>Harness</span></a></nav>
@@ -401,23 +396,24 @@ details.ws .q{margin-top:10px}
     <div class="dir"><div class="dg"><a class="drow" href="#react" style="--pc:var(--ra)"><b>ReAct</b><span>想、做、看结果：agent 循环的起点</span><em>论文 · 2022</em></a><a class="drow" href="#reflexion" style="--pc:var(--rf)"><b>Reflexion</b><span>不改参数，靠错题本变好</span><em>论文 · 2023</em></a><a class="drow" href="#memgpt" style="--pc:var(--mg)"><b>MemGPT</b><span>context 不够时，agent 怎么管理记忆</span><em>论文 · 2023</em></a><div class="soon3">之后会加入：context engineering · subagent · 记忆分层 · RAG · prompt injection</div></div></div>
   </section>
   <section class="sec" id="learning">
-    <div class="eyebrow"><a href="#reflexion">Reflexion 复习卡 →</a> · 对应 CLEA workshop</div>
+    <div class="eyebrow">概念 · 对应 CLEA workshop</div>
     <h2>Agent 在哪里学习：参数、记忆、harness</h2>
     <div class="where">
-      <div class="tint" style="--pc:var(--ig)"><span class="k">改模型参数</span><b>InstructGPT、fine-tuning</b><p>效果持久，但贵、慢，可能学新忘旧。学到了什么，人看不见。</p></div>
-      <div class="tint" style="--pc:var(--rf)"><span class="k">改 context / 记忆</span><b>Reflexion 错题本、<a href="#memgpt">MemGPT</a> 档案柜</b><p>把“为什么错、下次怎么做”写成文字，重做时放进 prompt。便宜、人能读懂，但容量有限。</p></div>
+      <div class="tint" style="--pc:var(--ig)"><span class="k">改模型参数</span><b>例如 fine-tuning</b><p>效果持久，但贵、慢，可能学新忘旧。学到了什么，人看不见。</p></div>
+      <div class="tint" style="--pc:var(--rf)"><span class="k">改 context / 记忆</span><b>错题本、外部记忆</b><p>把“为什么错、下次怎么做”写成文字，重做时放进 prompt。便宜、人能读懂，但容量有限。</p></div>
       <div class="plain"><span class="k">改外层框架</span><b>harness：prompt、工具、流程</b><p><span class="tag p">原文 CLEA 征稿</span> “harness-level continual improvement”</p></div>
     </div>
     <h3>三种 loop，只有一种需要反思</h3>
+    <p class="sub"><span class="tag g">推测</span> 这个三分法是我们自己的归纳，不是某篇论文的结论。</p>
     <div class="tbl"><table>
       <thead><tr><th>类型</th><th>循环的是什么</th><th>需要反思吗</th><th>主要风险</th></tr></thead>
       <tbody>
-        <tr><td>逐个处理</td><td>一批不同的对象，每个做一次（如改表格每一行的字体）</td><td>不需要</td><td>做一半就停：τ-bench 里占失败的 19%（§5.2 原文），需要覆盖率检查</td></tr>
+        <tr><td>逐个处理</td><td>一批不同的对象，每个做一次（如改表格每一行的字体）</td><td>不需要</td><td>做一半就停，需要覆盖率检查</td></tr>
         <tr><td>重试到通过</td><td>同一件事反复做，直到评估器说成功</td><td>不一定</td><td>评估器判错，就会停在错误答案上</td></tr>
-        <tr><td>带反思的重试</td><td>同一件事，每次失败后写下教训再来（Reflexion）</td><td>需要</td><td>错的教训被记住；卡在局部最优</td></tr>
+        <tr><td>带反思的重试</td><td>同一件事，每次失败后写下教训再来</td><td>需要</td><td>错的教训被记住；卡在局部最优</td></tr>
       </tbody>
     </table></div>
-    <p class="sub"><span class="tag r">已有研究</span> Loop engineering 通常被描述为 Goal → Action → Observation → Adjustment 的循环，再加上持久记忆（IBM 称为 spine），和 Reflexion 的结构几乎一一对应。</p>
+    <p class="sub"><span class="tag r">已有研究</span> Loop engineering 通常被描述为 Goal → Action → Observation → Adjustment 的循环，再加上持久记忆（IBM 称为 spine）。</p>
   </section>
 
   <nav class="pager" aria-label="翻页"><a href="#s-post"><small>← 上一篇</small><span>后训练</span></a><a class="next" href="#s-eval"><small>下一篇 →</small><span>评估</span></a></nav>
@@ -441,11 +437,11 @@ details.ws .q{margin-top:10px}
     <div class="axis"><span>有唯一正确结果</span><span>没有标准答案</span></div>
     <div class="rail" aria-hidden="true"></div>
     <div class="zones">
-      <div class="zone tint" style="--pc:var(--tau)"><span class="pill" style="--pc:var(--tau)">τ-bench、Reflexion 覆盖</span><b>执行一个清楚的请求</b><p><span class="k">例子</span><br>退货、改订单地址、填 dataset configuration、写能通过测试的代码</p><p><span class="k">怎么判</span><br>对比最终状态或跑测试，快、客观、可以跑成千上万次</p></div>
+      <div class="zone tint" style="--pc:var(--tau)"><span class="pill" style="--pc:var(--tau)"><a href="#tau-bench">τ-bench</a>、<a href="#reflexion">Reflexion</a> 覆盖</span><b>执行一个清楚的请求</b><p><span class="k">例子</span><br>退货、改订单地址、填 dataset configuration、写能通过测试的代码</p><p><span class="k">怎么判</span><br>对比最终状态或跑测试，快、客观、可以跑成千上万次</p></div>
       <div class="zone plain"><span class="pill none">都没覆盖</span><b>结论唯一，但输出是文字</b><p><span class="k">例子</span><br>root cause analysis：云存储费用突然偏高，是某个后台任务太重，还是计费计算有 bug？</p><p><span class="k">怎么判</span><br>fault injection 埋好答案（如 AIOpsLab）；限定原因类别，或用 reference-guided 的 LLM judge</p></div>
-      <div class="zone tint" style="--pc:var(--mt)"><span class="pill" style="--pc:var(--mt)">MT-Bench、InstructGPT 覆盖</span><b>开放式、创意类回答</b><p><span class="k">例子</span><br>写作、给建议、设计方案探索</p><p><span class="k">怎么判</span><br>人类偏好，或用 LLM judge / reward model 近似人类偏好；人和人本身就会分歧</p></div>
+      <div class="zone tint" style="--pc:var(--mt)"><span class="pill" style="--pc:var(--mt)"><a href="#mt-bench">MT-Bench</a>、<a href="#instructgpt">InstructGPT</a> 覆盖</span><b>开放式、创意类回答</b><p><span class="k">例子</span><br>写作、给建议、设计方案探索</p><p><span class="k">怎么判</span><br>人类偏好，或用 LLM judge / reward model 近似人类偏好；人和人本身就会分歧</p></div>
     </div>
-    <p class="sub">越往右，“正确”越难定义，越依赖某个裁判，裁判本身可不可信就越重要。</p>
+    <p class="sub">越往右，“正确”越难定义，越依赖某个裁判，裁判本身可不可信就越重要。同一个裁判也被拿去训练模型，见<a href="#s-post">后训练</a>。</p>
   </section>
 
   <section class="sec" id="compare">
@@ -466,7 +462,7 @@ details.ws .q{margin-top:10px}
   </section>
 
   <section class="sec" id="phases">
-    <div class="eyebrow"><span class="tag g">推测</span>依据：pass@k 与 pass^k 的定义（τ-bench §3 原文）</div>
+    <div class="eyebrow"><span class="tag g">推测</span>依据：pass@k 与 pass^k 的定义（见 <a href="#tau-bench">τ-bench</a>）</div>
     <h2>发散用 pass@k，收敛用 pass^k</h2>
     <p>分界线不在领域之间，而在同一个 workflow 的不同步骤之间，和设计里的 double diamond 是同一个结构。</p>
     <div class="phases">
@@ -474,7 +470,6 @@ details.ws .q{margin-top:10px}
       <div class="phase h"><span class="k">交接</span><b>锁定方案</b><p>要带过去：选了什么、为什么选、明确不要什么、约束。失败的样子：执行时滑回被否掉的方向。<span class="tag r">已有研究</span>长 context 中间的信息容易被忽略（Lost in the Middle，Liu et al. 2023）；loop engineering 资料称之为 intent debt。</p></div>
       <div class="phase tint" style="--pc:var(--tau)"><span class="k">收敛</span><b>执行、验证假设</b><p>每次都对、做出来的就是选中的那个，对应 <span class="num">pass^k</span>。失败的样子：说“做好了”，其实偏离了选择。</p></div>
     </div>
-    <p class="sub">Reflexion 的错题本是收敛工具：在需要探索的<span class="tip" tabindex="0" data-tip="WebShop：模拟购物网站，约 100 万件商品，agent 要按要求找到并买对商品。">模拟网购任务</span>上没有进步（Reflexion §4 原文）。</p>
   </section>
 
   <nav class="pager" aria-label="翻页"><a href="#s-harness"><small>← 上一篇</small><span>Harness</span></a><a class="next" href="#notes"><small>下一篇 →</small><span>笔记</span></a></nav>
@@ -2275,16 +2270,10 @@ Thought：可以定位，回答用户</p></div>
     <div class="dir"><div class="dg"><a class="drow" href="#c-scoring" style="--pc:var(--cc)"><b>Scoring shapes the model</b><span>Cross-entropy, Goodhart’s law, KL penalty</span><em>Concept</em></a></div></div>
   </section>
   <section class="sec" id="training-en">
-    <div class="eyebrow"><a href="#instructgpt">InstructGPT card →</a></div>
+    <div class="eyebrow">Concept · How evaluation and training relate</div>
     <h2>The same “judge” can evaluate and train</h2>
-    <p>MT-Bench uses an LLM judge to <b>evaluate</b> models. InstructGPT first learns a reward model from human rankings, then uses it to <b>train</b> the model. Two uses of the same thing. <span class="tag p">Paper InstructGPT §3</span></p>
-    <div class="pipe" style="--pc:var(--ig)">
-      <div class="stage"><span class="k">Pretraining</span><b>Text continuer</b><p>Learns “what comes next”, not “what the user wants”</p></div>
-      <div class="stage hl"><span class="k">Step 1 · SFT</span><b>Learn from demos</b><p>Labelers write good answers; the model imitates them</p></div>
-      <div class="stage hl"><span class="k">Step 2 · Reward model</span><b>Train an examiner</b><p>Labelers rank answers; a model is fitted to reproduce those rankings (their “taste”)</p></div>
-      <div class="stage hl"><span class="k">Step 3 · PPO</span><b>Practice under the examiner</b><p>KL penalty prevents drift; PPO-ptx prevents forgetting</p></div>
-    </div>
-    <div class="callout"><b>Link to the spectrum</b><p>Tasks with right answers can be trained and evaluated on correctness; only tasks without them need human or AI preference. Training and evaluation share the same logic and the same risk: if the judge is biased, the model learns the bias. <span class="tag r">Prior research</span> Later methods such as DPO, RLAIF and verifiable rewards each replace one piece of this pipeline.</p></div>
+    <p>Evaluation and training use the same thing: a “judge” that can tell good from bad (a person, a reward model or another LLM). For evaluation you use it to score a model; for training you use its score as a signal to change the model’s weights. <span class="tag r">Prior research</span></p>
+    <div class="callout"><b>Link to the evaluation spectrum</b><p>Tasks with right answers can be trained and evaluated on correctness; only tasks without them need human or AI preference (see the <a href="#s-eval">spectrum on the Evaluation page</a>). Training and evaluation share the same logic and the same risk: if the judge is biased, the model learns the bias. <span class="tag r">Prior research</span> DPO, RLAIF and verifiable rewards each replace one link in that chain: who the judge is, and how its score is used.</p></div>
   </section>
 
   <nav class="pager" aria-label="Pages"><a href="#s-pre"><small>← Previous</small><span>Pretraining</span></a><a class="next" href="#s-harness"><small>Next →</small><span>Harness</span></a></nav>
@@ -2303,23 +2292,24 @@ Thought：可以定位，回答用户</p></div>
     <div class="dir"><div class="dg"><a class="drow" href="#react" style="--pc:var(--ra)"><b>ReAct</b><span>Think, act, observe: where the agent loop began</span><em>Paper · 2022</em></a><a class="drow" href="#reflexion" style="--pc:var(--rf)"><b>Reflexion</b><span>Getting better from a mistake notebook, without changing weights</span><em>Paper · 2023</em></a><a class="drow" href="#memgpt" style="--pc:var(--mg)"><b>MemGPT</b><span>How agents manage memory when context runs out</span><em>Paper · 2023</em></a><div class="soon3">Coming：context engineering · subagents · memory layers · RAG · prompt injection</div></div></div>
   </section>
   <section class="sec" id="learning-en">
-    <div class="eyebrow"><a href="#reflexion">Reflexion card →</a> · CLEA workshop</div>
+    <div class="eyebrow">Concept · CLEA workshop</div>
     <h2>Where agents learn: weights, memory, harness</h2>
     <div class="where">
-      <div class="tint" style="--pc:var(--ig)"><span class="k">Change weights</span><b>InstructGPT, fine-tuning</b><p>Durable, but expensive, slow and prone to forgetting. What was learned isn't visible to people.</p></div>
-      <div class="tint" style="--pc:var(--rf)"><span class="k">Change context / memory</span><b>Reflexion notebook, <a href="#memgpt">MemGPT</a> filing cabinet</b><p>Write down why it failed and what to do next, then put that in the prompt on retry. Cheap and readable, but limited in size.</p></div>
+      <div class="tint" style="--pc:var(--ig)"><span class="k">Change weights</span><b>For example fine-tuning</b><p>Durable, but expensive, slow and prone to forgetting. What was learned isn't visible to people.</p></div>
+      <div class="tint" style="--pc:var(--rf)"><span class="k">Change context / memory</span><b>Mistake notebook, external memory</b><p>Write down why it failed and what to do next, then put that in the prompt on retry. Cheap and readable, but limited in size.</p></div>
       <div class="plain"><span class="k">Change the harness</span><b>Prompts, tools, workflow</b><p><span class="tag p">Paper CLEA call</span> “Harness-level continual improvement”</p></div>
     </div>
     <h3>Three kinds of loop; only one needs reflection</h3>
+    <p class="sub"><span class="tag g">Our inference</span> This three-way split is our own grouping, not the conclusion of any one paper.</p>
     <div class="tbl"><table>
       <thead><tr><th>Type</th><th>What it loops over</th><th>Needs reflection?</th><th>Main risk</th></tr></thead>
       <tbody>
-        <tr><td>Process each item</td><td>A batch of different items, each done once (e.g. change the font in every table row)</td><td>No</td><td>Stopping halfway: 19% of τ-bench failures (§5.2 Paper); needs a coverage check</td></tr>
+        <tr><td>Process each item</td><td>A batch of different items, each done once (e.g. change the font in every table row)</td><td>No</td><td>Stopping halfway; needs a coverage check</td></tr>
         <tr><td>Retry until it passes</td><td>The same task repeated until the evaluator says success</td><td>Not necessarily</td><td>If the evaluator is wrong, it stops on a wrong answer</td></tr>
-        <tr><td>Retry with reflection</td><td>The same task, writing down a lesson after each failure (Reflexion)</td><td>Yes</td><td>Wrong lessons get remembered; stuck in local minima</td></tr>
+        <tr><td>Retry with reflection</td><td>The same task, writing down a lesson after each failure</td><td>Yes</td><td>Wrong lessons get remembered; stuck in local minima</td></tr>
       </tbody>
     </table></div>
-    <p class="sub"><span class="tag r">Prior research</span> Loop engineering is usually described as a Goal → Action → Observation → Adjustment cycle plus persistent memory (IBM calls it the spine), which maps almost one-to-one onto Reflexion.</p>
+    <p class="sub"><span class="tag r">Prior research</span> Loop engineering is usually described as a Goal → Action → Observation → Adjustment cycle plus persistent memory (IBM calls it the spine).</p>
   </section>
 
   <nav class="pager" aria-label="Pages"><a href="#s-post"><small>← Previous</small><span>Post-training</span></a><a class="next" href="#s-eval"><small>Next →</small><span>Evaluation</span></a></nav>
@@ -2343,11 +2333,11 @@ Thought：可以定位，回答用户</p></div>
     <div class="axis"><span>One correct outcome</span><span>No right answer</span></div>
     <div class="rail" aria-hidden="true"></div>
     <div class="zones">
-      <div class="zone tint" style="--pc:var(--tau)"><span class="pill" style="--pc:var(--tau)">τ-bench, Reflexion</span><b>Carry out a clear request</b><p><span class="k">Examples</span><br>Process a return, change an order address, fill in a dataset configuration, write code that passes tests</p><p><span class="k">How it's judged</span><br>Compare the final state or run tests: fast, objective, repeatable thousands of times</p></div>
+      <div class="zone tint" style="--pc:var(--tau)"><span class="pill" style="--pc:var(--tau)"><a href="#tau-bench">τ-bench</a>, <a href="#reflexion">Reflexion</a></span><b>Carry out a clear request</b><p><span class="k">Examples</span><br>Process a return, change an order address, fill in a dataset configuration, write code that passes tests</p><p><span class="k">How it's judged</span><br>Compare the final state or run tests: fast, objective, repeatable thousands of times</p></div>
       <div class="zone plain"><span class="pill none">Not covered</span><b>One right conclusion, but the output is text</b><p><span class="k">Example</span><br>Root cause analysis: is the cloud storage bill high because of a heavy background job, or a billing calculation bug?</p><p><span class="k">How it's judged</span><br>Plant the answer with fault injection (e.g. AIOpsLab); restrict answers to cause categories, or use a reference-guided LLM judge</p></div>
-      <div class="zone tint" style="--pc:var(--mt)"><span class="pill" style="--pc:var(--mt)">MT-Bench, InstructGPT</span><b>Open-ended, creative answers</b><p><span class="k">Examples</span><br>Writing, giving advice, exploring design directions</p><p><span class="k">How it's judged</span><br>Human preference, or an LLM judge / reward model that approximates it; humans themselves disagree</p></div>
+      <div class="zone tint" style="--pc:var(--mt)"><span class="pill" style="--pc:var(--mt)"><a href="#mt-bench">MT-Bench</a>, <a href="#instructgpt">InstructGPT</a></span><b>Open-ended, creative answers</b><p><span class="k">Examples</span><br>Writing, giving advice, exploring design directions</p><p><span class="k">How it's judged</span><br>Human preference, or an LLM judge / reward model that approximates it; humans themselves disagree</p></div>
     </div>
-    <p class="sub">The further right, the harder it is to define “correct”, the more you depend on a judge, and the more that judge's reliability matters.</p>
+    <p class="sub">The further right, the harder it is to define “correct”, the more you depend on a judge, and the more that judge's reliability matters. The same judge is also used to train models; see <a href="#s-post">Post-training</a>.</p>
   </section>
 
   <section class="sec" id="compare-en">
@@ -2368,7 +2358,7 @@ Thought：可以定位，回答用户</p></div>
   </section>
 
   <section class="sec" id="phases-en">
-    <div class="eyebrow"><span class="tag g">Our inference</span> Based on the pass@k and pass^k definitions (τ-bench §3 Paper)</div>
+    <div class="eyebrow"><span class="tag g">Our inference</span> Based on the pass@k and pass^k definitions (see <a href="#tau-bench">τ-bench</a>)</div>
     <h2>Diverge with pass@k, converge with pass^k</h2>
     <p>The line isn't between domains but between steps of the same workflow. It's the same shape as the design double diamond.</p>
     <div class="phases">
@@ -2376,7 +2366,6 @@ Thought：可以定位，回答用户</p></div>
       <div class="phase h"><span class="k">Hand-off</span><b>Lock the direction</b><p>Carry over what was chosen, why, what's ruled out, and the constraints. Failure looks like drifting back to rejected directions. <span class="tag r">Prior research</span> Information in the middle of long contexts gets ignored (Lost in the Middle, Liu et al. 2023); loop engineering writers call this intent debt.</p></div>
       <div class="phase tint" style="--pc:var(--tau)"><span class="k">Converge</span><b>Execute, verify</b><p>Right every time, and it's what was chosen: <span class="num">pass^k</span>. Failure looks like “done” while quietly deviating.</p></div>
     </div>
-    <p class="sub">Reflexion's mistake notebook is a converging tool: it made no progress on exploration-heavy <span class="tip" tabindex="0" data-tip="WebShop: a simulated shopping site with about 1 million products; the agent must find and buy the right one.">simulated shopping</span> (Reflexion §4 Paper).</p>
   </section>
 
   <nav class="pager" aria-label="Pages"><a href="#s-harness"><small>← Previous</small><span>Harness</span></a><a class="next" href="#notes"><small>Next →</small><span>Notes</span></a></nav>
