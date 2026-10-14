@@ -65,10 +65,6 @@ ul,ol{margin:0;padding-left:20px;display:grid;gap:7px}
 .chip:hover{background:var(--soft)}
 .chip[aria-current="page"]{border-color:var(--pc);background:color-mix(in srgb,var(--pc) 16%,var(--card));font-weight:700}
 
-.subnav{border-top:1px solid var(--line)}
-.subnav-in{max-width:980px;margin:0 auto;padding:8px 20px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
-.subnav-in::-webkit-scrollbar{display:none}
-.subnav .chip[hidden]{display:none}
 .chip.sc[aria-current="true"]{border-color:var(--pc);background:color-mix(in srgb,var(--pc) 16%,var(--card));font-weight:700}
 .lang{display:flex;flex:none;margin-left:auto;border:1px solid var(--line);border-radius:999px;padding:2px;background:var(--card)}
 .lang button{font:600 12px var(--sans);border:0;background:transparent;color:var(--muted);border-radius:999px;padding:5px 10px;cursor:pointer}
@@ -265,7 +261,6 @@ details.ws .q{margin-top:10px}
 @media(max-width:640px){
   .topbar-in{flex-wrap:wrap;row-gap:8px}
   .chips{order:3;flex:1 0 100%}
-  .topbar[data-sub="on"] .chips{display:none}
 }
 @media(max-width:760px){
   .flow{grid-template-columns:1fr;gap:26px}
@@ -314,10 +309,9 @@ details.ws .q{margin-top:10px}
   <div class="topbar-in">
     <a class="home" href="#overview" data-nav="overview" data-zh="地图" data-en="Map">地图</a>
     <a class="home tool" href="#abbr" data-nav="abbr"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span data-zh="查词" data-en="Terms">查词</span></a>
-    <div class="chips" role="group" aria-label="Stages"><a class="chip sc" href="#dir-pre" data-stage="pre" style="--pc:var(--at)"><i></i><span data-zh="预训练" data-en="Pretraining">预训练</span></a><a class="chip sc" href="#dir-post" data-stage="post" style="--pc:var(--ig)"><i></i><span data-zh="后训练" data-en="Post-training">后训练</span></a><a class="chip sc" href="#dir-harness" data-stage="harness" style="--pc:var(--ra)"><i></i><span data-zh="Harness" data-en="Harness">Harness</span></a><a class="chip sc" href="#dir-eval" data-stage="eval" style="--pc:var(--tau)"><i></i><span data-zh="评估" data-en="Evaluation">评估</span></a></div>
+    <div class="chips" role="group" aria-label="Stages"><a class="chip sc" href="#s-pre" data-nav="s-pre" data-stage="pre" style="--pc:var(--at)"><i></i><span data-zh="预训练" data-en="Pretraining">预训练</span></a><a class="chip sc" href="#s-post" data-nav="s-post" data-stage="post" style="--pc:var(--ig)"><i></i><span data-zh="后训练" data-en="Post-training">后训练</span></a><a class="chip sc" href="#s-harness" data-nav="s-harness" data-stage="harness" style="--pc:var(--ra)"><i></i><span data-zh="Harness" data-en="Harness">Harness</span></a><a class="chip sc" href="#s-eval" data-nav="s-eval" data-stage="eval" style="--pc:var(--tau)"><i></i><span data-zh="评估" data-en="Evaluation">评估</span></a><a class="chip sc" href="#notes" data-nav="notes" data-stage="notes" style="--pc:var(--cc)"><i></i><span data-zh="笔记" data-en="Notes">笔记</span></a></div>
     <div class="lang" role="group" aria-label="语言 / Language"><button type="button" data-lang="zh" aria-pressed="true">中文</button><button type="button" data-lang="en" aria-pressed="false">EN</button></div>
   </div>
-  <div class="subnav" id="subnav" hidden><div class="subnav-in"><a class="chip" href="#c-training" data-nav="c-training" data-stage="pre" style="--pc:var(--cc)"><i></i><span data-zh="模型是怎么学习的" data-en="How models learn">模型是怎么学习的</span></a><a class="chip" href="#c-scoring" data-nav="c-scoring" data-stage="post" style="--pc:var(--cc)"><i></i><span data-zh="打分方式决定模型" data-en="Scoring shapes the model">打分方式决定模型</span></a><a class="chip" href="#attention" data-nav="attention" data-stage="pre" style="--pc:var(--at)"><i></i><span data-zh="Transformer" data-en="Transformer">Transformer</span></a><a class="chip" href="#instructgpt" data-nav="instructgpt" data-stage="post" style="--pc:var(--ig)"><i></i><span data-zh="InstructGPT" data-en="InstructGPT">InstructGPT</span></a><a class="chip" href="#r1" data-nav="r1" data-stage="post" style="--pc:var(--r1)"><i></i><span data-zh="DeepSeek-R1" data-en="DeepSeek-R1">DeepSeek-R1</span></a><a class="chip" href="#react" data-nav="react" data-stage="harness" style="--pc:var(--ra)"><i></i><span data-zh="ReAct" data-en="ReAct">ReAct</span></a><a class="chip" href="#reflexion" data-nav="reflexion" data-stage="harness" style="--pc:var(--rf)"><i></i><span data-zh="Reflexion" data-en="Reflexion">Reflexion</span></a><a class="chip" href="#memgpt" data-nav="memgpt" data-stage="harness" style="--pc:var(--mg)"><i></i><span data-zh="MemGPT" data-en="MemGPT">MemGPT</span></a><a class="chip" href="#tau-bench" data-nav="tau-bench" data-stage="eval" style="--pc:var(--tau)"><i></i><span data-zh="τ-bench" data-en="τ-bench">τ-bench</span></a><a class="chip" href="#mt-bench" data-nav="mt-bench" data-stage="eval" style="--pc:var(--mt)"><i></i><span data-zh="MT-Bench" data-en="MT-Bench">MT-Bench</span></a><a class="chip" href="#calibration" data-nav="calibration" data-stage="eval" style="--pc:var(--cb)"><i></i><span data-zh="Calibration" data-en="Calibration">Calibration</span></a></div></div>
 </nav>
 
 <main class="wrap" id="main-zh" lang="zh-CN">
@@ -330,27 +324,174 @@ details.ws .q{margin-top:10px}
     <p>用产品设计师的眼光读 ML 论文，把它们放进一张图里。</p>
     <p class="hq">我们怎么知道 AI 把事情做好了？做不好时，它又怎么变好？</p>
   </header>
-
   <section class="sec" id="papers">
-    <div class="eyebrow">大图</div>
+    <div class="eyebrow">大图 · 点进每一段</div>
     <h2>模型怎么训出来，怎么被用起来，怎么被量</h2>
-    <div class="map"><div class="flow"><a class="stg" href="#dir-pre" style="--pc:var(--at)"><span class="k">Pretraining · 预训练</span><b>学会续写</b><p>在海量文本上预测下一个词，学到语言和知识。结果是个续写器，并不知道用户要什么。</p><span class="on">Transformer · 模型是怎么学习的</span></a><a class="stg" href="#dir-post" style="--pc:var(--ig)"><span class="k">Post-training · 后训练</span><b>调教成助手</b><p>用示范、人类偏好、可验证的对错来打分，改模型的参数，让它听得懂指令、会推理。</p><span class="on">打分方式 · InstructGPT · DeepSeek-R1</span><span class="soon2">之后：fine-tuning / LoRA</span></a><a class="stg" href="#dir-harness" style="--pc:var(--ra)"><span class="k">Harness · 外壳</span><b>包成能干活的产品</b><p>不改参数，改模型外面的东西：上下文里放什么、能用什么工具、记什么、失败了怎么重来。</p><span class="on">ReAct · Reflexion · MemGPT</span><span class="soon2">之后：context engineering · subagent · 记忆分层 · RAG · prompt injection</span></a></div><a class="evalbar" href="#dir-eval" style="--pc:var(--tau)"><span class="k">Evaluation · 评估，贯穿三段</span><p>每一段都要回答：怎么知道它变好了、能不能信？评估用的打分，也正是后训练的训练信号，所以它不是最后一步，而是一条贯穿的轴。τ-bench · MT-Bench · Calibration</p></a></div>
+    <div class="map"><div class="flow"><a class="stg" href="#s-pre" style="--pc:var(--at)"><span class="k">Pretraining · 预训练</span><b>学会续写</b><p>在海量文本上预测下一个词，学到语言和知识。结果是个续写器，并不知道用户要什么。</p><span class="on">Transformer · 模型是怎么学习的</span></a><a class="stg" href="#s-post" style="--pc:var(--ig)"><span class="k">Post-training · 后训练</span><b>调教成助手</b><p>用示范、人类偏好、可验证的对错来打分，改模型的参数，让它听得懂指令、会推理。</p><span class="on">打分方式 · InstructGPT · DeepSeek-R1</span></a><a class="stg" href="#s-harness" style="--pc:var(--ra)"><span class="k">Harness · 外壳</span><b>包成能干活的产品</b><p>不改参数，改模型外面的东西：上下文里放什么、能用什么工具、记什么、失败了怎么重来。</p><span class="on">ReAct · Reflexion · MemGPT</span></a></div><a class="evalbar" href="#s-eval" style="--pc:var(--tau)"><span class="k">Evaluation · 评估，贯穿三段</span><p>每一段都要回答：怎么知道它变好了、能不能信？评估用的打分，也正是后训练的训练信号，所以它不是最后一步，而是一条贯穿的轴。τ-bench · MT-Bench · Calibration</p></a></div>
   </section>
-  <section class="sec" id="library">
-    <div class="eyebrow">目录</div>
-    <h2>全部论文和概念课</h2>
-    <div class="dir"><div class="dg" id="dir-pre" style="--pc:var(--at)"><h3><i></i>预训练</h3><a class="drow" href="#c-training" style="--pc:var(--cc)"><b>模型是怎么学习的</b><span>Loss、梯度下降、过拟合、参数与规模</span><em>概念课</em></a><a class="drow" href="#attention" style="--pc:var(--at)"><b>Attention Is All You Need</b><span>Transformer 架构：后来大模型的骨架</span><em>论文 · 2017</em></a></div><div class="dg" id="dir-post" style="--pc:var(--ig)"><h3><i></i>后训练</h3><a class="drow" href="#c-scoring" style="--pc:var(--cc)"><b>打分方式决定模型</b><span>交叉熵、Goodhart 定律、KL penalty</span><em>概念课</em></a><a class="drow" href="#instructgpt" style="--pc:var(--ig)"><b>InstructGPT</b><span>用人类偏好把续写器调教成助手</span><em>论文 · 2022</em></a><a class="drow" href="#r1" style="--pc:var(--r1)"><b>DeepSeek-R1</b><span>只告诉模型对错，推理能力自己长出来</span><em>论文 · 2025</em></a><div class="soon3">之后：fine-tuning / LoRA</div></div><div class="dg" id="dir-harness" style="--pc:var(--ra)"><h3><i></i>Harness 外壳</h3><a class="drow" href="#react" style="--pc:var(--ra)"><b>ReAct</b><span>想、做、看结果：agent 循环的起点</span><em>论文 · 2022</em></a><a class="drow" href="#reflexion" style="--pc:var(--rf)"><b>Reflexion</b><span>不改参数，靠错题本变好</span><em>论文 · 2023</em></a><a class="drow" href="#memgpt" style="--pc:var(--mg)"><b>MemGPT</b><span>context 不够时，agent 怎么管理记忆</span><em>论文 · 2023</em></a><div class="soon3">之后：context engineering · subagent · 记忆分层 · RAG · prompt injection</div></div><div class="dg" id="dir-eval" style="--pc:var(--tau)"><h3><i></i>评估 <small>贯穿三段</small></h3><a class="drow" href="#tau-bench" style="--pc:var(--tau)"><b>τ-bench</b><span>有标准答案时，agent 能否稳定办成事</span><em>论文 · 2024</em></a><a class="drow" href="#mt-bench" style="--pc:var(--mt)"><b>MT-Bench</b><span>没有标准答案时，LLM 能否当裁判</span><em>论文 · 2023</em></a><a class="drow" href="#calibration" style="--pc:var(--cb)"><b>Calibration</b><span>模型“知不知道”自己不知道</span><em>论文 · 2022</em></a></div></div>
-  </section>
-  <nav class="toc" aria-label="地图目录">
-    <a href="#papers">大图</a><a href="#library">目录</a><a href="#blind">共同盲区</a><a href="#principles">设计原则</a><a href="#questions">现场问题</a>
-  </nav>
 
   <div class="legend">
     <span class="item"><span class="tag p">原文</span>论文的实验或作者明确表述，附章节</span>
     <span class="item"><span class="tag r">已有研究</span>其他论文、行业资料或领域共识；标“待确认”的会前要核对</span>
     <span class="item"><span class="tag g">推测</span>把研究套到产品上的判断，论文没有测</span>
   </div>
+</div>
 
+<div class="view" id="s-pre" data-view hidden style="--pc:var(--at)">
+  <header class="phero">
+    <a class="back" href="#overview">← 地图</a>
+    <div class="eyebrow">第 1 段 / 3 · Pretraining</div>
+    <h1>预训练</h1>
+    <p class="lede">在海量文本上预测下一个词，学到语言和知识。结果是个续写器，并不知道用户要什么。后面所有的调教，都建立在它的基础上。</p>
+    <p class="full">回答的问题：模型的能力是从哪来的？</p>
+  </header>
+  <section class="sec">
+    <div class="eyebrow">论文</div>
+    <div class="dir"><div class="dg"><a class="drow" href="#attention" style="--pc:var(--at)"><b>Attention Is All You Need</b><span>Transformer 架构：后来大模型的骨架</span><em>论文 · 2017</em></a></div></div>
+  </section>
+  <section class="sec">
+    <div class="eyebrow">关键概念</div>
+    <div class="dir"><div class="dg"><a class="drow" href="#c-training" style="--pc:var(--cc)"><b>模型是怎么学习的</b><span>Loss、梯度下降、过拟合、参数与规模</span><em>概念课</em></a></div></div>
+  </section>
+  <nav class="pager" aria-label="翻页"><a href="#overview"><small>← 上一篇</small><span>地图</span></a><a class="next" href="#s-post"><small>下一篇 →</small><span>后训练</span></a></nav>
+</div>
+
+<div class="view" id="s-post" data-view hidden style="--pc:var(--ig)">
+  <header class="phero">
+    <a class="back" href="#overview">← 地图</a>
+    <div class="eyebrow">第 2 段 / 3 · Post-training</div>
+    <h1>后训练</h1>
+    <p class="lede">用示范、人类偏好、可验证的对错来打分，改模型的参数，让它听得懂指令、会推理。</p>
+    <p class="full">回答的问题：怎么把续写器变成有用的助手？</p>
+  </header>
+  <section class="sec">
+    <div class="eyebrow">论文</div>
+    <div class="dir"><div class="dg"><a class="drow" href="#instructgpt" style="--pc:var(--ig)"><b>InstructGPT</b><span>用人类偏好把续写器调教成助手</span><em>论文 · 2022</em></a><a class="drow" href="#r1" style="--pc:var(--r1)"><b>DeepSeek-R1</b><span>只告诉模型对错，推理能力自己长出来</span><em>论文 · 2025</em></a><div class="soon3">之后会加入：fine-tuning / LoRA</div></div></div>
+  </section>
+  <section class="sec">
+    <div class="eyebrow">关键概念</div>
+    <div class="dir"><div class="dg"><a class="drow" href="#c-scoring" style="--pc:var(--cc)"><b>打分方式决定模型</b><span>交叉熵、Goodhart 定律、KL penalty</span><em>概念课</em></a></div></div>
+  </section>
+  <section class="sec" id="training">
+    <div class="eyebrow"><a href="#instructgpt">InstructGPT 复习卡 →</a></div>
+    <h2>同一个“裁判”，既能评估，也能训练</h2>
+    <p>MT-Bench 用 LLM 裁判<b>评估</b>模型；InstructGPT 先把标注员的排序学成一个 reward model，再用它<b>训练</b>模型。两者是同一种东西的两种用法。<span class="tag p">原文 InstructGPT §3</span></p>
+    <div class="pipe" style="--pc:var(--ig)">
+      <div class="stage"><span class="k">Pretraining</span><b>续写器</b><p>学“怎么接下去”，不是“用户要什么”</p></div>
+      <div class="stage hl"><span class="k">Step 1 · SFT</span><b>看示范</b><p>标注员写好回答，模型照着学</p></div>
+      <div class="stage hl"><span class="k">Step 2 · Reward model</span><b>培养考官</b><p>标注员排序，训练模型拟合这些排序（也就是他们的“品味”）</p></div>
+      <div class="stage hl"><span class="k">Step 3 · PPO</span><b>考官打分下练习</b><p>KL penalty 防跑偏，PPO-ptx 防学新忘旧</p></div>
+    </div>
+    <div class="callout"><b>和光谱的关系</b><p>有标准答案的任务可以用对错来训练和评估，没有标准答案的才需要人或 AI 的偏好。训练和评估遵循同一套逻辑，也继承同样的风险：裁判有偏差，模型就学会那个偏差。<span class="tag r">已有研究</span>后来的 DPO、RLAIF、可验证奖励都是在替换这条流水线里的某一块。</p></div>
+  </section>
+
+  <nav class="pager" aria-label="翻页"><a href="#s-pre"><small>← 上一篇</small><span>预训练</span></a><a class="next" href="#s-harness"><small>下一篇 →</small><span>Harness</span></a></nav>
+</div>
+
+<div class="view" id="s-harness" data-view hidden style="--pc:var(--ra)">
+  <header class="phero">
+    <a class="back" href="#overview">← 地图</a>
+    <div class="eyebrow">第 3 段 / 3 · Harness</div>
+    <h1>Harness</h1>
+    <p class="lede">不改参数，改模型外面的东西：上下文里放什么、能用什么工具、记什么、失败了怎么重来。</p>
+    <p class="full">回答的问题：怎么把模型包成能干活的产品？</p>
+  </header>
+  <section class="sec">
+    <div class="eyebrow">论文</div>
+    <div class="dir"><div class="dg"><a class="drow" href="#react" style="--pc:var(--ra)"><b>ReAct</b><span>想、做、看结果：agent 循环的起点</span><em>论文 · 2022</em></a><a class="drow" href="#reflexion" style="--pc:var(--rf)"><b>Reflexion</b><span>不改参数，靠错题本变好</span><em>论文 · 2023</em></a><a class="drow" href="#memgpt" style="--pc:var(--mg)"><b>MemGPT</b><span>context 不够时，agent 怎么管理记忆</span><em>论文 · 2023</em></a><div class="soon3">之后会加入：context engineering · subagent · 记忆分层 · RAG · prompt injection</div></div></div>
+  </section>
+  <section class="sec" id="learning">
+    <div class="eyebrow"><a href="#reflexion">Reflexion 复习卡 →</a> · 对应 CLEA workshop</div>
+    <h2>Agent 在哪里学习：参数、记忆、harness</h2>
+    <div class="where">
+      <div class="tint" style="--pc:var(--ig)"><span class="k">改模型参数</span><b>InstructGPT、fine-tuning</b><p>效果持久，但贵、慢，可能学新忘旧。学到了什么，人看不见。</p></div>
+      <div class="tint" style="--pc:var(--rf)"><span class="k">改 context / 记忆</span><b>Reflexion 错题本、<a href="#memgpt">MemGPT</a> 档案柜</b><p>把“为什么错、下次怎么做”写成文字，重做时放进 prompt。便宜、人能读懂，但容量有限。</p></div>
+      <div class="plain"><span class="k">改外层框架</span><b>harness：prompt、工具、流程</b><p><span class="tag p">原文 CLEA 征稿</span> “harness-level continual improvement”</p></div>
+    </div>
+    <h3>三种 loop，只有一种需要反思</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>类型</th><th>循环的是什么</th><th>需要反思吗</th><th>主要风险</th></tr></thead>
+      <tbody>
+        <tr><td>逐个处理</td><td>一批不同的对象，每个做一次（如改表格每一行的字体）</td><td>不需要</td><td>做一半就停：τ-bench 里占失败的 19%（§5.2 原文），需要覆盖率检查</td></tr>
+        <tr><td>重试到通过</td><td>同一件事反复做，直到评估器说成功</td><td>不一定</td><td>评估器判错，就会停在错误答案上</td></tr>
+        <tr><td>带反思的重试</td><td>同一件事，每次失败后写下教训再来（Reflexion）</td><td>需要</td><td>错的教训被记住；卡在局部最优</td></tr>
+      </tbody>
+    </table></div>
+    <p class="sub"><span class="tag r">已有研究</span> Loop engineering 通常被描述为 Goal → Action → Observation → Adjustment 的循环，再加上持久记忆（IBM 称为 spine），和 Reflexion 的结构几乎一一对应。</p>
+  </section>
+
+  <nav class="pager" aria-label="翻页"><a href="#s-post"><small>← 上一篇</small><span>后训练</span></a><a class="next" href="#s-eval"><small>下一篇 →</small><span>评估</span></a></nav>
+</div>
+
+<div class="view" id="s-eval" data-view hidden style="--pc:var(--tau)">
+  <header class="phero">
+    <a class="back" href="#overview">← 地图</a>
+    <div class="eyebrow">贯穿三段 · Evaluation</div>
+    <h1>评估</h1>
+    <p class="lede">评估不是最后一步，而是贯穿三段的一条轴：预训练、后训练、外壳都要回答“怎么知道它变好了、能不能信”。评估用的打分，也正是后训练的训练信号。</p>
+    <p class="full">回答的问题：怎么知道它做得好、能不能信？</p>
+  </header>
+  <section class="sec">
+    <div class="eyebrow">论文</div>
+    <div class="dir"><div class="dg"><a class="drow" href="#tau-bench" style="--pc:var(--tau)"><b>τ-bench</b><span>有标准答案时，agent 能否稳定办成事</span><em>论文 · 2024</em></a><a class="drow" href="#mt-bench" style="--pc:var(--mt)"><b>MT-Bench</b><span>没有标准答案时，LLM 能否当裁判</span><em>论文 · 2023</em></a><a class="drow" href="#calibration" style="--pc:var(--cb)"><b>Calibration</b><span>模型“知不知道”自己不知道</span><em>论文 · 2022</em></a></div></div>
+  </section>
+  <section class="sec" id="spectrum">
+    <div class="eyebrow">核心坐标</div>
+    <h2>评估方法取决于“有没有标准答案”</h2>
+    <div class="axis"><span>有唯一正确结果</span><span>没有标准答案</span></div>
+    <div class="rail" aria-hidden="true"></div>
+    <div class="zones">
+      <div class="zone tint" style="--pc:var(--tau)"><span class="pill" style="--pc:var(--tau)">τ-bench、Reflexion 覆盖</span><b>执行一个清楚的请求</b><p><span class="k">例子</span><br>退货、改订单地址、填 dataset configuration、写能通过测试的代码</p><p><span class="k">怎么判</span><br>对比最终状态或跑测试，快、客观、可以跑成千上万次</p></div>
+      <div class="zone plain"><span class="pill none">都没覆盖</span><b>结论唯一，但输出是文字</b><p><span class="k">例子</span><br>root cause analysis：云存储费用突然偏高，是某个后台任务太重，还是计费计算有 bug？</p><p><span class="k">怎么判</span><br>fault injection 埋好答案（如 AIOpsLab）；限定原因类别，或用 reference-guided 的 LLM judge</p></div>
+      <div class="zone tint" style="--pc:var(--mt)"><span class="pill" style="--pc:var(--mt)">MT-Bench、InstructGPT 覆盖</span><b>开放式、创意类回答</b><p><span class="k">例子</span><br>写作、给建议、设计方案探索</p><p><span class="k">怎么判</span><br>人类偏好，或用 LLM judge / reward model 近似人类偏好；人和人本身就会分歧</p></div>
+    </div>
+    <p class="sub">越往右，“正确”越难定义，越依赖某个裁判，裁判本身可不可信就越重要。</p>
+  </section>
+
+  <section class="sec" id="compare">
+    <div class="eyebrow">两个 benchmark 对照 · 全部为 <span class="tag p">原文</span></div>
+    <h2>同一个问题，两种考法</h2>
+    <div class="tbl"><table>
+      <thead><tr><th></th><th><a href="#tau-bench">τ-bench →</a></th><th><a href="#mt-bench">MT-Bench →</a></th></tr></thead>
+      <tbody>
+        <tr><th>研究问题</th><td>agent 一边对话、一边调工具、一边守规则时，能不能稳定办成事</td><td>没有标准答案时，强 LLM 能不能替代人类当裁判</td></tr>
+        <tr><th>出题与判分</th><td>人写剧本，确保只有一个正确结果；对比最终数据库，只有 0 和 1（§3）</td><td>58 位专家标注员和 2,114 位众包用户投票；GPT-4 作为裁判对照（§4）</td></tr>
+        <tr><th>LLM 扮演谁</th><td>模拟用户</td><td>裁判</td></tr>
+        <tr><th>核心指标</th><td><span class="num">pass^k</span>：k 次独立运行全部成功</td><td>裁判与人类的一致率（S1 计入平局 / S2 排除平局）</td></tr>
+        <tr><th>关键数字</th><td>gpt-4o retail pass^1 <span class="num">61.2</span>，pass^8 低于 <span class="num">25%</span></td><td>GPT-4 与专家 S2 <span class="num">85%</span>，人与人 <span class="num">81%</span>；计入平局 <span class="num">66%</span></td></tr>
+        <tr><th>主要失败方式</th><td>参数或信息错 ~55%、没守规则 25%、做一半 19%</td><td>位置偏差、冗长偏差、自我偏好、推理能力有限</td></tr>
+        <tr><th>对应 workshop</th><td>Evaluation of Interactive Agents</td><td>Can We Trust the Judge?；Human-AI Coevolution</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="sec" id="phases">
+    <div class="eyebrow"><span class="tag g">推测</span>依据：pass@k 与 pass^k 的定义（τ-bench §3 原文）</div>
+    <h2>发散用 pass@k，收敛用 pass^k</h2>
+    <p>分界线不在领域之间，而在同一个 workflow 的不同步骤之间，和设计里的 double diamond 是同一个结构。</p>
+    <div class="phases">
+      <div class="phase tint" style="--pc:var(--mt)"><span class="k">发散</span><b>探索方案、提出假设</b><p>生成很多，人来挑，对应 <span class="num">pass@k</span>。失败的样子：假发散，同一个想法换三种配色。</p></div>
+      <div class="phase h"><span class="k">交接</span><b>锁定方案</b><p>要带过去：选了什么、为什么选、明确不要什么、约束。失败的样子：执行时滑回被否掉的方向。<span class="tag r">已有研究</span>长 context 中间的信息容易被忽略（Lost in the Middle，Liu et al. 2023）；loop engineering 资料称之为 intent debt。</p></div>
+      <div class="phase tint" style="--pc:var(--tau)"><span class="k">收敛</span><b>执行、验证假设</b><p>每次都对、做出来的就是选中的那个，对应 <span class="num">pass^k</span>。失败的样子：说“做好了”，其实偏离了选择。</p></div>
+    </div>
+    <p class="sub">Reflexion 的错题本是收敛工具：在需要探索的<span class="tip" tabindex="0" data-tip="WebShop：模拟购物网站，约 100 万件商品，agent 要按要求找到并买对商品。">模拟网购任务</span>上没有进步（Reflexion §4 原文）。</p>
+  </section>
+
+  <nav class="pager" aria-label="翻页"><a href="#s-harness"><small>← 上一篇</small><span>Harness</span></a><a class="next" href="#notes"><small>下一篇 →</small><span>笔记</span></a></nav>
+</div>
+
+<div class="view" id="notes" data-view hidden style="--pc:var(--cc)">
+  <header class="phero">
+    <a class="back" href="#overview">← 地图</a>
+    <div class="eyebrow">跨论文笔记</div>
+    <h1>笔记</h1>
+    <p class="lede">把多篇论文叠在一起看：共同盲区、设计原则、去 Atlanta 的现场问题。它们不属于某一段，所以单独放一页。</p>
+  </header>
+  <div class="legend">
+    <span class="item"><span class="tag p">原文</span>论文的实验或作者明确表述，附章节</span>
+    <span class="item"><span class="tag r">已有研究</span>其他论文、行业资料或领域共识；标“待确认”的会前要核对</span>
+    <span class="item"><span class="tag g">推测</span>把研究套到产品上的判断，论文没有测</span>
+  </div>
   <section class="sec" id="blind">
     <div class="eyebrow">把论文叠在一起看</div>
     <h2>共同的盲区</h2>
@@ -426,19 +567,19 @@ details.ws .q{margin-top:10px}
     </details>
   </section>
 
-
-
   <footer class="foot">
     <p>会前待确认：τ²-bench 改了什么；Panickssery et al. 2024（裁判“偏爱”自己生成的内容）；Anthropic 2023（RLHF 与 sycophancy）；Kalai et al. 2025（Why Language Models Hallucinate）；ExpeL（Zhao et al. 2023）；GPT-4 技术报告 HumanEval 成绩与 Reflexion 基线的差异；知识冲突综述（Xu et al. 2024）；Anthropic 2025 两篇 CoT 忠实度与可解释性研究的具体数字；GPT-4 技术报告中 post-training 后校准下降的图；proper scoring rule 定义的原始措辞（可能出自 Gneiting &amp; Raftery 2007）；DeepSeek-R1 两个版本的 AIME 数字为何不同（71.0% vs 77.9%）；arXiv 2604.15149 的全文（目前只读了摘要）。</p>
     <p>workshop 信息：<a href="https://blog.neurips.cc/2026/08/10/announcing-the-neurips-2026-workshops/" target="_blank" rel="noreferrer">NeurIPS 2026 workshops</a> · <a href="https://eval-interactive-agents-workshop.github.io/" target="_blank" rel="noreferrer">Interactive Agents</a> · <a href="https://judge2026.github.io/" target="_blank" rel="noreferrer">Judge</a> · <a href="https://neurips2026haic.com/" target="_blank" rel="noreferrer">Human-AI Coevolution</a> · <a href="https://clea-neurips.github.io/" target="_blank" rel="noreferrer">CLEA</a></p>
   </footer>
+  <nav class="pager" aria-label="翻页"><a href="#s-eval"><small>← 上一篇</small><span>评估</span></a></nav>
 </div>
+
 
 <!-- ===================== 01 ATTENTION ===================== -->
 <article class="view" id="attention" data-view hidden style="--pc:var(--at)">
   <header class="phero">
-    <a class="back" href="#overview">← 返回地图</a>
-    <div class="eyebrow">基础原理 · 论文卡 · 经典 2017 · 架构</div>
+    <a class="back" href="#s-pre">← 预训练</a>
+    <div class="eyebrow">预训练 · 论文卡 · 经典 2017 · 架构</div>
     <h1>Attention Is All You Need</h1>
     <p class="full">Vaswani et al. · Google Brain / Google Research · NeurIPS 2017</p>
     <p class="lede">提出 Transformer：一个以 attention 为核心、去掉循环和卷积的 encoder–decoder 架构，用于机器翻译。后来的大模型沿用并改造了它的组件。</p>
@@ -538,14 +679,14 @@ details.ws .q{margin-top:10px}
     </div>
   </section>
 
-  <nav class="pager" aria-label="翻页"><a href="#c-scoring"><small>← 上一篇</small><span>打分方式决定模型</span></a><a class="next" href="#instructgpt"><small>下一篇 →</small><span>InstructGPT</span></a></nav>
+  <nav class="pager" aria-label="翻页"><a href="#c-training"><small>← 上一篇</small><span>模型是怎么学习的</span></a><a class="next" href="#s-post"><small>下一篇 →</small><span>后训练</span></a></nav>
 </article>
 
 <!-- ===================== 02 TAU-BENCH ===================== -->
 <article class="view" id="tau-bench" data-view hidden style="--pc:var(--tau)">
   <header class="phero">
-    <a class="back" href="#overview">← 返回地图</a>
-    <div class="eyebrow">评估与信任 · 论文卡 · 经典 2024 · Agent evaluation</div>
+    <a class="back" href="#s-eval">← 评估</a>
+    <div class="eyebrow">评估 · 论文卡 · 经典 2024 · Agent evaluation</div>
     <h1>τ-bench</h1>
     <p class="full">τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains · Yao, Shinn, Razavi, Narasimhan · Sierra · 2024</p>
     <p class="lede">一场模拟客服上岗考试：agent 要一边跟用户对话、一边调工具、一边守业务规则。</p>
@@ -682,14 +823,14 @@ details.ws .q{margin-top:10px}
     </div>
   </section>
 
-  <nav class="pager" aria-label="翻页"><a href="#memgpt"><small>← 上一篇</small><span>MemGPT</span></a><a class="next" href="#mt-bench"><small>下一篇 →</small><span>MT-Bench</span></a></nav>
+  <nav class="pager" aria-label="翻页"><a href="#s-eval"><small>← 上一篇</small><span>评估</span></a><a class="next" href="#mt-bench"><small>下一篇 →</small><span>MT-Bench</span></a></nav>
 </article>
 
 <!-- ===================== 03 MT-BENCH ===================== -->
 <article class="view" id="mt-bench" data-view hidden style="--pc:var(--mt)">
   <header class="phero">
-    <a class="back" href="#overview">← 返回地图</a>
-    <div class="eyebrow">评估与信任 · 论文卡 · 经典 2023 · LLM-as-a-judge</div>
+    <a class="back" href="#s-eval">← 评估</a>
+    <div class="eyebrow">评估 · 论文卡 · 经典 2023 · LLM-as-a-judge</div>
     <h1>MT-Bench</h1>
     <p class="full">Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena · Zheng et al. · UC Berkeley 等 · NeurIPS 2023 Datasets &amp; Benchmarks</p>
     <p class="lede">开放式问题没有标准答案时，能不能让强 LLM 当裁判来替代人评？裁判和人有多一致，又有哪些偏差？</p>
@@ -826,8 +967,8 @@ details.ws .q{margin-top:10px}
 <!-- ===================== 04 INSTRUCTGPT ===================== -->
 <article class="view" id="instructgpt" data-view hidden style="--pc:var(--ig)">
   <header class="phero">
-    <a class="back" href="#overview">← 返回地图</a>
-    <div class="eyebrow">从模型到助手 · 论文卡 · 经典 2022 · Post-training</div>
+    <a class="back" href="#s-post">← 后训练</a>
+    <div class="eyebrow">后训练 · 论文卡 · 经典 2022 · Post-training</div>
     <h1>InstructGPT</h1>
     <p class="full">Training language models to follow instructions with human feedback · Ouyang et al. · OpenAI · NeurIPS 2022</p>
     <p class="lede">把只会续写的 GPT-3 调教成听指令的助手。ChatGPT 的直接前身，让 RLHF 成了行业标配。</p>
@@ -986,13 +1127,13 @@ details.ws .q{margin-top:10px}
     </div>
   </section>
 
-  <nav class="pager" aria-label="翻页"><a href="#attention"><small>← 上一篇</small><span>Transformer</span></a><a class="next" href="#r1"><small>下一篇 →</small><span>DeepSeek-R1</span></a></nav>
+  <nav class="pager" aria-label="翻页"><a href="#c-scoring"><small>← 上一篇</small><span>打分方式决定模型</span></a><a class="next" href="#r1"><small>下一篇 →</small><span>DeepSeek-R1</span></a></nav>
 </article>
 
 <article class="view" id="r1" data-view hidden style="--pc:var(--r1)">
   <header class="phero">
-    <a class="back" href="#overview">← 返回地图</a>
-    <div class="eyebrow">从模型到助手 · 论文卡 · 2025 · 推理模型</div>
+    <a class="back" href="#s-post">← 后训练</a>
+    <div class="eyebrow">后训练 · 论文卡 · 2025 · 推理模型</div>
     <h1>DeepSeek-R1</h1>
     <p class="full">DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning · DeepSeek-AI · 2025</p>
     <p class="lede">不给示范，不用学出来的打分器，只告诉模型“答对了没有”。长思维链和回头检查自己长了出来。</p>
@@ -1140,14 +1281,14 @@ details.ws .q{margin-top:10px}
     </div>
   </section>
 
-  <nav class="pager" aria-label="翻页"><a href="#instructgpt"><small>← 上一篇</small><span>InstructGPT</span></a><a class="next" href="#react"><small>下一篇 →</small><span>ReAct</span></a></nav>
+  <nav class="pager" aria-label="翻页"><a href="#instructgpt"><small>← 上一篇</small><span>InstructGPT</span></a><a class="next" href="#s-harness"><small>下一篇 →</small><span>Harness</span></a></nav>
 </article>
 
 <!-- ===================== 05 REFLEXION ===================== -->
 <article class="view" id="reflexion" data-view hidden style="--pc:var(--rf)">
   <header class="phero">
-    <a class="back" href="#overview">← 返回地图</a>
-    <div class="eyebrow">Agent 怎么运作 · 论文卡 · 经典 2023 · Continual learning</div>
+    <a class="back" href="#s-harness">← Harness</a>
+    <div class="eyebrow">Harness · 论文卡 · 经典 2023 · Continual learning</div>
     <h1>Reflexion</h1>
     <p class="full">Reflexion: Language Agents with Verbal Reinforcement Learning · Shinn, Cassano, Berman, Gopinath, Narasimhan, Yao · 2023</p>
     <p class="lede">不改模型参数，把失败写成文字反思存进记忆，重做时参考。像写错题本。</p>
@@ -1277,8 +1418,8 @@ details.ws .q{margin-top:10px}
 <!-- ===================== 06 MEMGPT ===================== -->
 <article class="view" id="memgpt" data-view hidden style="--pc:var(--mg)">
   <header class="phero">
-    <a class="back" href="#overview">← 返回地图</a>
-    <div class="eyebrow">Agent 怎么运作 · 论文卡 · 经典 2023 · Agent memory</div>
+    <a class="back" href="#s-harness">← Harness</a>
+    <div class="eyebrow">Harness · 论文卡 · 经典 2023 · Agent memory</div>
     <h1>MemGPT</h1>
     <p class="full">MemGPT: Towards LLMs as Operating Systems · Packer, Wooders, Lin, Fang, Patil, Stoica, Gonzalez · UC Berkeley · 2023</p>
     <p class="lede">借鉴操作系统的虚拟内存：context 是一张小书桌，外部存储是大档案柜，由 LLM 自己“决定”什么放桌上、什么收进柜子、什么时候去翻：实际是模型输出一个函数调用（存入、搜索），由外层程序去执行。</p>
@@ -1417,14 +1558,14 @@ details.ws .q{margin-top:10px}
     </div>
   </section>
 
-  <nav class="pager" aria-label="翻页"><a href="#reflexion"><small>← 上一篇</small><span>Reflexion</span></a><a class="next" href="#tau-bench"><small>下一篇 →</small><span>τ-bench</span></a></nav>
+  <nav class="pager" aria-label="翻页"><a href="#reflexion"><small>← 上一篇</small><span>Reflexion</span></a><a class="next" href="#s-eval"><small>下一篇 →</small><span>评估</span></a></nav>
 </article>
 
 <!-- ===================== 07 REACT ===================== -->
 <article class="view" id="react" data-view hidden style="--pc:var(--ra)">
   <header class="phero">
-    <a class="back" href="#overview">← 返回地图</a>
-    <div class="eyebrow">Agent 怎么运作 · 论文卡 · 经典 2022 · Agent loop</div>
+    <a class="back" href="#s-harness">← Harness</a>
+    <div class="eyebrow">Harness · 论文卡 · 经典 2022 · Agent loop</div>
     <h1>ReAct</h1>
     <p class="full">ReAct: Synergizing Reasoning and Acting in Language Models · Yao, Zhao, Yu, Du, Shafran, Narasimhan, Cao · Princeton / Google · ICLR 2023</p>
     <p class="lede">让模型交替“想”和“做”：Thought → Action → Observation → Thought……我们读过的 agent 论文里的循环，大多都从这里来。</p>
@@ -1606,14 +1747,14 @@ Thought：可以定位，回答用户</p></div>
     </div>
   </section>
 
-  <nav class="pager" aria-label="翻页"><a href="#r1"><small>← 上一篇</small><span>DeepSeek-R1</span></a><a class="next" href="#reflexion"><small>下一篇 →</small><span>Reflexion</span></a></nav>
+  <nav class="pager" aria-label="翻页"><a href="#s-harness"><small>← 上一篇</small><span>Harness</span></a><a class="next" href="#reflexion"><small>下一篇 →</small><span>Reflexion</span></a></nav>
 </article>
 
 <!-- ===================== 08 CALIBRATION ===================== -->
 <article class="view" id="calibration" data-view hidden style="--pc:var(--cb)">
   <header class="phero">
-    <a class="back" href="#overview">← 返回地图</a>
-    <div class="eyebrow">评估与信任 · 论文卡 · 经典 2022 · Calibration</div>
+    <a class="back" href="#s-eval">← 评估</a>
+    <div class="eyebrow">评估 · 论文卡 · 经典 2022 · Calibration</div>
     <h1>Language Models (Mostly) Know What They Know</h1>
     <p class="full">Kadavath, Conerly, Askell, … Olah, Kaplan · Anthropic · 2022</p>
     <p class="lede">模型“知不知道”自己不知道？这里的“知道”只指三件可测的事：给选项的概率准不准、能不能判断自己答案的对错、能不能在回答前预测自己会不会。</p>
@@ -1756,14 +1897,14 @@ Thought：可以定位，回答用户</p></div>
     </div>
   </section>
 
-  <nav class="pager" aria-label="翻页"><a href="#mt-bench"><small>← 上一篇</small><span>MT-Bench</span></a><a class="next" href="#overview"><small>返回 →</small><span>地图</span></a></nav>
+  <nav class="pager" aria-label="翻页"><a href="#mt-bench"><small>← 上一篇</small><span>MT-Bench</span></a><a class="next" href="#notes"><small>下一篇 →</small><span>笔记</span></a></nav>
 </article>
 
 <!-- ===================== C01 TRAINING ===================== -->
 <article class="view" id="c-training" data-view hidden style="--pc:var(--cc)">
   <header class="phero">
-    <a class="back" href="#overview">← 返回地图</a>
-    <div class="eyebrow">基础原理 · 概念课 · 经典</div>
+    <a class="back" href="#s-pre">← 预训练</a>
+    <div class="eyebrow">预训练 · 概念课 · 经典</div>
     <h1>模型是怎么学习的</h1>
     <p class="full">Loss、梯度下降、训练 / 验证 / 测试集、过拟合、参数与规模</p>
     <p class="lede">机器学习最底层的几个概念。现场研究者张口就是“loss 降了”“过拟合了”，这一课把它们讲清楚。</p>
@@ -1856,14 +1997,14 @@ Thought：可以定位，回答用户</p></div>
     </div>
   </section>
 
-  <nav class="pager" aria-label="翻页"><a href="#overview"><small>← 返回</small><span>地图</span></a><a class="next" href="#c-scoring"><small>下一篇 →</small><span>打分方式决定模型</span></a></nav>
+  <nav class="pager" aria-label="翻页"><a href="#s-pre"><small>← 上一篇</small><span>预训练</span></a><a class="next" href="#attention"><small>下一篇 →</small><span>Transformer</span></a></nav>
 </article>
 
 <!-- ===================== C02 SCORING ===================== -->
 <article class="view" id="c-scoring" data-view hidden style="--pc:var(--cc)">
   <header class="phero">
-    <a class="back" href="#overview">← 返回地图</a>
-    <div class="eyebrow">基础原理 · 概念课 · 经典</div>
+    <a class="back" href="#s-post">← 后训练</a>
+    <div class="eyebrow">后训练 · 概念课 · 经典</div>
     <h1>打分方式决定模型</h1>
     <p class="full">Cross-entropy · Proper scoring rule · Goodhart's law · KL penalty</p>
     <p class="lede">用什么方式打分，模型就会变成什么样。这一课把前面几篇反复出现的现象串起来：为什么预训练模型校准好，RLHF 模型“过度自信”（输出的概率比实际正确率更极端），只看对错的模型倾向于猜答案。</p>
@@ -1984,7 +2125,7 @@ Thought：可以定位，回答用户</p></div>
     </div>
   </section>
 
-  <nav class="pager" aria-label="翻页"><a href="#c-training"><small>← 上一篇</small><span>模型是怎么学习的</span></a><a class="next" href="#attention"><small>下一篇 →</small><span>Transformer</span></a></nav>
+  <nav class="pager" aria-label="翻页"><a href="#s-post"><small>← 上一篇</small><span>后训练</span></a><a class="next" href="#instructgpt"><small>下一篇 →</small><span>InstructGPT</span></a></nav>
 </article>
 
 
@@ -2085,27 +2226,174 @@ Thought：可以定位，回答用户</p></div>
     <p>Reading ML papers with a product designer’s eye, and placing them on one map.</p>
     <p class="hq">How do we know an AI did the job well? And when it doesn't, how does it get better?</p>
   </header>
-
   <section class="sec" id="papers-en">
-    <div class="eyebrow">Big picture</div>
+    <div class="eyebrow">Big picture · open any stage</div>
     <h2>How a model is trained, used and measured</h2>
-    <div class="map"><div class="flow"><a class="stg" href="#dir-pre" style="--pc:var(--at)"><span class="k">Pretraining</span><b>Learn to continue text</b><p>Predict the next word over huge amounts of text, picking up language and knowledge. The result is a text continuer that doesn’t know what a user wants.</p><span class="on">Transformer · How models learn</span></a><a class="stg" href="#dir-post" style="--pc:var(--ig)"><span class="k">Post-training</span><b>Shape it into an assistant</b><p>Score it with demonstrations, human preferences or checkable right/wrong, and change the weights so it follows instructions and reasons.</p><span class="on">Scoring · InstructGPT · DeepSeek-R1</span><span class="soon2">Coming: fine-tuning / LoRA</span></a><a class="stg" href="#dir-harness" style="--pc:var(--ra)"><span class="k">Harness</span><b>Wrap it into a product that works</b><p>Leave the weights alone and change what’s around the model: what goes in context, which tools it can use, what it remembers, how it retries.</p><span class="on">ReAct · Reflexion · MemGPT</span><span class="soon2">Coming: context engineering · subagents · memory layers · RAG · prompt injection</span></a></div><a class="evalbar" href="#dir-eval" style="--pc:var(--tau)"><span class="k">Evaluation, across all three</span><p>Every stage has to answer: how do we know it got better, and can we trust it? The scoring used to evaluate is also the training signal in post-training, so evaluation is not a last step but an axis running through. τ-bench · MT-Bench · Calibration</p></a></div>
+    <div class="map"><div class="flow"><a class="stg" href="#s-pre" style="--pc:var(--at)"><span class="k">Pretraining</span><b>Learn to continue text</b><p>Predict the next word over huge amounts of text, picking up language and knowledge. The result is a text continuer that doesn’t know what a user wants.</p><span class="on">Transformer · How models learn</span></a><a class="stg" href="#s-post" style="--pc:var(--ig)"><span class="k">Post-training</span><b>Shape it into an assistant</b><p>Score it with demonstrations, human preferences or checkable right/wrong, and change the weights so it follows instructions and reasons.</p><span class="on">Scoring · InstructGPT · DeepSeek-R1</span></a><a class="stg" href="#s-harness" style="--pc:var(--ra)"><span class="k">Harness</span><b>Wrap it into a product that works</b><p>Leave the weights alone and change what’s around the model: what goes in context, which tools it can use, what it remembers, how it retries.</p><span class="on">ReAct · Reflexion · MemGPT</span></a></div><a class="evalbar" href="#s-eval" style="--pc:var(--tau)"><span class="k">Evaluation, across all three</span><p>Every stage has to answer: how do we know it got better, and can we trust it? The scoring used to evaluate is also the training signal in post-training, so evaluation is not a last step but an axis running through. τ-bench · MT-Bench · Calibration</p></a></div>
   </section>
-  <section class="sec" id="library-en">
-    <div class="eyebrow">Index</div>
-    <h2>All papers and concept lessons</h2>
-    <div class="dir"><div class="dg" id="dir-pre-en" style="--pc:var(--at)"><h3><i></i>Pretraining</h3><a class="drow" href="#c-training" style="--pc:var(--cc)"><b>How models learn</b><span>Loss, gradient descent, overfitting, parameters and scale</span><em>Concept</em></a><a class="drow" href="#attention" style="--pc:var(--at)"><b>Attention Is All You Need</b><span>The Transformer: the skeleton of later large models</span><em>Paper · 2017</em></a></div><div class="dg" id="dir-post-en" style="--pc:var(--ig)"><h3><i></i>Post-training</h3><a class="drow" href="#c-scoring" style="--pc:var(--cc)"><b>Scoring shapes the model</b><span>Cross-entropy, Goodhart’s law, KL penalty</span><em>Concept</em></a><a class="drow" href="#instructgpt" style="--pc:var(--ig)"><b>InstructGPT</b><span>Turning a text continuer into an assistant with human preferences</span><em>Paper · 2022</em></a><a class="drow" href="#r1" style="--pc:var(--r1)"><b>DeepSeek-R1</b><span>Tell the model only right or wrong, and reasoning grows by itself</span><em>Paper · 2025</em></a><div class="soon3">Coming: fine-tuning / LoRA</div></div><div class="dg" id="dir-harness-en" style="--pc:var(--ra)"><h3><i></i>Harness</h3><a class="drow" href="#react" style="--pc:var(--ra)"><b>ReAct</b><span>Think, act, observe: where the agent loop began</span><em>Paper · 2022</em></a><a class="drow" href="#reflexion" style="--pc:var(--rf)"><b>Reflexion</b><span>Getting better from a mistake notebook, without changing weights</span><em>Paper · 2023</em></a><a class="drow" href="#memgpt" style="--pc:var(--mg)"><b>MemGPT</b><span>How agents manage memory when context runs out</span><em>Paper · 2023</em></a><div class="soon3">Coming: context engineering · subagents · memory layers · RAG · prompt injection</div></div><div class="dg" id="dir-eval-en" style="--pc:var(--tau)"><h3><i></i>Evaluation <small>across all three</small></h3><a class="drow" href="#tau-bench" style="--pc:var(--tau)"><b>τ-bench</b><span>When there is a right answer, can an agent get the job done reliably</span><em>Paper · 2024</em></a><a class="drow" href="#mt-bench" style="--pc:var(--mt)"><b>MT-Bench</b><span>When there is no right answer, can an LLM be the judge?</span><em>Paper · 2023</em></a><a class="drow" href="#calibration" style="--pc:var(--cb)"><b>Calibration</b><span>Do models “know” what they don’t know?</span><em>Paper · 2022</em></a></div></div>
-  </section>
-  <nav class="toc" aria-label="Map contents">
-    <a href="#papers">Map</a><a href="#library">Index</a><a href="#blind">Blind spots</a><a href="#principles">Principles</a><a href="#questions">Questions</a>
-  </nav>
 
   <div class="legend">
     <span class="item"><span class="tag p">Paper</span>The paper's experiments or the authors' explicit statements, with section</span>
     <span class="item"><span class="tag r">Prior research</span>Other papers, industry sources or field consensus; items marked “to verify” need checking before the conference</span>
     <span class="item"><span class="tag g">Our inference</span>Applying the research to product decisions; the paper didn't test it</span>
   </div>
+</div>
 
+<div class="view" id="s-pre-en" data-view hidden style="--pc:var(--at)">
+  <header class="phero">
+    <a class="back" href="#overview">← Map</a>
+    <div class="eyebrow">Stage 1 of 3 · Pretraining</div>
+    <h1>Pretraining</h1>
+    <p class="lede">Predict the next word over huge amounts of text, picking up language and knowledge. The result is a text continuer that doesn’t know what a user wants. Everything after builds on it.</p>
+    <p class="full">The question：Where does a model’s ability come from?</p>
+  </header>
+  <section class="sec">
+    <div class="eyebrow">Papers</div>
+    <div class="dir"><div class="dg"><a class="drow" href="#attention" style="--pc:var(--at)"><b>Attention Is All You Need</b><span>The Transformer: the skeleton of later large models</span><em>Paper · 2017</em></a></div></div>
+  </section>
+  <section class="sec">
+    <div class="eyebrow">Key concepts</div>
+    <div class="dir"><div class="dg"><a class="drow" href="#c-training" style="--pc:var(--cc)"><b>How models learn</b><span>Loss, gradient descent, overfitting, parameters and scale</span><em>Concept</em></a></div></div>
+  </section>
+  <nav class="pager" aria-label="Pages"><a href="#overview"><small>← Previous</small><span>Map</span></a><a class="next" href="#s-post"><small>Next →</small><span>Post-training</span></a></nav>
+</div>
+
+<div class="view" id="s-post-en" data-view hidden style="--pc:var(--ig)">
+  <header class="phero">
+    <a class="back" href="#overview">← Map</a>
+    <div class="eyebrow">Stage 2 of 3 · Post-training</div>
+    <h1>Post-training</h1>
+    <p class="lede">Score it with demonstrations, human preferences or checkable right/wrong, and change the weights so it follows instructions and reasons.</p>
+    <p class="full">The question：How does a text continuer become a useful assistant?</p>
+  </header>
+  <section class="sec">
+    <div class="eyebrow">Papers</div>
+    <div class="dir"><div class="dg"><a class="drow" href="#instructgpt" style="--pc:var(--ig)"><b>InstructGPT</b><span>Turning a text continuer into an assistant with human preferences</span><em>Paper · 2022</em></a><a class="drow" href="#r1" style="--pc:var(--r1)"><b>DeepSeek-R1</b><span>Tell the model only right or wrong, and reasoning grows by itself</span><em>Paper · 2025</em></a><div class="soon3">Coming：fine-tuning / LoRA</div></div></div>
+  </section>
+  <section class="sec">
+    <div class="eyebrow">Key concepts</div>
+    <div class="dir"><div class="dg"><a class="drow" href="#c-scoring" style="--pc:var(--cc)"><b>Scoring shapes the model</b><span>Cross-entropy, Goodhart’s law, KL penalty</span><em>Concept</em></a></div></div>
+  </section>
+  <section class="sec" id="training-en">
+    <div class="eyebrow"><a href="#instructgpt">InstructGPT card →</a></div>
+    <h2>The same “judge” can evaluate and train</h2>
+    <p>MT-Bench uses an LLM judge to <b>evaluate</b> models. InstructGPT first learns a reward model from human rankings, then uses it to <b>train</b> the model. Two uses of the same thing. <span class="tag p">Paper InstructGPT §3</span></p>
+    <div class="pipe" style="--pc:var(--ig)">
+      <div class="stage"><span class="k">Pretraining</span><b>Text continuer</b><p>Learns “what comes next”, not “what the user wants”</p></div>
+      <div class="stage hl"><span class="k">Step 1 · SFT</span><b>Learn from demos</b><p>Labelers write good answers; the model imitates them</p></div>
+      <div class="stage hl"><span class="k">Step 2 · Reward model</span><b>Train an examiner</b><p>Labelers rank answers; a model is fitted to reproduce those rankings (their “taste”)</p></div>
+      <div class="stage hl"><span class="k">Step 3 · PPO</span><b>Practice under the examiner</b><p>KL penalty prevents drift; PPO-ptx prevents forgetting</p></div>
+    </div>
+    <div class="callout"><b>Link to the spectrum</b><p>Tasks with right answers can be trained and evaluated on correctness; only tasks without them need human or AI preference. Training and evaluation share the same logic and the same risk: if the judge is biased, the model learns the bias. <span class="tag r">Prior research</span> Later methods such as DPO, RLAIF and verifiable rewards each replace one piece of this pipeline.</p></div>
+  </section>
+
+  <nav class="pager" aria-label="Pages"><a href="#s-pre"><small>← Previous</small><span>Pretraining</span></a><a class="next" href="#s-harness"><small>Next →</small><span>Harness</span></a></nav>
+</div>
+
+<div class="view" id="s-harness-en" data-view hidden style="--pc:var(--ra)">
+  <header class="phero">
+    <a class="back" href="#overview">← Map</a>
+    <div class="eyebrow">Stage 3 of 3 · Harness</div>
+    <h1>Harness</h1>
+    <p class="lede">Leave the weights alone and change what’s around the model: what goes in context, which tools it can use, what it remembers, how it retries.</p>
+    <p class="full">The question：How do you wrap a model into a product that works?</p>
+  </header>
+  <section class="sec">
+    <div class="eyebrow">Papers</div>
+    <div class="dir"><div class="dg"><a class="drow" href="#react" style="--pc:var(--ra)"><b>ReAct</b><span>Think, act, observe: where the agent loop began</span><em>Paper · 2022</em></a><a class="drow" href="#reflexion" style="--pc:var(--rf)"><b>Reflexion</b><span>Getting better from a mistake notebook, without changing weights</span><em>Paper · 2023</em></a><a class="drow" href="#memgpt" style="--pc:var(--mg)"><b>MemGPT</b><span>How agents manage memory when context runs out</span><em>Paper · 2023</em></a><div class="soon3">Coming：context engineering · subagents · memory layers · RAG · prompt injection</div></div></div>
+  </section>
+  <section class="sec" id="learning-en">
+    <div class="eyebrow"><a href="#reflexion">Reflexion card →</a> · CLEA workshop</div>
+    <h2>Where agents learn: weights, memory, harness</h2>
+    <div class="where">
+      <div class="tint" style="--pc:var(--ig)"><span class="k">Change weights</span><b>InstructGPT, fine-tuning</b><p>Durable, but expensive, slow and prone to forgetting. What was learned isn't visible to people.</p></div>
+      <div class="tint" style="--pc:var(--rf)"><span class="k">Change context / memory</span><b>Reflexion notebook, <a href="#memgpt">MemGPT</a> filing cabinet</b><p>Write down why it failed and what to do next, then put that in the prompt on retry. Cheap and readable, but limited in size.</p></div>
+      <div class="plain"><span class="k">Change the harness</span><b>Prompts, tools, workflow</b><p><span class="tag p">Paper CLEA call</span> “Harness-level continual improvement”</p></div>
+    </div>
+    <h3>Three kinds of loop; only one needs reflection</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Type</th><th>What it loops over</th><th>Needs reflection?</th><th>Main risk</th></tr></thead>
+      <tbody>
+        <tr><td>Process each item</td><td>A batch of different items, each done once (e.g. change the font in every table row)</td><td>No</td><td>Stopping halfway: 19% of τ-bench failures (§5.2 Paper); needs a coverage check</td></tr>
+        <tr><td>Retry until it passes</td><td>The same task repeated until the evaluator says success</td><td>Not necessarily</td><td>If the evaluator is wrong, it stops on a wrong answer</td></tr>
+        <tr><td>Retry with reflection</td><td>The same task, writing down a lesson after each failure (Reflexion)</td><td>Yes</td><td>Wrong lessons get remembered; stuck in local minima</td></tr>
+      </tbody>
+    </table></div>
+    <p class="sub"><span class="tag r">Prior research</span> Loop engineering is usually described as a Goal → Action → Observation → Adjustment cycle plus persistent memory (IBM calls it the spine), which maps almost one-to-one onto Reflexion.</p>
+  </section>
+
+  <nav class="pager" aria-label="Pages"><a href="#s-post"><small>← Previous</small><span>Post-training</span></a><a class="next" href="#s-eval"><small>Next →</small><span>Evaluation</span></a></nav>
+</div>
+
+<div class="view" id="s-eval-en" data-view hidden style="--pc:var(--tau)">
+  <header class="phero">
+    <a class="back" href="#overview">← Map</a>
+    <div class="eyebrow">Across all three · Evaluation</div>
+    <h1>Evaluation</h1>
+    <p class="lede">Evaluation is not a last step but an axis running through all three stages: pretraining, post-training and the harness each have to answer “how do we know it got better, and can we trust it?” The scoring used to evaluate is also the training signal in post-training.</p>
+    <p class="full">The question：How do we know it did well, and can we trust it?</p>
+  </header>
+  <section class="sec">
+    <div class="eyebrow">Papers</div>
+    <div class="dir"><div class="dg"><a class="drow" href="#tau-bench" style="--pc:var(--tau)"><b>τ-bench</b><span>When there is a right answer, can an agent get the job done reliably</span><em>Paper · 2024</em></a><a class="drow" href="#mt-bench" style="--pc:var(--mt)"><b>MT-Bench</b><span>When there is no right answer, can an LLM be the judge?</span><em>Paper · 2023</em></a><a class="drow" href="#calibration" style="--pc:var(--cb)"><b>Calibration</b><span>Do models “know” what they don’t know?</span><em>Paper · 2022</em></a></div></div>
+  </section>
+  <section class="sec" id="spectrum-en">
+    <div class="eyebrow">The core axis</div>
+    <h2>How you evaluate depends on whether there is a right answer</h2>
+    <div class="axis"><span>One correct outcome</span><span>No right answer</span></div>
+    <div class="rail" aria-hidden="true"></div>
+    <div class="zones">
+      <div class="zone tint" style="--pc:var(--tau)"><span class="pill" style="--pc:var(--tau)">τ-bench, Reflexion</span><b>Carry out a clear request</b><p><span class="k">Examples</span><br>Process a return, change an order address, fill in a dataset configuration, write code that passes tests</p><p><span class="k">How it's judged</span><br>Compare the final state or run tests: fast, objective, repeatable thousands of times</p></div>
+      <div class="zone plain"><span class="pill none">Not covered</span><b>One right conclusion, but the output is text</b><p><span class="k">Example</span><br>Root cause analysis: is the cloud storage bill high because of a heavy background job, or a billing calculation bug?</p><p><span class="k">How it's judged</span><br>Plant the answer with fault injection (e.g. AIOpsLab); restrict answers to cause categories, or use a reference-guided LLM judge</p></div>
+      <div class="zone tint" style="--pc:var(--mt)"><span class="pill" style="--pc:var(--mt)">MT-Bench, InstructGPT</span><b>Open-ended, creative answers</b><p><span class="k">Examples</span><br>Writing, giving advice, exploring design directions</p><p><span class="k">How it's judged</span><br>Human preference, or an LLM judge / reward model that approximates it; humans themselves disagree</p></div>
+    </div>
+    <p class="sub">The further right, the harder it is to define “correct”, the more you depend on a judge, and the more that judge's reliability matters.</p>
+  </section>
+
+  <section class="sec" id="compare-en">
+    <div class="eyebrow">Two benchmarks compared · all <span class="tag p">Paper</span></div>
+    <h2>Same question, two kinds of exam</h2>
+    <div class="tbl"><table>
+      <thead><tr><th></th><th><a href="#tau-bench">τ-bench →</a></th><th><a href="#mt-bench">MT-Bench →</a></th></tr></thead>
+      <tbody>
+        <tr><th>Research question</th><td>Can an agent reliably get things done while talking to a user, calling tools and following rules?</td><td>When there's no right answer, can a strong LLM replace human judges?</td></tr>
+        <tr><th>Tasks &amp; scoring</th><td>Humans write scenarios with exactly one correct outcome; compare the final database, scored 0 or 1 (§3)</td><td>58 expert raters and 2,114 crowd users vote; GPT-4 as judge for comparison (§4)</td></tr>
+        <tr><th>The LLM plays</th><td>The simulated user</td><td>The judge</td></tr>
+        <tr><th>Core metric</th><td><span class="num">pass^k</span>: all k independent runs succeed</td><td>Judge–human agreement (S1 counts ties / S2 excludes them)</td></tr>
+        <tr><th>Key numbers</th><td>gpt-4o retail pass^1 <span class="num">61.2</span>, pass^8 under <span class="num">25%</span></td><td>GPT-4 vs experts S2 <span class="num">85%</span>, human–human <span class="num">81%</span>; with ties <span class="num">66%</span></td></tr>
+        <tr><th>Main failure modes</th><td>Wrong arguments or info ~55%, rule violations 25%, partial completion 19%</td><td>Position bias, verbosity bias, self-enhancement, limited reasoning</td></tr>
+        <tr><th>Workshop</th><td>Evaluation of Interactive Agents</td><td>Can We Trust the Judge?; Human-AI Coevolution</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="sec" id="phases-en">
+    <div class="eyebrow"><span class="tag g">Our inference</span> Based on the pass@k and pass^k definitions (τ-bench §3 Paper)</div>
+    <h2>Diverge with pass@k, converge with pass^k</h2>
+    <p>The line isn't between domains but between steps of the same workflow. It's the same shape as the design double diamond.</p>
+    <div class="phases">
+      <div class="phase tint" style="--pc:var(--mt)"><span class="k">Diverge</span><b>Explore directions, form hypotheses</b><p>Generate many, a person picks: <span class="num">pass@k</span>. Failure looks like fake divergence: one idea in three color schemes.</p></div>
+      <div class="phase h"><span class="k">Hand-off</span><b>Lock the direction</b><p>Carry over what was chosen, why, what's ruled out, and the constraints. Failure looks like drifting back to rejected directions. <span class="tag r">Prior research</span> Information in the middle of long contexts gets ignored (Lost in the Middle, Liu et al. 2023); loop engineering writers call this intent debt.</p></div>
+      <div class="phase tint" style="--pc:var(--tau)"><span class="k">Converge</span><b>Execute, verify</b><p>Right every time, and it's what was chosen: <span class="num">pass^k</span>. Failure looks like “done” while quietly deviating.</p></div>
+    </div>
+    <p class="sub">Reflexion's mistake notebook is a converging tool: it made no progress on exploration-heavy <span class="tip" tabindex="0" data-tip="WebShop: a simulated shopping site with about 1 million products; the agent must find and buy the right one.">simulated shopping</span> (Reflexion §4 Paper).</p>
+  </section>
+
+  <nav class="pager" aria-label="Pages"><a href="#s-harness"><small>← Previous</small><span>Harness</span></a><a class="next" href="#notes"><small>Next →</small><span>Notes</span></a></nav>
+</div>
+
+<div class="view" id="notes-en" data-view hidden style="--pc:var(--cc)">
+  <header class="phero">
+    <a class="back" href="#overview">← Map</a>
+    <div class="eyebrow">Cross-paper notes</div>
+    <h1>Notes</h1>
+    <p class="lede">Reading the papers stacked together: shared blind spots, design principles, and questions to bring to Atlanta. They don’t belong to any one stage, so they get their own page.</p>
+  </header>
+  <div class="legend">
+    <span class="item"><span class="tag p">Paper</span>The paper's experiments or the authors' explicit statements, with section</span>
+    <span class="item"><span class="tag r">Prior research</span>Other papers, industry sources or field consensus; items marked “to verify” need checking before the conference</span>
+    <span class="item"><span class="tag g">Our inference</span>Applying the research to product decisions; the paper didn't test it</span>
+  </div>
   <section class="sec" id="blind-en">
     <div class="eyebrow">Reading the papers together</div>
     <h2>Shared blind spots</h2>
@@ -2181,19 +2469,19 @@ Thought：可以定位，回答用户</p></div>
     </details>
   </section>
 
-
-
   <footer class="foot">
     <p>To verify before the conference: what τ²-bench changed; Panickssery et al. 2024 (judges “favor” their own outputs); Anthropic 2023 (RLHF and sycophancy); Kalai et al. 2025 (Why Language Models Hallucinate); ExpeL (Zhao et al. 2023); the gap between GPT-4's reported HumanEval score and Reflexion's baseline; the knowledge-conflicts survey (Xu et al. 2024); figures in the two Anthropic 2025 faithfulness and interpretability studies; the GPT-4 report figure on calibration after post-training; the original wording of the proper-scoring-rule definition (possibly Gneiting &amp; Raftery 2007); why the two DeepSeek-R1 versions report different AIME numbers (71.0% vs 77.9%); the full text of arXiv 2604.15149 (only the abstract has been read).</p>
     <p>Workshops: <a href="https://blog.neurips.cc/2026/08/10/announcing-the-neurips-2026-workshops/" target="_blank" rel="noreferrer">NeurIPS 2026 workshops</a> · <a href="https://eval-interactive-agents-workshop.github.io/" target="_blank" rel="noreferrer">Interactive Agents</a> · <a href="https://judge2026.github.io/" target="_blank" rel="noreferrer">Judge</a> · <a href="https://neurips2026haic.com/" target="_blank" rel="noreferrer">Human-AI Coevolution</a> · <a href="https://clea-neurips.github.io/" target="_blank" rel="noreferrer">CLEA</a></p>
   </footer>
+  <nav class="pager" aria-label="Pages"><a href="#s-eval"><small>← Previous</small><span>Evaluation</span></a></nav>
 </div>
+
 
 <!-- ===================== 01 ATTENTION ===================== -->
 <article class="view" id="attention-en" data-view hidden style="--pc:var(--at)">
   <header class="phero">
-    <a class="back" href="#overview">← Back to map</a>
-    <div class="eyebrow">Foundations · Paper · Classic 2017 · Architecture</div>
+    <a class="back" href="#s-pre">← Pretraining</a>
+    <div class="eyebrow">Pretraining · Paper · Classic 2017 · Architecture</div>
     <h1>Attention Is All You Need</h1>
     <p class="full">Vaswani et al. · Google Brain / Google Research · NeurIPS 2017</p>
     <p class="lede">Introduces the Transformer: an encoder–decoder built around attention, with no recurrence or convolution, for machine translation. Later large models reused and reshaped its components.</p>
@@ -2293,14 +2581,14 @@ Thought：可以定位，回答用户</p></div>
     </div>
   </section>
 
-  <nav class="pager" aria-label="Pages"><a href="#c-scoring"><small>← Previous</small><span>Scoring shapes the model</span></a><a class="next" href="#instructgpt"><small>Next →</small><span>InstructGPT</span></a></nav>
+  <nav class="pager" aria-label="Pages"><a href="#c-training"><small>← Previous</small><span>How models learn</span></a><a class="next" href="#s-post"><small>Next →</small><span>Post-training</span></a></nav>
 </article>
 
 <!-- ===================== 02 TAU-BENCH ===================== -->
 <article class="view" id="tau-bench-en" data-view hidden style="--pc:var(--tau)">
   <header class="phero">
-    <a class="back" href="#overview">← Back to map</a>
-    <div class="eyebrow">Evaluation & trust · Paper · Classic 2024 · Agent evaluation</div>
+    <a class="back" href="#s-eval">← Evaluation</a>
+    <div class="eyebrow">Evaluation · Paper · Classic 2024 · Agent evaluation</div>
     <h1>τ-bench</h1>
     <p class="full">τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains · Yao, Shinn, Razavi, Narasimhan · Sierra · 2024</p>
     <p class="lede">A simulated customer-service job test: the agent has to talk to a user, call tools and follow business rules at the same time.</p>
@@ -2437,14 +2725,14 @@ Thought：可以定位，回答用户</p></div>
     </div>
   </section>
 
-  <nav class="pager" aria-label="Pages"><a href="#memgpt"><small>← Previous</small><span>MemGPT</span></a><a class="next" href="#mt-bench"><small>Next →</small><span>MT-Bench</span></a></nav>
+  <nav class="pager" aria-label="Pages"><a href="#s-eval"><small>← Previous</small><span>Evaluation</span></a><a class="next" href="#mt-bench"><small>Next →</small><span>MT-Bench</span></a></nav>
 </article>
 
 <!-- ===================== 03 MT-BENCH ===================== -->
 <article class="view" id="mt-bench-en" data-view hidden style="--pc:var(--mt)">
   <header class="phero">
-    <a class="back" href="#overview">← Back to map</a>
-    <div class="eyebrow">Evaluation & trust · Paper · Classic 2023 · LLM-as-a-judge</div>
+    <a class="back" href="#s-eval">← Evaluation</a>
+    <div class="eyebrow">Evaluation · Paper · Classic 2023 · LLM-as-a-judge</div>
     <h1>MT-Bench</h1>
     <p class="full">Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena · Zheng et al. · UC Berkeley and others · NeurIPS 2023 Datasets &amp; Benchmarks</p>
     <p class="lede">When open-ended questions have no right answer, can a strong LLM judge replace human raters? How closely does it agree with people, and how is it biased?</p>
@@ -2581,8 +2869,8 @@ Thought：可以定位，回答用户</p></div>
 <!-- ===================== 04 INSTRUCTGPT ===================== -->
 <article class="view" id="instructgpt-en" data-view hidden style="--pc:var(--ig)">
   <header class="phero">
-    <a class="back" href="#overview">← Back to map</a>
-    <div class="eyebrow">From model to assistant · Paper · Classic 2022 · Post-training</div>
+    <a class="back" href="#s-post">← Post-training</a>
+    <div class="eyebrow">Post-training · Paper · Classic 2022 · Post-training</div>
     <h1>InstructGPT</h1>
     <p class="full">Training language models to follow instructions with human feedback · Ouyang et al. · OpenAI · NeurIPS 2022</p>
     <p class="lede">Shapes GPT-3, a pure text continuer, into an assistant that follows instructions. The direct predecessor of ChatGPT, and the paper that made RLHF standard practice.</p>
@@ -2741,13 +3029,13 @@ Thought：可以定位，回答用户</p></div>
     </div>
   </section>
 
-  <nav class="pager" aria-label="Pages"><a href="#attention"><small>← Previous</small><span>Transformer</span></a><a class="next" href="#r1"><small>Next →</small><span>DeepSeek-R1</span></a></nav>
+  <nav class="pager" aria-label="Pages"><a href="#c-scoring"><small>← Previous</small><span>Scoring shapes the model</span></a><a class="next" href="#r1"><small>Next →</small><span>DeepSeek-R1</span></a></nav>
 </article>
 
 <article class="view" id="r1-en" data-view hidden style="--pc:var(--r1)">
   <header class="phero">
-    <a class="back" href="#overview">← Back to map</a>
-    <div class="eyebrow">From model to assistant · Paper · 2025 · Reasoning models</div>
+    <a class="back" href="#s-post">← Post-training</a>
+    <div class="eyebrow">Post-training · Paper · 2025 · Reasoning models</div>
     <h1>DeepSeek-R1</h1>
     <p class="full">DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning · DeepSeek-AI · 2025</p>
     <p class="lede">No demonstrations, no learned scorer: just tell the model whether the answer was right. Long chains of thought and self-checking grew on their own.</p>
@@ -2895,14 +3183,14 @@ Thought：可以定位，回答用户</p></div>
     </div>
   </section>
 
-  <nav class="pager" aria-label="Pages"><a href="#instructgpt"><small>← Previous</small><span>InstructGPT</span></a><a class="next" href="#react"><small>Next →</small><span>ReAct</span></a></nav>
+  <nav class="pager" aria-label="Pages"><a href="#instructgpt"><small>← Previous</small><span>InstructGPT</span></a><a class="next" href="#s-harness"><small>Next →</small><span>Harness</span></a></nav>
 </article>
 
 <!-- ===================== 05 REFLEXION ===================== -->
 <article class="view" id="reflexion-en" data-view hidden style="--pc:var(--rf)">
   <header class="phero">
-    <a class="back" href="#overview">← Back to map</a>
-    <div class="eyebrow">How agents work · Paper · Classic 2023 · Continual learning</div>
+    <a class="back" href="#s-harness">← Harness</a>
+    <div class="eyebrow">Harness · Paper · Classic 2023 · Continual learning</div>
     <h1>Reflexion</h1>
     <p class="full">Reflexion: Language Agents with Verbal Reinforcement Learning · Shinn, Cassano, Berman, Gopinath, Narasimhan, Yao · 2023</p>
     <p class="lede">No weight updates: the agent writes its failures down as reflections, stores them in memory and consults them on the next try. A mistake notebook.</p>
@@ -3032,8 +3320,8 @@ Thought：可以定位，回答用户</p></div>
 <!-- ===================== 06 MEMGPT ===================== -->
 <article class="view" id="memgpt-en" data-view hidden style="--pc:var(--mg)">
   <header class="phero">
-    <a class="back" href="#overview">← Back to map</a>
-    <div class="eyebrow">How agents work · Paper · Classic 2023 · Agent memory</div>
+    <a class="back" href="#s-harness">← Harness</a>
+    <div class="eyebrow">Harness · Paper · Classic 2023 · Agent memory</div>
     <h1>MemGPT</h1>
     <p class="full">MemGPT: Towards LLMs as Operating Systems · Packer, Wooders, Lin, Fang, Patil, Stoica, Gonzalez · UC Berkeley · 2023</p>
     <p class="lede">Borrows virtual memory from operating systems: the context is a small desk, external storage is a big filing cabinet, and the LLM itself “decides” what stays on the desk, what gets filed, and when to go looking: in practice it emits a function call (store, search) that outer code executes.</p>
@@ -3172,14 +3460,14 @@ Thought：可以定位，回答用户</p></div>
     </div>
   </section>
 
-  <nav class="pager" aria-label="Pages"><a href="#reflexion"><small>← Previous</small><span>Reflexion</span></a><a class="next" href="#tau-bench"><small>Next →</small><span>τ-bench</span></a></nav>
+  <nav class="pager" aria-label="Pages"><a href="#reflexion"><small>← Previous</small><span>Reflexion</span></a><a class="next" href="#s-eval"><small>Next →</small><span>Evaluation</span></a></nav>
 </article>
 
 <!-- ===================== 07 REACT ===================== -->
 <article class="view" id="react-en" data-view hidden style="--pc:var(--ra)">
   <header class="phero">
-    <a class="back" href="#overview">← Back to map</a>
-    <div class="eyebrow">How agents work · Paper · Classic 2022 · Agent loop</div>
+    <a class="back" href="#s-harness">← Harness</a>
+    <div class="eyebrow">Harness · Paper · Classic 2022 · Agent loop</div>
     <h1>ReAct</h1>
     <p class="full">ReAct: Synergizing Reasoning and Acting in Language Models · Yao, Zhao, Yu, Du, Shafran, Narasimhan, Cao · Princeton / Google · ICLR 2023</p>
     <p class="lede">Has the model alternate thinking and acting: Thought → Action → Observation → Thought… Most loops in the agent papers we've read trace back to this one.</p>
@@ -3361,14 +3649,14 @@ Thought: cause located, answer the user</p></div>
     </div>
   </section>
 
-  <nav class="pager" aria-label="Pages"><a href="#r1"><small>← Previous</small><span>DeepSeek-R1</span></a><a class="next" href="#reflexion"><small>Next →</small><span>Reflexion</span></a></nav>
+  <nav class="pager" aria-label="Pages"><a href="#s-harness"><small>← Previous</small><span>Harness</span></a><a class="next" href="#reflexion"><small>Next →</small><span>Reflexion</span></a></nav>
 </article>
 
 <!-- ===================== 08 CALIBRATION ===================== -->
 <article class="view" id="calibration-en" data-view hidden style="--pc:var(--cb)">
   <header class="phero">
-    <a class="back" href="#overview">← Back to map</a>
-    <div class="eyebrow">Evaluation & trust · Paper · Classic 2022 · Calibration</div>
+    <a class="back" href="#s-eval">← Evaluation</a>
+    <div class="eyebrow">Evaluation · Paper · Classic 2022 · Calibration</div>
     <h1>Language Models (Mostly) Know What They Know</h1>
     <p class="full">Kadavath, Conerly, Askell, … Olah, Kaplan · Anthropic · 2022</p>
     <p class="lede">Do models “know” what they don't know? Here “know” means three measurable things: are answer-option probabilities accurate, can a model judge its own answer, and can it predict beforehand whether it will get a question right?</p>
@@ -3511,14 +3799,14 @@ Thought: cause located, answer the user</p></div>
     </div>
   </section>
 
-  <nav class="pager" aria-label="Pages"><a href="#mt-bench"><small>← Previous</small><span>MT-Bench</span></a><a class="next" href="#overview"><small>Back →</small><span>Map</span></a></nav>
+  <nav class="pager" aria-label="Pages"><a href="#mt-bench"><small>← Previous</small><span>MT-Bench</span></a><a class="next" href="#notes"><small>Next →</small><span>Notes</span></a></nav>
 </article>
 
 <!-- ===================== C01 TRAINING ===================== -->
 <article class="view" id="c-training-en" data-view hidden style="--pc:var(--cc)">
   <header class="phero">
-    <a class="back" href="#overview">← Back to map</a>
-    <div class="eyebrow">Foundations · Concept lesson · Classic</div>
+    <a class="back" href="#s-pre">← Pretraining</a>
+    <div class="eyebrow">Pretraining · Concept lesson · Classic</div>
     <h1>How models learn</h1>
     <p class="full">Loss, gradient descent, training / validation / test sets, overfitting, parameters and scale</p>
     <p class="lede">The most basic ideas in machine learning. Researchers say “the loss went down” or “it overfit” without explanation; this lesson makes them clear.</p>
@@ -3611,14 +3899,14 @@ Thought: cause located, answer the user</p></div>
     </div>
   </section>
 
-  <nav class="pager" aria-label="Pages"><a href="#overview"><small>← Back</small><span>Map</span></a><a class="next" href="#c-scoring"><small>Next →</small><span>Scoring shapes the model</span></a></nav>
+  <nav class="pager" aria-label="Pages"><a href="#s-pre"><small>← Previous</small><span>Pretraining</span></a><a class="next" href="#attention"><small>Next →</small><span>Transformer</span></a></nav>
 </article>
 
 <!-- ===================== C02 SCORING ===================== -->
 <article class="view" id="c-scoring-en" data-view hidden style="--pc:var(--cc)">
   <header class="phero">
-    <a class="back" href="#overview">← Back to map</a>
-    <div class="eyebrow">Foundations · Concept lesson · Classic</div>
+    <a class="back" href="#s-post">← Post-training</a>
+    <div class="eyebrow">Post-training · Concept lesson · Classic</div>
     <h1>Scoring shapes the model</h1>
     <p class="full">Cross-entropy · Proper scoring rule · Goodhart's law · KL penalty</p>
     <p class="lede">How you score a model decides what it becomes. This lesson ties together patterns from earlier papers: why pretrained models are well calibrated, RLHF models are “overconfident” (their probabilities are more extreme than their actual accuracy), and accuracy-only models tend to guess.</p>
@@ -3739,7 +4027,7 @@ Thought: cause located, answer the user</p></div>
     </div>
   </section>
 
-  <nav class="pager" aria-label="Pages"><a href="#c-training"><small>← Previous</small><span>How models learn</span></a><a class="next" href="#attention"><small>Next →</small><span>Transformer</span></a></nav>
+  <nav class="pager" aria-label="Pages"><a href="#s-post"><small>← Previous</small><span>Post-training</span></a><a class="next" href="#instructgpt"><small>Next →</small><span>InstructGPT</span></a></nav>
 </article>
 
 
@@ -3848,15 +4136,8 @@ Thought: cause located, answer the user</p></div>
     main.querySelectorAll('[data-view]').forEach(v=>{v.hidden=v!==target});
     const cur=base(target.id);
     document.querySelectorAll('[data-nav]').forEach(a=>{if(a.dataset.nav===cur)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
-    const curChip=document.querySelector('#subnav .chip[data-nav="'+cur+'"]');
-    const st=curChip?curChip.dataset.stage:null;
-    const subnav=document.getElementById('subnav');
-    subnav.hidden=!st;
-    subnav.closest('.topbar').dataset.sub=st?'on':'off';
-    subnav.querySelectorAll('.chip').forEach(c=>{c.hidden=c.dataset.stage!==st});
-    document.querySelectorAll('.chip.sc').forEach(c=>{if(c.dataset.stage===st)c.setAttribute('aria-current','true');else c.removeAttribute('aria-current')});
-    const active=document.querySelector('#subnav .chip[aria-current="page"]');
-    if(active&&st)active.scrollIntoView({block:'nearest',inline:'nearest'});
+    const parent={'c-training':'s-pre','attention':'s-pre','c-scoring':'s-post','instructgpt':'s-post','r1':'s-post','react':'s-harness','reflexion':'s-harness','memgpt':'s-harness','tau-bench':'s-eval','mt-bench':'s-eval','calibration':'s-eval'}[cur];
+    document.querySelectorAll('.chip.sc').forEach(c=>{const n=c.dataset.nav;if(n===cur)c.setAttribute('aria-current','page');else if(n===parent)c.setAttribute('aria-current','true');else c.removeAttribute('aria-current')});
     if(anchor)anchor.scrollIntoView();else{window.scrollTo(0,0);requestAnimationFrame(()=>window.scrollTo(0,0));}
     if(cur==='abbr'){const q=target.querySelector('.abbr-q');if(q){if(q._upd)q._upd();if(matchMedia('(hover:hover)').matches)q.focus({preventScroll:true});}}
   }
