@@ -245,11 +245,14 @@ input[type=range]{width:100%;accent-color:var(--bar)}
 .evalbar .k{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pc)}
 .evalbar p{font-size:13px;color:var(--muted);max-width:none}
 .ideas{display:grid;gap:0}
-.idea{display:grid;grid-template-columns:minmax(0,230px) minmax(0,1fr);gap:4px 32px;align-items:baseline;padding:18px 0;border-top:1px solid var(--line);min-width:0}
+.idea{display:grid;gap:8px;padding:22px 0;border-top:1px solid var(--line);min-width:0}
 .idea:first-child{border-top:0;padding-top:4px}
-.idea b{font-size:16px;line-height:1.35}
-.idea p{font-size:15px;max-width:60ch;grid-column:2}
-.idea .more{grid-column:2;font-size:13px;color:var(--pc);text-decoration:none;font-weight:600}
+.idea b{font-size:17px;line-height:1.4;letter-spacing:-.01em}
+.idea > :not(b){margin-left:32px}
+.idea p{font-size:15px;line-height:1.6;max-width:62ch}
+.idea > .fig{margin-top:14px}
+.idea > .fig .fig-title{font-size:13px;color:var(--muted)}
+.idea .more{justify-self:start;font-size:13px;color:var(--pc);text-decoration:none;font-weight:600}
 .idea .more:hover{text-decoration:underline}
 .dir{display:grid;gap:20px}
 .dg{display:grid;gap:4px;scroll-margin-top:72px}
@@ -315,8 +318,6 @@ details.ws .q{margin-top:10px}
   .flow .stg:not(:last-child)::after{content:"\2193";right:auto;left:50%;top:auto;bottom:-25px;transform:translateX(-50%)}
   .drow{grid-template-columns:1fr auto;gap:4px 12px}
   .drow span{grid-column:1 / -1;order:3}
-  .idea{grid-template-columns:1fr;gap:6px}
-  .idea p,.idea .more{grid-column:1}
 }
 .foot{font-size:13px;color:var(--muted);display:grid;gap:6px}
 
@@ -364,7 +365,7 @@ details.ws .q{margin-top:10px}
 .evalbar .ico{grid-row:1 / span 2;width:34px;height:34px;border-radius:10px}
 .evalbar .ico .ic{width:18px;height:18px}
 .idea b{display:flex;gap:12px;align-items:flex-start}
-.idea b .ic{margin-top:1px;color:var(--pc)}
+.idea b .ic{margin-top:2px;color:var(--pc)}
 .tag::before{content:"";display:inline-block;width:11px;height:11px;margin-right:4px;vertical-align:-1.5px;background:currentColor;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
 .tag.p{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 3h7l4 4v14H7z'/%3E%3Cpath d='M14 3v4h4M9 13h6M9 17h6'/%3E%3C/svg%3E")}
 .tag.r{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 6c-2-1.5-5-2-8-2v13c3 0 6 .5 8 2 2-1.5 5-2 8-2V4c-3 0-6 .5-8 2z'/%3E%3Cpath d='M12 6v13'/%3E%3C/svg%3E")}
@@ -426,7 +427,7 @@ details.ws .q{margin-top:10px}
   <section class="sec" id="papers">
     <div class="eyebrow">大图 · 点进每一段</div>
     <h2>一个模型怎么做出来、用起来、被检查</h2>
-    <div class="map"><div class="flow"><a class="stg" href="#s-pre" style="--pc:var(--at)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg></span><span class="k">Pretraining · 预训练</span><b>学会接话</b><p>模型读海量文字，反复练习猜下一个词。练着练着，它学会了语言，也记住了很多事实。但它只会接着往下写，并不知道你想要什么。</p><span class="on">Transformer · 模型是怎么学习的</span></a><a class="stg" href="#s-post" style="--pc:var(--ig)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-knobs"/></svg></span><span class="k">Post-training · 后训练</span><b>调教成助手</b><p>这一步给它的回答打分：给示范答案、让人挑更喜欢的，或者直接判对错。参数往高分的方向调，直到它听得懂指令、会推理。</p><span class="on">打分方式 · InstructGPT · DeepSeek-R1</span></a><a class="stg" href="#s-harness" style="--pc:var(--ra)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-box"/></svg></span><span class="k">Harness · 外壳</span><b>围着它做成产品</b><p>模型本身不动，改它周围的东西：它能看到什么、能用哪些工具、记住什么、失败了怎么办。</p><span class="on">ReAct · Reflexion · MemGPT</span></a></div><a class="evalbar" href="#s-eval" style="--pc:var(--tau)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-chart"/></svg></span><span class="k">Evaluation · 评估，贯穿三段</span><p>每一段都要回答两个问题：真的变好了吗？结果能信吗？评估用的打分，也是后训练里训练模型的信号，所以评估不是最后一步，它一直都在。τ-bench · MT-Bench · Calibration</p></a></div>
+    <div class="map"><div class="flow"><a class="stg" href="#s-pre" style="--pc:var(--at)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg></span><span class="k">Pretraining · 预训练</span><b>学会接话</b><p>模型读海量文字，反复练习猜下一个词。练着练着，它学会了语言，也记住了很多事实。但它只会接着往下写，并不知道你想要什么。</p><span class="on">Transformer</span></a><a class="stg" href="#s-post" style="--pc:var(--ig)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-knobs"/></svg></span><span class="k">Post-training · 后训练</span><b>调教成助手</b><p>这一步给它的回答打分：给示范答案、让人挑更喜欢的，或者直接判对错。参数往高分的方向调，直到它听得懂指令、会推理。</p><span class="on">打分方式 · InstructGPT · DeepSeek-R1</span></a><a class="stg" href="#s-harness" style="--pc:var(--ra)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-box"/></svg></span><span class="k">Harness · 外壳</span><b>围着它做成产品</b><p>模型本身不动，改它周围的东西：它能看到什么、能用哪些工具、记住什么、失败了怎么办。</p><span class="on">ReAct · Reflexion · MemGPT</span></a></div><a class="evalbar" href="#s-eval" style="--pc:var(--tau)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-chart"/></svg></span><span class="k">Evaluation · 评估，贯穿三段</span><p>每一段都要回答两个问题：真的变好了吗？结果能信吗？评估用的打分，也是后训练里训练模型的信号，所以评估不是最后一步，它一直都在。τ-bench · MT-Bench · Calibration</p></a></div>
   </section>
 
   <div class="legend">
@@ -446,22 +447,18 @@ details.ws .q{margin-top:10px}
   <section class="sec">
     <div class="eyebrow">关键想法</div>
     <div class="ideas">
-      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-token"/></svg>文字先变成数字</b><p>模型只会算数，所以<span class="tip" tabindex="0" data-tip="分词器（tokenizer）：把文字切成 token 的工具。大多数 LLM 用子词方法，比如 BPE：常见词保持完整，罕见词被拆开。">分词器</span>先把文字切成小块，叫 token，常常是词的一部分，再给每块一个编号。这个编号只是个标签，就像储物柜号码，本身不带任何意思。</p><a class="more" href="#c-training">模型是怎么学习的 →</a></div>
-      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-space"/></svg>带意思的数字</b><p>接着，每个编号会换成一个 <span class="tip" tabindex="0" data-tip="Embedding：模型内部代表一个 token 的向量（一串数字）。">embedding</span>：一串几百到几千个数字。可以想想 RGB 颜色：三个数字就能定位任何颜色，相近的颜色数字也相近。embedding 对“意思”做同样的事，所以用法相似的 token，比如“苹果”和“梨”，会靠得很近。这些数字不是人填的，一开始是随机的，在预训练中学出来。</p></div>
-      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-text"/></svg>一遍遍猜下一个词</b><p>给它“猫坐在”，它猜“垫子上”。这不需要人来标注，真正的下一个词就是标准答案，所以几乎任何文字都能拿来练。练得足够多，总和同一类词一起出现的词，比如常挨着“脆”“削皮”的“苹果”，数字就会慢慢靠近。没人告诉过它“苹果是水果”，只是数字最后停在了那里。<span class="tag r">已有研究</span></p></div>
-      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-knobs"/></svg>学习就是拧旋钮</b><p>模型是个有几十亿个旋钮的大函数，这些旋钮叫参数。每猜一次，就用一个叫 <span class="tip" tabindex="0" data-tip="Loss：猜的词和真正的下一个词差多远的一个数。越小越好。">loss</span> 的分数看猜得有多离谱，再把每个旋钮微调一点，让 loss 小一点（<span class="tip" tabindex="0" data-tip="梯度下降：算出每个旋钮往哪个方向拧能让 loss 变小，然后往那个方向拧一点点。">梯度下降</span>）。这样重复非常多次。</p><a class="more" href="#c-training">模型是怎么学习的 →</a></div>
-      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-attn"/></svg>注意力：词和词互相看</b><p>要猜准下一个词，得知道前面哪些词重要。注意力让每个词都能看所有别的词，自己判断该多在意谁。以前的模型一次只读一个词，训练很慢。注意力一次处理整句话，训练可以分摊到很多块芯片上。正是这一点让在海量文字上预训练变得可行，所以后来的大模型几乎都建在这个设计上，也就是 Transformer。<span class="tag r">已有研究</span></p><a class="more" href="#attention">Transformer →</a></div>
-      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-bars"/></svg>越大越好，但有限度</b><p>参数、文字量、算力加大，loss 会稳定地往下掉。后来的研究发现，很多模型相对它读的文字来说太大了，所以数据量和模型大小一样重要。<span class="tag r">已有研究</span></p><a class="more" href="#c-training">模型是怎么学习的 →</a></div>
+      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-token"/></svg>文字先变成数字</b><p>模型只会算数，所以<span class="tip" tabindex="0" data-tip="分词器（tokenizer）：把文字切成 token 的工具。大多数 LLM 用子词方法，比如 BPE：常见词保持完整，罕见词被拆开。">分词器</span>先把文字切成小块，叫 token，再给每块一个编号。编号只是标签，就像储物柜号码。</p><figure class="fig"><div class="fig-title">把文字变成数字</div><div class="fig-scroll"><svg width="450" height="194" viewBox="0 0 450 194" role="img" aria-label="示意图：“The cat sat on the”被切成五个 token；每个 token 得到一个编号，编号只是标签；每个编号再换成一串数字，也就是它的 embedding。“The”和“the”编号不同，数字几乎一样。"><text x="0" y="27" font-size="13" class="m" font-weight="600">Token</text><text x="0" y="66" font-size="13" class="m" font-weight="600">编号</text><text x="0" y="80" font-size="12" class="m">只是标签</text><text x="0" y="112" font-size="13" class="m" font-weight="600">Embedding</text><text x="0" y="126" font-size="12" class="m">意思</text><rect x="92" y="8" width="51" height="32" rx="8" fill="none" style="stroke:var(--at)" stroke-width="2"/><text x="117" y="29" font-size="14" class="i" font-weight="600" text-anchor="middle">The</text><line x1="117" y1="44" x2="117" y2="52" class="ln"/><text x="117" y="66" font-size="12" class="m mono" text-anchor="middle">512</text><line x1="117" y1="72" x2="117" y2="80" class="ln"/><rect x="87" y="84" width="60" height="72" rx="8" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5"/><text x="117" y="102" font-size="12" class="i mono" text-anchor="middle">0.21</text><text x="117" y="118" font-size="12" class="i mono" text-anchor="middle">−0.54</text><text x="117" y="134" font-size="12" class="i mono" text-anchor="middle">0.83</text><text x="117" y="150" font-size="12" class="m" text-anchor="middle">⋮</text><rect x="166" y="8" width="51" height="32" rx="8" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="191" y="29" font-size="14" class="i" font-weight="600" text-anchor="middle">cat</text><line x1="191" y1="44" x2="191" y2="52" class="ln"/><text x="191" y="66" font-size="12" class="m mono" text-anchor="middle">2047</text><line x1="191" y1="72" x2="191" y2="80" class="ln"/><rect x="161" y="84" width="60" height="72" rx="8" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5"/><text x="191" y="102" font-size="12" class="i mono" text-anchor="middle">−0.37</text><text x="191" y="118" font-size="12" class="i mono" text-anchor="middle">0.62</text><text x="191" y="134" font-size="12" class="i mono" text-anchor="middle">0.15</text><text x="191" y="150" font-size="12" class="m" text-anchor="middle">⋮</text><rect x="240" y="8" width="51" height="32" rx="8" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="265" y="29" font-size="14" class="i" font-weight="600" text-anchor="middle">sat</text><line x1="265" y1="44" x2="265" y2="52" class="ln"/><text x="265" y="66" font-size="12" class="m mono" text-anchor="middle">9311</text><line x1="265" y1="72" x2="265" y2="80" class="ln"/><rect x="235" y="84" width="60" height="72" rx="8" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5"/><text x="265" y="102" font-size="12" class="i mono" text-anchor="middle">0.48</text><text x="265" y="118" font-size="12" class="i mono" text-anchor="middle">−0.09</text><text x="265" y="134" font-size="12" class="i mono" text-anchor="middle">−0.71</text><text x="265" y="150" font-size="12" class="m" text-anchor="middle">⋮</text><rect x="317" y="8" width="44" height="32" rx="8" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="339" y="29" font-size="14" class="i" font-weight="600" text-anchor="middle">on</text><line x1="339" y1="44" x2="339" y2="52" class="ln"/><text x="339" y="66" font-size="12" class="m mono" text-anchor="middle">318</text><line x1="339" y1="72" x2="339" y2="80" class="ln"/><rect x="309" y="84" width="60" height="72" rx="8" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5"/><text x="339" y="102" font-size="12" class="i mono" text-anchor="middle">−0.66</text><text x="339" y="118" font-size="12" class="i mono" text-anchor="middle">0.33</text><text x="339" y="134" font-size="12" class="i mono" text-anchor="middle">0.27</text><text x="339" y="150" font-size="12" class="m" text-anchor="middle">⋮</text><rect x="388" y="8" width="51" height="32" rx="8" fill="none" style="stroke:var(--at)" stroke-width="2"/><text x="413" y="29" font-size="14" class="i" font-weight="600" text-anchor="middle">the</text><line x1="413" y1="44" x2="413" y2="52" class="ln"/><text x="413" y="66" font-size="12" class="m mono" text-anchor="middle">1270</text><line x1="413" y1="72" x2="413" y2="80" class="ln"/><rect x="383" y="84" width="60" height="72" rx="8" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5"/><text x="413" y="102" font-size="12" class="i mono" text-anchor="middle">0.19</text><text x="413" y="118" font-size="12" class="i mono" text-anchor="middle">−0.51</text><text x="413" y="134" font-size="12" class="i mono" text-anchor="middle">0.80</text><text x="413" y="150" font-size="12" class="m" text-anchor="middle">⋮</text><path d="M117 162 V170 H413 V162" fill="none" style="stroke:var(--at)" stroke-width="1.5"/><text x="265" y="188" font-size="12" class="a" font-weight="600" text-anchor="middle">“The”和“the”：编号不同，数字几乎一样</text></svg></div><figcaption>数值是编的，只画了几百个里的前三个。</figcaption></figure></div>
+      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-space"/></svg>带意思的数字</b><p>每个编号再换成一个 <span class="tip" tabindex="0" data-tip="Embedding：模型内部代表一个 token 的向量（一串数字）。">embedding</span>：一串几百个数字。就像 RGB 用数字表示颜色，意思相近的词，数字也相近。这些数字一开始是随机的，在预训练中学出来。</p><figure class="fig"><div class="fig-title">RGB 的类比</div><div class="fig-scroll"><svg width="450" height="178" viewBox="0 0 450 178" role="img" aria-label="示意图。左边：颜色用三个数字表示，两种红色接近，蓝色离得远。右边：按 embedding 摆放的词，压到二维；苹果、梨、香蕉聚成水果，狗和猫聚成动物，汽车在别处。"><defs><marker id="ah-rgbc-zh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="m"/></marker></defs><text x="0" y="14" font-size="13" class="m" font-weight="600">颜色：3 个数字</text><rect x="0" y="26" width="28" height="28" rx="6" fill="#c8323c"/><text x="38" y="45" font-size="12" class="i mono">(200, 50, 60)</text><rect x="0" y="62" width="28" height="28" rx="6" fill="#dc5a50"/><text x="38" y="81" font-size="12" class="i mono">(220, 90, 80)</text><rect x="0" y="114" width="28" height="28" rx="6" fill="#3c64c8"/><text x="38" y="133" font-size="12" class="i mono">(60, 100, 200)</text><path d="M136 40 h6 v36 h-6" fill="none" class="ln"/><text x="148" y="62" font-size="12" class="m">接近</text><line x1="186" y1="100" x2="208" y2="100" class="ar" marker-end="url(#ah-rgbc-zh)"/><text x="216" y="14" font-size="13" class="m" font-weight="600">词，压到二维来看</text><rect x="216" y="24" width="233" height="150" rx="10" fill="none" class="ln"/><circle cx="272" cy="82" r="40" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5" stroke-dasharray="4 4"/><circle cx="394" cy="134" r="30" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5" stroke-dasharray="4 4"/><text x="272" y="138" font-size="12" class="a" font-weight="600" text-anchor="middle">水果</text><text x="394" y="98" font-size="12" class="a" font-weight="600" text-anchor="middle">动物</text><circle cx="258" cy="66" r="3.5" class="i"/><text x="265" y="70" font-size="12" class="i">苹果</text><circle cx="278" cy="86" r="3.5" class="i"/><text x="285" y="90" font-size="12" class="i">梨</text><circle cx="248" cy="104" r="3.5" class="i"/><text x="255" y="108" font-size="12" class="i">香蕉</text><circle cx="380" cy="146" r="3.5" class="i"/><text x="387" y="150" font-size="12" class="i">狗</text><circle cx="402" cy="128" r="3.5" class="i"/><text x="409" y="132" font-size="12" class="i">猫</text><circle cx="380" cy="48" r="3.5" class="i"/><text x="387" y="52" font-size="12" class="i">汽车</text></svg></div><figcaption>和 RGB 不同，embedding 的单个数字说不出名字。</figcaption></figure></div>
+      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-text"/></svg>一遍遍猜下一个词</b><p>给它“猫坐在”，它猜“垫子上”。真正的下一个词就是标准答案，所以不用人来标注，几乎任何文字都能拿来练。每猜错一次，相关的数字就被微调一点。用法相似的词，比如“苹果”和“梨”，被往同一个方向调，数字就慢慢靠在一起。<span class="tag r">已有研究</span></p></div>
+      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-knobs"/></svg>学习就是拧旋钮</b><p>模型是一个有几十亿个旋钮的大函数，这些旋钮叫参数。每猜一次，<span class="tip" tabindex="0" data-tip="Loss：猜的词和真正的下一个词差多远的一个数，越小越好。最常用的交叉熵，对“自信地猜错”罚得最重。">loss</span> 就给猜错的程度打分，越自信地猜错，罚得越重。训练就是把每个旋钮往让 loss 变小的方向拧一点（<span class="tip" tabindex="0" data-tip="梯度下降：算出每个旋钮往哪个方向拧能让 loss 变小，然后拧一点点。像在大雾里下山，一次迈一小步。">梯度下降</span>），然后重复非常多次。</p></div>
+      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-attn"/></svg>注意力：词和词互相看</b><p>要猜准下一个词，得知道前面哪些词重要。注意力让每个词一次看完前面所有的词，而不是像以前的模型那样一个词一个词地读。这让训练快到可以在海量文字上预训练。<span class="tag r">已有研究</span></p><a class="more" href="#attention">RNN 和 Transformer 的对比 →</a></div>
+      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-bars"/></svg>越大越好，但有限度</b><p>参数更多（脑子更大）、文字更多（读的书更多）、算力更多，loss 会稳定下降。但它们要一起加：很多模型相对它读的文字来说太大了。<span class="tag r">已有研究</span></p></div>
       <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg>练完得到的是接话器，不是助手</b><p>你问一个刚练完的模型一个问题，它可能接着再问你几个问题，因为这也是一种很常见的接法。让它变得好用，是下一段的事。</p></div>
     </div>
   </section>
   <section class="sec">
     <div class="eyebrow">论文</div>
     <div class="dir"><div class="dg"><a class="drow" href="#attention" style="--pc:var(--at)"><b>Attention Is All You Need</b><span>Transformer：后来几乎所有大模型的骨架</span><em>论文 · 2017</em></a></div></div>
-  </section>
-  <section class="sec">
-    <div class="eyebrow">概念课</div>
-    <div class="dir"><div class="dg"><a class="drow" href="#c-training" style="--pc:var(--cc)"><b>模型是怎么学习的</b><span>Token、embedding、loss、梯度下降、过拟合、规模</span><em>概念课</em></a></div></div>
   </section>
   <nav class="pager" aria-label="翻页"><a href="#overview"><small>← 上一篇</small><span>地图</span></a><a class="next" href="#s-post"><small>下一篇 →</small><span>后训练</span></a></nav>
 </div>
@@ -537,6 +534,7 @@ details.ws .q{margin-top:10px}
     <div class="eyebrow">关键想法</div>
     <div class="ideas">
       <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-help"/></svg>先问：有没有标准答案？</b><p>有的话，对一下结果或者跑测试就行。没有的话，就得靠人的判断，或者找个裁判来代替人。后面的做法都从这里分叉。</p></div>
+      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-clip"/></svg>学会了，还是背下来了？</b><p>要检查模型是不是真学会了，得用它没见过的题来考，就像正式考试的题不能混进练习题。练习题满分、新题就不会，叫过拟合。如果考题混进了训练文字（数据污染），高分也说明不了什么。</p></div>
       <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-dice"/></svg>做对一次不算数</b><p>模型今天做对了，明天可能又错。τ-bench 看的是重复做很多次，每次都成功的比例（<span class="tip" tabindex="0" data-tip="pass^k：k 次独立运行全部成功的概率。">pass^k</span>）。次数一多，成功率掉得很快。</p><a class="more" href="#tau-bench">τ-bench →</a></div>
       <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-judge"/></svg>模型可以当裁判，但有习惯</b><p>没有标准答案时，可以让强 LLM 来评。MT-Bench 发现，它和人的一致程度，跟人和人之间差不多。但它有习惯：偏爱先看到的答案、更长的答案，还有自己写的答案。</p><a class="more" href="#mt-bench">MT-Bench →</a></div>
       <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-gauge"/></svg>它知道自己不确定吗？</b><p>校准问的是：模型说“我有 70% 把握”，是不是真的 10 次里对 7 次。大模型这方面通常还不错，但后训练可能把它弄差。<span class="tag r">已有研究</span></p><a class="more" href="#calibration">Calibration →</a></div>
@@ -760,7 +758,7 @@ details.ws .q{margin-top:10px}
     </div>
   </section>
 
-  <nav class="pager" aria-label="翻页"><a href="#c-training"><small>← 上一篇</small><span>模型是怎么学习的</span></a><a class="next" href="#s-post"><small>下一篇 →</small><span>后训练</span></a></nav>
+  <nav class="pager" aria-label="翻页"><a href="#s-pre"><small>← 上一篇</small><span>预训练</span></a><a class="next" href="#s-post"><small>下一篇 →</small><span>后训练</span></a></nav>
 </article>
 
 <!-- ===================== 02 TAU-BENCH ===================== -->
@@ -1973,116 +1971,6 @@ Thought：可以定位，回答用户</p></div>
   <nav class="pager" aria-label="翻页"><a href="#mt-bench"><small>← 上一篇</small><span>MT-Bench</span></a><a class="next" href="#notes"><small>下一篇 →</small><span>笔记</span></a></nav>
 </article>
 
-<!-- ===================== C01 TRAINING ===================== -->
-<article class="view" id="c-training" data-view hidden style="--pc:var(--cc)">
-  <header class="phero">
-    <nav class="crumb" aria-label="路径"><a href="#overview">地图</a><span aria-hidden="true">/</span><a href="#s-pre">预训练</a></nav>
-    <h1>模型是怎么学习的</h1>
-    <p class="full">Token 与 embedding、Loss、梯度下降、训练 / 验证 / 测试集、过拟合、参数与规模</p>
-    <p class="lede">机器学习最底层的几个概念。现场研究者张口就是“loss 降了”“过拟合了”，这一课把它们讲清楚。</p>
-  </header>
-
-  <section class="sec">
-    <div class="eyebrow">一句话版本</div>
-    <div class="card4">
-      <div><b>Loss</b><p>给“错得有多离谱”打分，越低越好。训练就是想办法让它变低。</p></div>
-      <div><b>梯度下降</b><p>在大雾里下山：感受脚下往哪边斜，往下迈一小步，再感受，再迈。</p></div>
-      <div><b>训练 / 验证 / 测试集</b><p>练习题、模拟考、正式考试。正式考试的题绝对不能混进练习题。</p></div>
-      <div><b>过拟合</b><p>背答案而不是学会：练习题满分，换道新题就不会。</p></div>
-    </div>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">1 · 从文字到数字</div>
-    <h2>先切成 token，再变成 embedding</h2>
-    <p>模型只会算数，所以文字得先变成数字，后面的一切才能开始。这要两步，第二步才开始有“意思”。</p>
-    <figure class="fig"><div class="fig-title">把文字变成数字</div><div class="fig-scroll"><svg width="560" height="248" viewBox="0 0 560 248" role="img" aria-label="示意图：“The cat sat on the”被切成五个 token。每个 token 得到一个编号，编号只是标签；每个编号再换成一串数字，也就是它的 embedding。“The”和“the”编号不同，数字几乎一样。"><defs><marker id="ah-tok-zh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="m"/></marker></defs><text x="0" y="34" font-size="13" class="i" font-weight="600">Token</text><text x="0" y="80" font-size="13" class="i" font-weight="600">编号</text><text x="0" y="96" font-size="12" class="m">只是标签</text><text x="0" y="138" font-size="13" class="i" font-weight="600">Embedding</text><text x="0" y="154" font-size="12" class="m">一串数字</text><rect x="141" y="12" width="56" height="36" rx="9" fill="none" style="stroke:var(--at)" stroke-width="2"/><text x="169" y="35" font-size="15" class="i" font-weight="600" text-anchor="middle">The</text><line x1="169" y1="52" x2="169" y2="64" class="ln"/><text x="169" y="84" font-size="13" class="m mono" text-anchor="middle">512</text><line x1="169" y1="92" x2="169" y2="102" class="ln"/><rect x="135" y="104" width="68" height="88" rx="8" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5"/><text x="169" y="126" font-size="13" class="i mono" text-anchor="middle">0.21</text><text x="169" y="145" font-size="13" class="i mono" text-anchor="middle">−0.54</text><text x="169" y="164" font-size="13" class="i mono" text-anchor="middle">0.83</text><text x="169" y="182" font-size="13" class="m" text-anchor="middle">⋮</text><rect x="223" y="12" width="56" height="36" rx="9" fill="none" style="stroke:var(--muted)" stroke-width="1" stroke-opacity=".6"/><text x="251" y="35" font-size="15" class="i" font-weight="600" text-anchor="middle">cat</text><line x1="251" y1="52" x2="251" y2="64" class="ln"/><text x="251" y="84" font-size="13" class="m mono" text-anchor="middle">2047</text><line x1="251" y1="92" x2="251" y2="102" class="ln"/><rect x="217" y="104" width="68" height="88" rx="8" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5"/><text x="251" y="126" font-size="13" class="i mono" text-anchor="middle">−0.37</text><text x="251" y="145" font-size="13" class="i mono" text-anchor="middle">0.62</text><text x="251" y="164" font-size="13" class="i mono" text-anchor="middle">0.15</text><text x="251" y="182" font-size="13" class="m" text-anchor="middle">⋮</text><rect x="305" y="12" width="56" height="36" rx="9" fill="none" style="stroke:var(--muted)" stroke-width="1" stroke-opacity=".6"/><text x="333" y="35" font-size="15" class="i" font-weight="600" text-anchor="middle">sat</text><line x1="333" y1="52" x2="333" y2="64" class="ln"/><text x="333" y="84" font-size="13" class="m mono" text-anchor="middle">9311</text><line x1="333" y1="92" x2="333" y2="102" class="ln"/><rect x="299" y="104" width="68" height="88" rx="8" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5"/><text x="333" y="126" font-size="13" class="i mono" text-anchor="middle">0.48</text><text x="333" y="145" font-size="13" class="i mono" text-anchor="middle">−0.09</text><text x="333" y="164" font-size="13" class="i mono" text-anchor="middle">−0.71</text><text x="333" y="182" font-size="13" class="m" text-anchor="middle">⋮</text><rect x="391" y="12" width="48" height="36" rx="9" fill="none" style="stroke:var(--muted)" stroke-width="1" stroke-opacity=".6"/><text x="415" y="35" font-size="15" class="i" font-weight="600" text-anchor="middle">on</text><line x1="415" y1="52" x2="415" y2="64" class="ln"/><text x="415" y="84" font-size="13" class="m mono" text-anchor="middle">318</text><line x1="415" y1="92" x2="415" y2="102" class="ln"/><rect x="381" y="104" width="68" height="88" rx="8" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5"/><text x="415" y="126" font-size="13" class="i mono" text-anchor="middle">−0.66</text><text x="415" y="145" font-size="13" class="i mono" text-anchor="middle">0.33</text><text x="415" y="164" font-size="13" class="i mono" text-anchor="middle">0.27</text><text x="415" y="182" font-size="13" class="m" text-anchor="middle">⋮</text><rect x="469" y="12" width="56" height="36" rx="9" fill="none" style="stroke:var(--at)" stroke-width="2"/><text x="497" y="35" font-size="15" class="i" font-weight="600" text-anchor="middle">the</text><line x1="497" y1="52" x2="497" y2="64" class="ln"/><text x="497" y="84" font-size="13" class="m mono" text-anchor="middle">1270</text><line x1="497" y1="92" x2="497" y2="102" class="ln"/><rect x="463" y="104" width="68" height="88" rx="8" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5"/><text x="497" y="126" font-size="13" class="i mono" text-anchor="middle">0.19</text><text x="497" y="145" font-size="13" class="i mono" text-anchor="middle">−0.51</text><text x="497" y="164" font-size="13" class="i mono" text-anchor="middle">0.80</text><text x="497" y="182" font-size="13" class="m" text-anchor="middle">⋮</text><path d="M169 198 V214 H497 V198" fill="none" style="stroke:var(--at)" stroke-width="1.5"/><text x="333" y="236" font-size="13" class="a" font-weight="600" text-anchor="middle">“The”和“the”：编号不同，数字几乎一样</text></svg></div><figcaption>数值是编的，只画了几百个里的前三个。</figcaption></figure><figure class="fig"><div class="fig-title">RGB 的类比</div><div class="fig-scroll"><svg width="700" height="250" viewBox="0 0 700 250" role="img" aria-label="对比两种空间的示意图。左边：颜色用三个数字描述，两种红色数字接近，蓝色离得远。右边：按 embedding 摆放的词，压到二维显示；苹果、梨、香蕉聚成水果，狗和猫聚成动物，汽车在别处。"><defs><marker id="ah-rgb-zh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="m"/></marker></defs><text x="0" y="16" font-size="13" class="i" font-weight="600">颜色：3 个数字</text><rect x="0" y="34" width="40" height="40" rx="8" fill="#c8323c"/><text x="54" y="59" font-size="14" class="i mono">(200, 50, 60)</text><rect x="0" y="86" width="40" height="40" rx="8" fill="#dc5a50"/><text x="54" y="111" font-size="14" class="i mono">(220, 90, 80)</text><rect x="0" y="156" width="40" height="40" rx="8" fill="#3c64c8"/><text x="54" y="181" font-size="14" class="i mono">(60, 100, 200)</text><path d="M190 54 h8 v52 h-8" fill="none" class="ln"/><text x="206" y="76" font-size="12" class="m">数字接近，</text><text x="206" y="92" font-size="12" class="m">颜色也接近</text><line x1="312" y1="130" x2="370" y2="130" class="ar" marker-end="url(#ah-rgb-zh)"/><text x="341" y="120" font-size="12" class="m" text-anchor="middle">同一个道理</text><text x="390" y="16" font-size="13" class="i" font-weight="600">词：几百个数字，压到二维来看</text><rect x="390" y="28" width="309" height="216" rx="10" fill="none" class="ln"/><circle cx="468" cy="114" r="56" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5" stroke-dasharray="4 4"/><circle cx="622" cy="182" r="42" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5" stroke-dasharray="4 4"/><text x="468" y="190" font-size="13" class="a" font-weight="600" text-anchor="middle">水果</text><text x="622" y="130" font-size="13" class="a" font-weight="600" text-anchor="middle">动物</text><circle cx="450" cy="94" r="4.5" class="i"/><text x="459" y="99" font-size="13" class="i">苹果</text><circle cx="476" cy="116" r="4.5" class="i"/><text x="485" y="121" font-size="13" class="i">梨</text><circle cx="436" cy="138" r="4.5" class="i"/><text x="445" y="143" font-size="13" class="i">香蕉</text><circle cx="604" cy="196" r="4.5" class="i"/><text x="613" y="201" font-size="13" class="i">狗</text><circle cx="636" cy="170" r="4.5" class="i"/><text x="645" y="175" font-size="13" class="i">猫</text><circle cx="612" cy="66" r="4.5" class="i"/><text x="621" y="71" font-size="13" class="i">汽车</text></svg></div><figcaption>和 RGB 不同，embedding 的单个数字说不出名字。</figcaption></figure>
-    <ul>
-      <li><span class="tag r">已有研究</span>“意思来自上下文”这个想法比神经网络还早：在相似语境里出现的词，意思往往相近（Harris 1954；Firth 1957）。Word2vec（Mikolov et al. 2013）证明了学出来的词向量能抓住这一点。</li>
-      <li><span class="tag r">已有研究</span><b>模型怎么决定给一个词哪些数字？</b>一开始它不决定：每个 token 的数字都是随机的。预训练时，每猜错一次下一个词，相关 token 的数字就被往“能猜得更准”的方向微调一点。总出现在同一类句子里的 token，比如“苹果”和“梨”，被往同一个方向调，数字就慢慢靠在一起。没人告诉模型“苹果是水果”，用法相似，数字自然相似。</li>
-      <li><span class="tag g">推测</span>训练文字里少见的东西，能学的句子少，数字就没那么定型。这可能是模型在冷门问题上更不可靠的原因之一。</li>
-    </ul>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">2 · Loss</div>
-    <h2>给“错得有多离谱”打分</h2>
-    <p>LLM 的 pretraining 是在玩“猜下一个词”：读到“今天天气很”，模型给每个可能的下一个 token 一个概率。实际下一个词是“热”，模型给“热”的概率越高，loss 越低。</p>
-    <p>这个打分方式叫 <b>cross-entropy（交叉熵）</b>，它对“自信地猜错”罚得特别重。细节见概念课 <a href="#c-scoring">打分方式决定模型</a>。</p>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">3 · 梯度下降</div>
-    <h2>怎么让 loss 变低</h2>
-    <div class="tbl"><table>
-      <thead><tr><th>术语</th><th>意思</th><th>下山类比</th></tr></thead>
-      <tbody>
-        <tr><td>parameters / weights</td><td>模型里几百亿个可调的数字</td><td>你的位置</td></tr>
-        <tr><td>gradient（梯度）</td><td>每个参数该往哪边调、调多少</td><td>脚下往哪边斜</td></tr>
-        <tr><td>learning rate（学习率）</td><td>每次调多大</td><td>步子多大：太大冲过头，太小走太慢</td></tr>
-        <tr><td>backpropagation（反向传播）</td><td>算出几百亿个参数各自梯度的方法</td><td>同时感受每一个方向的斜度</td></tr>
-      </tbody>
-    </table></div>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">4 · 数据怎么分</div>
-    <h2>练习题、模拟考、正式考试</h2>
-    <div class="tbl"><table>
-      <thead><tr><th>数据</th><th>类比</th><th>作用</th></tr></thead>
-      <tbody>
-        <tr><td>训练集 training set</td><td>练习题</td><td>用来调参数</td></tr>
-        <tr><td>验证集 validation set</td><td>模拟考</td><td>训练中检查效果、调整设置</td></tr>
-        <tr><td>测试集 test set</td><td>正式考试</td><td>最后评估，训练时绝对不能看</td></tr>
-      </tbody>
-    </table></div>
-    <p class="sub">测试题混进训练数据，叫 data contamination（数据污染），见 <a href="#reflexion">Reflexion</a> 卡。</p>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">5 · 过拟合与泛化</div>
-    <h2>是学会了，还是背下来了？</h2>
-    <ul>
-      <li><b>Overfitting（过拟合）</b>：在训练数据上很好，在没见过的数据上很差。</li>
-      <li><b>Generalization（泛化）</b>：能做好没见过的题。</li>
-      <li>怎么发现：训练集 loss 一直降，<b>验证集 loss 开始上升</b>，就说明开始背答案了。</li>
-    </ul>
-    <div class="callout"><b>这个问题贯穿了好几篇</b><p>Benchmark 饱和、数据污染（<a href="#reflexion">Reflexion</a>），<a href="#calibration">Calibration</a> 里 P(IK) 迁移到新任务时校准变差，问的都是同一件事：它是学会了，还是背下来了？</p></div>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">6 · 模型“大”指什么</div>
-    <h2>参数量与训练数据量</h2>
-    <div class="tbl"><table>
-      <thead><tr><th></th><th>参数量</th><th>训练数据量</th></tr></thead>
-      <tbody>
-        <tr><td>是什么</td><td>可调的“旋钮”有多少</td><td>训练时读了多少 token</td></tr>
-        <tr><td>类比</td><td>大脑有多大</td><td>读了多少书</td></tr>
-        <tr><td>例子</td><td colspan="2"><span class="tag p">原文 Calibration</span> 8 亿到 520 亿参数，都读了 8500 亿 token</td></tr>
-      </tbody>
-    </table></div>
-    <ul>
-      <li><span class="tag r">已有研究</span> Kaplan et al. 2020：表现随参数、数据、算力可预测地提升（scaling laws）。Hoffmann et al. 2022（Chinchilla）：参数和数据要同步加，约每个参数 20 个 token。</li>
-      <li>参数越多，每次回答越贵、越慢，inference 的成本和延迟都会上去。</li>
-      <li>大不等于好：<a href="#instructgpt">InstructGPT</a> 13 亿参数打败了 1750 亿的 GPT-3。</li>
-      <li><span class="tag r">已有研究</span>前沿模型多不公布参数量；mixture of experts 结构总参数很多，每次只启用一部分。</li>
-    </ul>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">术语</div>
-    <div class="gloss">
-      <div><b>loss / loss function</b><span>给错误程度打分的函数</span></div>
-      <div><b>gradient descent</b><span>沿着让 loss 下降的方向一步步调参数</span></div>
-      <div><b>learning rate</b><span>每一步调多大</span></div>
-      <div><b>backpropagation</b><span>算出每个参数梯度的方法</span></div>
-      <div><b>overfitting / generalization</b><span>背答案 / 学会了</span></div>
-      <div><b>scaling laws</b><span>表现随规模可预测地提升</span></div>
-    </div>
-  </section>
-
-  <nav class="pager" aria-label="翻页"><a href="#s-pre"><small>← 上一篇</small><span>预训练</span></a><a class="next" href="#attention"><small>下一篇 →</small><span>Transformer</span></a></nav>
-</article>
 
 <!-- ===================== C02 SCORING ===================== -->
 <article class="view" id="c-scoring" data-view hidden style="--pc:var(--cc)">
@@ -2241,7 +2129,7 @@ Thought：可以定位，回答用户</p></div>
       <div><b>KL</b><i>Kullback–Leibler (divergence)</i><span>两个概率分布差多远（不对称） <a class="seen" href="#c-scoring">出处 →</a></span></div>
       <div><b>SOTA</b><i>State Of The Art</i><span>当前最好成绩</span></div>
       <div><b>OOD</b><i>Out-Of-Distribution</i><span>和训练数据不像的输入</span></div>
-      <div><b>FLOPs</b><i>Floating-Point Operations</i><span>算力用量的单位；scaling law 的横轴 <a class="seen" href="#c-training">出处 →</a></span></div>
+      <div><b>FLOPs</b><i>Floating-Point Operations</i><span>算力用量的单位；scaling law 的横轴 <a class="seen" href="#s-pre">出处 →</a></span></div>
       <div><b>AUROC</b><i>Area Under the ROC Curve</i><span>能不能把对的和错的分开；0.5 = 瞎猜，1 = 完美 <a class="seen" href="#calibration">出处 →</a></span></div>
     </div></div>
     <div class="tier"><h3>子领域<small>做这个方向的人熟，跨方向的人也要查</small></h3>
@@ -2310,7 +2198,7 @@ Thought：可以定位，回答用户</p></div>
   <section class="sec" id="papers-en">
     <div class="eyebrow">Big picture · open any stage</div>
     <h2>How a model gets built, used and checked</h2>
-    <div class="map"><div class="flow"><a class="stg" href="#s-pre" style="--pc:var(--at)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg></span><span class="k">Pretraining</span><b>Learn to continue text</b><p>The model reads a huge amount of text and practices guessing the next word. It picks up language and a lot of facts, but it only continues text. It has no idea what you want.</p><span class="on">Transformer · How models learn</span></a><a class="stg" href="#s-post" style="--pc:var(--ig)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-knobs"/></svg></span><span class="k">Post-training</span><b>Turn it into an assistant</b><p>Now you grade its answers: with example answers, with people's preferences, or with a plain right/wrong check. Its weights get nudged toward higher grades until it follows instructions and can reason.</p><span class="on">Scoring · InstructGPT · DeepSeek-R1</span></a><a class="stg" href="#s-harness" style="--pc:var(--ra)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-box"/></svg></span><span class="k">Harness</span><b>Build a product around it</b><p>Leave the model alone and change what's around it: what it sees, which tools it can use, what it remembers, and what happens when it fails.</p><span class="on">ReAct · Reflexion · MemGPT</span></a></div><a class="evalbar" href="#s-eval" style="--pc:var(--tau)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-chart"/></svg></span><span class="k">Evaluation runs through all three</span><p>Every stage has to answer two questions: did it really get better, and can we trust the result? The grading used to evaluate a model is also what trains it in post-training, so evaluation isn't a last step. It's always there. τ-bench · MT-Bench · Calibration</p></a></div>
+    <div class="map"><div class="flow"><a class="stg" href="#s-pre" style="--pc:var(--at)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg></span><span class="k">Pretraining</span><b>Learn to continue text</b><p>The model reads a huge amount of text and practices guessing the next word. It picks up language and a lot of facts, but it only continues text. It has no idea what you want.</p><span class="on">Transformer</span></a><a class="stg" href="#s-post" style="--pc:var(--ig)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-knobs"/></svg></span><span class="k">Post-training</span><b>Turn it into an assistant</b><p>Now you grade its answers: with example answers, with people's preferences, or with a plain right/wrong check. Its weights get nudged toward higher grades until it follows instructions and can reason.</p><span class="on">Scoring · InstructGPT · DeepSeek-R1</span></a><a class="stg" href="#s-harness" style="--pc:var(--ra)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-box"/></svg></span><span class="k">Harness</span><b>Build a product around it</b><p>Leave the model alone and change what's around it: what it sees, which tools it can use, what it remembers, and what happens when it fails.</p><span class="on">ReAct · Reflexion · MemGPT</span></a></div><a class="evalbar" href="#s-eval" style="--pc:var(--tau)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-chart"/></svg></span><span class="k">Evaluation runs through all three</span><p>Every stage has to answer two questions: did it really get better, and can we trust the result? The grading used to evaluate a model is also what trains it in post-training, so evaluation isn't a last step. It's always there. τ-bench · MT-Bench · Calibration</p></a></div>
   </section>
 
   <div class="legend">
@@ -2330,22 +2218,18 @@ Thought：可以定位，回答用户</p></div>
   <section class="sec">
     <div class="eyebrow">Key ideas</div>
     <div class="ideas">
-      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-token"/></svg>Text becomes numbers first</b><p>A model can only do math, so a <span class="tip" tabindex="0" data-tip="Tokenizer: the tool that splits text into tokens. Most LLMs use subword methods such as byte-pair encoding (BPE), so common words stay whole and rare words get split.">tokenizer</span> first cuts text into small pieces called tokens, often parts of words, and gives each one an ID number. The ID is just a label, like a locker number. It says nothing about meaning.</p><a class="more" href="#c-training">How models learn →</a></div>
-      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-space"/></svg>Numbers that carry meaning</b><p>Each token ID is then swapped for an <span class="tip" tabindex="0" data-tip="Embedding: the vector (a list of numbers) that stands for a token inside the model.">embedding</span>: a list of hundreds or thousands of numbers. Think of RGB colors, where three numbers place any color and similar colors get similar numbers. Embeddings do that for meaning, so tokens used in similar ways, like “apple” and “pear”, end up close together. Nobody sets these numbers by hand. They start random and get learned during pretraining.</p></div>
-      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-text"/></svg>Guess the next word, over and over</b><p>Give it “The cat sat on the” and it guesses “mat”. No human labels are needed, because the real next word is the answer key, so this can run on almost any text. Across a huge amount of it, words that keep the same company, like “apple” next to “crunchy” and “peel”, drift toward similar numbers. The model is never told “apple is a fruit”. That is just where the numbers settle. <span class="tag r">Prior research</span></p></div>
-      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-knobs"/></svg>Learning means turning knobs</b><p>A model is a big function with billions of settings, called parameters. After each guess, a score called <span class="tip" tabindex="0" data-tip="Loss: a number for how far the guess was from the real next word. Lower is better.">loss</span> says how wrong it was, and training (<span class="tip" tabindex="0" data-tip="Gradient descent: work out which direction to turn each setting to lower the loss, then turn it a tiny bit.">gradient descent</span>) nudges every setting a little to make it smaller. Then it repeats, an enormous number of times.</p><a class="more" href="#c-training">How models learn →</a></div>
-      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-attn"/></svg>Attention lets words look at each other</b><p>To guess well, the model needs to know which earlier words matter. Attention lets every word look at every other word and decide how much to care about each. Older models read one word at a time, which made training slow. Attention handles a whole sentence at once, so training can be spread across many chips. That is what made pretraining on huge amounts of text practical, and why almost every big model since is built on this design, the Transformer. <span class="tag r">Prior research</span></p><a class="more" href="#attention">Transformer →</a></div>
-      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-bars"/></svg>Bigger helps, up to a point</b><p>More parameters, more text and more computing power reliably push the loss down. Later work found that many models were too big for the amount of text they saw, so how much data you use matters as much as model size. <span class="tag r">Prior research</span></p><a class="more" href="#c-training">How models learn →</a></div>
+      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-token"/></svg>Text becomes numbers first</b><p>A model only does math, so a <span class="tip" tabindex="0" data-tip="Tokenizer: the tool that splits text into tokens. Most LLMs use subword methods such as byte-pair encoding (BPE), so common words stay whole and rare words get split.">tokenizer</span> cuts text into small pieces called tokens and gives each one an ID number. The ID is just a label, like a locker number.</p><figure class="fig"><div class="fig-title">Turning text into numbers</div><div class="fig-scroll"><svg width="450" height="194" viewBox="0 0 450 194" role="img" aria-label="Diagram: “The cat sat on the” is cut into five tokens; each gets an ID number, which is only a label, and each ID is swapped for a list of numbers, its embedding. “The” and “the” get different IDs but almost the same numbers."><text x="0" y="27" font-size="13" class="m" font-weight="600">Token</text><text x="0" y="66" font-size="13" class="m" font-weight="600">ID</text><text x="0" y="80" font-size="12" class="m">label only</text><text x="0" y="112" font-size="13" class="m" font-weight="600">Embedding</text><text x="0" y="126" font-size="12" class="m">meaning</text><rect x="92" y="8" width="51" height="32" rx="8" fill="none" style="stroke:var(--at)" stroke-width="2"/><text x="117" y="29" font-size="14" class="i" font-weight="600" text-anchor="middle">The</text><line x1="117" y1="44" x2="117" y2="52" class="ln"/><text x="117" y="66" font-size="12" class="m mono" text-anchor="middle">512</text><line x1="117" y1="72" x2="117" y2="80" class="ln"/><rect x="87" y="84" width="60" height="72" rx="8" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5"/><text x="117" y="102" font-size="12" class="i mono" text-anchor="middle">0.21</text><text x="117" y="118" font-size="12" class="i mono" text-anchor="middle">−0.54</text><text x="117" y="134" font-size="12" class="i mono" text-anchor="middle">0.83</text><text x="117" y="150" font-size="12" class="m" text-anchor="middle">⋮</text><rect x="166" y="8" width="51" height="32" rx="8" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="191" y="29" font-size="14" class="i" font-weight="600" text-anchor="middle">cat</text><line x1="191" y1="44" x2="191" y2="52" class="ln"/><text x="191" y="66" font-size="12" class="m mono" text-anchor="middle">2047</text><line x1="191" y1="72" x2="191" y2="80" class="ln"/><rect x="161" y="84" width="60" height="72" rx="8" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5"/><text x="191" y="102" font-size="12" class="i mono" text-anchor="middle">−0.37</text><text x="191" y="118" font-size="12" class="i mono" text-anchor="middle">0.62</text><text x="191" y="134" font-size="12" class="i mono" text-anchor="middle">0.15</text><text x="191" y="150" font-size="12" class="m" text-anchor="middle">⋮</text><rect x="240" y="8" width="51" height="32" rx="8" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="265" y="29" font-size="14" class="i" font-weight="600" text-anchor="middle">sat</text><line x1="265" y1="44" x2="265" y2="52" class="ln"/><text x="265" y="66" font-size="12" class="m mono" text-anchor="middle">9311</text><line x1="265" y1="72" x2="265" y2="80" class="ln"/><rect x="235" y="84" width="60" height="72" rx="8" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5"/><text x="265" y="102" font-size="12" class="i mono" text-anchor="middle">0.48</text><text x="265" y="118" font-size="12" class="i mono" text-anchor="middle">−0.09</text><text x="265" y="134" font-size="12" class="i mono" text-anchor="middle">−0.71</text><text x="265" y="150" font-size="12" class="m" text-anchor="middle">⋮</text><rect x="317" y="8" width="44" height="32" rx="8" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="339" y="29" font-size="14" class="i" font-weight="600" text-anchor="middle">on</text><line x1="339" y1="44" x2="339" y2="52" class="ln"/><text x="339" y="66" font-size="12" class="m mono" text-anchor="middle">318</text><line x1="339" y1="72" x2="339" y2="80" class="ln"/><rect x="309" y="84" width="60" height="72" rx="8" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5"/><text x="339" y="102" font-size="12" class="i mono" text-anchor="middle">−0.66</text><text x="339" y="118" font-size="12" class="i mono" text-anchor="middle">0.33</text><text x="339" y="134" font-size="12" class="i mono" text-anchor="middle">0.27</text><text x="339" y="150" font-size="12" class="m" text-anchor="middle">⋮</text><rect x="388" y="8" width="51" height="32" rx="8" fill="none" style="stroke:var(--at)" stroke-width="2"/><text x="413" y="29" font-size="14" class="i" font-weight="600" text-anchor="middle">the</text><line x1="413" y1="44" x2="413" y2="52" class="ln"/><text x="413" y="66" font-size="12" class="m mono" text-anchor="middle">1270</text><line x1="413" y1="72" x2="413" y2="80" class="ln"/><rect x="383" y="84" width="60" height="72" rx="8" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5"/><text x="413" y="102" font-size="12" class="i mono" text-anchor="middle">0.19</text><text x="413" y="118" font-size="12" class="i mono" text-anchor="middle">−0.51</text><text x="413" y="134" font-size="12" class="i mono" text-anchor="middle">0.80</text><text x="413" y="150" font-size="12" class="m" text-anchor="middle">⋮</text><path d="M117 162 V170 H413 V162" fill="none" style="stroke:var(--at)" stroke-width="1.5"/><text x="265" y="188" font-size="12" class="a" font-weight="600" text-anchor="middle">“The” and “the”: different IDs, almost the same numbers</text></svg></div><figcaption>Values are made up. Only the first 3 of hundreds are shown.</figcaption></figure></div>
+      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-space"/></svg>Numbers that carry meaning</b><p>Each ID is then swapped for an <span class="tip" tabindex="0" data-tip="Embedding: the vector (a list of numbers) that stands for a token inside the model.">embedding</span>: a list of hundreds of numbers. Like RGB for colors, similar meanings get similar numbers. The numbers start random and are learned during pretraining.</p><figure class="fig"><div class="fig-title">An analogy of RGB</div><div class="fig-scroll"><svg width="450" height="178" viewBox="0 0 450 178" role="img" aria-label="Diagram. Left: colors as three numbers; two reds are close, blue is far. Right: words placed by their embeddings in two dimensions; apple, pear and banana cluster as fruit, dog and cat as animals, car sits apart."><defs><marker id="ah-rgbc-en" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="m"/></marker></defs><text x="0" y="14" font-size="13" class="m" font-weight="600">Colors: 3 numbers</text><rect x="0" y="26" width="28" height="28" rx="6" fill="#c8323c"/><text x="38" y="45" font-size="12" class="i mono">(200, 50, 60)</text><rect x="0" y="62" width="28" height="28" rx="6" fill="#dc5a50"/><text x="38" y="81" font-size="12" class="i mono">(220, 90, 80)</text><rect x="0" y="114" width="28" height="28" rx="6" fill="#3c64c8"/><text x="38" y="133" font-size="12" class="i mono">(60, 100, 200)</text><path d="M136 40 h6 v36 h-6" fill="none" class="ln"/><text x="148" y="62" font-size="12" class="m">close</text><line x1="186" y1="100" x2="208" y2="100" class="ar" marker-end="url(#ah-rgbc-en)"/><text x="216" y="14" font-size="13" class="m" font-weight="600">Words, shown in 2D</text><rect x="216" y="24" width="233" height="150" rx="10" fill="none" class="ln"/><circle cx="272" cy="82" r="40" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5" stroke-dasharray="4 4"/><circle cx="394" cy="134" r="30" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5" stroke-dasharray="4 4"/><text x="272" y="138" font-size="12" class="a" font-weight="600" text-anchor="middle">fruit</text><text x="394" y="98" font-size="12" class="a" font-weight="600" text-anchor="middle">animals</text><circle cx="258" cy="66" r="3.5" class="i"/><text x="265" y="70" font-size="12" class="i">apple</text><circle cx="278" cy="86" r="3.5" class="i"/><text x="285" y="90" font-size="12" class="i">pear</text><circle cx="248" cy="104" r="3.5" class="i"/><text x="255" y="108" font-size="12" class="i">banana</text><circle cx="380" cy="146" r="3.5" class="i"/><text x="387" y="150" font-size="12" class="i">dog</text><circle cx="402" cy="128" r="3.5" class="i"/><text x="409" y="132" font-size="12" class="i">cat</text><circle cx="380" cy="48" r="3.5" class="i"/><text x="387" y="52" font-size="12" class="i">car</text></svg></div><figcaption>Unlike RGB, a single embedding number has no name.</figcaption></figure></div>
+      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-text"/></svg>Guess the next word, over and over</b><p>Give it “The cat sat on the” and it guesses “mat”. The real next word is the answer key, so no human labels are needed and almost any text works. Each wrong guess nudges the numbers a little. Words used the same way, like “apple” and “pear”, get nudged the same way and drift together. <span class="tag r">Prior research</span></p></div>
+      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-knobs"/></svg>Learning means turning knobs</b><p>The model is a huge function with billions of settings, called parameters. After each guess, a score called <span class="tip" tabindex="0" data-tip="Loss: a number for how far the guess was from the real next word. Lower is better. The usual one, cross-entropy, punishes confident mistakes hardest.">loss</span> says how wrong it was, and confident mistakes cost the most. Training nudges every setting slightly to lower it (<span class="tip" tabindex="0" data-tip="Gradient descent: work out which direction to turn each setting to lower the loss, then turn it a tiny bit. Like walking downhill in fog, one small step at a time.">gradient descent</span>), then repeats an enormous number of times.</p></div>
+      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-attn"/></svg>Attention lets words look at each other</b><p>To guess well, each word needs to know which earlier words matter. Attention lets every word look back at all the earlier ones at once, instead of reading one word at a time like older models. That made training fast enough to pretrain on huge amounts of text. <span class="tag r">Prior research</span></p><a class="more" href="#attention">RNN vs Transformer →</a></div>
+      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-bars"/></svg>Bigger helps, up to a point</b><p>More parameters (a bigger brain), more text (more books read) and more compute keep pushing the loss down. But they have to grow together: many models were too big for the text they saw. <span class="tag r">Prior research</span></p></div>
       <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg>You get a continuer, not an assistant</b><p>Ask a freshly pretrained model a question and it may just carry on with more questions, because that is also a likely way for the text to continue. Making it helpful is the next stage.</p></div>
     </div>
   </section>
   <section class="sec">
     <div class="eyebrow">Papers</div>
     <div class="dir"><div class="dg"><a class="drow" href="#attention" style="--pc:var(--at)"><b>Attention Is All You Need</b><span>The Transformer, the skeleton almost every big model since has used</span><em>Paper · 2017</em></a></div></div>
-  </section>
-  <section class="sec">
-    <div class="eyebrow">Concept lessons</div>
-    <div class="dir"><div class="dg"><a class="drow" href="#c-training" style="--pc:var(--cc)"><b>How models learn</b><span>Tokens, embeddings, loss, gradient descent, overfitting and scale</span><em>Concept</em></a></div></div>
   </section>
   <nav class="pager" aria-label="Pages"><a href="#overview"><small>← Previous</small><span>Map</span></a><a class="next" href="#s-post"><small>Next →</small><span>Post-training</span></a></nav>
 </div>
@@ -2421,6 +2305,7 @@ Thought：可以定位，回答用户</p></div>
     <div class="eyebrow">Key ideas</div>
     <div class="ideas">
       <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-help"/></svg>First ask: is there a right answer?</b><p>If there is, check the result or run a test. If there isn’t, you need people’s judgment, or a judge that stands in for them. Everything else follows from this split.</p></div>
+      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-clip"/></svg>Learned, or memorized?</b><p>To check whether a model really learned, test it on questions it never saw, the way a real exam is kept apart from practice problems. Acing practice but failing new questions is overfitting. And if test questions leaked into the training text (contamination), a high score means little.</p></div>
       <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-dice"/></svg>Doing it once doesn’t count</b><p>A model that gets a task right today can get it wrong tomorrow. τ-bench measures how often it succeeds every single time across repeated tries (<span class="tip" tabindex="0" data-tip="pass^k: the chance that all k independent runs succeed.">pass^k</span>), and success drops fast as the number of tries goes up.</p><a class="more" href="#tau-bench">τ-bench →</a></div>
       <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-judge"/></svg>Models can grade models, with habits</b><p>When there is no right answer, a strong LLM can act as the judge. MT-Bench found it agrees with people about as often as people agree with each other. But it has habits: it favors the answer it sees first, longer answers, and its own writing.</p><a class="more" href="#mt-bench">MT-Bench →</a></div>
       <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-gauge"/></svg>Does it know when it’s unsure?</b><p>Calibration asks whether “I’m 70% sure” really means right about 7 times in 10. Large models are often fairly well matched on this, and post-training can make the match worse. <span class="tag r">Prior research</span></p><a class="more" href="#calibration">Calibration →</a></div>
@@ -2644,7 +2529,7 @@ Thought：可以定位，回答用户</p></div>
     </div>
   </section>
 
-  <nav class="pager" aria-label="Pages"><a href="#c-training"><small>← Previous</small><span>How models learn</span></a><a class="next" href="#s-post"><small>Next →</small><span>Post-training</span></a></nav>
+  <nav class="pager" aria-label="Pages"><a href="#s-pre"><small>← Previous</small><span>Pretraining</span></a><a class="next" href="#s-post"><small>Next →</small><span>Post-training</span></a></nav>
 </article>
 
 <!-- ===================== 02 TAU-BENCH ===================== -->
@@ -3857,116 +3742,6 @@ Thought: cause located, answer the user</p></div>
   <nav class="pager" aria-label="Pages"><a href="#mt-bench"><small>← Previous</small><span>MT-Bench</span></a><a class="next" href="#notes"><small>Next →</small><span>Notes</span></a></nav>
 </article>
 
-<!-- ===================== C01 TRAINING ===================== -->
-<article class="view" id="c-training-en" data-view hidden style="--pc:var(--cc)">
-  <header class="phero">
-    <nav class="crumb" aria-label="Breadcrumb"><a href="#overview">Map</a><span aria-hidden="true">/</span><a href="#s-pre">Pretraining</a></nav>
-    <h1>How models learn</h1>
-    <p class="full">Tokens and embeddings, loss, gradient descent, training / validation / test sets, overfitting, parameters and scale</p>
-    <p class="lede">The most basic ideas in machine learning. Researchers say “the loss went down” or “it overfit” and rarely explain them. This lesson does.</p>
-  </header>
-
-  <section class="sec">
-    <div class="eyebrow">In one line each</div>
-    <div class="card4">
-      <div><b>Loss</b><p>A score for how wrong the model is; lower is better. Training means pushing it down.</p></div>
-      <div><b>Gradient descent</b><p>Walking downhill in fog: feel which way the ground slopes, take a small step, feel again.</p></div>
-      <div><b>Training / validation / test</b><p>Practice problems, mock exam, real exam. Real exam questions must never leak into practice.</p></div>
-      <div><b>Overfitting</b><p>Memorizing answers instead of learning: perfect on practice, lost on a new question.</p></div>
-    </div>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">1 · From text to numbers</div>
-    <h2>Tokens, then embeddings</h2>
-    <p>A model can only do math, so text has to become numbers before anything else happens. That takes two steps, and the second one is where meaning comes in.</p>
-    <figure class="fig"><div class="fig-title">Turning text into numbers</div><div class="fig-scroll"><svg width="560" height="248" viewBox="0 0 560 248" role="img" aria-label="Diagram: “The cat sat on the” is cut into five tokens. Each gets an ID number, which is only a label, and each ID is swapped for a list of numbers, its embedding. “The” and “the” get different IDs but almost the same numbers."><defs><marker id="ah-tok-en" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="m"/></marker></defs><text x="0" y="34" font-size="13" class="i" font-weight="600">Tokens</text><text x="0" y="80" font-size="13" class="i" font-weight="600">ID numbers</text><text x="0" y="96" font-size="12" class="m">just labels</text><text x="0" y="138" font-size="13" class="i" font-weight="600">Embeddings</text><text x="0" y="154" font-size="12" class="m">lists of numbers</text><rect x="141" y="12" width="56" height="36" rx="9" fill="none" style="stroke:var(--at)" stroke-width="2"/><text x="169" y="35" font-size="15" class="i" font-weight="600" text-anchor="middle">The</text><line x1="169" y1="52" x2="169" y2="64" class="ln"/><text x="169" y="84" font-size="13" class="m mono" text-anchor="middle">512</text><line x1="169" y1="92" x2="169" y2="102" class="ln"/><rect x="135" y="104" width="68" height="88" rx="8" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5"/><text x="169" y="126" font-size="13" class="i mono" text-anchor="middle">0.21</text><text x="169" y="145" font-size="13" class="i mono" text-anchor="middle">−0.54</text><text x="169" y="164" font-size="13" class="i mono" text-anchor="middle">0.83</text><text x="169" y="182" font-size="13" class="m" text-anchor="middle">⋮</text><rect x="223" y="12" width="56" height="36" rx="9" fill="none" style="stroke:var(--muted)" stroke-width="1" stroke-opacity=".6"/><text x="251" y="35" font-size="15" class="i" font-weight="600" text-anchor="middle">cat</text><line x1="251" y1="52" x2="251" y2="64" class="ln"/><text x="251" y="84" font-size="13" class="m mono" text-anchor="middle">2047</text><line x1="251" y1="92" x2="251" y2="102" class="ln"/><rect x="217" y="104" width="68" height="88" rx="8" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5"/><text x="251" y="126" font-size="13" class="i mono" text-anchor="middle">−0.37</text><text x="251" y="145" font-size="13" class="i mono" text-anchor="middle">0.62</text><text x="251" y="164" font-size="13" class="i mono" text-anchor="middle">0.15</text><text x="251" y="182" font-size="13" class="m" text-anchor="middle">⋮</text><rect x="305" y="12" width="56" height="36" rx="9" fill="none" style="stroke:var(--muted)" stroke-width="1" stroke-opacity=".6"/><text x="333" y="35" font-size="15" class="i" font-weight="600" text-anchor="middle">sat</text><line x1="333" y1="52" x2="333" y2="64" class="ln"/><text x="333" y="84" font-size="13" class="m mono" text-anchor="middle">9311</text><line x1="333" y1="92" x2="333" y2="102" class="ln"/><rect x="299" y="104" width="68" height="88" rx="8" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5"/><text x="333" y="126" font-size="13" class="i mono" text-anchor="middle">0.48</text><text x="333" y="145" font-size="13" class="i mono" text-anchor="middle">−0.09</text><text x="333" y="164" font-size="13" class="i mono" text-anchor="middle">−0.71</text><text x="333" y="182" font-size="13" class="m" text-anchor="middle">⋮</text><rect x="391" y="12" width="48" height="36" rx="9" fill="none" style="stroke:var(--muted)" stroke-width="1" stroke-opacity=".6"/><text x="415" y="35" font-size="15" class="i" font-weight="600" text-anchor="middle">on</text><line x1="415" y1="52" x2="415" y2="64" class="ln"/><text x="415" y="84" font-size="13" class="m mono" text-anchor="middle">318</text><line x1="415" y1="92" x2="415" y2="102" class="ln"/><rect x="381" y="104" width="68" height="88" rx="8" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5"/><text x="415" y="126" font-size="13" class="i mono" text-anchor="middle">−0.66</text><text x="415" y="145" font-size="13" class="i mono" text-anchor="middle">0.33</text><text x="415" y="164" font-size="13" class="i mono" text-anchor="middle">0.27</text><text x="415" y="182" font-size="13" class="m" text-anchor="middle">⋮</text><rect x="469" y="12" width="56" height="36" rx="9" fill="none" style="stroke:var(--at)" stroke-width="2"/><text x="497" y="35" font-size="15" class="i" font-weight="600" text-anchor="middle">the</text><line x1="497" y1="52" x2="497" y2="64" class="ln"/><text x="497" y="84" font-size="13" class="m mono" text-anchor="middle">1270</text><line x1="497" y1="92" x2="497" y2="102" class="ln"/><rect x="463" y="104" width="68" height="88" rx="8" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5"/><text x="497" y="126" font-size="13" class="i mono" text-anchor="middle">0.19</text><text x="497" y="145" font-size="13" class="i mono" text-anchor="middle">−0.51</text><text x="497" y="164" font-size="13" class="i mono" text-anchor="middle">0.80</text><text x="497" y="182" font-size="13" class="m" text-anchor="middle">⋮</text><path d="M169 198 V214 H497 V198" fill="none" style="stroke:var(--at)" stroke-width="1.5"/><text x="333" y="236" font-size="13" class="a" font-weight="600" text-anchor="middle">“The” and “the”: different IDs, almost the same numbers</text></svg></div><figcaption>Values are made up. Only the first 3 of hundreds are shown.</figcaption></figure><figure class="fig"><div class="fig-title">An analogy of RGB</div><div class="fig-scroll"><svg width="700" height="250" viewBox="0 0 700 250" role="img" aria-label="Diagram. Left: colors described by three numbers; two reds have close numbers, blue is far away. Right: words placed by their embeddings, shown in two dimensions; apple, pear and banana cluster as fruit, dog and cat cluster as animals, car sits apart."><defs><marker id="ah-rgb-en" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="m"/></marker></defs><text x="0" y="16" font-size="13" class="i" font-weight="600">Colors: 3 numbers</text><rect x="0" y="34" width="40" height="40" rx="8" fill="#c8323c"/><text x="54" y="59" font-size="14" class="i mono">(200, 50, 60)</text><rect x="0" y="86" width="40" height="40" rx="8" fill="#dc5a50"/><text x="54" y="111" font-size="14" class="i mono">(220, 90, 80)</text><rect x="0" y="156" width="40" height="40" rx="8" fill="#3c64c8"/><text x="54" y="181" font-size="14" class="i mono">(60, 100, 200)</text><path d="M190 54 h8 v52 h-8" fill="none" class="ln"/><text x="206" y="76" font-size="12" class="m">close numbers,</text><text x="206" y="92" font-size="12" class="m">similar colors</text><line x1="312" y1="130" x2="370" y2="130" class="ar" marker-end="url(#ah-rgb-en)"/><text x="341" y="120" font-size="12" class="m" text-anchor="middle">same idea</text><text x="390" y="16" font-size="13" class="i" font-weight="600">Words: hundreds of numbers, shown in 2D</text><rect x="390" y="28" width="309" height="216" rx="10" fill="none" class="ln"/><circle cx="468" cy="114" r="56" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5" stroke-dasharray="4 4"/><circle cx="622" cy="182" r="42" style="fill:var(--at);stroke:var(--at)" fill-opacity=".08" stroke-opacity=".5" stroke-dasharray="4 4"/><text x="468" y="190" font-size="13" class="a" font-weight="600" text-anchor="middle">fruit</text><text x="622" y="130" font-size="13" class="a" font-weight="600" text-anchor="middle">animals</text><circle cx="450" cy="94" r="4.5" class="i"/><text x="459" y="99" font-size="13" class="i">apple</text><circle cx="476" cy="116" r="4.5" class="i"/><text x="485" y="121" font-size="13" class="i">pear</text><circle cx="436" cy="138" r="4.5" class="i"/><text x="445" y="143" font-size="13" class="i">banana</text><circle cx="604" cy="196" r="4.5" class="i"/><text x="613" y="201" font-size="13" class="i">dog</text><circle cx="636" cy="170" r="4.5" class="i"/><text x="645" y="175" font-size="13" class="i">cat</text><circle cx="612" cy="66" r="4.5" class="i"/><text x="621" y="71" font-size="13" class="i">car</text></svg></div><figcaption>Unlike RGB, a single embedding number has no name.</figcaption></figure>
-    <ul>
-      <li><span class="tag r">Prior research</span> The idea that meaning comes from company is older than neural networks: words used in similar contexts tend to mean similar things (Harris 1954; Firth 1957). Word2vec (Mikolov et al. 2013) showed that learned word vectors capture this.</li>
-      <li><span class="tag r">Prior research</span> <b>How does the model pick the numbers?</b> It doesn't, at first: every token starts with random numbers. During pretraining, each wrong guess about the next word nudges the numbers of the tokens involved a little, in the direction that would have made the guess better. Tokens that keep showing up in the same kinds of sentences, like “apple” and “pear”, get nudged the same way, so their numbers drift together. Nobody tells the model “apple is a fruit”. Similar usage produces similar numbers.</li>
-      <li><span class="tag g">Our inference</span> Something rare in the training text has few sentences to learn from, so its numbers are less settled. That may be one reason answers about rare things are less reliable.</li>
-    </ul>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">2 · Loss</div>
-    <h2>Scoring how wrong the model is</h2>
-    <p>LLM pretraining is a next-word guessing game: after “the weather today is very”, the model assigns a probability to every possible next token. If the actual next word is “hot”, the more probability it gave “hot”, the lower the loss.</p>
-    <p>This scoring is called <b>cross-entropy</b>, and it punishes “confident” mistakes (a high probability on the wrong answer) especially hard. Details in the concept lesson <a href="#c-scoring">Scoring shapes the model</a>.</p>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">3 · Gradient descent</div>
-    <h2>How the loss goes down</h2>
-    <details class="fold"><summary>Show the table · Term · Meaning · Downhill analogy</summary><div class="tbl"><table>
-      <thead><tr><th>Term</th><th>Meaning</th><th>Downhill analogy</th></tr></thead>
-      <tbody>
-        <tr><td>parameters / weights</td><td>Tens of billions of adjustable numbers in the model</td><td>Where you stand</td></tr>
-        <tr><td>gradient</td><td>Which way, and how much, to adjust each parameter</td><td>Which way the ground slopes</td></tr>
-        <tr><td>learning rate</td><td>How big each adjustment is</td><td>Step size: too big overshoots, too small is slow</td></tr>
-        <tr><td>backpropagation</td><td>How the gradient for every parameter is computed</td><td>Feeling the slope in every direction at once</td></tr>
-      </tbody>
-    </table></div></details>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">4 · Splitting the data</div>
-    <h2>Practice, mock exam, real exam</h2>
-    <details class="fold"><summary>Show the table · Data · Analogy · Purpose</summary><div class="tbl"><table>
-      <thead><tr><th>Data</th><th>Analogy</th><th>Purpose</th></tr></thead>
-      <tbody>
-        <tr><td>Training set</td><td>Practice problems</td><td>Used to adjust parameters</td></tr>
-        <tr><td>Validation set</td><td>Mock exam</td><td>Checks progress and tunes settings during training</td></tr>
-        <tr><td>Test set</td><td>Real exam</td><td>Final evaluation; never seen during training</td></tr>
-      </tbody>
-    </table></div></details>
-    <p class="sub">Test items leaking into training data is data contamination; see the <a href="#reflexion">Reflexion</a> card.</p>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">5 · Overfitting and generalization</div>
-    <h2>Did it learn, or did it memorize?</h2>
-    <ul>
-      <li><b>Overfitting</b>: great on training data, poor on unseen data.</li>
-      <li><b>Generalization</b>: doing well on things it hasn't seen.</li>
-      <li>How to spot it: training loss keeps falling while <b>validation loss starts rising</b>.</li>
-    </ul>
-    <div class="callout"><b>A thread through several papers</b><p>Benchmark saturation and contamination (<a href="#reflexion">Reflexion</a>), and P(IK) calibration degrading on new tasks (<a href="#calibration">Calibration</a>), all ask the same thing: did it learn, or did it memorize?</p></div>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">6 · What “bigger” means</div>
-    <h2>Parameters versus training data</h2>
-    <details class="fold"><summary>Show the table · Parameters · Training data</summary><div class="tbl"><table>
-      <thead><tr><th></th><th>Parameters</th><th>Training data</th></tr></thead>
-      <tbody>
-        <tr><td>What it is</td><td>How many adjustable “knobs”</td><td>How many tokens it read in training</td></tr>
-        <tr><td>Analogy</td><td>Size of the brain</td><td>How many books it read</td></tr>
-        <tr><td>Example</td><td colspan="2"><span class="tag p">Paper Calibration</span> 800M to 52B parameters, all trained on 850B tokens</td></tr>
-      </tbody>
-    </table></div></details>
-    <ul>
-      <li><span class="tag r">Prior research</span> Kaplan et al. 2020: performance improves predictably with parameters, data and compute (scaling laws). Hoffmann et al. 2022 (Chinchilla): grow both together, about 20 tokens per parameter.</li>
-      <li>More parameters make each answer slower and more expensive, so inference cost and latency go up.</li>
-      <li>Bigger isn't automatically better. <a href="#instructgpt">InstructGPT</a>'s 1.3B model beat the 175B GPT-3.</li>
-      <li><span class="tag r">Prior research</span> Frontier labs rarely publish parameter counts; mixture-of-experts models have many total parameters but use only some per answer.</li>
-    </ul>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">Terms</div>
-    <div class="gloss">
-      <div><b>loss / loss function</b><span>The function that scores how wrong the model is</span></div>
-      <div><b>gradient descent</b><span>Adjusting parameters step by step in the direction that lowers loss</span></div>
-      <div><b>learning rate</b><span>How big each step is</span></div>
-      <div><b>backpropagation</b><span>How each parameter's gradient is computed</span></div>
-      <div><b>overfitting / generalization</b><span>Memorizing / actually learning</span></div>
-      <div><b>scaling laws</b><span>Performance rising predictably with scale</span></div>
-    </div>
-  </section>
-
-  <nav class="pager" aria-label="Pages"><a href="#s-pre"><small>← Previous</small><span>Pretraining</span></a><a class="next" href="#attention"><small>Next →</small><span>Transformer</span></a></nav>
-</article>
 
 <!-- ===================== C02 SCORING ===================== -->
 <article class="view" id="c-scoring-en" data-view hidden style="--pc:var(--cc)">
@@ -4125,7 +3900,7 @@ Thought: cause located, answer the user</p></div>
       <div><b>KL</b><i>Kullback–Leibler (divergence)</i><span>How far apart two distributions are (asymmetric) <a class="seen" href="#c-scoring">seen in →</a></span></div>
       <div><b>SOTA</b><i>State Of The Art</i><span>Best result so far</span></div>
       <div><b>OOD</b><i>Out-Of-Distribution</i><span>Inputs unlike the training data</span></div>
-      <div><b>FLOPs</b><i>Floating-Point Operations</i><span>Unit of compute; the x-axis of scaling laws <a class="seen" href="#c-training">seen in →</a></span></div>
+      <div><b>FLOPs</b><i>Floating-Point Operations</i><span>Unit of compute; the x-axis of scaling laws <a class="seen" href="#s-pre">seen in →</a></span></div>
       <div><b>AUROC</b><i>Area Under the ROC Curve</i><span>Separates right from wrong; 0.5 = chance, 1 = perfect <a class="seen" href="#calibration">seen in →</a></span></div>
     </div></div>
     <div class="tier"><h3>Subfield<small>Familiar inside the subfield; others look them up too</small></h3>
@@ -4192,7 +3967,7 @@ Thought: cause located, answer the user</p></div>
   const base=id=>id.replace(/-en$/,'');
   function route(){
     const main=mains[lang];
-    const h=decodeURIComponent(location.hash.slice(1));
+    let h=decodeURIComponent(location.hash.slice(1));h={'c-training':'s-pre'}[h]||h;
     let target=null,anchor=null;
     if(h){const el=document.getElementById(idFor(h));
       if(el&&main.contains(el)){if(el.hasAttribute('data-view'))target=el;else{anchor=el;target=el.closest('[data-view]');}}}
@@ -4200,7 +3975,7 @@ Thought: cause located, answer the user</p></div>
     main.querySelectorAll('[data-view]').forEach(v=>{v.hidden=v!==target});
     const cur=base(target.id);
     document.querySelectorAll('[data-nav]').forEach(a=>{if(a.dataset.nav===cur)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
-    const parent={'c-training':'s-pre','attention':'s-pre','c-scoring':'s-post','instructgpt':'s-post','r1':'s-post','react':'s-harness','reflexion':'s-harness','memgpt':'s-harness','tau-bench':'s-eval','mt-bench':'s-eval','calibration':'s-eval'}[cur];
+    const parent={'attention':'s-pre','c-scoring':'s-post','instructgpt':'s-post','r1':'s-post','react':'s-harness','reflexion':'s-harness','memgpt':'s-harness','tau-bench':'s-eval','mt-bench':'s-eval','calibration':'s-eval'}[cur];
     document.querySelectorAll('.chip.sc').forEach(c=>{const n=c.dataset.nav;if(n===cur)c.setAttribute('aria-current','page');else if(n===parent)c.setAttribute('aria-current','true');else c.removeAttribute('aria-current')});
     if(anchor)anchor.scrollIntoView();else{window.scrollTo(0,0);requestAnimationFrame(()=>window.scrollTo(0,0));}
     if(cur==='abbr'){const q=target.querySelector('.abbr-q');if(q){if(q._upd)q._upd();if(matchMedia('(hover:hover)').matches)q.focus({preventScroll:true});}}

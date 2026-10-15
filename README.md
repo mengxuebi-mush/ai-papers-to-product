@@ -49,7 +49,7 @@ All credit for the research belongs to the original authors. The cards are perso
 
 | Card | Key references |
 |---|---|
-| [How models learn](https://mengxuebi-mush.github.io/ai-papers-to-product/#c-training) | Kaplan et al., [Scaling Laws for Neural Language Models](https://arxiv.org/abs/2001.08361) (2020) · Hoffmann et al., [Training Compute-Optimal Large Language Models](https://arxiv.org/abs/2203.15556) (2022, "Chinchilla") |
+| [How models learn](https://mengxuebi-mush.github.io/ai-papers-to-product/#s-pre) (on the Pretraining page) | Kaplan et al., [Scaling Laws for Neural Language Models](https://arxiv.org/abs/2001.08361) (2020) · Hoffmann et al., [Training Compute-Optimal Large Language Models](https://arxiv.org/abs/2203.15556) (2022, "Chinchilla") |
 | [Scoring shapes the model](https://mengxuebi-mush.github.io/ai-papers-to-product/#c-scoring) | Goodhart, *Problems of Monetary Management: The U.K. Experience* (1975) · Strathern, "'Improving ratings': audit in the British University system", *European Review* (1997) · Kullback & Leibler, "On Information and Sufficiency", *Annals of Mathematical Statistics* (1951) · Gao, Schulman, Hilton, [Scaling Laws for Reward Model Overoptimization](https://arxiv.org/abs/2210.10760) (2022) |
 
 ### Also referenced in discussion
