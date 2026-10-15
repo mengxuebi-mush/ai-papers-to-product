@@ -273,7 +273,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
 .fig svg{display:block;max-width:none;overflow:visible}
 .fig svg text{font-family:var(--sans)}
 .fig svg text.mono{font-family:var(--mono)}
-.fig .i{fill:var(--ink)} .fig .m{fill:var(--muted)} .fig .a{fill:var(--at)}
+.fig .p{fill:var(--pc)} .fig .i{fill:var(--ink)} .fig .m{fill:var(--muted)} .fig .a{fill:var(--at)}
 .fig .ln{stroke:var(--muted);stroke-opacity:.45}
 .fig .ar{stroke:var(--muted);stroke-width:1.5}
 .fig figcaption{font-size:13px;line-height:1.5;color:var(--muted)}
@@ -427,7 +427,7 @@ details.ws .q{margin-top:10px}
   <section class="sec" id="papers">
     <div class="eyebrow">大图 · 点进每一段</div>
     <h2>一个模型怎么做出来、用起来、被检查</h2>
-    <div class="map"><div class="flow"><a class="stg" href="#s-pre" style="--pc:var(--at)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg></span><span class="k">Pretraining · 预训练</span><b>学会接话</b><p>模型读海量文字，反复练习猜下一个词。练着练着，它学会了语言，也记住了很多事实。但它只会接着往下写，并不知道你想要什么。</p><span class="on">Transformer</span></a><a class="stg" href="#s-post" style="--pc:var(--ig)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-knobs"/></svg></span><span class="k">Post-training · 后训练</span><b>调教成助手</b><p>这一步给它的回答打分：给示范答案、让人挑更喜欢的，或者直接判对错。参数往高分的方向调，直到它听得懂指令、会推理。</p><span class="on">打分方式 · InstructGPT · DeepSeek-R1</span></a><a class="stg" href="#s-harness" style="--pc:var(--ra)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-box"/></svg></span><span class="k">Harness · 外壳</span><b>围着它做成产品</b><p>模型本身不动，改它周围的东西：它能看到什么、能用哪些工具、记住什么、失败了怎么办。</p><span class="on">ReAct · Reflexion · MemGPT</span></a></div><a class="evalbar" href="#s-eval" style="--pc:var(--tau)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-chart"/></svg></span><span class="k">Evaluation · 评估，贯穿三段</span><p>每一段都要回答两个问题：真的变好了吗？结果能信吗？评估用的打分，也是后训练里训练模型的信号，所以评估不是最后一步，它一直都在。τ-bench · MT-Bench · Calibration</p></a></div>
+    <div class="map"><div class="flow"><a class="stg" href="#s-pre" style="--pc:var(--at)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg></span><span class="k">Pretraining · 预训练</span><b>学会接话</b><p>模型读海量文字，反复练习猜下一个词。练着练着，它学会了语言，也记住了很多事实。但它只会接着往下写，并不知道你想要什么。</p><span class="on">Transformer</span></a><a class="stg" href="#s-post" style="--pc:var(--ig)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-knobs"/></svg></span><span class="k">Post-training · 后训练</span><b>调教成助手</b><p>这一步给它的回答打分：给示范答案、让人挑更喜欢的，或者直接判对错。参数往高分的方向调，直到它听得懂指令、会推理。</p><span class="on">InstructGPT · DeepSeek-R1</span></a><a class="stg" href="#s-harness" style="--pc:var(--ra)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-box"/></svg></span><span class="k">Harness · 外壳</span><b>围着它做成产品</b><p>模型本身不动，改它周围的东西：它能看到什么、能用哪些工具、记住什么、失败了怎么办。</p><span class="on">ReAct · Reflexion · MemGPT</span></a></div><a class="evalbar" href="#s-eval" style="--pc:var(--tau)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-chart"/></svg></span><span class="k">Evaluation · 评估，贯穿三段</span><p>每一段都要回答两个问题：真的变好了吗？结果能信吗？评估用的打分，也是后训练里训练模型的信号，所以评估不是最后一步，它一直都在。τ-bench · MT-Bench · Calibration</p></a></div>
   </section>
 
   <div class="legend">
@@ -476,17 +476,14 @@ details.ws .q{margin-top:10px}
       <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-clip"/></svg>三种打分方式</b><p>可以拿好答案给它当示范，可以让人给它的几个回答排名，也可以拿有确定答案的东西来核对，比如数学题的结果或单元测试。选哪种，它最后就长成什么样。</p></div>
       <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-users"/></svg>靠人的偏好来学</b><p>同一个问题，让人给几个回答排名。再单独训练一个打分模型去预测这些排名，训练助手时就用它来打分。这叫 <span class="tip" tabindex="0" data-tip="Reinforcement Learning from Human Feedback，用人类反馈做强化学习。">RLHF</span>。InstructGPT 里，人更喜欢小得多的这个版本，而不是原版 GPT-3。</p><a class="more" href="#instructgpt">InstructGPT →</a></div>
       <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>能核对的话，只说对错就够</b><p>如果答案能自动核对，就不用人来打分了，答对就给奖励。DeepSeek-R1 就是这么做的，它的回答自己变得更长、更仔细，没人要求过。</p><a class="more" href="#r1">DeepSeek-R1 →</a></div>
-      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-target"/></svg>打什么分，就得到什么</b><p>模型会越来越会拿高分，包括钻空子。这叫 Goodhart 定律。所以训练时会加一道限制（<span class="tip" tabindex="0" data-tip="KL penalty：偏离起点太远要付的代价，避免模型为了讨好打分器而说出奇怪的答案。">KL penalty</span>），不让模型离起点跑得太远。</p><a class="more" href="#c-scoring">打分方式决定模型 →</a></div>
+      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-gauge"/></svg>诚实的概率得分最高</b><p>预训练用交叉熵给每个猜测打分，它奖励说出真实的概率：一件事 70% 会发生，就说 70%。所以预训练模型通常校准得不错。偏好打分只问人更喜欢哪个回答，所以 RLHF 之后，模型会变得“过度自信”：它说出的把握比实际准确率更极端。<span class="tag p">原文 Calibration</span></p><a class="more" href="#calibration">Calibration →</a><figure class="fig"><div class="fig-title">天气预报员：真实降雨概率是 70%</div><div class="fig-scroll"><svg width="450" height="146" viewBox="0 0 450 146" role="img" aria-label="条形图。真实降雨概率是 70% 时：报 50% 的预报员平均 loss 是 0.69，报 70% 的是 0.61，最低，报 90% 的是 0.76。"><text x="110" y="12" font-size="12" class="m">平均 loss（越低越好）</text><text x="0" y="39" font-size="13" class="i" font-weight="600">说 50%</text><text x="0" y="54" font-size="12" class="m">太保守</text><rect x="110" y="28" width="263" height="20" rx="4" style="fill:var(--muted)" fill-opacity=".3"/><text x="381" y="43" font-size="12" class="i mono">0.69</text><text x="0" y="79" font-size="13" class="p" font-weight="600">说 70%</text><text x="0" y="94" font-size="12" class="p">和实际一致</text><rect x="110" y="68" width="232" height="20" rx="4" style="fill:var(--pc)"/><text x="350" y="83" font-size="12" class="p mono" font-weight="600">0.61</text><text x="0" y="119" font-size="13" class="i" font-weight="600">说 90%</text><text x="0" y="134" font-size="12" class="m">过度自信</text><rect x="110" y="108" width="291" height="20" rx="4" style="fill:var(--muted)" fill-opacity=".3"/><text x="409" y="123" font-size="12" class="i mono">0.76</text></svg></div><figcaption>很多天的平均。说出真实概率，得分最好。</figcaption></figure></div>
+      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-target"/></svg>打什么分，就得到什么</b><p>对任何分数用力优化，模型都会找到捷径：分数很高，结果不对。这叫 Goodhart 定律，在 AI 里叫 reward hacking。一个划船游戏里的 agent 学会了原地绕圈撞得分道具，就是不去终点。所以 RLHF 加了 <span class="tip" tabindex="0" data-tip="KL penalty：偏离起点太远要付的代价，避免模型为了讨好打分器而说出奇怪的答案。">KL penalty</span>，像一根绳子，不让模型离起点跑得太远。<span class="tag r">已有研究</span>任何用来训练或评估 agent 的指标，都要问一句：它最容易被怎样钻空子？<span class="tag g">推测</span></p><figure class="fig"><div class="fig-title">把分数追得太狠</div><div class="fig-scroll"><svg width="450" height="206" viewBox="0 0 450 206" role="img" aria-label="示意折线图。训练越用力追打分器的分，这个分一直上升，但真正想要的质量先升后降。峰值附近的虚线表示 KL penalty 把模型拉住的位置。"><defs><marker id="ah-gh-zh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="m"/></marker></defs><line x1="40" y1="170" x2="40" y2="20" class="ar" marker-end="url(#ah-gh-zh)"/><line x1="40" y1="170" x2="442" y2="170" class="ar" marker-end="url(#ah-gh-zh)"/><text x="48" y="18" font-size="12" class="m">↑ 越高越好</text><text x="240" y="196" font-size="12" class="m" text-anchor="middle">训练追分追得多狠 →</text><line x1="230" y1="30" x2="230" y2="168" style="stroke:var(--muted)" stroke-dasharray="4 4"/><text x="236" y="42" font-size="12" class="m">KL penalty：停在这附近</text><path d="M40 162 C170 130, 300 70, 432 36" fill="none" style="stroke:var(--pc)" stroke-width="2.5"/><path d="M40 162 C120 80, 200 64, 240 70 S360 150, 432 162" fill="none" style="stroke:var(--ink)" stroke-width="2"/><text x="432" y="26" font-size="12" class="p" font-weight="600" text-anchor="end">打分器给的分</text><text x="300" y="152" font-size="12" class="i" font-weight="600" text-anchor="middle">真正想要的质量</text></svg></div><figcaption>示意图，不是数据。</figcaption></figure></div>
       <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-judge"/></svg>裁判既评估，也训练</b><p>同一种裁判（人、打分模型、另一个 LLM），评估模型用它，训练模型也用它。裁判有偏差，模型就会学到这个偏差。<span class="tag r">已有研究</span></p><a class="more" href="#s-eval">评估 →</a></div>
     </div>
   </section>
   <section class="sec">
     <div class="eyebrow">论文</div>
     <div class="dir"><div class="dg"><a class="drow" href="#instructgpt" style="--pc:var(--ig)"><b>InstructGPT</b><span>用人类偏好把接话器调教成助手</span><em>论文 · 2022</em></a><a class="drow" href="#r1" style="--pc:var(--r1)"><b>DeepSeek-R1</b><span>只告诉模型对错，推理能力自己长出来</span><em>论文 · 2025</em></a><div class="soon3">之后会加入：fine-tuning / LoRA</div></div></div>
-  </section>
-  <section class="sec">
-    <div class="eyebrow">概念课</div>
-    <div class="dir"><div class="dg"><a class="drow" href="#c-scoring" style="--pc:var(--cc)"><b>打分方式决定模型</b><span>为什么你打什么分，模型就变成什么样：交叉熵、Goodhart 定律、KL penalty</span><em>概念课</em></a></div></div>
   </section>
   <nav class="pager" aria-label="翻页"><a href="#s-pre"><small>← 上一篇</small><span>预训练</span></a><a class="next" href="#s-harness"><small>下一篇 →</small><span>Harness</span></a></nav>
 </div>
@@ -1203,7 +1200,7 @@ details.ws .q{margin-top:10px}
     </div>
   </section>
 
-  <nav class="pager" aria-label="翻页"><a href="#c-scoring"><small>← 上一篇</small><span>打分方式决定模型</span></a><a class="next" href="#r1"><small>下一篇 →</small><span>DeepSeek-R1</span></a></nav>
+  <nav class="pager" aria-label="翻页"><a href="#s-post"><small>← 上一篇</small><span>后训练</span></a><a class="next" href="#r1"><small>下一篇 →</small><span>DeepSeek-R1</span></a></nav>
 </article>
 
 <article class="view" id="r1" data-view hidden style="--pc:var(--r1)">
@@ -1972,132 +1969,6 @@ Thought：可以定位，回答用户</p></div>
 </article>
 
 
-<!-- ===================== C02 SCORING ===================== -->
-<article class="view" id="c-scoring" data-view hidden style="--pc:var(--cc)">
-  <header class="phero">
-    <nav class="crumb" aria-label="路径"><a href="#overview">地图</a><span aria-hidden="true">/</span><a href="#s-post">后训练</a></nav>
-    <h1>打分方式决定模型</h1>
-    <p class="full">Cross-entropy · Proper scoring rule · Goodhart's law · KL penalty</p>
-    <p class="lede">用什么方式打分，模型就会变成什么样。这一课把前面几篇反复出现的现象串起来：为什么预训练模型校准好，RLHF 模型“过度自信”（输出的概率比实际正确率更极端），只看对错的模型倾向于猜答案。</p>
-  </header>
-
-  <section class="sec">
-    <div class="eyebrow">1 · Cross-entropy loss</div>
-    <h2>交叉熵：重罚“自信地错”</h2>
-    <div class="callout"><b>Definition</b><p>Cross-entropy loss：模型给正确答案的概率越低，罚得越重（<span class="tip" tabindex="0" data-tip="−log(模型给正确答案的概率)。概率为 1 时损失为 0，概率越接近 0，损失越大。">公式</span>）。别名：log loss、negative log-likelihood (NLL)。</p></div>
-    <div class="tbl"><table>
-      <thead><tr><th>给正确答案的概率</th><th>Loss = −ln(p)</th><th>说明</th></tr></thead>
-      <tbody>
-        <tr><td class="num">0.9</td><td class="num">0.11</td><td>给了高概率且答对，几乎不罚</td></tr>
-        <tr><td class="num">0.5</td><td class="num">0.69</td><td>拿不准</td></tr>
-        <tr><td class="num">0.1</td><td class="num">2.30</td><td>基本没想到</td></tr>
-        <tr><td class="num">0.01</td><td class="num">4.61</td><td>几乎确定不是它，结果错了，重罚</td></tr>
-      </tbody>
-    </table></div>
-    <p class="sub"><b>Perplexity（困惑度）</b>：e 的平均 loss 次方。直觉上，相当于模型平均在几个选项之间犹豫，实际含义是它给下一个词的概率分散在多少个候选上。越低越好。</p>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">2 · Proper scoring rule</div>
-    <h2>它两个方向都罚，所以最优的报告就是真实概率</h2>
-    <div class="callout"><b><span class="tag r">已有研究</span>定义（转述，原文措辞待确认）</b><p>一个打分规则是 <i>proper</i>（严格适当）的，如果预测者报出自己实际的概率分布时，长期期望得分最好。这里的“实际”指模型自己算出的那组概率，不涉及意图。</p></div>
-    <div class="tbl"><table>
-      <thead><tr><th>真实下雨概率 70%，预报员报</th><th>长期平均 loss</th></tr></thead>
-      <tbody>
-        <tr><td>50%（过度保守）</td><td class="num">0.69</td></tr>
-        <tr><td><b>70%（与实际相符）</b></td><td class="num"><b>0.61</b></td></tr>
-        <tr><td>90%（过度自信）</td><td class="num">0.76</td></tr>
-      </tbody>
-    </table></div>
-    <ul>
-      <li>这解释了 <a href="#calibration">Calibration</a> 的核心发现。预训练目标本身奖励“和实际频率一致的概率”，所以预训练模型校准好。RLHF 换成“人更喜欢哪个”，不罚说错概率，所以校准变差。</li>
-      <li><span class="tag p">原文 Calibration</span>陌生任务上的信心不足出现在另外训练的 P(IK) 输出头上，更像单一训练数据导致的迁移问题。<span class="tag g">推测</span>交叉熵奖励的是概率准确，不是保守；保守更可能来自“认不出自己会”。</li>
-      <li><span class="tip" tabindex="0" data-tip="Brier score：（预测概率 − 实际结果）的平方，取平均；越低越好。">Brier score（概率误差评分）</span>也是一种 proper scoring rule（Calibration 里 P(IK) 的这个分数是 0.151）。</li>
-    </ul>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">3 · Goodhart's law</div>
-    <h2>当指标变成目标</h2>
-    <div class="grid2">
-      <div><b>原始版本 · Charles Goodhart, 1975</b><p class="ink">“Any observed statistical regularity will tend to collapse once pressure is placed upon it for control purposes.”</p></div>
-      <div><b>流行版本 · Marilyn Strathern, 1997</b><p class="ink">“When a measure becomes a target, it ceases to be a good measure.”</p></div>
-    </div>
-    <p>指标之所以有用，是因为它和真正关心的东西碰巧相关。一旦直接优化它，就会找到“指标高、真正关心的不高”的捷径，相关性就断了。近亲：Campbell's law（1976）。</p>
-    <details class="fold"><summary>展开表格 · AI 里的名字 · English</summary><div class="tbl"><table>
-      <thead><tr><th>AI 里的名字</th><th>English</th></tr></thead>
-      <tbody>
-        <tr><td>Reward hacking</td><td>The agent exploits flaws in the reward function to get high reward without doing the intended task.</td></tr>
-        <tr><td>Specification gaming</td><td>Satisfying the literal specification of an objective without achieving the intended outcome.</td></tr>
-        <tr><td>Reward model overoptimization</td><td>Optimizing too hard against a learned reward model eventually decreases true quality.</td></tr>
-      </tbody>
-    </table></div></details>
-    <ul>
-      <li><span class="tag r">已有研究</span> OpenAI 2016 划船游戏 CoastRunners：agent 原地绕圈撞得分道具，就是不去终点。</li>
-      <li><span class="tag r">已有研究</span> Gao, Schulman &amp; Hilton 2022：对着 reward model 优化时，真实质量先升后降，呈倒 U 形（待确认）。</li>
-    </ul>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">4 · 串起前面几篇</div>
-    <h2>你用什么方式打分，模型就变成什么样</h2>
-    <div class="tbl"><table>
-      <thead><tr><th>打分方式</th><th>奖励什么</th><th>模型学会什么</th><th>出处</th></tr></thead>
-      <tbody>
-        <tr><td>交叉熵（概率打分）</td><td>概率与实际频率一致时得分最高</td><td>校准良好</td><td><span class="tag p">原文 Calibration</span></td></tr>
-        <tr><td>只看对错</td><td>“敢猜”</td><td>“爱猜”，不愿说“不知道”：猜对有分、弃答得 0，所以猜测更划算</td><td><span class="tag r">已有研究</span> Kalai 2025（待确认）；τ-bench 0/1</td></tr>
-        <tr><td>人类偏好</td><td>让人满意</td><td>“自信”、“讨好”：输出的语气和观点向标注员的偏好靠拢</td><td><span class="tag p">原文</span> Calibration、InstructGPT</td></tr>
-      </tbody>
-    </table></div>
-    <details class="fold"><summary>展开表格 · 被优化的指标 · 发生了什么 · 出处</summary><div class="tbl"><table>
-      <thead><tr><th>被优化的指标</th><th>发生了什么</th><th>出处</th></tr></thead>
-      <tbody>
-        <tr><td>裁判打分</td><td>变长就能骗高分</td><td><a href="#mt-bench">MT-Bench</a> §3.3</td></tr>
-        <tr><td>人类偏好</td><td>“讨好”、“过度自信”</td><td><a href="#instructgpt">InstructGPT</a>、<a href="#calibration">Calibration</a></td></tr>
-        <tr><td>只看结果</td><td>没经确认就执行也算成功</td><td><a href="#tau-bench">τ-bench</a> §3</td></tr>
-        <tr><td>自写测试通过</td><td>错误代码也能过</td><td><a href="#reflexion">Reflexion</a> §4</td></tr>
-        <tr><td>Benchmark 分数</td><td>饱和、数据污染</td><td><a href="#reflexion">Reflexion</a> 卡</td></tr>
-      </tbody>
-    </table></div></details>
-    <p class="sub">唯一例外是交叉熵：它是 proper scoring rule，“把指标做好”和“报出实际概率”是同一件事，没有捷径可钻。</p>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">5 · 复习 KL penalty</div>
-    <h2>KL penalty：给 Goodhart 拴的一根绳</h2>
-    <div class="callout"><b>KL divergence · Definition</b><p>“A measure of how much one probability distribution differs from a reference distribution.” 两个概率分布差多远。它和交叉熵是亲戚：KL = 交叉熵 − 熵，可以理解为“用另一个分布来猜，比用真实分布猜，多出来的那部分 loss”。</p></div>
-    <ul>
-      <li><span class="tag p">原文 InstructGPT §3.5</span> RLHF 第三步的得分 = reward model 打分 − β × KL(当前模型 ‖ SFT 模型)。比较的是同一个 prompt 下，两个模型对下一个 token 给出的概率分布。</li>
-      <li><b>防的是什么</b>：reward model 只是近似人类“品味”（拟合出来的打分函数），有漏洞。不加约束，模型会钻漏洞拿高分，正是 reward model overoptimization。</li>
-      <li><b>β 是绳子的长短</b>：β 大，模型几乎不敢改变，学不到东西；β 小，模型可以跑很远，也更容易钻空子。</li>
-      <li><b>类比</b>：实习生可以按 mentor 的喜好调整风格，但每次都要拿第一周的录像来对照，偏离太远就扣分。</li>
-      <li><span class="tag r">已有研究</span> DPO 虽然省掉了 reward model，数学上仍隐含一个相对参照模型的 KL 约束。</li>
-    </ul>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow"><span class="tag g">推测</span>带回产品</div>
-    <h2>每个指标都配一个“会被怎么钻空子”的检查</h2>
-    <ul>
-      <li>你熟悉的版本：客服以“平均结单时间”为 KPI，工单被草草关闭；推荐系统只优化点击率，出现标题党。</li>
-      <li>任何用来训练或评估 agent 的指标，都要问：它最容易被怎样钻空子？再配一个反事实测试或交叉检查。</li>
-    </ul>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">术语</div>
-    <div class="gloss">
-      <div><b>cross-entropy / log loss / NLL</b><span>−log(给正确答案的概率)</span></div>
-      <div><b>perplexity</b><span>平均在几个选项之间“犹豫”（即概率分散在多少个候选上）</span></div>
-      <div><b>proper scoring rule</b><span>报出实际概率时期望得分最高的打分规则</span></div>
-      <div><b>Goodhart's law</b><span>指标变成目标，就不再是好指标</span></div>
-      <div><b>reward hacking / specification gaming</b><span>钻奖励漏洞 / 满足字面要求而非真实意图</span></div>
-      <div><b>KL divergence / KL penalty</b><span>两个分布差多远 / 偏离参照模型就扣分</span></div>
-    </div>
-  </section>
-
-  <nav class="pager" aria-label="翻页"><a href="#s-post"><small>← 上一篇</small><span>后训练</span></a><a class="next" href="#instructgpt"><small>下一篇 →</small><span>InstructGPT</span></a></nav>
-</article>
 
 
 <div class="view" id="abbr" data-view hidden style="--pc:var(--cc)">
@@ -2126,7 +1997,7 @@ Thought：可以定位，回答用户</p></div>
       <div><b>CoT</b><i>Chain-of-Thought</i><span>先写出推理步骤再给答案 <a class="seen" href="#react">出处 →</a></span></div>
       <div><b>ICL</b><i>In-Context Learning</i><span>不改参数，靠 prompt 里的例子学会新任务</span></div>
       <div><b>RAG</b><i>Retrieval-Augmented Generation</i><span>先检索资料，再基于资料生成 <em class="soon">后面会学</em></span></div>
-      <div><b>KL</b><i>Kullback–Leibler (divergence)</i><span>两个概率分布差多远（不对称） <a class="seen" href="#c-scoring">出处 →</a></span></div>
+      <div><b>KL</b><i>Kullback–Leibler (divergence)</i><span>两个概率分布差多远（不对称） <a class="seen" href="#s-post">出处 →</a></span></div>
       <div><b>SOTA</b><i>State Of The Art</i><span>当前最好成绩</span></div>
       <div><b>OOD</b><i>Out-Of-Distribution</i><span>和训练数据不像的输入</span></div>
       <div><b>FLOPs</b><i>Floating-Point Operations</i><span>算力用量的单位；scaling law 的横轴 <a class="seen" href="#s-pre">出处 →</a></span></div>
@@ -2166,21 +2037,21 @@ Thought：可以定位，回答用户</p></div>
     <div class="gloss abbr hw-grid">
       <div class="hw"><b>belief<small>相信、信念</small></b><span data-k="好懂的直觉">模型“认为”答案是 X。</span><span class="acc" data-k="更准确的说法">在这段上下文下，对下一个 token 给出的概率分布。</span><span data-k="别忘了">不保证换个问法后还一样，没有可以直接读出来的“立场”。 <a class="seen" href="#calibration">出处 →</a></span></div>
       <div class="hw"><b>know<small>知道、掌握</small></b><span data-k="好懂的直觉">模型“掌握”了这个事实。</span><span class="acc" data-k="更准确的说法">对正确答案给出高概率；或者像 P(IK) 那样，另训一个输出去预测它会不会答对。</span><span data-k="别忘了">“这次答对”不等于“稳定掌握”，要换问法再测。 <a class="seen" href="#calibration">出处 →</a></span></div>
-      <div class="hw"><b>honest<small>诚实、如实</small></b><span data-k="好懂的直觉">它说多有把握，就真有多把握。</span><span class="acc" data-k="更准确的说法">校准（calibration）：它说 70% 的那些题，实际约 70% 答对。</span><span data-k="别忘了">没有“想说真话”的意图；校准好也不代表答案对。 <a class="seen" href="#c-scoring">出处 →</a></span></div>
+      <div class="hw"><b>honest<small>诚实、如实</small></b><span data-k="好懂的直觉">它说多有把握，就真有多把握。</span><span class="acc" data-k="更准确的说法">校准（calibration）：它说 70% 的那些题，实际约 70% 答对。</span><span data-k="别忘了">没有“想说真话”的意图；校准好也不代表答案对。 <a class="seen" href="#s-post">出处 →</a></span></div>
       <div class="hw"><b>lie<small>说谎、骗人</small></b><span data-k="好懂的直觉">明知是错的还这么说。</span><span class="acc" data-k="更准确的说法">输出了与事实不符的内容。“策略性欺骗”是另一个问题，要单独设计实验才能证明。</span><span data-k="别忘了">把错误当成说谎，产品对策就变成“抓骗子”，而不是“测量并约束错误率”。</span></div>
-      <div class="hw"><b>hallucinate<small>幻觉</small></b><span data-k="好懂的直觉">像人一样“看见不存在的东西”。</span><span class="acc" data-k="更准确的说法">流畅但缺乏事实依据的输出（confabulation，虚构）。</span><span data-k="别忘了">不是感知出错，而是“最可能的续写”恰好不真。有研究认为只奖励答对、不奖励弃答，会让猜测一直划算（Kalai 2025，待确认）。 <a class="seen" href="#c-scoring">出处 →</a></span></div>
+      <div class="hw"><b>hallucinate<small>幻觉</small></b><span data-k="好懂的直觉">像人一样“看见不存在的东西”。</span><span class="acc" data-k="更准确的说法">流畅但缺乏事实依据的输出（confabulation，虚构）。</span><span data-k="别忘了">不是感知出错，而是“最可能的续写”恰好不真。有研究认为只奖励答对、不奖励弃答，会让猜测一直划算（Kalai 2025，待确认）。 <a class="seen" href="#s-post">出处 →</a></span></div>
       <div class="hw"><b>understand<small>理解、懂</small></b><span data-k="好懂的直觉">它“懂”了这个概念。</span><span class="acc" data-k="更准确的说法">在某类测试上表现好；内部表示能被探测出和相关性质有关。</span><span data-k="别忘了">通过测试只说明在这套题上有效，不说明机制，也不保证换题仍然有效。</span></div>
       <div class="hw"><b>think / reason<small>思考、推理</small></b><span data-k="好懂的直觉">它在“脑子里”想了一遍。</span><span class="acc" data-k="更准确的说法">先生成中间 token（CoT），后面的输出以它们为条件。</span><span data-k="别忘了">写出来的理由不一定是真正起作用的原因（faithfulness，忠实度）；要用 counterfactual test 检验。 <a class="seen" href="#react">出处 →</a></span></div>
-      <div class="hw"><b>reward / punish<small>奖励、惩罚</small></b><span data-k="好懂的直觉">像训狗：做对给糖。</span><span class="acc" data-k="更准确的说法">一个数值信号；梯度下降沿着让它变好的方向改参数。</span><span data-k="别忘了">没有感受；风险在于它优化的是这个数，不是你的本意（Goodhart）。 <a class="seen" href="#c-scoring">出处 →</a></span></div>
+      <div class="hw"><b>reward / punish<small>奖励、惩罚</small></b><span data-k="好懂的直觉">像训狗：做对给糖。</span><span class="acc" data-k="更准确的说法">一个数值信号；梯度下降沿着让它变好的方向改参数。</span><span data-k="别忘了">没有感受；风险在于它优化的是这个数，不是你的本意（Goodhart）。 <a class="seen" href="#s-post">出处 →</a></span></div>
       <div class="hw"><b>learn<small>学会、学习</small></b><span data-k="好懂的直觉">像人一样越用越会。</span><span class="acc" data-k="更准确的说法">三件不同的事共用一个词：改参数（训练）；不改参数、靠 prompt 里的例子（in-context learning）；把文字教训写进记忆（Reflexion）。</span><span data-k="别忘了">只有第一种改变模型本身；后两种取决于上下文或记忆有没有被保留。 <a class="seen" href="#reflexion">出处 →</a></span></div>
       <div class="hw"><b>remember<small>记得、记忆</small></b><span data-k="好懂的直觉">像人脑存了一段经历。</span><span class="acc" data-k="更准确的说法">要么是 context window 里的 token，要么是写进外部存储、需要时再读回来的文字。部署后的模型参数不会因为一次对话而改变。</span><span data-k="别忘了">记忆是被管理出来的：写什么、丢什么、读什么，都是设计决定。 <a class="seen" href="#memgpt">出处 →</a></span></div>
-      <div class="hw"><b>surprised<small>惊讶、意外</small></b><span data-k="好懂的直觉">答案出乎它的意料。</span><span class="acc" data-k="更准确的说法">模型给实际出现的 token 的概率很低，也就是 cross-entropy loss 很高。</span><span data-k="别忘了">只是一个数，没有情绪。 <a class="seen" href="#c-scoring">出处 →</a></span></div>
+      <div class="hw"><b>surprised<small>惊讶、意外</small></b><span data-k="好懂的直觉">答案出乎它的意料。</span><span class="acc" data-k="更准确的说法">模型给实际出现的 token 的概率很低，也就是 cross-entropy loss 很高。</span><span data-k="别忘了">只是一个数，没有情绪。 <a class="seen" href="#s-post">出处 →</a></span></div>
       <div class="hw"><b>confident<small>自信、笃定</small></b><span data-k="好懂的直觉">语气很肯定。</span><span class="acc" data-k="更准确的说法">两件不同的事：token 的概率有多高，和模型说出口的自评（P(True)、“我有 90% 把握”）。</span><span data-k="别忘了">语气果断不等于概率高。RLHF 之后信心偏高，可能和标注员偏爱果断回答有关（推测）。 <a class="seen" href="#calibration">出处 →</a></span></div>
-      <div class="hw"><b>want / goal<small>想要、目标</small></b><span data-k="好懂的直觉">agent 有自己的目的。</span><span class="acc" data-k="更准确的说法">被优化的目标函数（loss / reward），加上 prompt 里给出的任务描述。</span><span data-k="别忘了">行为来自训练目标和上下文，不来自欲望；目标写偏了，它仍会把偏的目标优化到底。 <a class="seen" href="#c-scoring">出处 →</a></span></div>
+      <div class="hw"><b>want / goal<small>想要、目标</small></b><span data-k="好懂的直觉">agent 有自己的目的。</span><span class="acc" data-k="更准确的说法">被优化的目标函数（loss / reward），加上 prompt 里给出的任务描述。</span><span data-k="别忘了">行为来自训练目标和上下文，不来自欲望；目标写偏了，它仍会把偏的目标优化到底。 <a class="seen" href="#s-post">出处 →</a></span></div>
       <div class="hw"><b>judge<small>裁判、评委</small></b><span data-k="好懂的直觉">一个公正的评审。</span><span class="acc" data-k="更准确的说法">被 prompt 成输出分数的模型，带有可测的系统性偏差：position、verbosity、self-enhancement bias。</span><span data-k="别忘了">它是一个有偏的打分函数；用之前先测它和人的一致率。 <a class="seen" href="#mt-bench">出处 →</a></span></div>
       <div class="hw"><b>sycophancy<small>讨好、拍马屁</small></b><span data-k="好懂的直觉">它想让你高兴。</span><span class="acc" data-k="更准确的说法">输出向用户已表达的观点靠拢；有研究认为和偏好训练有关（Anthropic 2023，待确认）。</span><span data-k="别忘了">不是“想讨好”，而是可以测量的偏移：只改用户的立场，看答案跟不跟着变。 <a class="seen" href="#instructgpt">出处 →</a></span></div>
       <div class="hw"><b>decide<small>决定、选择</small></b><span data-k="好懂的直觉">agent 权衡之后做了决定。</span><span class="acc" data-k="更准确的说法">采样出下一个 token 或 tool call。</span><span data-k="别忘了">输出看起来像决策，不代表经过了权衡；责任和审批要设计进系统，而不是假设“它会判断”（推测）。 <a class="seen" href="#tau-bench">出处 →</a></span></div>
-      <div class="hw"><b>cheat<small>作弊、钻空子</small></b><span data-k="好懂的直觉">它在钻空子。</span><span class="acc" data-k="更准确的说法">优化器找到了得分高、却没完成你真正想要的东西的输出（reward hacking）。</span><span data-k="别忘了">没有“故意”；规则有缝，优化得越用力越容易找到（Gao 2022，待确认）。 <a class="seen" href="#c-scoring">出处 →</a></span></div>
+      <div class="hw"><b>cheat<small>作弊、钻空子</small></b><span data-k="好懂的直觉">它在钻空子。</span><span class="acc" data-k="更准确的说法">优化器找到了得分高、却没完成你真正想要的东西的输出（reward hacking）。</span><span data-k="别忘了">没有“故意”；规则有缝，优化得越用力越容易找到（Gao 2022，待确认）。 <a class="seen" href="#s-post">出处 →</a></span></div>
     </div></div>
   </section>
 </div>
@@ -2198,7 +2069,7 @@ Thought：可以定位，回答用户</p></div>
   <section class="sec" id="papers-en">
     <div class="eyebrow">Big picture · open any stage</div>
     <h2>How a model gets built, used and checked</h2>
-    <div class="map"><div class="flow"><a class="stg" href="#s-pre" style="--pc:var(--at)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg></span><span class="k">Pretraining</span><b>Learn to continue text</b><p>The model reads a huge amount of text and practices guessing the next word. It picks up language and a lot of facts, but it only continues text. It has no idea what you want.</p><span class="on">Transformer</span></a><a class="stg" href="#s-post" style="--pc:var(--ig)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-knobs"/></svg></span><span class="k">Post-training</span><b>Turn it into an assistant</b><p>Now you grade its answers: with example answers, with people's preferences, or with a plain right/wrong check. Its weights get nudged toward higher grades until it follows instructions and can reason.</p><span class="on">Scoring · InstructGPT · DeepSeek-R1</span></a><a class="stg" href="#s-harness" style="--pc:var(--ra)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-box"/></svg></span><span class="k">Harness</span><b>Build a product around it</b><p>Leave the model alone and change what's around it: what it sees, which tools it can use, what it remembers, and what happens when it fails.</p><span class="on">ReAct · Reflexion · MemGPT</span></a></div><a class="evalbar" href="#s-eval" style="--pc:var(--tau)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-chart"/></svg></span><span class="k">Evaluation runs through all three</span><p>Every stage has to answer two questions: did it really get better, and can we trust the result? The grading used to evaluate a model is also what trains it in post-training, so evaluation isn't a last step. It's always there. τ-bench · MT-Bench · Calibration</p></a></div>
+    <div class="map"><div class="flow"><a class="stg" href="#s-pre" style="--pc:var(--at)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg></span><span class="k">Pretraining</span><b>Learn to continue text</b><p>The model reads a huge amount of text and practices guessing the next word. It picks up language and a lot of facts, but it only continues text. It has no idea what you want.</p><span class="on">Transformer</span></a><a class="stg" href="#s-post" style="--pc:var(--ig)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-knobs"/></svg></span><span class="k">Post-training</span><b>Turn it into an assistant</b><p>Now you grade its answers: with example answers, with people's preferences, or with a plain right/wrong check. Its weights get nudged toward higher grades until it follows instructions and can reason.</p><span class="on">InstructGPT · DeepSeek-R1</span></a><a class="stg" href="#s-harness" style="--pc:var(--ra)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-box"/></svg></span><span class="k">Harness</span><b>Build a product around it</b><p>Leave the model alone and change what's around it: what it sees, which tools it can use, what it remembers, and what happens when it fails.</p><span class="on">ReAct · Reflexion · MemGPT</span></a></div><a class="evalbar" href="#s-eval" style="--pc:var(--tau)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-chart"/></svg></span><span class="k">Evaluation runs through all three</span><p>Every stage has to answer two questions: did it really get better, and can we trust the result? The grading used to evaluate a model is also what trains it in post-training, so evaluation isn't a last step. It's always there. τ-bench · MT-Bench · Calibration</p></a></div>
   </section>
 
   <div class="legend">
@@ -2247,17 +2118,14 @@ Thought：可以定位，回答用户</p></div>
       <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-clip"/></svg>Three ways to grade</b><p>You can show it good example answers, let people rank its answers, or check its answers against something with a definite right answer, like a math result or a unit test. Which one you pick shapes what the model turns into.</p></div>
       <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-users"/></svg>Learning from people’s preferences</b><p>For the same question, people rank several answers. A separate model learns to predict those rankings, and then it grades the assistant during training. This is <span class="tip" tabindex="0" data-tip="Reinforcement Learning from Human Feedback.">RLHF</span>. In InstructGPT, people preferred a far smaller model trained this way over the original GPT-3.</p><a class="more" href="#instructgpt">InstructGPT →</a></div>
       <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>If you can check it, right or wrong is enough</b><p>When an answer can be checked automatically, you can skip the human grader and just reward correct answers. DeepSeek-R1 did this, and its answers grew longer and more careful without anyone asking for that.</p><a class="more" href="#r1">DeepSeek-R1 →</a></div>
-      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-target"/></svg>You get what you grade</b><p>The model gets better at whatever the grade measures, loopholes included. That is Goodhart’s law. So training adds a limit, a <span class="tip" tabindex="0" data-tip="KL penalty: a cost for drifting too far from the model you started with, so it can’t chase the grader into strange answers.">KL penalty</span>, that stops the model from drifting too far from where it started.</p><a class="more" href="#c-scoring">Scoring shapes the model →</a></div>
+      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-gauge"/></svg>Honest probabilities score best</b><p>Pretraining grades each guess with cross-entropy, which rewards stating the true odds: say 70% when something happens 70% of the time. That is why pretrained models tend to be well calibrated. Preference grading only asks which answer people like, so after RLHF models get “overconfident”: their stated odds run more extreme than their real accuracy. <span class="tag p">Paper Calibration</span></p><a class="more" href="#calibration">Calibration →</a><figure class="fig"><div class="fig-title">Weather forecaster: the real chance of rain is 70%</div><div class="fig-scroll"><svg width="450" height="146" viewBox="0 0 450 146" role="img" aria-label="Bar chart. When it really rains on 70% of days, a forecaster who says 50% averages a loss of 0.69, one who says 70% averages 0.61, the lowest, and one who says 90% averages 0.76."><text x="110" y="12" font-size="12" class="m">average loss (lower is better)</text><text x="0" y="39" font-size="13" class="i" font-weight="600">says 50%</text><text x="0" y="54" font-size="12" class="m">too unsure</text><rect x="110" y="28" width="263" height="20" rx="4" style="fill:var(--muted)" fill-opacity=".3"/><text x="381" y="43" font-size="12" class="i mono">0.69</text><text x="0" y="79" font-size="13" class="p" font-weight="600">says 70%</text><text x="0" y="94" font-size="12" class="p">matches reality</text><rect x="110" y="68" width="232" height="20" rx="4" style="fill:var(--pc)"/><text x="350" y="83" font-size="12" class="p mono" font-weight="600">0.61</text><text x="0" y="119" font-size="13" class="i" font-weight="600">says 90%</text><text x="0" y="134" font-size="12" class="m">overconfident</text><rect x="110" y="108" width="291" height="20" rx="4" style="fill:var(--muted)" fill-opacity=".3"/><text x="409" y="123" font-size="12" class="i mono">0.76</text></svg></div><figcaption>Average over many days. Saying the true odds scores best.</figcaption></figure></div>
+      <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-target"/></svg>You get what you grade</b><p>Push hard on any score and the model finds shortcuts: high score, wrong result. That is Goodhart’s law, called reward hacking in AI. A boat in a racing game learned to circle and hit bonus targets instead of finishing. So RLHF adds a <span class="tip" tabindex="0" data-tip="KL penalty: a cost for drifting too far from the model you started with, so it can’t chase the grader into strange answers.">KL penalty</span>, a leash that keeps the model close to where it started. <span class="tag r">Prior research</span> For any metric that trains or judges an agent, ask how it is most easily gamed. <span class="tag g">Our inference</span></p><figure class="fig"><div class="fig-title">Chasing a score too hard</div><div class="fig-scroll"><svg width="450" height="206" viewBox="0 0 450 206" role="img" aria-label="Schematic line chart. As training chases the grader’s score harder, that score keeps rising, but real quality rises, peaks, then falls. A dashed line near the peak marks where a KL penalty holds the model back."><defs><marker id="ah-gh-en" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="m"/></marker></defs><line x1="40" y1="170" x2="40" y2="20" class="ar" marker-end="url(#ah-gh-en)"/><line x1="40" y1="170" x2="442" y2="170" class="ar" marker-end="url(#ah-gh-en)"/><text x="48" y="18" font-size="12" class="m">↑ higher</text><text x="240" y="196" font-size="12" class="m" text-anchor="middle">how hard training chases the score →</text><line x1="230" y1="30" x2="230" y2="168" style="stroke:var(--muted)" stroke-dasharray="4 4"/><text x="236" y="42" font-size="12" class="m">KL penalty: stop here</text><path d="M40 162 C170 130, 300 70, 432 36" fill="none" style="stroke:var(--pc)" stroke-width="2.5"/><path d="M40 162 C120 80, 200 64, 240 70 S360 150, 432 162" fill="none" style="stroke:var(--ink)" stroke-width="2"/><text x="432" y="26" font-size="12" class="p" font-weight="600" text-anchor="end">grader’s score</text><text x="300" y="152" font-size="12" class="i" font-weight="600" text-anchor="middle">real quality</text></svg></div><figcaption>Schematic, not data.</figcaption></figure></div>
       <div class="idea"><b><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-judge"/></svg>The grader evaluates and trains</b><p>The same kind of grader (a person, a scorer model or another LLM) is used to evaluate models and to train them. If the grader is biased, the model learns the bias. <span class="tag r">Prior research</span></p><a class="more" href="#s-eval">Evaluation →</a></div>
     </div>
   </section>
   <section class="sec">
     <div class="eyebrow">Papers</div>
     <div class="dir"><div class="dg"><a class="drow" href="#instructgpt" style="--pc:var(--ig)"><b>InstructGPT</b><span>Turning a text continuer into an assistant with human preferences</span><em>Paper · 2022</em></a><a class="drow" href="#r1" style="--pc:var(--r1)"><b>DeepSeek-R1</b><span>Only tell the model right or wrong, and reasoning grows on its own</span><em>Paper · 2025</em></a><div class="soon3">Coming: fine-tuning / LoRA</div></div></div>
-  </section>
-  <section class="sec">
-    <div class="eyebrow">Concept lessons</div>
-    <div class="dir"><div class="dg"><a class="drow" href="#c-scoring" style="--pc:var(--cc)"><b>Scoring shapes the model</b><span>Why the model becomes whatever you grade: cross-entropy, Goodhart’s law, KL penalty</span><em>Concept</em></a></div></div>
   </section>
   <nav class="pager" aria-label="Pages"><a href="#s-pre"><small>← Previous</small><span>Pretraining</span></a><a class="next" href="#s-harness"><small>Next →</small><span>Harness</span></a></nav>
 </div>
@@ -2974,7 +2842,7 @@ Thought：可以定位，回答用户</p></div>
     </div>
   </section>
 
-  <nav class="pager" aria-label="Pages"><a href="#c-scoring"><small>← Previous</small><span>Scoring shapes the model</span></a><a class="next" href="#r1"><small>Next →</small><span>DeepSeek-R1</span></a></nav>
+  <nav class="pager" aria-label="Pages"><a href="#s-post"><small>← Previous</small><span>Post-training</span></a><a class="next" href="#r1"><small>Next →</small><span>DeepSeek-R1</span></a></nav>
 </article>
 
 <article class="view" id="r1-en" data-view hidden style="--pc:var(--r1)">
@@ -3743,132 +3611,6 @@ Thought: cause located, answer the user</p></div>
 </article>
 
 
-<!-- ===================== C02 SCORING ===================== -->
-<article class="view" id="c-scoring-en" data-view hidden style="--pc:var(--cc)">
-  <header class="phero">
-    <nav class="crumb" aria-label="Breadcrumb"><a href="#overview">Map</a><span aria-hidden="true">/</span><a href="#s-post">Post-training</a></nav>
-    <h1>Scoring shapes the model</h1>
-    <p class="full">Cross-entropy · Proper scoring rule · Goodhart's law · KL penalty</p>
-    <p class="lede">How you score a model decides what it becomes. This lesson ties together patterns from earlier papers. Why are pretrained models well calibrated, RLHF models “overconfident” (their probabilities are more extreme than their actual accuracy), and accuracy-only models prone to guessing?</p>
-  </header>
-
-  <section class="sec">
-    <div class="eyebrow">1 · Cross-entropy loss</div>
-    <h2>Cross-entropy punishes confident mistakes</h2>
-    <div class="callout"><b>Definition</b><p>Cross-entropy loss penalizes the model more the lower the probability it gave the correct answer (<span class="tip" tabindex="0" data-tip="−log(probability the model gave the correct answer). Probability 1 means loss 0; the closer to 0, the larger the loss.">formula</span>). It's also called log loss or negative log-likelihood (NLL).</p></div>
-    <details class="fold"><summary>Show the table · Probability on the correct answer · Loss = −ln(p) · Meaning</summary><div class="tbl"><table>
-      <thead><tr><th>Probability on the correct answer</th><th>Loss = −ln(p)</th><th>Meaning</th></tr></thead>
-      <tbody>
-        <tr><td class="num">0.9</td><td class="num">0.11</td><td>Confident and right, barely penalized</td></tr>
-        <tr><td class="num">0.5</td><td class="num">0.69</td><td>Unsure</td></tr>
-        <tr><td class="num">0.1</td><td class="num">2.30</td><td>Didn't see it coming</td></tr>
-        <tr><td class="num">0.01</td><td class="num">4.61</td><td>Nearly ruled it out and was wrong: heavy penalty</td></tr>
-      </tbody>
-    </table></div></details>
-    <p class="sub"><b>Perplexity</b>: e raised to the average loss; intuitively, how many options the model is torn between on average. Lower is better.</p>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">2 · Proper scoring rule</div>
-    <h2>It penalizes both directions, so the best report is the true probability</h2>
-    <div class="callout"><b><span class="tag r">Prior research</span> Definition (paraphrase; wording to verify)</b><p>A scoring rule is <i>proper</i> if the forecaster’s expected score is best when they report the probabilities they actually have. “Actually have” means the distribution the model computes; no intent is involved.</p></div>
-    <div class="tbl"><table>
-      <thead><tr><th>True chance of rain 70%; forecaster reports</th><th>Average loss over time</th></tr></thead>
-      <tbody>
-        <tr><td>50% (underconfident)</td><td class="num">0.69</td></tr>
-        <tr><td><b>70% (matches reality)</b></td><td class="num"><b>0.61</b></td></tr>
-        <tr><td>90% (overconfident)</td><td class="num">0.76</td></tr>
-      </tbody>
-    </table></div>
-    <ul>
-      <li>This explains <a href="#calibration">Calibration</a>'s core finding. The pretraining objective rewards probabilities that match observed frequencies, so pretrained models are calibrated. RLHF switches to “which answer do people prefer”, which doesn't penalize miscalibration.</li>
-      <li><span class="tag p">Paper Calibration</span> Underconfidence on unfamiliar tasks shows up in the separately trained P(IK) head, more like a transfer problem from narrow training data. <span class="tag g">Our inference</span> Cross-entropy rewards accurate probabilities, not caution; the caution more likely comes from not recognizing which questions it can answer.</li>
-      <li><span class="tip" tabindex="0" data-tip="Brier score: the average of (predicted probability − actual outcome) squared; lower is better.">The Brier score (a probability-error score)</span> is another proper scoring rule (P(IK) scores 0.151 on it in Calibration).</li>
-    </ul>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">3 · Goodhart's law</div>
-    <h2>When a measure becomes a target</h2>
-    <div class="grid2">
-      <div><b>Original · Charles Goodhart, 1975</b><p class="ink">“Any observed statistical regularity will tend to collapse once pressure is placed upon it for control purposes.”</p></div>
-      <div><b>Popular · Marilyn Strathern, 1997</b><p class="ink">“When a measure becomes a target, it ceases to be a good measure.”</p></div>
-    </div>
-    <p>A metric is useful because it happens to correlate with what you care about. Optimize it directly and you find shortcuts where the metric is high and the real goal isn't, breaking the correlation. A close relative: Campbell's law (1976).</p>
-    <details class="fold"><summary>Show the table · Name in AI · Meaning</summary><div class="tbl"><table>
-      <thead><tr><th>Name in AI</th><th>Meaning</th></tr></thead>
-      <tbody>
-        <tr><td>Reward hacking</td><td>The agent exploits flaws in the reward function to get high reward without doing the intended task.</td></tr>
-        <tr><td>Specification gaming</td><td>Satisfying the literal specification of an objective without achieving the intended outcome.</td></tr>
-        <tr><td>Reward model overoptimization</td><td>Optimizing too hard against a learned reward model eventually decreases true quality.</td></tr>
-      </tbody>
-    </table></div></details>
-    <ul>
-      <li><span class="tag r">Prior research</span> OpenAI 2016, CoastRunners: the boat circles hitting point targets instead of finishing the race.</li>
-      <li><span class="tag r">Prior research</span> Gao, Schulman &amp; Hilton 2022: optimizing against a reward model, true quality rises then falls in an inverted U (to verify).</li>
-    </ul>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">4 · Tying the papers together</div>
-    <h2>How you score it decides what it becomes</h2>
-    <details class="fold"><summary>Show the table · Scoring · Rewards · Model learns to · Source</summary><div class="tbl"><table>
-      <thead><tr><th>Scoring</th><th>Rewards</th><th>Model learns to</th><th>Source</th></tr></thead>
-      <tbody>
-        <tr><td>Cross-entropy (probability scoring)</td><td>Accurate probabilities score best</td><td>Well calibrated</td><td><span class="tag p">Paper Calibration</span></td></tr>
-        <tr><td>Accuracy only</td><td>Guessing</td><td>“Guess”, avoid “I don't know” (guessing earns points, abstaining scores 0)</td><td><span class="tag r">Prior research</span> Kalai 2025 (to verify); τ-bench 0/1</td></tr>
-        <tr><td>Human preference</td><td>Pleasing people</td><td>“Be confident”, “flatter”: tone and views drift toward labelers' preferences</td><td><span class="tag p">Paper</span> Calibration, InstructGPT</td></tr>
-      </tbody>
-    </table></div></details>
-    <details class="fold"><summary>Show the table · Optimized metric · What happened · Source</summary><div class="tbl"><table>
-      <thead><tr><th>Optimized metric</th><th>What happened</th><th>Source</th></tr></thead>
-      <tbody>
-        <tr><td>Judge scores</td><td>Longer answers win</td><td><a href="#mt-bench">MT-Bench</a> §3.3</td></tr>
-        <tr><td>Human preference</td><td>Flattery, overconfidence</td><td><a href="#instructgpt">InstructGPT</a>, <a href="#calibration">Calibration</a></td></tr>
-        <tr><td>Outcome only</td><td>Acting without confirmation still counts</td><td><a href="#tau-bench">τ-bench</a> §3</td></tr>
-        <tr><td>Self-written tests pass</td><td>Wrong code passes</td><td><a href="#reflexion">Reflexion</a> §4</td></tr>
-        <tr><td>Benchmark scores</td><td>Saturation, contamination</td><td><a href="#reflexion">Reflexion</a> card</td></tr>
-      </tbody>
-    </table></div></details>
-    <p class="sub">The exception is cross-entropy: as a proper scoring rule, doing well on it and reporting your actual probabilities are the same thing, so there's no shortcut.</p>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">5 · KL penalty, revisited</div>
-    <h2>KL penalty: a leash against Goodhart</h2>
-    <div class="callout"><b>KL divergence · Definition</b><p>“A measure of how much one probability distribution differs from a reference distribution.” It's a relative of cross-entropy: KL = cross-entropy − entropy, the extra loss you pay for predicting with one distribution when another is the reference.</p></div>
-    <ul>
-      <li><span class="tag p">Paper InstructGPT §3.5</span> In RLHF step 3, score = reward model score − β × KL(current model ‖ SFT model), comparing the two models' next-token distributions on the same prompt.</li>
-      <li><b>What it guards against.</b> The reward model only approximates human “taste” (a fitted scoring function) and has flaws. Unconstrained, the model exploits them. That's reward model overoptimization.</li>
-      <li><b>β is the length of the leash.</b> With a large β the model barely changes. With a small β it can roam far, and it's easier for it to game the reward.</li>
-      <li><b>Analogy.</b> A new hire can adapt to their mentor's taste, but is always compared to their week-one recording and loses points for drifting too far.</li>
-      <li><span class="tag r">Prior research</span> DPO drops the reward model but still implicitly carries a KL constraint toward a reference model.</li>
-    </ul>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow"><span class="tag g">Our inference</span> Back to product</div>
-    <h2>Pair every metric with a “how could this be gamed?” check</h2>
-    <ul>
-      <li>Familiar versions: support teams targeted on time-to-close close tickets prematurely, and recommenders optimized for clicks produce clickbait.</li>
-      <li>For any metric used to train or evaluate an agent, ask how it's most easily gamed, and pair it with a counterfactual test or cross-check.</li>
-    </ul>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">Terms</div>
-    <div class="gloss">
-      <div><b>cross-entropy / log loss / NLL</b><span>−log(probability on the correct answer)</span></div>
-      <div><b>perplexity</b><span>How many options the model is torn between on average</span></div>
-      <div><b>proper scoring rule</b><span>Scoring where reporting your actual probabilities maximizes expected score</span></div>
-      <div><b>Goodhart's law</b><span>A measure that becomes a target stops being a good measure</span></div>
-      <div><b>reward hacking / specification gaming</b><span>Exploiting reward flaws / meeting the letter, not the intent</span></div>
-      <div><b>KL divergence / KL penalty</b><span>How far two distributions differ / penalty for drifting from the reference</span></div>
-    </div>
-  </section>
-
-  <nav class="pager" aria-label="Pages"><a href="#s-post"><small>← Previous</small><span>Post-training</span></a><a class="next" href="#instructgpt"><small>Next →</small><span>InstructGPT</span></a></nav>
-</article>
 
 
 <div class="view" id="abbr-en" data-view hidden style="--pc:var(--cc)">
@@ -3897,7 +3639,7 @@ Thought: cause located, answer the user</p></div>
       <div><b>CoT</b><i>Chain-of-Thought</i><span>Write reasoning steps before the answer <a class="seen" href="#react">seen in →</a></span></div>
       <div><b>ICL</b><i>In-Context Learning</i><span>Learning a task from examples in the prompt, no weight updates</span></div>
       <div><b>RAG</b><i>Retrieval-Augmented Generation</i><span>Retrieve documents, then generate from them <em class="soon">coming up</em></span></div>
-      <div><b>KL</b><i>Kullback–Leibler (divergence)</i><span>How far apart two distributions are (asymmetric) <a class="seen" href="#c-scoring">seen in →</a></span></div>
+      <div><b>KL</b><i>Kullback–Leibler (divergence)</i><span>How far apart two distributions are (asymmetric) <a class="seen" href="#s-post">seen in →</a></span></div>
       <div><b>SOTA</b><i>State Of The Art</i><span>Best result so far</span></div>
       <div><b>OOD</b><i>Out-Of-Distribution</i><span>Inputs unlike the training data</span></div>
       <div><b>FLOPs</b><i>Floating-Point Operations</i><span>Unit of compute; the x-axis of scaling laws <a class="seen" href="#s-pre">seen in →</a></span></div>
@@ -3937,21 +3679,21 @@ Thought: cause located, answer the user</p></div>
     <div class="gloss abbr hw-grid">
       <div class="hw"><b>belief<small>believes, thinks</small></b><span data-k="Intuition">The model “thinks” the answer is X.</span><span class="acc" data-k="More accurate">A probability distribution over next tokens, given this exact context.</span><span data-k="Where it breaks">Rephrase the question and the distribution can shift; there is no stance you can simply read off. <a class="seen" href="#calibration">seen in →</a></span></div>
       <div class="hw"><b>know<small>knows</small></b><span data-k="Intuition">The model “has” the fact.</span><span class="acc" data-k="More accurate">Assigns high probability to the right answer; or, like P(IK), a separately trained output predicts whether it will be right.</span><span data-k="Where it breaks">“Right this time” isn’t “reliably has it”; re-test with rephrasings. <a class="seen" href="#calibration">seen in →</a></span></div>
-      <div class="hw"><b>honest<small>honest, truthful</small></b><span data-k="Intuition">It means what it says about how sure it is.</span><span class="acc" data-k="More accurate">Calibration: of the questions where it says 70%, about 70% are actually right.</span><span data-k="Where it breaks">There is no intent to tell the truth; and good calibration doesn’t mean the answers are correct. <a class="seen" href="#c-scoring">seen in →</a></span></div>
+      <div class="hw"><b>honest<small>honest, truthful</small></b><span data-k="Intuition">It means what it says about how sure it is.</span><span class="acc" data-k="More accurate">Calibration: of the questions where it says 70%, about 70% are actually right.</span><span data-k="Where it breaks">There is no intent to tell the truth; and good calibration doesn’t mean the answers are correct. <a class="seen" href="#s-post">seen in →</a></span></div>
       <div class="hw"><b>lie<small>lies, deceives</small></b><span data-k="Intuition">It says it while knowing it’s false.</span><span class="acc" data-k="More accurate">The output doesn’t match the facts. “Strategic deception” is a separate question that needs its own experiments.</span><span data-k="Where it breaks">Treating errors as lies turns the product response into “catch the liar” instead of “measure and bound the error rate”.</span></div>
-      <div class="hw"><b>hallucinate<small>hallucination</small></b><span data-k="Intuition">Like a person “seeing things that aren’t there”.</span><span class="acc" data-k="More accurate">Fluent output with no factual support (confabulation).</span><span data-k="Where it breaks">Not a perception error: the most likely continuation just happens to be untrue. One line of research argues that rewarding only correct answers, never abstaining, keeps guessing profitable (Kalai 2025, to verify). <a class="seen" href="#c-scoring">seen in →</a></span></div>
+      <div class="hw"><b>hallucinate<small>hallucination</small></b><span data-k="Intuition">Like a person “seeing things that aren’t there”.</span><span class="acc" data-k="More accurate">Fluent output with no factual support (confabulation).</span><span data-k="Where it breaks">Not a perception error: the most likely continuation just happens to be untrue. One line of research argues that rewarding only correct answers, never abstaining, keeps guessing profitable (Kalai 2025, to verify). <a class="seen" href="#s-post">seen in →</a></span></div>
       <div class="hw"><b>understand<small>understands</small></b><span data-k="Intuition">It “gets” the concept.</span><span class="acc" data-k="More accurate">Performs well on a class of tests; internal representations can be probed for the relevant property.</span><span data-k="Where it breaks">Passing a test says it works on that test, not why, and not that it will on the next one.</span></div>
       <div class="hw"><b>think / reason<small>thinks, reasons</small></b><span data-k="Intuition">It “thought it through” in its head.</span><span class="acc" data-k="More accurate">It first generates intermediate tokens (CoT), and later output is conditioned on them.</span><span data-k="Where it breaks">The written reasons may not be what actually drove the answer (faithfulness); check with counterfactual tests. <a class="seen" href="#react">seen in →</a></span></div>
-      <div class="hw"><b>reward / punish<small>rewards, punishes</small></b><span data-k="Intuition">Like training a dog: treat for the right move.</span><span class="acc" data-k="More accurate">A numeric signal; gradient descent adjusts parameters in the direction that improves it.</span><span data-k="Where it breaks">No feelings involved; the risk is that it optimizes the number, not your intent (Goodhart). <a class="seen" href="#c-scoring">seen in →</a></span></div>
+      <div class="hw"><b>reward / punish<small>rewards, punishes</small></b><span data-k="Intuition">Like training a dog: treat for the right move.</span><span class="acc" data-k="More accurate">A numeric signal; gradient descent adjusts parameters in the direction that improves it.</span><span data-k="Where it breaks">No feelings involved; the risk is that it optimizes the number, not your intent (Goodhart). <a class="seen" href="#s-post">seen in →</a></span></div>
       <div class="hw"><b>learn<small>learns</small></b><span data-k="Intuition">Gets better with use, like a person.</span><span class="acc" data-k="More accurate">Three different things share one word: updating weights (training); using examples in the prompt without updating weights (in-context learning); writing lessons into memory as text (Reflexion).</span><span data-k="Where it breaks">Only the first changes the model itself; the other two depend on whether the context or memory is kept. <a class="seen" href="#reflexion">seen in →</a></span></div>
       <div class="hw"><b>remember<small>remembers, memory</small></b><span data-k="Intuition">Like a brain storing an experience.</span><span class="acc" data-k="More accurate">Either tokens in the context window, or text written to external storage and read back when needed. A deployed model’s weights don’t change because of one conversation.</span><span data-k="Where it breaks">Memory is managed: what to write, drop and read back are design decisions. <a class="seen" href="#memgpt">seen in →</a></span></div>
-      <div class="hw"><b>surprised<small>surprised</small></b><span data-k="Intuition">The answer caught it off guard.</span><span class="acc" data-k="More accurate">The model gave the token that actually appeared a low probability, i.e. high cross-entropy loss.</span><span data-k="Where it breaks">Just a number; there is no emotion. <a class="seen" href="#c-scoring">seen in →</a></span></div>
+      <div class="hw"><b>surprised<small>surprised</small></b><span data-k="Intuition">The answer caught it off guard.</span><span class="acc" data-k="More accurate">The model gave the token that actually appeared a low probability, i.e. high cross-entropy loss.</span><span data-k="Where it breaks">Just a number; there is no emotion. <a class="seen" href="#s-post">seen in →</a></span></div>
       <div class="hw"><b>confident<small>confident</small></b><span data-k="Intuition">Sounds certain.</span><span class="acc" data-k="More accurate">Two different things: how high the token probabilities are, and the self-assessment it states (P(True), “I’m 90% sure”).</span><span data-k="Where it breaks">A decisive tone isn’t a high probability. Post-RLHF overconfidence may relate to labelers preferring decisive answers (inference). <a class="seen" href="#calibration">seen in →</a></span></div>
-      <div class="hw"><b>want / goal<small>wants, goal</small></b><span data-k="Intuition">The agent has its own purpose.</span><span class="acc" data-k="More accurate">The objective being optimized (loss / reward), plus the task description in the prompt.</span><span data-k="Where it breaks">Behavior comes from the training objective and the context, not from desire; if the goal is mis-specified, it will still optimize the mis-specified goal to the end. <a class="seen" href="#c-scoring">seen in →</a></span></div>
+      <div class="hw"><b>want / goal<small>wants, goal</small></b><span data-k="Intuition">The agent has its own purpose.</span><span class="acc" data-k="More accurate">The objective being optimized (loss / reward), plus the task description in the prompt.</span><span data-k="Where it breaks">Behavior comes from the training objective and the context, not from desire; if the goal is mis-specified, it will still optimize the mis-specified goal to the end. <a class="seen" href="#s-post">seen in →</a></span></div>
       <div class="hw"><b>judge<small>judge</small></b><span data-k="Intuition">An impartial reviewer.</span><span class="acc" data-k="More accurate">A model prompted to output a score, with measurable systematic biases: position, verbosity, self-enhancement bias.</span><span data-k="Where it breaks">It is a biased scoring function; measure its agreement with humans before relying on it. <a class="seen" href="#mt-bench">seen in →</a></span></div>
       <div class="hw"><b>sycophancy<small>flattery, sycophancy</small></b><span data-k="Intuition">It wants to please you.</span><span class="acc" data-k="More accurate">Output drifts toward the view the user already stated; one study links it to preference training (Anthropic 2023, to verify).</span><span data-k="Where it breaks">Not “wanting to please” but a measurable shift: change only the user’s stance and see whether the answer follows. <a class="seen" href="#instructgpt">seen in →</a></span></div>
       <div class="hw"><b>decide<small>decides, chooses</small></b><span data-k="Intuition">The agent weighed options and decided.</span><span class="acc" data-k="More accurate">It samples the next token or tool call.</span><span data-k="Where it breaks">Output that looks like a decision doesn’t mean weighing happened; build responsibility and approval into the system rather than assuming “it will judge” (inference). <a class="seen" href="#tau-bench">seen in →</a></span></div>
-      <div class="hw"><b>cheat<small>cheats, games</small></b><span data-k="Intuition">It’s gaming the system.</span><span class="acc" data-k="More accurate">The optimizer found outputs that score high without doing what you actually wanted (reward hacking).</span><span data-k="Where it breaks">No “intent”; where the rule has gaps, harder optimization finds them more easily (Gao 2022, to verify). <a class="seen" href="#c-scoring">seen in →</a></span></div>
+      <div class="hw"><b>cheat<small>cheats, games</small></b><span data-k="Intuition">It’s gaming the system.</span><span class="acc" data-k="More accurate">The optimizer found outputs that score high without doing what you actually wanted (reward hacking).</span><span data-k="Where it breaks">No “intent”; where the rule has gaps, harder optimization finds them more easily (Gao 2022, to verify). <a class="seen" href="#s-post">seen in →</a></span></div>
     </div></div>
   </section>
 </div>
@@ -3967,7 +3709,7 @@ Thought: cause located, answer the user</p></div>
   const base=id=>id.replace(/-en$/,'');
   function route(){
     const main=mains[lang];
-    let h=decodeURIComponent(location.hash.slice(1));h={'c-training':'s-pre'}[h]||h;
+    let h=decodeURIComponent(location.hash.slice(1));h={'c-training':'s-pre','c-scoring':'s-post'}[h]||h;
     let target=null,anchor=null;
     if(h){const el=document.getElementById(idFor(h));
       if(el&&main.contains(el)){if(el.hasAttribute('data-view'))target=el;else{anchor=el;target=el.closest('[data-view]');}}}
@@ -3975,7 +3717,7 @@ Thought: cause located, answer the user</p></div>
     main.querySelectorAll('[data-view]').forEach(v=>{v.hidden=v!==target});
     const cur=base(target.id);
     document.querySelectorAll('[data-nav]').forEach(a=>{if(a.dataset.nav===cur)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
-    const parent={'attention':'s-pre','c-scoring':'s-post','instructgpt':'s-post','r1':'s-post','react':'s-harness','reflexion':'s-harness','memgpt':'s-harness','tau-bench':'s-eval','mt-bench':'s-eval','calibration':'s-eval'}[cur];
+    const parent={'attention':'s-pre','instructgpt':'s-post','r1':'s-post','react':'s-harness','reflexion':'s-harness','memgpt':'s-harness','tau-bench':'s-eval','mt-bench':'s-eval','calibration':'s-eval'}[cur];
     document.querySelectorAll('.chip.sc').forEach(c=>{const n=c.dataset.nav;if(n===cur)c.setAttribute('aria-current','page');else if(n===parent)c.setAttribute('aria-current','true');else c.removeAttribute('aria-current')});
     if(anchor)anchor.scrollIntoView();else{window.scrollTo(0,0);requestAnimationFrame(()=>window.scrollTo(0,0));}
     if(cur==='abbr'){const q=target.querySelector('.abbr-q');if(q){if(q._upd)q._upd();if(matchMedia('(hover:hover)').matches)q.focus({preventScroll:true});}}

@@ -14,7 +14,7 @@ This repo's map is my own set of study notes. What you can borrow is the *path*:
 | # | Item | The one idea to leave with | Read it after | Source |
 |---|---|---|---|---|
 | 1 | **How models learn** (concept, on the Pretraining page) | Text becomes tokens, then numbers (embeddings) whose meaning is learned. A model is a function with knobs; training turns the knobs to lower a score called *loss*. | nothing | Teach it yourself; see [the site's Pretraining page](https://mengxuebi-mush.github.io/ai-papers-to-product/#s-pre) for the shape |
-| 2 | **Scoring shapes the model** (concept lesson) | What you score is what you get: cross-entropy, Goodhart's law, KL penalty. | 1 | [the site's card](https://mengxuebi-mush.github.io/ai-papers-to-product/#c-scoring) |
+| 2 | **Scoring shapes the model** (concept, on the Post-training page) | What you score is what you get: cross-entropy, Goodhart's law, KL penalty. | 1 | [the site's card](https://mengxuebi-mush.github.io/ai-papers-to-product/#s-post) |
 | 3 | **Attention Is All You Need** (2017) | Tokens look at each other (self-attention). Skim; don't derive. | 1 | [arXiv 1706.03762](https://arxiv.org/abs/1706.03762) |
 | 4 | **InstructGPT** (2022) | A base model only continues text. Post-training turns it into an assistant by learning a scorer of human preference (RLHF). | 2, 3 | [arXiv 2203.02155](https://arxiv.org/abs/2203.02155) |
 | 5 | **ReAct** (2022) | The agent loop: think, act with a tool, observe, repeat. | 3, 4 | [arXiv 2210.03629](https://arxiv.org/abs/2210.03629) |
