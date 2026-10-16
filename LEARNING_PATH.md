@@ -20,7 +20,8 @@ This repo's map is my own set of study notes. What you can borrow is the *path*:
 | 5 | **ReAct** (2022) | The agent loop: think, act with a tool, observe, repeat. | 3, 4 | [arXiv 2210.03629](https://arxiv.org/abs/2210.03629) |
 | 6 | **Reflexion** (2023) | Learn from failure without changing the model: write lessons into memory. | 5 | [arXiv 2303.11366](https://arxiv.org/abs/2303.11366) |
 | 7 | **MemGPT** (2023) | The context window is finite, so memory has to be managed like an operating system does. | 3, 5 | [arXiv 2310.08560](https://arxiv.org/abs/2310.08560) |
-| 7b | **Managing context** (concept, linked from the Harness page) | Everything the model knows this turn sits in one fixed-size window. Rules files, retrieval, memory, tools, skills and subagents are ways to choose what goes in. | 5, 7 | [the site's page](https://mengxuebi-mush.github.io/ai-papers-to-product/#c-context) |
+| 7a | **Lost in the Middle** (2023) | Fitting in the window is not the same as being used. Put the answer in the middle of a long input and accuracy drops, sometimes below giving no documents at all. | 3, 7 | [arXiv 2307.03172](https://arxiv.org/abs/2307.03172) |
+| 7b | **Managing context** (concept, linked from the Harness page) | Everything the model knows this turn sits in one fixed-size window. Rules files, retrieval, memory, tools, skills and subagents are ways to choose what goes in. | 5, 7, 7a | [the site's page](https://mengxuebi-mush.github.io/ai-papers-to-product/#c-context) |
 | 8 | **τ-bench** (2024) | Succeeding once is not reliable. Measure whether it succeeds every time (pass^k). | 5 | [arXiv 2406.12045](https://arxiv.org/abs/2406.12045) |
 | 9 | **MT-Bench / LLM-as-a-judge** (2023) | Using a model to grade models works, and has measurable biases. | 4 | [arXiv 2306.05685](https://arxiv.org/abs/2306.05685) |
 | 10 | **Language Models (Mostly) Know What They Know** (2022) | Does stated confidence match how often the answer is right? RLHF can break that match. | 2, 4 | [arXiv 2207.05221](https://arxiv.org/abs/2207.05221) |
@@ -28,7 +29,7 @@ This repo's map is my own set of study notes. What you can borrow is the *path*:
 
 **Why this order, in one example.** Goodhart's law (item 2) has to land before InstructGPT (item 4), because only then can you see *why* learning from a human-preference scorer can go wrong. The "Read it after" column is the dependency list. If a step feels hard, the missing piece is almost always in that column.
 
-**Not covered yet:** full paper pages for RAG, Lost in the Middle, Generative Agents and Voyager (summarized on the Managing context page), prompt injection, fine-tuning vs in-context learning. These are planned. Human–agent teaming (HCI) is planned as a separate repo.
+**Not covered yet:** full paper pages for RAG, Generative Agents and Voyager (summarized on the Managing context page), prompt injection, fine-tuning vs in-context learning. These are planned. Human–agent teaming (HCI) is planned as a separate repo.
 
 Full citations and authors: [README](README.md#paper-index).
 

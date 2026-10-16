@@ -36,6 +36,7 @@ All credit for the research belongs to the original authors. The cards are perso
 | [ReAct](https://mengxuebi-mush.github.io/ai-papers-to-product/#react) | [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629) | Yao, Zhao, Yu, Du, Shafran, Narasimhan, Cao | ICLR 2023 |
 | [Reflexion](https://mengxuebi-mush.github.io/ai-papers-to-product/#reflexion) | [Reflexion: Language Agents with Verbal Reinforcement Learning](https://arxiv.org/abs/2303.11366) | Shinn, Cassano, Berman, Gopinath, Narasimhan, Yao | NeurIPS 2023 |
 | [MemGPT](https://mengxuebi-mush.github.io/ai-papers-to-product/#memgpt) | [MemGPT: Towards LLMs as Operating Systems](https://arxiv.org/abs/2310.08560) | Packer, Wooders, Lin, Fang, Patil, Stoica, Gonzalez | arXiv 2023 |
+| [Lost in the Middle](https://mengxuebi-mush.github.io/ai-papers-to-product/#lost-middle) | [Lost in the Middle: How Language Models Use Long Contexts](https://arxiv.org/abs/2307.03172) | Liu, Lin, Hewitt, Paranjape, Bevilacqua, Petroni, Liang | TACL 2024 |
 
 ### 评估与信任 · Evaluation & trust
 
