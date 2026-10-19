@@ -10,6 +10,18 @@ A bilingual (中文 / English) study map built from foundational ML and LLM pape
 
 Built while preparing for NeurIPS 2026 (Atlanta) workshops on agent evaluation, continual learning for enterprise agents, human–agent teaming, and LLM-as-a-judge.
 
+## Tracks
+
+One site, several learning tracks, switched from the strip at the top of every page.
+
+| Track | Page | Status |
+|---|---|---|
+| LLMs & agents | [`index.html`](index.html) · [LEARNING_PATH.md](LEARNING_PATH.md) | ongoing |
+| Image models | [`images/`](images/) | in progress on branch `track/image-models` |
+| Human–agent teaming | `hci/` | planned |
+
+The paper index below covers the LLM track; each other track keeps its own README and learning path in its folder.
+
 ---
 
 ## Paper index
@@ -79,4 +91,4 @@ Context engineering, subagents and memory layers · RAG and prompt injection · 
 
 By **Mushroom** ([@mengxuebi-mush](https://github.com/mengxuebi-mush)), product designer working on enterprise AI agent experiences. Written in collaboration with Claude. Not affiliated with any of the authors or their institutions; any errors in the summaries are mine.
 
-Single self-contained `index.html`, no build step.
+No build step. Each track is one self-contained page in its own folder (the LLM track is `index.html` at the root). Tracks share no styles or scripts except [`tracks.js`](tracks.js), the switcher, which changes only when a track is added or launched. So work on one track never touches another track's files, and branches for different tracks merge without conflicts.
