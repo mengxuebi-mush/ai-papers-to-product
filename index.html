@@ -16,7 +16,7 @@
   --soft:#efece5;--blue:#e4eaf0;--blue-ink:#2c4256;--amber:#f3e5c6;--amber-ink:#5b4520;--coral:#f4dfd6;--coral-ink:#7a3a22;
   --proved:#3f6650;--proved-bg:#e3ece4;--guess:#7a5a12;--docs:#4f3f73;--docs-bg:#ebe7f4;--guess-bg:#f4e9cf;
   --bar:#9a7442;--track:#e4e1d9;--link:#35587a;
-  --at:#5f6b3a;--tau:#3f7a5f;--mt:#3d6f93;--ig:#8a5a2b;--rf:#6b4f8a;--mg:#8a4b5c;--ra:#4d5f8c;--cb:#2f6e78;--cc:#6a6253;--lm:#7a6516;--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--r1:#a8432f;
+  --at:#5f6b3a;--tau:#3f7a5f;--mt:#3d6f93;--ig:#8a5a2b;--rf:#6b4f8a;--mg:#8a4b5c;--ra:#4d5f8c;--cb:#2f6e78;--cc:#6a6253;--lm:#7a6516;--he:#9b3d72;--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--r1:#a8432f;
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
   --z-sticky:10;--z-tooltip:300;
@@ -27,14 +27,14 @@
   --soft:#202124;--blue:#1d242b;--blue-ink:#b4c8da;--amber:#352d20;--amber-ink:#ecd6a6;--coral:#36251f;--coral-ink:#efbba3;
   --proved:#a9cdb2;--proved-bg:#1f2a23;--guess:#e6cd92;--docs:#cdc2ea;--docs-bg:#26222f;--guess-bg:#332c1e;
   --bar:#c9a06a;--track:#2a2b2e;--link:#9db9d3;
-  --at:#c2cf93;--tau:#93cbad;--mt:#8fc0e4;--ig:#e6b98a;--rf:#c7b1e6;--mg:#e3a9b8;--ra:#a9b8e6;--cb:#8fd0d8;--cc:#cfc6b2;--lm:#dcc77e;--s1:#3987e5;--s2:#d95926;--s3:#199e70;--r1:#ec9d86;color-scheme:dark}}
+  --at:#c2cf93;--tau:#93cbad;--mt:#8fc0e4;--ig:#e6b98a;--rf:#c7b1e6;--mg:#e3a9b8;--ra:#a9b8e6;--cb:#8fd0d8;--cc:#cfc6b2;--lm:#dcc77e;--he:#e9a7cb;--s1:#3987e5;--s2:#d95926;--s3:#199e70;--r1:#ec9d86;color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#121314;--card:#1a1b1d;--ink:#e8e6e1;--muted:#a19f9a;--line:#2c2d30;
   --forest:#232427;--on-forest:#ece9e3;--lime:#d9b07a;
   --soft:#202124;--blue:#1d242b;--blue-ink:#b4c8da;--amber:#352d20;--amber-ink:#ecd6a6;--coral:#36251f;--coral-ink:#efbba3;
   --proved:#a9cdb2;--proved-bg:#1f2a23;--guess:#e6cd92;--docs:#cdc2ea;--docs-bg:#26222f;--guess-bg:#332c1e;
   --bar:#c9a06a;--track:#2a2b2e;--link:#9db9d3;
-  --at:#c2cf93;--tau:#93cbad;--mt:#8fc0e4;--ig:#e6b98a;--rf:#c7b1e6;--mg:#e3a9b8;--ra:#a9b8e6;--cb:#8fd0d8;--cc:#cfc6b2;--lm:#dcc77e;--s1:#3987e5;--s2:#d95926;--s3:#199e70;--r1:#ec9d86;color-scheme:dark}
+  --at:#c2cf93;--tau:#93cbad;--mt:#8fc0e4;--ig:#e6b98a;--rf:#c7b1e6;--mg:#e3a9b8;--ra:#a9b8e6;--cb:#8fd0d8;--cc:#cfc6b2;--lm:#dcc77e;--he:#e9a7cb;--s1:#3987e5;--s2:#d95926;--s3:#199e70;--r1:#ec9d86;color-scheme:dark}
 
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -515,7 +515,7 @@ details.ws .q{margin-top:10px}
   <section class="sec" id="papers">
     <div class="eyebrow">大图 · 点进每一段</div>
     <h2>一个模型怎么做出来、用起来、被检查</h2>
-    <div class="map"><div class="flow"><a class="stg" href="#s-pre" style="--pc:var(--at)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg></span><span class="k">Pretraining · 预训练</span><b>学会接话</b><p>模型读海量文字，反复练习猜下一个词。练着练着，它学会了语言，也记住了很多事实。但它只会接着往下写，并不知道你想要什么。</p><span class="on">Transformer</span></a><a class="stg" href="#s-post" style="--pc:var(--ig)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-knobs"/></svg></span><span class="k">Post-training · 后训练</span><b>调教成助手</b><p>这一步给它的回答打分：给示范答案、让人挑更喜欢的，或者直接判对错。参数往高分的方向调，直到它听得懂指令、会推理。</p><span class="on">InstructGPT · DeepSeek-R1</span></a><a class="stg" href="#s-harness" style="--pc:var(--ra)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-box"/></svg></span><span class="k">Harness · 外壳</span><b>围着它做成产品</b><p>模型本身不动，改它周围的东西：它能看到什么、能用哪些工具、记住什么、失败了怎么办。</p><span class="on">ReAct · Reflexion · MemGPT · Lost in the Middle</span></a></div><a class="evalbar" href="#s-eval" style="--pc:var(--tau)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-chart"/></svg></span><span class="k">Evaluation · 评估，贯穿三段</span><p>每一段都要回答两个问题：真的变好了吗？结果能信吗？评估用的打分，也是后训练里训练模型的信号，所以评估不是最后一步，它一直都在。τ-bench · MT-Bench · Calibration</p></a></div>
+    <div class="map"><div class="flow"><a class="stg" href="#s-pre" style="--pc:var(--at)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg></span><span class="k">Pretraining · 预训练</span><b>学会接话</b><p>模型读海量文字，反复练习猜下一个词。练着练着，它学会了语言，也记住了很多事实。但它只会接着往下写，并不知道你想要什么。</p><span class="on">Transformer</span></a><a class="stg" href="#s-post" style="--pc:var(--ig)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-knobs"/></svg></span><span class="k">Post-training · 后训练</span><b>调教成助手</b><p>这一步给它的回答打分：给示范答案、让人挑更喜欢的，或者直接判对错。参数往高分的方向调，直到它听得懂指令、会推理。</p><span class="on">InstructGPT · DeepSeek-R1</span></a><a class="stg" href="#s-harness" style="--pc:var(--ra)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-box"/></svg></span><span class="k">Harness · 外壳</span><b>围着它做成产品</b><p>模型本身不动，改它周围的东西：它能看到什么、能用哪些工具、记住什么、失败了怎么办。</p><span class="on">ReAct · Reflexion · MemGPT · Lost in the Middle · Self-Evolving Harness</span></a></div><a class="evalbar" href="#s-eval" style="--pc:var(--tau)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-chart"/></svg></span><span class="k">Evaluation · 评估，贯穿三段</span><p>每一段都要回答两个问题：真的变好了吗？结果能信吗？评估用的打分，也是后训练里训练模型的信号，所以评估不是最后一步，它一直都在。τ-bench · MT-Bench · Calibration</p></a></div>
   </section>
 
   <div class="legend">
@@ -594,7 +594,7 @@ details.ws .q{margin-top:10px}
   </section>
   <section class="sec">
     <div class="eyebrow">论文</div>
-    <div class="dir"><div class="dg"><a class="drow" href="#react" style="--pc:var(--ra)"><b>ReAct</b><span>想、做、看结果：agent 循环的起点</span><em>论文 · 2022</em></a><a class="drow" href="#reflexion" style="--pc:var(--rf)"><b>Reflexion</b><span>不改参数，靠错题本变好</span><em>论文 · 2023</em></a><a class="drow" href="#memgpt" style="--pc:var(--mg)"><b>MemGPT</b><span>context 不够时，agent 怎么管理记忆</span><em>论文 · 2023</em></a><a class="drow" href="#lost-middle" style="--pc:var(--lm)"><b>Lost in the Middle</b><span>放进 context 的信息，放在中间最容易用不上</span><em>论文 · 2023</em></a><div class="soon3">之后会加入：<span class="tip" tabindex="0" data-tip="RAG：Retrieval-Augmented Generation">RAG</span> · Generative Agents · Voyager · prompt injection</div></div></div>
+    <div class="dir"><div class="dg"><a class="drow" href="#react" style="--pc:var(--ra)"><b>ReAct</b><span>想、做、看结果：agent 循环的起点</span><em>论文 · 2022</em></a><a class="drow" href="#reflexion" style="--pc:var(--rf)"><b>Reflexion</b><span>不改参数，靠错题本变好</span><em>论文 · 2023</em></a><a class="drow" href="#memgpt" style="--pc:var(--mg)"><b>MemGPT</b><span>context 不够时，agent 怎么管理记忆</span><em>论文 · 2023</em></a><a class="drow" href="#lost-middle" style="--pc:var(--lm)"><b>Lost in the Middle</b><span>放进 context 的信息，放在中间最容易用不上</span><em>论文 · 2023</em></a><a class="drow" href="#harness-evo" style="--pc:var(--he)"><b>Self-Evolving Agent Harness</b><span>agent 改自己的 harness：能改什么、怎么验证、会出什么事</span><em>论文 · 2026</em></a><div class="soon3">之后会加入：<span class="tip" tabindex="0" data-tip="RAG：Retrieval-Augmented Generation">RAG</span> · Generative Agents · Voyager · prompt injection</div></div></div>
   </section>
   <section class="sec" id="learning">
     <div class="eyebrow">概念 · 对应 CLEA workshop</div>
@@ -602,7 +602,7 @@ details.ws .q{margin-top:10px}
     <div class="where">
       <div class="tint" style="--pc:var(--ig)"><span class="k">改参数</span><b>比如 fine-tuning</b><p>效果能留住，但贵、慢，还可能学了新的忘了旧的。它学到了什么，人也看不见。</p></div>
       <div class="tint" style="--pc:var(--rf)"><span class="k">改 context 或记忆</span><b>错题本、外部记忆</b><p>把为什么错、下次怎么做写下来，重试时放进 prompt。便宜，人也读得懂，但地方有限。</p></div>
-      <div class="plain"><span class="k">改 harness</span><b>prompt、工具、流程</b><p><span class="tag p">原文 CLEA 征稿</span> 征稿里把这叫 “harness-level continual improvement”。</p></div>
+      <div class="tint" style="--pc:var(--he)"><span class="k">改 harness</span><b><a href="#harness-evo">prompt、工具、代码</a></b><p><span class="tag p">原文 Self-Evolving Agent Harness</span> agent 自己提出修改，只有在新任务上证明有用的才留下，改动以后一直生效。<span class="tag p">原文 CLEA 征稿</span> 征稿里把这叫 “harness-level continual improvement”。</p></div>
     </div>
   </section>
   <nav class="pager" aria-label="翻页"><a href="#s-post"><small>← 上一篇</small><span>后训练</span></a><a class="next" href="#s-eval"><small>下一篇 →</small><span>评估</span></a></nav>
@@ -1944,9 +1944,200 @@ details.ws .q{margin-top:10px}
     </div>
   </section>
 
-  <nav class="pager" aria-label="翻页"><a href="#memgpt"><small>← 上一篇</small><span>MemGPT</span></a><a class="next" href="#s-eval"><small>下一篇 →</small><span>评估</span></a></nav>
+  <nav class="pager" aria-label="翻页"><a href="#memgpt"><small>← 上一篇</small><span>MemGPT</span></a><a class="next" href="#harness-evo"><small>下一篇 →</small><span>Self-Evolving Agent Harness</span></a></nav>
 </article>
 
+
+<!-- ===================== SELF-EVOLVING AGENT HARNESS ===================== -->
+<article class="view" id="harness-evo" data-view hidden style="--pc:var(--he)">
+  <header class="phero">
+    <nav class="crumb" aria-label="路径"><a href="#overview">地图</a><span aria-hidden="true">/</span><a href="#s-harness">Harness</a></nav>
+    <h1>Self-Evolving Agent Harness</h1>
+    <p class="full">Self-evolving Agent Harness · Wei, Guan, Zhu, Zhou, He, Zhou, Chen, Shen · 中关村学院、中国科学技术大学 · 2026</p>
+    <p class="lede">如果 agent 能改自己的 harness，而且改动一直留下来，会怎样？这是一篇概念和理论论文，没有自己做实验。这页只取它的概念，顺着几个问题往下读；论文里的定理和进化算法对照，只保留白话结论。</p>
+    <div class="links"><a href="https://arxiv.org/abs/2610.18813" target="_blank" rel="noreferrer">arXiv 2610.18813 ↗</a><a href="https://github.com/zgcagi/Harness-RSI" target="_blank" rel="noreferrer">代码和补充材料 ↗</a><a href="https://openreview.net/pdf?id=m5jsFGXUM2" target="_blank" rel="noreferrer">66 页的配套报告 ↗</a></div>
+  </header>
+
+  <section class="sec">
+    <div class="eyebrow">这篇在哪个位置</div>
+    <h2>从改一张便条，到改整个外壳</h2>
+    <p>在 <a href="#reflexion">Reflexion</a> 里，agent 失败后写一张便条，下次先读它。模型没变，变的只是便条。在 <a href="#c-context">管理 context</a> 那页，我们看到模型周围的软件决定每一轮放什么进 window。</p>
+    <p>这篇往前走一步：<b>如果 agent 能改的不只是便条，而是它周围的整套软件，并且改动在以后每次运行都留着呢？</b>论文把这叫 <b>harness self-evolution</b>。它要回答三件事：能改什么、怎么判断改好了、改多了会出什么事。</p>
+    <div class="where">
+      <div class="tint" style="--pc:var(--rf)"><span class="k">改一张便条</span><b><a href="#reflexion">Reflexion</a></b><p>失败后写下教训，下次先读</p></div>
+      <div class="tint" style="--pc:var(--he)"><span class="k">改整个外壳 · 本篇</span><b>Self-Evolving Agent Harness</b><p>指令、记忆、工具、运行代码都能改，改动一直留下</p></div>
+      <div class="plain"><span class="k">它要守住的</span><b><a href="#s-eval">评估</a></b><p>改动要在没见过的任务上证明有用</p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">第 1 问 · harness 的定义 §2</div>
+    <h2>除了模型本身，harness 到底包括什么？</h2>
+    <p>论文的定义：harness 是控制一个固定模型在任务环境里怎么运行的全部软件和配置。模型学到的参数属于模型，其余都属于 harness。那 harness 具体在做哪些事？</p>
+    <div class="ans">
+      <p>论文的表 1 列了七件事。右列是我们拿 Claude Code 举的例子。<span class="tag g">推测</span></p>
+      <div class="tbl"><table>
+        <thead><tr><th>论文的叫法</th><th>做什么</th><th>Claude Code 里的例子</th></tr></thead>
+        <tbody>
+          <tr><td>agent loop and execution control</td><td>决定继续、停下、取消、出错后恢复</td><td>一轮接一轮做到任务完成；你打断就停</td></tr>
+          <tr><td>tool and skill orchestration</td><td>提供能调用的工具和 skill，并把调用分派过去</td><td>Bash、改文件、skill、<span class="tip" tabindex="0" data-tip="MCP：Model Context Protocol">MCP</span> 服务</td></tr>
+          <tr><td>context construction</td><td>拼好每一次给模型的输入</td><td>载入 CLAUDE.md、工具说明、对话</td></tr>
+          <tr><td>memory and state management</td><td>跨调用、跨会话保存信息</td><td>记在文件里、下次对话还在的笔记</td></tr>
+          <tr><td>context compaction</td><td>让输入不超过 window 的上限</td><td>window 快满时把旧对话压成摘要</td></tr>
+          <tr><td>scheduling and coordination</td><td>把工作分给多个循环</td><td>subagent、后台任务</td></tr>
+          <tr><td>execution infrastructure</td><td>划边界、留记录</td><td>沙箱、权限确认、日志</td></tr>
+        </tbody>
+      </table></div>
+      <p>所以 harness self-evolution 的意思是：<b>权重冻结不动，改的是这张表里的东西。</b></p>
+      <div class="callout"><b>和本站“三个地方学习”的分法不一样</b><p>Harness 页把“改 context 或记忆”和“改 harness”分成两格。这篇论文把指令、记忆也算进 harness，叫 <b>interpreted state</b>（第 3 问）。两种分法都说得通：我们按“改的是文字还是软件”分，论文按“是不是模型以外的东西”分。</p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">第 2 问 · 什么算“进化” §2</div>
+    <h2>什么才算 harness 在“进化”？</h2>
+    <p>看四个例子：(a) window 快满时，自动把旧对话压成摘要；(b) 每次运行都往日志文件里追加一条记录；(c) 失败后，agent 往 CLAUDE.md 写一条新规则，下次会话载入；(d) agent 写了一个小脚本，存成工具，以后的任务接着用。哪些算？</p>
+    <div class="ans">
+      <p>论文定了两个条件，缺一个都不算：</p>
+      <ul>
+        <li><b>从自己的运行里学，而且能一直学下去。</b>改动来自 agent 自己干活得到的反馈，改完以后，继续改的能力还在。</li>
+        <li><b>跨运行保留。</b>接受的改动会存下来，下次运行时载入，一次经历能影响以后。</li>
+      </ul>
+      <div class="tbl"><table>
+        <thead><tr><th>例子</th><th>算不算</th><th>为什么</th></tr></thead>
+        <tbody>
+          <tr><td>(a) 自动压缩旧对话</td><td>不算</td><td>每次跑同一条固定规则，什么也没学到。论文原话：按固定规则压缩 context 不算修改 harness</td></tr>
+          <tr><td>(b) 追加日志</td><td>不算</td><td>存下来了，但以后的行为没变。记录不等于修改</td></tr>
+          <tr><td>(c) 往 CLAUDE.md 写新规则</td><td>算</td><td>来自一次失败，下次会话会载入</td></tr>
+          <tr><td>(d) 脚本存成工具</td><td>算</td><td>学会了一个可复用的流程，并且留着</td></tr>
+        </tbody>
+      </table></div>
+      <p>如果 agent 学会了<b>换一种方式</b>压缩，比如改了压缩的触发条件，那就算。论文管这叫改 memory policy。</p>
+      <figure class="fig"><div class="fig-title">一轮 update：提出改动，只有通过检查的才留下</div><div class="fig-scroll"><svg width="472" height="190" viewBox="0 0 472 190" role="img" aria-label="循环示意图。当前在用的 harness（incumbent）跑一批任务，得到 rollouts 和反馈。update 包括 diagnosis、proposal、assessment、admission 四步。通过 admission 的改动成为新的 incumbent，没通过就保留原来的。上方的 final assessment J 给每个 rollout 打分，它在 editable surface 之外，agent 改不了。"><defs><marker id="ah-he-zh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="m"/></marker></defs><rect x="96" y="1" width="280" height="44" rx="10" fill="none" style="stroke:var(--muted)" stroke-dasharray="4 3" stroke-width="1.5"/><text x="236" y="20" font-size="12" class="i" font-weight="600" text-anchor="middle">final assessment J</text><text x="236" y="36" font-size="11" class="m" text-anchor="middle">给每个 rollout 打分 · agent 改不了</text><line x1="236" y1="46" x2="236" y2="61" class="ar" marker-end="url(#ah-he-zh)"/><rect x="1" y="64" width="140" height="72" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="71" y="92" font-size="13" class="i" font-weight="600" text-anchor="middle">incumbent</text><text x="71" y="114" font-size="12" class="m" text-anchor="middle">当前在用的 harness</text><line x1="143" y1="100" x2="162" y2="100" class="ar" marker-end="url(#ah-he-zh)"/><rect x="166" y="64" width="140" height="72" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="236" y="92" font-size="13" class="i" font-weight="600" text-anchor="middle">rollouts</text><text x="236" y="114" font-size="12" class="m" text-anchor="middle">跑一批任务和反馈</text><line x1="308" y1="100" x2="327" y2="100" class="ar" marker-end="url(#ah-he-zh)"/><rect x="331" y="64" width="140" height="72" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="401" y="88" font-size="13" class="p" font-weight="600" text-anchor="middle">update</text><text x="401" y="108" font-size="11" class="i" text-anchor="middle">diagnosis · proposal</text><text x="401" y="124" font-size="11" class="i" text-anchor="middle">assessment · admission</text><path d="M401 138 V160 H71 V140" fill="none" class="ar" marker-end="url(#ah-he-zh)"/><text x="236" y="182" font-size="12" class="m" text-anchor="middle">通过 admission：成为新的 incumbent；没通过：保留原来的</text></svg></div></figure>
+      <p>论文还分开了两个词：<b>self-evolution</b> 指修改的过程，<b>self-improvement</b> 指比较前后、真的证明变好了。所以“在进化”不等于“在变好”。这个方向的名字叫 <b>harness <span class="tip" tabindex="0" data-tip="RSI：Recursive Self-Improvement">RSI</span></b>，论文特意说明，用这个名字并不假设每次修改都有帮助。这个差距就是第 4、5 问要讲的。</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">第 3 问 · 能改什么 §3</div>
+    <h2>agent 能改哪些部分？哪种改动最可能波及没改的地方？</h2>
+    <p>同一个 agent 的四种改动：(1) 在指令文件里加一条规则“先查部署日志”；(2) 用现有的工具，换一下步骤顺序；(3) 重写一个工具内部的代码，比如读表格的那个；(4) 重写决定每次输入放什么、什么时候停下的核心代码。</p>
+    <div class="ans">
+      <p>论文先画了一条主线，分成两类：</p>
+      <ul>
+        <li><b>interpreted state</b>：指令、存下的经验、在现有工具之上调整步骤。模型读到它们，再决定怎么用。</li>
+        <li><b>executable revision</b>：改工具真正做什么、改运行时的控制逻辑、改插件组合。改完能产生新的行为。</li>
+      </ul>
+      <p>分类看的是改动的<b>作用</b>，不是用什么语言写的：只是把现有工具重新排序的代码，仍然算 interpreted state。</p>
+      <div class="tbl"><table>
+        <thead><tr><th>改动</th><th>论文的分类</th><th>可能波及什么</th></tr></thead>
+        <tbody>
+          <tr><td>(1) 加一条指令</td><td>interpreted state</td><td>模型读到后自己决定怎么用</td></tr>
+          <tr><td>(2) 换步骤顺序</td><td>interpreted state</td><td>还是那几个工具，只是顺序不同</td></tr>
+          <tr><td>(3) 改一个工具的代码</td><td>executable：component</td><td>接口不变时影响局部；但输出变了、或和别的部分共用状态时，问题会扩散出去</td></tr>
+          <tr><td>(4) 改核心运行代码</td><td>executable：repository-level</td><td>它管着各部分怎么配合，会改变那些没被改的部分收到的输入和前提</td></tr>
+        </tbody>
+      </table></div>
+      <p>论文的图 1 也是这个顺序：从指令和 prompt，到 context、记忆和可复用流程，到工作流，再到可执行组件和运行时。改动越往后，越需要限制改动范围、上线前检查。</p>
+      <p><span class="tag g">推测</span>论文没有比较 (2) 和 (3) 谁更危险，它是按种类分，不是按风险排。可以从两个角度看一次改动：<b>波及多广</b>（每次运行都受影响，还是只在调用那个工具时）和<b>能力多大</b>（只是重排已有的东西，还是能产生新行为）。</p>
+      <p>还有第三种 executable 改动：<b>plugin composition</b>，agent 在运行中造出新能力、装上、以后接着用。论文引了一个办公场景：不同地区的表格语言和内容不同，但计算类似，agent 先造了批量查找和汇总的工具。</p>
+      <div class="tbl"><table>
+        <thead><tr><th>第一个任务</th><th>不造工具</th><th>造工具</th></tr></thead>
+        <tbody>
+          <tr><td>工具调用次数</td><td class="num">13</td><td class="num">3</td></tr>
+          <tr><td>token</td><td class="num">41,119</td><td class="num">47,572（+15.7%）</td></tr>
+          <tr><td>耗时</td><td class="num">15.49 秒</td><td class="num">24.00 秒（+54.9%）</td></tr>
+        </tbody>
+      </table></div>
+      <p>第一次更贵，从第二个任务开始省，五个任务累计省了 110,351 个 token、22.97 秒。造工具是先付钱、后回本。论文自己指出，它引用的两份报告对第一个任务的数字对不上，所以这只是示例，不能当成一条完整的成本曲线。</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">第 4 问 · 怎么判断变好了 §4.2</div>
+    <h2>agent 根据 50 个失败的任务改了一处，怎么确认这次改动真的有用？</h2>
+    <p>三个办法：(a) 把那 50 个任务重跑一遍，看通过的是不是多了；(b) 跑 50 个它从没见过的新任务；(c) 让 agent 自己给改动前后的输出打分。</p>
+    <div class="ans">
+      <p><b>论文要的是 (b)。</b>(a) 最顺手，但正是陷阱：这次改动就是<b>照着</b>那 50 个任务做的。重跑它们，就像学生重考一张已经看过答案的卷子，分数高只能说明记住了。改动可能是通用的“先查部署日志”，也可能是只对这 50 个有效的捷径，比如“文件叫 sales_q3 就去看 F 列”。重跑分不出来，只有没见过的任务能分出来。这又是 <a href="#s-post">Goodhart 定律</a>：对着分数调，分数就不再测你想测的东西。</p>
+      <p><span class="tag r">已有研究</span><a href="https://arxiv.org/abs/2609.24972" target="_blank" rel="noreferrer">RRSI</a>（Xia 等，2026）就测到了这种情况：用来进化 harness 的任务上分数大涨，换到新的基准上，涨幅变小甚至消失。</p>
+      <p>论文给的接受规则，翻成白话是三条：</p>
+      <ul>
+        <li><b>每轮用新抽的任务检验。</b>这些任务不能参与过改动的产生。论文点名指出 Self-Harness 每一轮都复用同一组留出的任务，这样的检验就不再独立：改动是在反复看这组任务的结果之后挑出来的。改动如果是看了检验结果再调的，就要换一批新任务重新检验。</li>
+        <li><b>要赢出一个余量，不是“多过了几个”就行。</b>赢的幅度要大到运气解释不了。同时试的候选越多，余量要越大，因为试得多，总有几个会碰巧看起来不错；检验任务越多，余量越小。<span class="tip" tabindex="0" data-tip="论文式 (8)：接受条件是 Δ̂ + √(2·ln(KT/δ)/m) < 0。Δ̂ 是新旧版本在 m 个新任务上的平均损失差，K 是每轮的候选数，T 是轮数，δ 是允许出错的概率。">公式</span></li>
+        <li><b>最终的打分器碰不得。</b>这就是 (c) 最弱的原因。改动可以改 agent 内部自己的检查，但不能改决定留不留的那个最终打分器 J。论文还提醒：就算 J 被保护起来，也挡不住 <b>specification gaming</b>（钻打分规则的空子）；自动打分器和人真正想要的之间可能有差距，这个差距要靠能执行的检查或独立的人工评估来量。</li>
+      </ul>
+      <p class="sub">这里说的“学会”“适应”都是人的说法。实际发生的是：被接受的改动，是在某一组任务上分数更高的那个，它在别的任务上会怎样，只能靠没参与挑选的任务来测。</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">第 5 问 · 改多了 §4.2、§5</div>
+    <h2>改了 100 次，每次都公平地通过了检验，还会出什么问题？</h2>
+    <p>假设前面的规矩都守了：每次改动都在新任务上、以足够的余量赢过旧版本。</p>
+    <div class="ans">
+      <ul>
+        <li><b>只证明了对“到目前为止”的任务有效。</b>检验通过，只说明在已经见过的那类任务上更好，不保证对以后的任务也好。工作会变，打分器也会变。所以检验永远做不完：要持续用新近的任务检验，打分器一换就要重新校准。</li>
+        <li><b>小损失会累积。</b>每次改动都可能被允许在旧任务上退步一点点，100 次下来，这些额度是加起来的。平均分变好，也可能掩盖某一类任务悄悄变差。</li>
+        <li><b>改动会扩散。</b>在公司里，skill 是共享的。一个团队里没问题的变通办法，会传到权限或数据前提不同的团队。如果大家共用同一个有毛病的流程，就会在同一时间以同一种方式出错，比零散的错误更难发现。</li>
+        <li><b>规则在不知不觉中堆积。</b>临时的变通变成长期规则；一条混进来的恶意指令，会留在以后的每个任务里。用户会搞不清到底改了什么。</li>
+        <li><b>回滚不等于撤销。</b>把软件退回旧版本，只能停住以后的动作，撤不回机器人造成的损伤、错过的治疗时机、被错误拒绝的福利。所以急停、花费上限、权限这些必须放在 agent 能改的范围之外。论文的原则：造出新工具，不能自动获得新权限。</li>
+      </ul>
+      <p><span class="tag g">推测</span>“同类问题每次解法都不一样”论文没有专门讲，但这正是 <a href="#tau-bench">τ-bench</a> 的问题：通过率高，不代表每次都成功。每次改动检验的都是平均表现，叠了 100 次的 harness 仍可能不稳定。</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">第 6 问 · 人在哪里</div>
+    <h2>这个循环里，人在什么位置？</h2>
+    <p>前面的循环看起来全自动：agent 自己跑、自己提改动、自己检验。论文提到人了吗？</p>
+    <div class="ans">
+      <p><b>提到了五次，但都是配角，论文没有研究人。</b></p>
+      <div class="tbl"><table>
+        <thead><tr><th>人出现在哪</th><th>论文怎么说</th></tr></thead>
+        <tbody>
+          <tr><td>反馈的来源之一</td><td>反馈可以来自环境、自动检查器和人；接受改动可能需要人批准</td></tr>
+          <tr><td>打分器的校准</td><td>自动打分器和真实目标的差距，要靠能执行的检查或独立的人工评估来量</td></tr>
+          <tr><td>跟不上改动的用户</td><td>改动越积越多，用户难以追踪；建议改动可审阅、能查到来源</td></tr>
+          <tr><td>高风险领域的批准人</td><td>医疗和公共服务里，重要改动要由有资质的专业人员验证和授权；每个决定要记录用的是哪个规则版本，并能申诉</td></tr>
+          <tr><td>harness 里的权限确认</td><td>表 1 的 execution infrastructure 里有 approvals 一项</td></tr>
+        </tbody>
+      </table></div>
+      <p>这和 <span class="tip" tabindex="0" data-tip="RLHF：Reinforcement Learning from Human Feedback">RLHF</span>（见 <a href="#instructgpt">InstructGPT</a>）不是一回事：RLHF 用人的反馈训练权重，这里权重从头到尾不动。</p>
+      <p><span class="tag g">推测</span>从人机协作的角度看，这是这篇最大的空白。它把人当成一道可有可无的审批关，而不是设计的一部分：反馈怎么收集、一大堆累积的改动怎么让人看得过来、什么时候该停下来问人，都没讲。论文的 66 页配套报告有一节讲治理和人的监督，我们还没读。</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">一句话收尾</div>
+    <h2>权重不动，harness 自己改，但打分器和安全边界不能交给它</h2>
+    <p>权重保持不变；agent 根据自己运行的反馈，提出对 harness 的修改（指令、记忆、工具，甚至运行代码），只有在新任务上以足够的余量赢过旧版本的修改才留下；最终的打分器和安全边界始终在它能改的范围之外。</p>
+  </section>
+
+  <section class="qs">
+    <div class="eyebrow">现场问题</div>
+    <div class="q"><span class="why">人的反馈放在哪</span><div class="en">Your definition lists people as one source of feedback and says admission may require human approval. In practice, how should a self-evolving harness collect human feedback, and when should it stop and ask a person rather than rely on automated assessment?</div><button class="copy" type="button">复制</button></div>
+    <div class="q"><span class="why">新任务从哪来</span><div class="en">Your admission rule needs fresh, independent validation tasks every round. Enterprise agents often see few repeated tasks and incidents are rare. Where should those fresh tasks come from, and what do you recommend when there aren't enough?</div><button class="copy" type="button">复制</button></div>
+    <div class="q"><span class="why">共享 skill 出错了</span><div class="en">You point out that shared skills can spread a faulty procedure across teams. If one team's evolved skill turns out to be wrong after other teams adopted it, what records does a deployment need so the change can be traced, withdrawn, and its effects reviewed?</div><button class="copy" type="button">复制</button></div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">术语</div>
+    <div class="gloss">
+      <div><b>harness</b><span>控制一个固定模型怎么运行的全部软件和配置</span></div>
+      <div><b>harness self-evolution / self-improvement</b><span>修改 harness 的过程 / 比较后证明真的变好了</span></div>
+      <div><b>harness RSI</b><span>这个研究方向的名字；RSI 是 recursive self-improvement</span></div>
+      <div><b>incumbent</b><span>当前在用的 harness 版本</span></div>
+      <div><b>rollout</b><span>一次运行的完整记录：过程、结果和反馈</span></div>
+      <div><b>interpreted state</b><span>模型读到再决定怎么用的东西：指令、经验、步骤安排</span></div>
+      <div><b>executable revision</b><span>改了实际运行的代码：工具、运行时逻辑、插件组合</span></div>
+      <div><b>admission</b><span>决定一次改动能不能留下的那一步</span></div>
+      <div><b>final assessment J</b><span>最终打分器；在 editable surface 之外，agent 改不了</span></div>
+      <div><b>specification gaming</b><span>钻打分规则的空子：分数高了，事没办好</span></div>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="翻页"><a href="#lost-middle"><small>← 上一篇</small><span>Lost in the Middle</span></a><a class="next" href="#s-eval"><small>下一篇 →</small><span>评估</span></a></nav>
+</article>
 <!-- ===================== 07 REACT ===================== -->
 <article class="view" id="react" data-view hidden style="--pc:var(--ra)">
   <header class="phero">
@@ -2263,6 +2454,7 @@ details.ws .q{margin-top:10px}
       <div><b>MoE</b><i>Mixture of Experts</i><span>每次只激活部分“专家”子网络</span></div>
       <div><b>ECE</b><i>Expected Calibration Error</i><span>校准误差：信心和正确率平均差多少 <a class="seen" href="#calibration">出处 →</a></span></div>
       <div><b>MCP</b><i>Model Context Protocol</i><span>agent 连接工具和数据源的通用接口 <a class="seen" href="#c-context">出处 →</a></span></div>
+      <div><b>RSI</b><i>Recursive Self-Improvement</i><span>系统改进自己，改进后的版本再接着改进自己 <a class="seen" href="#harness-evo">出处 →</a></span></div>
       <div><b>HITL</b><i>Human-In-The-Loop</i><span>流程中有人审核或介入</span></div>
       <div><b>HCI</b><i>Human-Computer Interaction</i><span>人机交互研究，人机协作实证研究的主场 <em class="soon">后面会学</em></span></div>
       <div><b>RCA / AIOps</b><i>Root Cause Analysis / AI for IT Operations</i><span>找故障根因 / 用 AI 做 IT 运维 <a class="seen" href="#tau-bench">出处 →</a></span></div>
@@ -2323,7 +2515,7 @@ details.ws .q{margin-top:10px}
   <section class="sec" id="papers-en">
     <div class="eyebrow">Big picture · open any stage</div>
     <h2>How a model gets built, used and checked</h2>
-    <div class="map"><div class="flow"><a class="stg" href="#s-pre" style="--pc:var(--at)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg></span><span class="k">Pretraining</span><b>Learn to continue text</b><p>The model reads a huge amount of text and practices guessing the next word. It picks up language and a lot of facts, but it only continues text. It has no idea what you want.</p><span class="on">Transformer</span></a><a class="stg" href="#s-post" style="--pc:var(--ig)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-knobs"/></svg></span><span class="k">Post-training</span><b>Turn it into an assistant</b><p>Now you grade its answers: with example answers, with people's preferences, or with a plain right/wrong check. Its weights get nudged toward higher grades until it follows instructions and can reason.</p><span class="on">InstructGPT · DeepSeek-R1</span></a><a class="stg" href="#s-harness" style="--pc:var(--ra)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-box"/></svg></span><span class="k">Harness</span><b>Build a product around it</b><p>Leave the model alone and change what's around it: what it sees, which tools it can use, what it remembers, and what happens when it fails.</p><span class="on">ReAct · Reflexion · MemGPT · Lost in the Middle</span></a></div><a class="evalbar" href="#s-eval" style="--pc:var(--tau)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-chart"/></svg></span><span class="k">Evaluation runs through all three</span><p>Every stage has to answer two questions: did it really get better, and can we trust the result? The grading used to evaluate a model is also what trains it in post-training, so evaluation isn't a last step. It's always there. τ-bench · MT-Bench · Calibration</p></a></div>
+    <div class="map"><div class="flow"><a class="stg" href="#s-pre" style="--pc:var(--at)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg></span><span class="k">Pretraining</span><b>Learn to continue text</b><p>The model reads a huge amount of text and practices guessing the next word. It picks up language and a lot of facts, but it only continues text. It has no idea what you want.</p><span class="on">Transformer</span></a><a class="stg" href="#s-post" style="--pc:var(--ig)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-knobs"/></svg></span><span class="k">Post-training</span><b>Turn it into an assistant</b><p>Now you grade its answers: with example answers, with people's preferences, or with a plain right/wrong check. Its weights get nudged toward higher grades until it follows instructions and can reason.</p><span class="on">InstructGPT · DeepSeek-R1</span></a><a class="stg" href="#s-harness" style="--pc:var(--ra)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-box"/></svg></span><span class="k">Harness</span><b>Build a product around it</b><p>Leave the model alone and change what's around it: what it sees, which tools it can use, what it remembers, and what happens when it fails.</p><span class="on">ReAct · Reflexion · MemGPT · Lost in the Middle · Self-Evolving Harness</span></a></div><a class="evalbar" href="#s-eval" style="--pc:var(--tau)"><span class="ico"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-chart"/></svg></span><span class="k">Evaluation runs through all three</span><p>Every stage has to answer two questions: did it really get better, and can we trust the result? The grading used to evaluate a model is also what trains it in post-training, so evaluation isn't a last step. It's always there. τ-bench · MT-Bench · Calibration</p></a></div>
   </section>
 
   <div class="legend">
@@ -2402,7 +2594,7 @@ details.ws .q{margin-top:10px}
   </section>
   <section class="sec">
     <div class="eyebrow">Papers</div>
-    <div class="dir"><div class="dg"><a class="drow" href="#react" style="--pc:var(--ra)"><b>ReAct</b><span>Think, act, look at the result: where the agent loop began</span><em>Paper · 2022</em></a><a class="drow" href="#reflexion" style="--pc:var(--rf)"><b>Reflexion</b><span>Getting better from a mistake notebook, without changing weights</span><em>Paper · 2023</em></a><a class="drow" href="#memgpt" style="--pc:var(--mg)"><b>MemGPT</b><span>How agents manage memory when context runs out</span><em>Paper · 2023</em></a><a class="drow" href="#lost-middle" style="--pc:var(--lm)"><b>Lost in the Middle</b><span>Information in the middle of the context is the easiest to miss</span><em>Paper · 2023</em></a><div class="soon3">Coming: <span class="tip" tabindex="0" data-tip="RAG: Retrieval-Augmented Generation">RAG</span> · Generative Agents · Voyager · prompt injection</div></div></div>
+    <div class="dir"><div class="dg"><a class="drow" href="#react" style="--pc:var(--ra)"><b>ReAct</b><span>Think, act, look at the result: where the agent loop began</span><em>Paper · 2022</em></a><a class="drow" href="#reflexion" style="--pc:var(--rf)"><b>Reflexion</b><span>Getting better from a mistake notebook, without changing weights</span><em>Paper · 2023</em></a><a class="drow" href="#memgpt" style="--pc:var(--mg)"><b>MemGPT</b><span>How agents manage memory when context runs out</span><em>Paper · 2023</em></a><a class="drow" href="#lost-middle" style="--pc:var(--lm)"><b>Lost in the Middle</b><span>Information in the middle of the context is the easiest to miss</span><em>Paper · 2023</em></a><a class="drow" href="#harness-evo" style="--pc:var(--he)"><b>Self-Evolving Agent Harness</b><span>An agent that edits its own harness: what can change, how to check, what goes wrong</span><em>Paper · 2026</em></a><div class="soon3">Coming: <span class="tip" tabindex="0" data-tip="RAG: Retrieval-Augmented Generation">RAG</span> · Generative Agents · Voyager · prompt injection</div></div></div>
   </section>
   <section class="sec" id="learning-en">
     <div class="eyebrow">Concept · CLEA workshop</div>
@@ -2410,7 +2602,7 @@ details.ws .q{margin-top:10px}
     <div class="where">
       <div class="tint" style="--pc:var(--ig)"><span class="k">Change the weights</span><b>Fine-tuning, for example</b><p>It lasts, but it is expensive and slow, and the model can forget older things. You can’t see what it learned.</p></div>
       <div class="tint" style="--pc:var(--rf)"><span class="k">Change the context or memory</span><b>Mistake notebook, external memory</b><p>Write down what went wrong and what to try next, then put that in the prompt on the retry. Cheap and readable, but there is only so much room.</p></div>
-      <div class="plain"><span class="k">Change the harness</span><b>Prompts, tools, workflow</b><p><span class="tag p">Paper CLEA call</span> The workshop call names this “harness-level continual improvement”.</p></div>
+      <div class="tint" style="--pc:var(--he)"><span class="k">Change the harness</span><b><a href="#harness-evo">Prompts, tools, code</a></b><p><span class="tag p">Paper Self-Evolving Agent Harness</span> The agent proposes its own edits and keeps only those proven on fresh tasks; kept edits apply to every later run. <span class="tag p">Paper CLEA call</span> The workshop call names this “harness-level continual improvement”.</p></div>
     </div>
   </section>
   <nav class="pager" aria-label="Pages"><a href="#s-post"><small>← Previous</small><span>Post-training</span></a><a class="next" href="#s-eval"><small>Next →</small><span>Evaluation</span></a></nav>
@@ -3752,7 +3944,198 @@ details.ws .q{margin-top:10px}
     </div>
   </section>
 
-  <nav class="pager" aria-label="Pages"><a href="#memgpt"><small>← Previous</small><span>MemGPT</span></a><a class="next" href="#s-eval"><small>Next →</small><span>Evaluation</span></a></nav>
+  <nav class="pager" aria-label="Pages"><a href="#memgpt"><small>← Previous</small><span>MemGPT</span></a><a class="next" href="#harness-evo"><small>Next →</small><span>Self-Evolving Agent Harness</span></a></nav>
+</article>
+
+<!-- ===================== SELF-EVOLVING AGENT HARNESS (EN) ===================== -->
+<article class="view" id="harness-evo-en" data-view hidden style="--pc:var(--he)">
+  <header class="phero">
+    <nav class="crumb" aria-label="Breadcrumb"><a href="#overview">Map</a><span aria-hidden="true">/</span><a href="#s-harness">Harness</a></nav>
+    <h1>Self-Evolving Agent Harness</h1>
+    <p class="full">Self-evolving Agent Harness · Wei, Guan, Zhu, Zhou, He, Zhou, Chen, Shen · Zhongguancun Academy, University of Science and Technology of China · 2026</p>
+    <p class="lede">What if an agent could rewrite its own harness, and the changes stayed for every later run? This is a concept-and-theory paper with no experiments of its own. This page takes only its concepts and walks through them as questions; the theorems and the mapping to evolutionary algorithms appear only as their plain-language takeaways.</p>
+    <div class="links"><a href="https://arxiv.org/abs/2610.18813" target="_blank" rel="noreferrer">arXiv 2610.18813 ↗</a><a href="https://github.com/zgcagi/Harness-RSI" target="_blank" rel="noreferrer">Code and materials ↗</a><a href="https://openreview.net/pdf?id=m5jsFGXUM2" target="_blank" rel="noreferrer">66-page companion report ↗</a></div>
+  </header>
+
+  <section class="sec">
+    <div class="eyebrow">Where it sits</div>
+    <h2>From editing a note to editing the whole shell</h2>
+    <p>In <a href="#reflexion">Reflexion</a>, an agent that fails writes itself a note and reads it next time. The model doesn't change; only the note does. On the <a href="#c-context">Managing context</a> page, the software around the model decides what goes into the window each turn.</p>
+    <p>This paper goes one step further: <b>what if the agent can change not just a note but all the software around it, and the changes stay for every later run?</b> The paper calls this <b>harness self-evolution</b>. It asks three things: what can change, how to tell a change helped, and what goes wrong as changes pile up.</p>
+    <div class="where">
+      <div class="tint" style="--pc:var(--rf)"><span class="k">Edit a note</span><b><a href="#reflexion">Reflexion</a></b><p>Write down the lesson after a failure, read it next time</p></div>
+      <div class="tint" style="--pc:var(--he)"><span class="k">Edit the whole shell · this paper</span><b>Self-Evolving Agent Harness</b><p>Instructions, memory, tools and runtime code can all change, and the changes stay</p></div>
+      <div class="plain"><span class="k">What it has to answer to</span><b><a href="#s-eval">Evaluation</a></b><p>A change has to prove itself on tasks it hasn't seen</p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Question 1 · What a harness is §2</div>
+    <h2>Apart from the model itself, what does the harness include?</h2>
+    <p>The paper's definition: the harness is all the software and configuration that controls how a fixed model runs in a task environment. The model's learned parameters belong to the model; everything else belongs to the harness. So what jobs does the harness do?</p>
+    <div class="ans">
+      <p>The paper's Table 1 lists seven. The right column is our own Claude Code examples. <span class="tag g">Our inference</span></p>
+      <div class="tbl"><table>
+        <thead><tr><th>Paper's term</th><th>What it does</th><th>In Claude Code</th></tr></thead>
+        <tbody>
+          <tr><td>agent loop and execution control</td><td>Decides when to continue, stop, cancel, or recover</td><td>Takes turn after turn until the task is done; stops when you interrupt</td></tr>
+          <tr><td>tool and skill orchestration</td><td>Exposes callable tools and skills and dispatches calls</td><td>Bash, file edits, skills, <span class="tip" tabindex="0" data-tip="MCP: Model Context Protocol">MCP</span> servers</td></tr>
+          <tr><td>context construction</td><td>Builds each model input</td><td>Loads CLAUDE.md, tool descriptions, the conversation</td></tr>
+          <tr><td>memory and state management</td><td>Keeps information across calls or sessions</td><td>Notes saved in files that are still there next session</td></tr>
+          <tr><td>context compaction</td><td>Keeps the input under the window limit</td><td>Summarizes the old conversation when the window fills</td></tr>
+          <tr><td>scheduling and coordination</td><td>Splits work across loops</td><td>Subagents, background tasks</td></tr>
+          <tr><td>execution infrastructure</td><td>Sets boundaries and keeps records</td><td>Sandbox, permission prompts, logs</td></tr>
+        </tbody>
+      </table></div>
+      <p>So harness self-evolution means: <b>the weights stay frozen, and what changes is what's in this table.</b></p>
+      <div class="callout"><b>Not the same split as this site's “three places to learn”</b><p>The Harness page puts “change context or memory” and “change the harness” in separate boxes. This paper counts instructions and memory as part of the harness and calls them <b>interpreted state</b> (Question 3). Both splits work: ours asks whether you change text or software, the paper asks whether it's outside the model.</p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Question 2 · What counts as evolving §2</div>
+    <h2>What counts as a harness “evolving”?</h2>
+    <p>Four examples: (a) when the window fills, the old conversation is summarized automatically; (b) every run appends a record to a log file; (c) after a failure, the agent writes a new rule into CLAUDE.md that loads next session; (d) the agent writes a small script, keeps it as a tool, and uses it on later tasks. Which count?</p>
+    <div class="ans">
+      <p>The paper sets two requirements, and both have to hold:</p>
+      <ul>
+        <li><b>It learns from its own runs, and can keep learning.</b> The change comes from feedback on the agent's own work, and the ability to make further changes stays on.</li>
+        <li><b>It persists across runs.</b> An accepted change is saved and loaded next time, so one run can shape the next.</li>
+      </ul>
+      <div class="tbl"><table>
+        <thead><tr><th>Example</th><th>Counts?</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>(a) Automatic summarizing</td><td>No</td><td>The same fixed rule runs every time; nothing is learned. The paper: compacting context under fixed rules does not revise the harness</td></tr>
+          <tr><td>(b) Appending a log</td><td>No</td><td>It's saved, but future behavior doesn't change. A record isn't a revision</td></tr>
+          <tr><td>(c) A new rule in CLAUDE.md</td><td>Yes</td><td>It came from a failure and loads next session</td></tr>
+          <tr><td>(d) A script kept as a tool</td><td>Yes</td><td>A reusable procedure, learned and kept</td></tr>
+        </tbody>
+      </table></div>
+      <p>If the agent learned to summarize <b>differently</b>, say by changing when summarizing kicks in, that would count. The paper calls this changing a memory policy.</p>
+      <figure class="fig"><div class="fig-title">One round of update: propose changes, keep only what passes</div><div class="fig-scroll"><svg width="472" height="190" viewBox="0 0 472 190" role="img" aria-label="Loop diagram. The harness in use (the incumbent) runs a batch of tasks, producing rollouts and feedback. The update has four steps: diagnosis, proposal, assessment, admission. A change that passes admission becomes the new incumbent; otherwise the old one is kept. Above, the final assessment J scores each rollout; it sits outside the editable surface, so the agent cannot change it."><defs><marker id="ah-he-en" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="m"/></marker></defs><rect x="96" y="1" width="280" height="44" rx="10" fill="none" style="stroke:var(--muted)" stroke-dasharray="4 3" stroke-width="1.5"/><text x="236" y="20" font-size="12" class="i" font-weight="600" text-anchor="middle">final assessment J</text><text x="236" y="36" font-size="11" class="m" text-anchor="middle">scores each rollout · the agent can't edit it</text><line x1="236" y1="46" x2="236" y2="61" class="ar" marker-end="url(#ah-he-en)"/><rect x="1" y="64" width="140" height="72" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="71" y="92" font-size="13" class="i" font-weight="600" text-anchor="middle">incumbent</text><text x="71" y="114" font-size="12" class="m" text-anchor="middle">the harness in use</text><line x1="143" y1="100" x2="162" y2="100" class="ar" marker-end="url(#ah-he-en)"/><rect x="166" y="64" width="140" height="72" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="236" y="92" font-size="13" class="i" font-weight="600" text-anchor="middle">rollouts</text><text x="236" y="114" font-size="12" class="m" text-anchor="middle">runs + feedback</text><line x1="308" y1="100" x2="327" y2="100" class="ar" marker-end="url(#ah-he-en)"/><rect x="331" y="64" width="140" height="72" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="401" y="88" font-size="13" class="p" font-weight="600" text-anchor="middle">update</text><text x="401" y="108" font-size="11" class="i" text-anchor="middle">diagnosis · proposal</text><text x="401" y="124" font-size="11" class="i" text-anchor="middle">assessment · admission</text><path d="M401 138 V160 H71 V140" fill="none" class="ar" marker-end="url(#ah-he-en)"/><text x="236" y="182" font-size="12" class="m" text-anchor="middle">admitted: becomes the new incumbent · rejected: keep the old one</text></svg></div></figure>
+      <p>The paper also separates two words: <b>self-evolution</b> is the process of revising; <b>self-improvement</b> is a gain actually shown by comparing before and after. So “evolving” doesn't mean “improving.” The field is called <b>harness <span class="tip" tabindex="0" data-tip="RSI: Recursive Self-Improvement">RSI</span></b>, and the paper says plainly that the name doesn't assume every revision helps. That gap is what Questions 4 and 5 are about.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Question 3 · What can change §3</div>
+    <h2>Which parts can the agent change, and which change is most likely to break things it didn't touch?</h2>
+    <p>Four edits to one agent: (1) add a rule to the instructions file, “check deploy logs first”; (2) change the order of steps, using the same existing tools; (3) rewrite the code inside one tool, say the one that reads spreadsheets; (4) rewrite the core code that decides what goes into every model input and when the agent stops.</p>
+    <div class="ans">
+      <p>The paper's main line splits edits into two kinds:</p>
+      <ul>
+        <li><b>interpreted state</b>: instructions, stored experience, rearranging steps over existing tools. The model reads them and decides how to use them.</li>
+        <li><b>executable revision</b>: changing what tools actually do, the runtime's control logic, or how plugins are composed. These can produce new behavior.</li>
+      </ul>
+      <p>The split is about the edit's <b>role</b>, not its programming language: code that only reorders existing tools is still interpreted state.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Edit</th><th>Paper's category</th><th>What it can affect</th></tr></thead>
+        <tbody>
+          <tr><td>(1) Add an instruction</td><td>interpreted state</td><td>The model reads it and decides how to use it</td></tr>
+          <tr><td>(2) Reorder steps</td><td>interpreted state</td><td>Same tools, different order</td></tr>
+          <tr><td>(3) Rewrite a tool's code</td><td>executable: component</td><td>Local if the interface stays fixed; spreads if its output changes or it shares state with other parts</td></tr>
+          <tr><td>(4) Rewrite core runtime code</td><td>executable: repository-level</td><td>It controls how the parts work together, so it changes the inputs and assumptions of parts nobody edited</td></tr>
+        </tbody>
+      </table></div>
+      <p>The paper's Figure 1 runs in the same order: instructions and prompts, then context, memory and reusable procedures, then workflows, then executable components and runtime. The further along, the more an edit needs limits on its scope and checks before deployment.</p>
+      <p><span class="tag g">Our inference</span>The paper doesn't say whether (2) or (3) is riskier; it sorts by kind, not risk. Two ways to look at any edit: <b>reach</b> (does it affect every run, or only when that tool is called?) and <b>power</b> (does it only rearrange what exists, or can it create new behavior?).</p>
+      <p>There's a third executable kind: <b>plugin composition</b>, where the agent builds a new capability while working, mounts it, and reuses it later. The paper cites an office example: spreadsheets from different regions differ in language and content but need similar calculations, so the agent first builds batch-lookup and summarizing tools.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>First task</th><th>No tools built</th><th>Tools built</th></tr></thead>
+        <tbody>
+          <tr><td>Tool calls</td><td class="num">13</td><td class="num">3</td></tr>
+          <tr><td>Tokens</td><td class="num">41,119</td><td class="num">47,572 (+15.7%)</td></tr>
+          <tr><td>Time</td><td class="num">15.49 s</td><td class="num">24.00 s (+54.9%)</td></tr>
+        </tbody>
+      </table></div>
+      <p>The first task costs more; from the second task on it saves, and after five tasks it is 110,351 tokens and 22.97 seconds ahead. Building a tool means paying first and earning it back through reuse. The paper itself notes that the two reports it draws on disagree about the first task, so these numbers are an illustration, not one continuous cost curve.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Question 4 · Telling whether it helped §4.2</div>
+    <h2>The agent made a change after studying 50 failed tasks. How do you confirm it actually helps?</h2>
+    <p>Three options: (a) rerun the same 50 tasks and see if more pass; (b) run 50 new tasks it has never seen; (c) have the agent grade its own outputs before and after.</p>
+    <div class="ans">
+      <p><b>The paper asks for (b).</b> (a) is the natural choice, and that's the trap: the change was <b>built from</b> those 50 tasks. Rerunning them is like a student retaking an exam they've seen the answers to; a higher score only shows they remember it. The change might be a general fix like “check deploy logs first,” or a shortcut that only works on those 50, like “when the file is called sales_q3, look in column F.” Rerunning can't tell them apart; only unseen tasks can. This is <a href="#s-post">Goodhart's law</a> again: tune to a score, and the score stops measuring what you meant.</p>
+      <p><span class="tag r">Prior research</span><a href="https://arxiv.org/abs/2609.24972" target="_blank" rel="noreferrer">RRSI</a> (Xia et al., 2026) measured exactly this: harness gains on the tasks used for evolving shrank or disappeared on new benchmarks.</p>
+      <p>The paper's acceptance rule, in plain words, has three parts:</p>
+      <ul>
+        <li><b>Test on freshly drawn tasks every round.</b> They must have played no part in producing the change. The paper points out that Self-Harness reuses the same held-out tasks every round, so the check is no longer independent: the changes were picked after repeatedly seeing results on those tasks. A change adjusted after seeing the validation results needs a new fresh test.</li>
+        <li><b>Win by a margin, not just “a few more passed.”</b> The win has to be bigger than luck could explain. The more candidates you try, the bigger the margin, because if you try many, some will look good by chance; the more test tasks, the smaller the margin. <span class="tip" tabindex="0" data-tip="The paper's Eq. (8): accept only if Δ̂ + √(2·ln(KT/δ)/m) < 0. Δ̂ is the average loss difference between new and old versions on m fresh tasks, K the candidates per round, T the number of rounds, δ the allowed chance of being wrong.">Formula</span></li>
+        <li><b>The final grader is off-limits.</b> That's why (c) is weakest. A change may revise the agent's own internal checks, but never the final grader J that decides what's kept. The paper adds that protecting J doesn't stop <b>specification gaming</b> (exploiting the scoring rules), and that an automated grader can differ from what people actually want. That gap has to be measured with executable checks or independent human assessment.</li>
+      </ul>
+      <p class="sub">“Learns” and “adapts” here are human words. What actually happens: the accepted change is the one that scored higher on some set of tasks. How it does elsewhere can only be measured on tasks that played no part in choosing it.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Question 5 · Many changes later §4.2, §5</div>
+    <h2>After 100 changes, each fairly tested, what can still go wrong?</h2>
+    <p>Assume every rule above was followed: each change beat the old version on fresh tasks by a real margin.</p>
+    <div class="ans">
+      <ul>
+        <li><b>It's only proven on tasks “so far.”</b> A passed test shows it's better on the mix of tasks seen up to now, not on whatever comes next. Work changes, and so do graders. So testing is never finished: keep testing on recent tasks, and recalibrate whenever the grader changes.</li>
+        <li><b>Small losses add up.</b> Each change may be allowed to cost a little on older tasks; over 100 changes those allowances add up. A better average can also hide one group of tasks that quietly got worse.</li>
+        <li><b>Changes spread.</b> In a company, skills are shared. A workaround that was fine for one team spreads to a team with different permissions or data. If everyone shares one faulty procedure, they all fail the same way at the same time, which is harder to notice than scattered errors.</li>
+        <li><b>Rules pile up unnoticed.</b> Temporary workarounds become standing rules; one malicious instruction slipped in can persist into every later task. Users lose track of what changed.</li>
+        <li><b>Rollback isn't undo.</b> Reverting the software stops future actions; it can't undo a robot's damage, a missed treatment window, or a wrongly denied benefit. So emergency stops, spending limits and permissions must sit outside what the agent can edit. The paper's principle: creating a new tool must not grant new authority.</li>
+      </ul>
+      <p><span class="tag g">Our inference</span>“Solving similar problems in different ways each time” isn't a point the paper makes, but it's the <a href="#tau-bench">τ-bench</a> problem: a high pass rate doesn't mean it succeeds every time. Each change is tested on average performance, so a harness with 100 stacked changes can still be inconsistent.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Question 6 · Where people are</div>
+    <h2>Where do people sit in this loop?</h2>
+    <p>The loop above looks fully automatic: the agent runs, proposes changes, and tests them itself. Does the paper mention people?</p>
+    <div class="ans">
+      <p><b>Five times, always in a side role. The paper doesn't study people.</b></p>
+      <div class="tbl"><table>
+        <thead><tr><th>Where people appear</th><th>What the paper says</th></tr></thead>
+        <tbody>
+          <tr><td>One source of feedback</td><td>Feedback can come from the environment, automated checkers, and people; accepting a change may require human approval</td></tr>
+          <tr><td>Checking the grader</td><td>The gap between an automated grader and the real goal has to be measured with executable checks or independent human assessment</td></tr>
+          <tr><td>Users losing track</td><td>As changes accumulate, users struggle to follow them; it recommends reviewable changes with traceable origins</td></tr>
+          <tr><td>Approvers in high-stakes settings</td><td>In clinical and public services, qualified professionals must validate and authorize consequential changes; each decision should record its rule version, with a way to appeal</td></tr>
+          <tr><td>Permission steps in the harness</td><td>“Approvals” appear under execution infrastructure in Table 1</td></tr>
+        </tbody>
+      </table></div>
+      <p>This isn't <span class="tip" tabindex="0" data-tip="RLHF: Reinforcement Learning from Human Feedback">RLHF</span> (see <a href="#instructgpt">InstructGPT</a>): RLHF uses human feedback to train the weights, and here the weights never change.</p>
+      <p><span class="tag g">Our inference</span>From a human–agent teaming view, this is the paper's biggest gap. It treats the person as an optional approval gate, not as part of the design: how feedback is collected, how a person can review a growing pile of changes, when to stop and ask. The 66-page companion report has a section on governance and human oversight that we haven't read yet.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">In one sentence</div>
+    <h2>The weights stay put and the harness edits itself, but the grader and safety limits stay out of its hands</h2>
+    <p>The weights stay fixed; the agent proposes edits to its own harness (instructions, memory, tools, even runtime code) from the feedback on its own runs, keeps an edit only if it beats the old version by a real margin on fresh tasks, and the final grader and safety limits always stay outside what it can edit.</p>
+  </section>
+
+  <section class="qs">
+    <div class="eyebrow">Questions</div>
+    <div class="q"><span class="why">Where human feedback goes</span><div class="en">Your definition lists people as one source of feedback and says admission may require human approval. In practice, how should a self-evolving harness collect human feedback, and when should it stop and ask a person rather than rely on automated assessment?</div><button class="copy" type="button">Copy</button></div>
+    <div class="q"><span class="why">Where fresh tasks come from</span><div class="en">Your admission rule needs fresh, independent validation tasks every round. Enterprise agents often see few repeated tasks and incidents are rare. Where should those fresh tasks come from, and what do you recommend when there aren't enough?</div><button class="copy" type="button">Copy</button></div>
+    <div class="q"><span class="why">When a shared skill is wrong</span><div class="en">You point out that shared skills can spread a faulty procedure across teams. If one team's evolved skill turns out to be wrong after other teams adopted it, what records does a deployment need so the change can be traced, withdrawn, and its effects reviewed?</div><button class="copy" type="button">Copy</button></div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Terms</div>
+    <div class="gloss">
+      <div><b>harness</b><span>All the software and configuration that controls how a fixed model runs</span></div>
+      <div><b>harness self-evolution / self-improvement</b><span>The process of revising the harness / a gain shown by comparison</span></div>
+      <div><b>harness RSI</b><span>The name of the field; RSI is recursive self-improvement</span></div>
+      <div><b>incumbent</b><span>The harness version currently in use</span></div>
+      <div><b>rollout</b><span>The full record of one run: trajectory, outcome and feedback</span></div>
+      <div><b>interpreted state</b><span>What the model reads and decides how to use: instructions, experience, step order</span></div>
+      <div><b>executable revision</b><span>A change to code that actually runs: tools, runtime logic, plugin composition</span></div>
+      <div><b>admission</b><span>The step that decides whether a change is kept</span></div>
+      <div><b>final assessment J</b><span>The final grader; outside the editable surface, so the agent can't change it</span></div>
+      <div><b>specification gaming</b><span>Exploiting the scoring rules: the score goes up, the job isn't done</span></div>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Pages"><a href="#lost-middle"><small>← Previous</small><span>Lost in the Middle</span></a><a class="next" href="#s-eval"><small>Next →</small><span>Evaluation</span></a></nav>
 </article>
 
 <!-- ===================== 07 REACT ===================== -->
@@ -4071,6 +4454,7 @@ details.ws .q{margin-top:10px}
       <div><b>MoE</b><i>Mixture of Experts</i><span>Only some expert sub-networks run per token</span></div>
       <div><b>ECE</b><i>Expected Calibration Error</i><span>Average gap between confidence and accuracy <a class="seen" href="#calibration">seen in →</a></span></div>
       <div><b>MCP</b><i>Model Context Protocol</i><span>Standard interface for connecting agents to tools and data <a class="seen" href="#c-context">seen in →</a></span></div>
+      <div><b>RSI</b><i>Recursive Self-Improvement</i><span>A system improves itself, and the improved version keeps improving itself <a class="seen" href="#harness-evo">seen in →</a></span></div>
       <div><b>HITL</b><i>Human-In-The-Loop</i><span>A human reviews or intervenes in the loop</span></div>
       <div><b>HCI</b><i>Human-Computer Interaction</i><span>Field behind human–agent teaming studies <em class="soon">coming up</em></span></div>
       <div><b>RCA / AIOps</b><i>Root Cause Analysis / AI for IT Operations</i><span>Finding root causes / AI for IT ops <a class="seen" href="#tau-bench">seen in →</a></span></div>
@@ -4137,7 +4521,7 @@ details.ws .q{margin-top:10px}
     main.querySelectorAll('[data-view]').forEach(v=>{v.hidden=v!==target});
     const cur=base(target.id);
     document.querySelectorAll('[data-nav]').forEach(a=>{if(a.dataset.nav===cur)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
-    const parent={'attention':'s-pre','instructgpt':'s-post','r1':'s-post','react':'s-harness','reflexion':'s-harness','memgpt':'s-harness','lost-middle':'s-harness','c-context':'s-harness','tau-bench':'s-eval','mt-bench':'s-eval','calibration':'s-eval'}[cur];
+    const parent={'attention':'s-pre','instructgpt':'s-post','r1':'s-post','react':'s-harness','reflexion':'s-harness','memgpt':'s-harness','lost-middle':'s-harness','harness-evo':'s-harness','c-context':'s-harness','tau-bench':'s-eval','mt-bench':'s-eval','calibration':'s-eval'}[cur];
     document.querySelectorAll('.chip.sc').forEach(c=>{const n=c.dataset.nav;if(n===cur)c.setAttribute('aria-current','page');else if(n===parent)c.setAttribute('aria-current','true');else c.removeAttribute('aria-current')});
     const cs=document.querySelector('.topbar .chips'),ac=cs&&cs.querySelector('[aria-current]');
     if(ac){const l=ac.offsetLeft-cs.offsetLeft;if(l<cs.scrollLeft||l+ac.offsetWidth>cs.scrollLeft+cs.clientWidth-24)cs.scrollLeft=l-8}
