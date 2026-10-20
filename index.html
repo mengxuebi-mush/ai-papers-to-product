@@ -57,10 +57,6 @@ ul,ol{margin:0;padding-left:20px;display:grid;gap:7px}
 /* top bar */
 .topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:var(--z-sticky);background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .topbar-in{max-width:920px;margin:0 auto;padding-inline:20px;padding-block:10px;display:flex;align-items:center;gap:12px}
-.home{font-weight:700;font-size:14px;color:var(--ink);text-decoration:none;white-space:nowrap;padding:6px 10px;border-radius:9px}
-.home[aria-current="page"]{background:var(--forest);color:var(--on-forest)}
-.home:hover{background:var(--soft)}
-.home[aria-current="page"]:hover{background:var(--forest)}
 .chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;min-width:0;padding-block:2px}
 .chips::-webkit-scrollbar{display:none}
 .chip{font-size:13px;font-weight:500;white-space:nowrap;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);text-decoration:none;display:inline-flex;gap:6px;align-items:center}
@@ -72,9 +68,9 @@ ul,ol{margin:0;padding-left:20px;display:grid;gap:7px}
 .lang{display:flex;flex:none;margin-left:auto;border:1px solid var(--line);border-radius:999px;padding:2px;background:var(--card)}
 .lang button{font:600 12px var(--sans);border:0;background:transparent;color:var(--muted);border-radius:999px;padding:5px 10px;cursor:pointer}
 .lang button[aria-pressed="true"]{background:var(--forest);color:var(--on-forest)}
-.theme{flex:none;display:grid;place-items:center;width:34px;height:34px;padding:0;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);cursor:pointer}
-.theme:hover{background:var(--soft)}
-.theme .ic{width:17px;height:17px}
+.iconbtn{flex:none;display:grid;place-items:center;width:36px;height:36px;padding:0;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);cursor:pointer;text-decoration:none}
+.iconbtn:hover,.iconbtn[aria-expanded="true"]{background:var(--soft)}
+.iconbtn .ic{width:17px;height:17px}
 .no-tx,.no-tx *{transition:none!important}
 .wrap{max-width:920px;margin:0 auto;padding-inline:20px;padding-block:8px 128px;display:grid}
 .view{display:grid;grid-template-columns:minmax(0,1fr);gap:0}
@@ -182,8 +178,6 @@ input[type=range]{width:100%;accent-color:var(--bar)}
 .tier h3 small{font-size:13px;font-weight:400;color:var(--muted)}
 .seen{font-size:12px;white-space:nowrap}
 .soon{font-style:normal;font-size:11px;font-weight:700;border:1px solid var(--line);border-radius:6px;padding:0 5px;white-space:nowrap}
-.home.tool{display:inline-flex;align-items:center;gap:5px;font-weight:700;border:1px solid var(--line);background:var(--card)}
-.home.tool[aria-current="page"],.home.tool[aria-current="page"]:hover{background:var(--forest);border-color:var(--forest);color:var(--on-forest)}
 .abbr-bar{position:sticky;top:60px;z-index:2;display:flex;gap:10px;align-items:center;background:var(--card);padding:10px 0}
 .abbr-q{flex:1;min-width:0;font:500 16px var(--sans);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:11px 14px}
 .abbr-q:focus{outline:2px solid var(--ink);outline-offset:1px}
@@ -423,7 +417,6 @@ details.ws .q{margin-top:10px}
   .matrix{grid-template-columns:1fr 1fr}
   .matrix .corner,.matrix .rh{display:none}
   .task{grid-template-columns:64px 1fr 40px}
-  .home{font-size:13px}
 }
 @media (max-width:440px){.pipe,.pager{grid-template-columns:1fr}.pager a.next{text-align:left}}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
@@ -443,15 +436,30 @@ details.ws .q{margin-top:10px}
 .tag.r{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 6c-2-1.5-5-2-8-2v13c3 0 6 .5 8 2 2-1.5 5-2 8-2V4c-3 0-6 .5-8 2z'/%3E%3Cpath d='M12 6v13'/%3E%3C/svg%3E")}
 .tag.g{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18h6M10 21h4M12 3a6 6 0 00-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0012 3z'/%3E%3C/svg%3E")}
 .tag.d{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='16' rx='2'/%3E%3Cpath d='M3 9h18M7 13h6M7 16h8'/%3E%3C/svg%3E")}
-.chip,.home,.lang button,.copy,.theme,.drow,.pager a,.idea .more{transition:color .15s ease-out,background-color .15s ease-out,border-color .15s ease-out,transform .15s ease-out}
-.chip,.home,.lang button,.copy,.theme{position:relative}
-.chip::after,.home::after,.copy::after,.theme::after{content:"";position:absolute;inset:-6px -3px}
+.chip,.lang button,.copy,.iconbtn,.drow,.pager a,.idea .more{transition:color .15s ease-out,background-color .15s ease-out,border-color .15s ease-out,transform .15s ease-out}
+.chip,.lang button,.copy,.iconbtn{position:relative}
+.chip::after,.copy::after,.iconbtn::after{content:"";position:absolute;inset:-6px -3px}
 .lang button::after{content:"";position:absolute;inset:-8px 0}
-.chip:active,.home:active,.lang button:active,.copy:active,.theme:active{transform:scale(.96)}
+.chip:active,.lang button:active,.copy:active,.iconbtn:active{transform:scale(.96)}
+
+/* header: track menu (from tracks.js) · Map + stage chips · search · settings. See DECISIONS.md */
+.topbar .chips{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent);padding-right:20px}
+.chip-map{--pc:var(--ink)}
+.topbar .chip{flex:none}
+.tb-end{display:flex;flex:none;gap:8px;margin-left:auto}
+.iconbtn[aria-current="page"]{background:var(--forest);border-color:var(--forest);color:var(--on-forest)}
+.iconbtn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.set{position:relative;display:flex}
+.set-menu{position:absolute;top:calc(100% + 6px);right:0;z-index:var(--z-tooltip);width:max-content;padding:6px 8px 6px 14px;border-radius:14px;background:var(--card);border:1px solid var(--line);box-shadow:0 1px 2px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.12),0 24px 48px rgba(0,0,0,.08);display:grid;gap:2px;transform-origin:top right;opacity:0;transform:scale(.96)}
+.set-menu[data-open]{opacity:1;transform:none;transition:opacity .15s ease-out,transform .15s ease-out}
+.set-row{display:flex;align-items:center;gap:28px;min-height:44px;font-size:13px;font-weight:600;color:var(--muted)}
+.set-row .lang button{display:inline-flex;align-items:center;gap:5px;padding:6px 11px}
+.set-row .lang .ic{width:14px;height:14px}
+@media (prefers-reduced-motion:reduce){.set-menu{transform:none!important}}
 </style>
 </head>
 <body>
-<script src="tracks.js"></script>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
 <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6c-2-1.5-5-2-8-2v13c3 0 6 .5 8 2 2-1.5 5-2 8-2V4c-3 0-6 .5-8 2z"/><path d="M12 6v13"/></symbol>
 <symbol id="i-knobs" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
@@ -476,16 +484,22 @@ details.ws .q{margin-top:10px}
 <symbol id="i-token" viewBox="0 0 24 24"><rect x="3" y="7" width="6" height="10" rx="1.5"/><rect x="10.5" y="7" width="4" height="10" rx="1.5"/><rect x="16" y="7" width="5" height="10" rx="1.5"/></symbol>
 <symbol id="i-space" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16"/><circle cx="9" cy="9" r="1.5"/><circle cx="12.5" cy="8" r="1.5"/><circle cx="10.5" cy="12" r="1.5"/><circle cx="17" cy="15.5" r="1.5"/></symbol>
 <symbol id="i-window" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 13h7M7 16h4"/></symbol><symbol id="i-file" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></symbol><symbol id="i-plug" viewBox="0 0 24 24"><path d="M9 3v5M15 3v5"/><path d="M6 8h12v3a6 6 0 01-12 0z"/><path d="M12 17v4"/></symbol><symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol><symbol id="i-split" viewBox="0 0 24 24"><rect x="3" y="5" width="9" height="14" rx="2"/><rect x="15" y="8" width="6" height="8" rx="1.5"/><path d="M12 12h3"/></symbol><symbol id="i-shrink" viewBox="0 0 24 24"><path d="M4 9h5V4M20 9h-5V4M4 15h5v5M20 15h-5v5"/></symbol><symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></symbol><symbol id="i-xmark" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
 <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
 </defs></svg>
 
 <nav class="topbar" aria-label="页面导航">
   <div class="topbar-in">
-    <a class="home" href="#overview" data-nav="overview" data-zh="地图" data-en="Map">地图</a>
-    <a class="home tool" href="#abbr" data-nav="abbr"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span data-zh="查词" data-en="Terms">查词</span></a>
-    <div class="chips" role="group" aria-label="Stages"><a class="chip sc" href="#s-pre" data-nav="s-pre" data-stage="pre" style="--pc:var(--at)"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg><span data-zh="预训练" data-en="Pretraining">预训练</span></a><a class="chip sc" href="#s-post" data-nav="s-post" data-stage="post" style="--pc:var(--ig)"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-knobs"/></svg><span data-zh="后训练" data-en="Post-training">后训练</span></a><a class="chip sc" href="#s-harness" data-nav="s-harness" data-stage="harness" style="--pc:var(--ra)"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-box"/></svg><span data-zh="Harness" data-en="Harness">Harness</span></a><a class="chip sc" href="#s-eval" data-nav="s-eval" data-stage="eval" style="--pc:var(--tau)"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-chart"/></svg><span data-zh="评估" data-en="Evaluation">评估</span></a><a class="chip sc" href="#notes" data-nav="notes" data-stage="notes" style="--pc:var(--cc)"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-notebook"/></svg><span data-zh="笔记" data-en="Notes">笔记</span></a></div>
-    <div class="lang" role="group" aria-label="语言 / Language"><button type="button" data-lang="zh" aria-pressed="true">中文</button><button type="button" data-lang="en" aria-pressed="false">EN</button></div>
-    <button class="theme" type="button" aria-label="切换到深色"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-moon"/></svg></button>
+    <script src="tracks.js"></script>
+    <div class="chips" role="group" aria-label="Stages"><a class="chip chip-map" href="#overview" data-nav="overview"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-compass"/></svg><span data-zh="地图" data-en="Map">地图</span></a><a class="chip sc" href="#s-pre" data-nav="s-pre" data-stage="pre" style="--pc:var(--at)"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg><span data-zh="预训练" data-en="Pretraining">预训练</span></a><a class="chip sc" href="#s-post" data-nav="s-post" data-stage="post" style="--pc:var(--ig)"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-knobs"/></svg><span data-zh="后训练" data-en="Post-training">后训练</span></a><a class="chip sc" href="#s-harness" data-nav="s-harness" data-stage="harness" style="--pc:var(--ra)"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-box"/></svg><span data-zh="Harness" data-en="Harness">Harness</span></a><a class="chip sc" href="#s-eval" data-nav="s-eval" data-stage="eval" style="--pc:var(--tau)"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-chart"/></svg><span data-zh="评估" data-en="Evaluation">评估</span></a><a class="chip sc" href="#notes" data-nav="notes" data-stage="notes" style="--pc:var(--cc)"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-notebook"/></svg><span data-zh="笔记" data-en="Notes">笔记</span></a></div>
+    <div class="tb-end">
+      <a class="iconbtn" href="#abbr" data-nav="abbr"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-search"/></svg><span class="sr" data-zh="查词" data-en="Terms">查词</span></a>
+      <div class="set"><button class="iconbtn set-btn" type="button" aria-expanded="false" aria-controls="set-menu"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-gear"/></svg><span class="sr" data-zh="设置" data-en="Settings">设置</span></button>
+        <div class="set-menu" id="set-menu" hidden>
+          <div class="set-row"><span data-zh="语言" data-en="Language">语言</span><div class="lang" role="group" aria-label="语言 / Language"><button type="button" data-lang="zh" aria-pressed="true">中文</button><button type="button" data-lang="en" aria-pressed="false">EN</button></div></div>
+          <div class="set-row"><span data-zh="主题" data-en="Theme">主题</span><div class="lang" role="group" aria-label="主题 / Theme"><button type="button" data-set-theme="light" aria-pressed="false"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-sun"/></svg><span data-zh="浅色" data-en="Light">浅色</span></button><button type="button" data-set-theme="dark" aria-pressed="false"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-moon"/></svg><span data-zh="深色" data-en="Dark">深色</span></button></div></div>
+        </div></div>
+    </div>
   </div>
 </nav>
 
@@ -4125,6 +4139,8 @@ details.ws .q{margin-top:10px}
     document.querySelectorAll('[data-nav]').forEach(a=>{if(a.dataset.nav===cur)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
     const parent={'attention':'s-pre','instructgpt':'s-post','r1':'s-post','react':'s-harness','reflexion':'s-harness','memgpt':'s-harness','lost-middle':'s-harness','c-context':'s-harness','tau-bench':'s-eval','mt-bench':'s-eval','calibration':'s-eval'}[cur];
     document.querySelectorAll('.chip.sc').forEach(c=>{const n=c.dataset.nav;if(n===cur)c.setAttribute('aria-current','page');else if(n===parent)c.setAttribute('aria-current','true');else c.removeAttribute('aria-current')});
+    const cs=document.querySelector('.topbar .chips'),ac=cs&&cs.querySelector('[aria-current]');
+    if(ac){const l=ac.offsetLeft-cs.offsetLeft;if(l<cs.scrollLeft||l+ac.offsetWidth>cs.scrollLeft+cs.clientWidth-24)cs.scrollLeft=l-8}
     if(anchor)anchor.scrollIntoView();else{window.scrollTo(0,0);requestAnimationFrame(()=>window.scrollTo(0,0));}
     if(cur==='abbr'){const q=target.querySelector('.abbr-q');if(q){if(q._upd)q._upd();if(matchMedia('(hover:hover)').matches)q.focus({preventScroll:true});}}
   }
@@ -4137,22 +4153,29 @@ details.ws .q{margin-top:10px}
     if(typeof paintTheme==='function')paintTheme();
     route();
   }
-  document.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)));
-  const root=document.documentElement,tb=document.querySelector('.theme'),dark=matchMedia('(prefers-color-scheme:dark)');
+  document.querySelectorAll('button[data-lang]').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)));
+  const root=document.documentElement,dark=matchMedia('(prefers-color-scheme:dark)');
   const curTheme=()=>root.dataset.theme||(dark.matches?'dark':'light');
-  function paintTheme(){
-    const d=curTheme()==='dark';
-    tb.querySelector('use').setAttribute('href',d?'#i-sun':'#i-moon');
-    const l=d?(lang==='en'?'Switch to light theme':'切换到浅色'):(lang==='en'?'Switch to dark theme':'切换到深色');
-    tb.setAttribute('aria-label',l);tb.title=l;
-  }
-  tb.addEventListener('click',()=>{
-    const n=curTheme()==='dark'?'light':'dark';
+  function paintTheme(){const t=curTheme();document.querySelectorAll('[data-set-theme]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.setTheme===t)))}
+  document.querySelectorAll('[data-set-theme]').forEach(b=>b.addEventListener('click',()=>{
+    const n=b.dataset.setTheme;
     root.classList.add('no-tx');root.dataset.theme=n;
     try{localStorage.setItem('aem-theme',n)}catch(e){}
     paintTheme();requestAnimationFrame(()=>requestAnimationFrame(()=>root.classList.remove('no-tx')));
-  });
+  }));
   dark.addEventListener('change',paintTheme);
+  (function(){
+    const btn=document.querySelector('.set-btn'),menu=document.getElementById('set-menu');
+    function set(open,focusBack){
+      if(!open&&menu.hidden)return;
+      btn.setAttribute('aria-expanded',String(open));
+      if(open){menu.hidden=false;requestAnimationFrame(()=>{menu.setAttribute('data-open','');menu.querySelector('[aria-pressed="true"]').focus()})}
+      else{menu.removeAttribute('data-open');menu.hidden=true;if(focusBack)btn.focus()}
+    }
+    btn.addEventListener('click',()=>set(menu.hidden));
+    document.addEventListener('click',e=>{if(!e.target.closest('.set'))set(false)});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')set(false,true)});
+  })();
   document.querySelectorAll('.fig-cmp,.cx-steps').forEach(f=>{
     const bs=[...f.querySelectorAll('.seg button')];
     bs.forEach(b=>b.addEventListener('click',()=>{Object.assign(f.dataset,b.dataset);bs.forEach(x=>x.setAttribute('aria-pressed',String(x===b)));}));
