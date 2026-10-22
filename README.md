@@ -50,6 +50,7 @@ All credit for the research belongs to the original authors. The cards are perso
 | [MemGPT](https://mengxuebi-mush.github.io/ai-papers-to-product/#memgpt) | [MemGPT: Towards LLMs as Operating Systems](https://arxiv.org/abs/2310.08560) | Packer, Wooders, Lin, Fang, Patil, Stoica, Gonzalez | arXiv 2023 |
 | [Lost in the Middle](https://mengxuebi-mush.github.io/ai-papers-to-product/#lost-middle) | [Lost in the Middle: How Language Models Use Long Contexts](https://arxiv.org/abs/2307.03172) | Liu, Lin, Hewitt, Paranjape, Bevilacqua, Petroni, Liang | TACL 2024 |
 | [Self-Evolving Agent Harness](https://mengxuebi-mush.github.io/ai-papers-to-product/#harness-evo) (read for concepts) | [Self-evolving Agent Harness](https://arxiv.org/abs/2610.18813) | Wei, Guan, Zhu, Zhou, He, Zhou, Chen, Shen | arXiv 2026 |
+| [RAG](https://mengxuebi-mush.github.io/ai-papers-to-product/#rag) | [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401) | Lewis, Perez, Piktus, Petroni, Karpukhin, Goyal, Küttler, Lewis, Yih, Rocktäschel, Riedel, Kiela | NeurIPS 2020 |
 
 ### 评估与信任 · Evaluation & trust
 
@@ -66,6 +67,7 @@ All credit for the research belongs to the original authors. The cards are perso
 | [How models learn](https://mengxuebi-mush.github.io/ai-papers-to-product/#s-pre) (on the Pretraining page) | Kaplan et al., [Scaling Laws for Neural Language Models](https://arxiv.org/abs/2001.08361) (2020) · Hoffmann et al., [Training Compute-Optimal Large Language Models](https://arxiv.org/abs/2203.15556) (2022, "Chinchilla") |
 | [Scoring shapes the model](https://mengxuebi-mush.github.io/ai-papers-to-product/#s-post) (on the Post-training page) | Goodhart, *Problems of Monetary Management: The U.K. Experience* (1975) · Strathern, "'Improving ratings': audit in the British University system", *European Review* (1997) · Kullback & Leibler, "On Information and Sufficiency", *Annals of Mathematical Statistics* (1951) · Gao, Schulman, Hilton, [Scaling Laws for Reward Model Overoptimization](https://arxiv.org/abs/2210.10760) (2022) |
 | [Managing context](https://mengxuebi-mush.github.io/ai-papers-to-product/#c-context) (linked from the Harness page) | Liu et al., [Lost in the Middle](https://arxiv.org/abs/2307.03172) (2023) · Lewis et al., [Retrieval-Augmented Generation](https://arxiv.org/abs/2005.11401) (2020) · Park et al., [Generative Agents](https://arxiv.org/abs/2304.03442) (2023) · Schick et al., [Toolformer](https://arxiv.org/abs/2302.04761) (2023) · Wang et al., [Voyager](https://arxiv.org/abs/2305.16291) (2023) · Wu et al., [AutoGen](https://arxiv.org/abs/2308.08155) (2023) · Docs: [CLAUDE.md](https://code.claude.com/docs/en/memory), [AGENTS.md](https://agents.md/), [MCP](https://modelcontextprotocol.io/specification/2025-06-18/architecture), [Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills), [subagents](https://code.claude.com/docs/en/sub-agents), [Effective context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) |
+| [Designing RAG today](https://mengxuebi-mush.github.io/ai-papers-to-product/#c-rag) (linked from the Harness page) | Lewis et al., [Retrieval-Augmented Generation](https://arxiv.org/abs/2005.11401) (2020) · Liu et al., [Lost in the Middle](https://arxiv.org/abs/2307.03172) (2023) · Docs: [Contextual Retrieval](https://www.anthropic.com/news/contextual-retrieval), [Effective context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) · Industry: [The retrieval rebuild](https://venturebeat.com/data/the-retrieval-rebuild-why-hybrid-retrieval-intent-tripled-as-enterprise-rag-programs-hit-the-scale-wall) (VentureBeat, 2026) |
 
 ### Also referenced in discussion
 
@@ -86,7 +88,7 @@ Items still being verified are listed in the site footer.
 
 ## Coming next
 
-Context engineering, subagents and memory layers · RAG and prompt injection · fine-tuning / LoRA vs in-context learning
+Context engineering, subagents and memory layers · prompt injection · fine-tuning / LoRA vs in-context learning
 
 ## About
 
