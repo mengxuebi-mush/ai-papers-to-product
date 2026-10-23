@@ -1180,140 +1180,143 @@ details.ws .q{margin-top:10px}
     <nav class="crumb" aria-label="路径"><a href="#overview">地图</a><span aria-hidden="true">/</span><a href="#s-post">后训练</a></nav>
     <h1>InstructGPT</h1>
     <p class="full">Training language models to follow instructions with human feedback · Ouyang et al. · OpenAI · NeurIPS 2022</p>
-    <p class="lede">把只会续写的 GPT-3 调教成听指令的助手。ChatGPT 的直接前身，让 <span class="tip" tabindex="0" data-tip="RLHF：Reinforcement Learning from Human Feedback">RLHF</span> 成了行业标配。</p>
-    <div class="links"><a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noreferrer">arXiv 2203.02155 ↗</a><span>Human-AI Coevolution</span><span>CLEA</span></div>
+    <p class="lede">怎么把只会续写的 GPT-3 调成听指令的助手？这也是后来 ChatGPT 用的方法。这页顺着几个问题往下读。</p>
+    <div class="links"><a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noreferrer">arXiv 2203.02155 ↗</a></div>
   </header>
 
   <section class="sec">
-    <div class="eyebrow">四句话论文卡</div>
-    <div class="card4">
-      <div><b>主张</b><p>pretraining 学的是“续写得像”，不是“照用户意图做”，模型变大解决不了。用人类示范加排序做 post-training，可以把模型对齐成助手。</p></div>
-      <div><b>最强证据</b><p>13 亿参数的 InstructGPT 胜过 1750 亿的 GPT-3；1750 亿版本 85% 被偏好；在<span class="tip" tabindex="0" data-tip="TruthfulQA：专门测模型会不会重复流传已久的错误说法的问答集。">真实性测试</span>上，真实回答约翻倍。</p></div>
-      <div><b>边界</b><p>它对齐的是约 40 名标注员、研究员和 <span class="tip" tabindex="0" data-tip="API：Application Programming Interface">API</span> 客户的偏好，而标注员之间的一致率只有约 73–77%。它仍会犯简单错误，用户要求时大多照做有害指令。偏见没有明显改善，还有 alignment tax。</p></div>
-      <div><b>产品还要验证</b><p>你的用户（<span class="tip" tabindex="0" data-tip="SRE：Site Reliability Engineer">SRE</span>、admin）觉得的“好回答”，和这批标注员喜欢的是不是一回事？</p></div>
+    <div class="eyebrow">这篇在哪个位置</div>
+    <h2>从续写器到助手</h2>
+    <div class="where">
+      <div class="tint" style="--pc:var(--at)"><span class="k">之前</span><b><a href="#s-pre">预训练</a></b><p>读海量文字，学会续写</p></div>
+      <div class="tint" style="--pc:var(--ig)"><span class="k">本篇 · 后训练</span><b>InstructGPT</b><p>用人的示范和排序，调成助手</p></div>
+      <div class="plain"><span class="k">相关</span><b><a href="#mt-bench">MT-Bench</a></b><p>同样的“裁判”，拿来评估而不是训练</p></div>
     </div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">在知识地图上的位置</div>
-    <div class="pipe" style="--pc:var(--ig)">
-      <div class="stage"><span class="k">Pretraining</span><b>续写器</b><p>Transformer 架构 + 海量文本</p></div>
-      <div class="stage hl"><span class="k">本篇</span><b>Post-training</b><p><span class="tip" tabindex="0" data-tip="SFT：Supervised Fine-Tuning">SFT</span> → reward model → <span class="tip" tabindex="0" data-tip="PPO：Proximal Policy Optimization">PPO</span></p></div>
-      <div class="stage"><span class="k">Inference</span><b>用户来问</b><p>模型生成回答</p></div>
-      <div class="stage"><span class="k">评估</span><b>测表现</b><p>τ-bench、MT-Bench</p></div>
+    <div class="eyebrow">第 1 问</div>
+    <h2>只会续写的模型，为什么不能直接当助手？</h2>
+    <p>对只做过预训练的 GPT-3 说：“用 6 岁小孩能听懂的话解释登月。”</p>
+    <div class="ans">
+      <p><b>因为预训练教它的是“续写得像”，不是“照你的意思做”。</b></p>
+      <figure class="fig"><div class="fig-title">示意：同一句话，两个模型怎么接</div><div class="fig-scroll"><svg width="466" height="196" viewBox="0 0 466 196" role="img" aria-label="示意图。用户说：用 6 岁小孩能听懂的话解释登月。只做过预训练的 GPT-3 接着写出一串类似的题目，比如解释引力、解释进化论。InstructGPT 直接回答：人们坐火箭飞到月球，在上面走路、拍照，再把照片带回地球。"><rect x="1" y="1" width="464" height="32" rx="16" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="16" y="22" font-size="12" class="i">用户：用 6 岁小孩能听懂的话解释登月。</text><rect x="1" y="46" width="224" height="148" rx="12" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="14" y="68" font-size="12" class="m" font-weight="600">只做过预训练的 GPT-3</text><text x="14" y="92" font-size="12" class="i">用 6 岁小孩能懂的话解释引力。</text><text x="14" y="112" font-size="12" class="i">用 6 岁小孩能懂的话解释进化论。</text><text x="14" y="132" font-size="12" class="i">……</text><text x="14" y="180" font-size="11" class="m" font-weight="600">✗ 接着写成一串类似的题目</text><rect x="241" y="46" width="224" height="148" rx="12" fill="none" style="stroke:var(--pc)" stroke-width="1.5"/><text x="254" y="68" font-size="12" class="p" font-weight="600">InstructGPT</text><text x="254" y="92" font-size="12" class="i">人们坐火箭飞到月球，</text><text x="254" y="112" font-size="12" class="i">在上面走路、拍照，</text><text x="254" y="132" font-size="12" class="i">再把照片带回地球。</text><text x="254" y="180" font-size="11" class="p" font-weight="600">✓ 直接回答</text></svg></div></figure>
+      <p>论文把编造事实、输出有害内容、答非所问统称为 <b>misalignment</b>，并指出把模型做大解决不了。</p>
     </div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">Problem · §1</div>
-    <h2>续写不等于回答</h2>
-    <p>对只做过 pretraining 的模型说“用 6 岁小孩能听懂的话解释登月”，它可能接着写出一串类似的题目，因为网上这句话后面常跟着列表。作者把模型编造事实、输出有害内容、答非所问统称为 misalignment，并指出模型变大不能解决。</p>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">Method · §3</div>
-    <h2>三步法，像带实习生</h2>
-    <details class="fold"><summary>展开表格 · 带实习生 · InstructGPT · 规模</summary><div class="tbl"><table>
-      <thead><tr><th>带实习生</th><th>InstructGPT</th><th>规模</th></tr></thead>
-      <tbody>
-        <tr><td>给参考文档</td><td>Pretraining（直接用 GPT-3）</td><td></td></tr>
-        <tr><td>让他看我怎么做</td><td><b>SFT</b>：标注员亲手写好回答，模型照着学</td><td class="num">~13k prompt</td></tr>
-        <tr><td>他上手，我当 mentor</td><td><b>Reward model</b>：标注员给多个回答排序，训练一个模型拟合这些排序（也就是他们的“品味”）</td><td class="num">~33k prompt</td></tr>
-        <tr><td></td><td><b>PPO</b>：模型大量练习，由 reward model 打分</td><td class="num">~31k prompt</td></tr>
-        <tr><td>直接交给他做</td><td>部署 / inference</td><td></td></tr>
-      </tbody>
-    </table></div></details>
-    <figure class="fig"><div class="fig-title">三步，以及第 3 步里谁在变</div><div class="fig-scroll"><svg width="450" height="204" viewBox="0 0 450 204" role="img" aria-label="示意图。第 1 步 SFT，在约 1.3 万个 prompt 上照着好答案学；第 2 步用约 3.3 万个 prompt 的排序训练 reward model；第 3 步 PPO，在约 3.1 万个 prompt 上练习。第 3 步里，reward model 和 SFT 模型都冻结，只有 policy 在学：reward model 给它打分，KL 绳子把它拴在 SFT 模型附近。"><defs><marker id="ah-st-zh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="m"/></marker><marker id="ah-st-zhp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--pc)"/></marker></defs><rect x="0.5" y="6.5" width="129" height="69" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="65" y="28" font-size="13" class="i tip" font-weight="600" text-anchor="middle" tabindex="0" data-tip="SFT：Supervised Fine-Tuning">1 · SFT</text><text x="65" y="46" font-size="12" class="i" text-anchor="middle">照着好答案学</text><text x="65" y="64" font-size="12" class="m mono" text-anchor="middle">~13k prompt</text><line x1="132" y1="41" x2="157" y2="41" class="ar" marker-end="url(#ah-st-zh)"/><rect x="160.5" y="6.5" width="129" height="69" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="225" y="28" font-size="13" class="i" font-weight="600" text-anchor="middle">2 · Reward model</text><text x="225" y="46" font-size="12" class="i" text-anchor="middle">学会人的排序</text><text x="225" y="64" font-size="12" class="m mono" text-anchor="middle">~33k prompt</text><line x1="292" y1="41" x2="317" y2="41" class="ar" marker-end="url(#ah-st-zh)"/><rect x="320.5" y="6.5" width="129" height="69" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="385" y="28" font-size="13" class="p tip" font-weight="600" text-anchor="middle" tabindex="0" data-tip="PPO：Proximal Policy Optimization">3 · PPO</text><text x="385" y="46" font-size="12" class="i" text-anchor="middle">练习，被打分</text><text x="385" y="64" font-size="12" class="m mono" text-anchor="middle">~31k prompt</text><text x="0" y="104" font-size="12" class="p" font-weight="600">第 3 步内部：</text><path d="M0 112 H450" fill="none" style="stroke:var(--muted)" stroke-opacity=".3" stroke-dasharray="3 4"/><rect x="0.5" y="124.5" width="129" height="51" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="65" y="146" font-size="13" class="i tip" font-weight="600" text-anchor="middle" tabindex="0" data-tip="SFT：Supervised Fine-Tuning">SFT 模型</text><text x="65" y="164" font-size="12" class="m" text-anchor="middle">冻结</text><rect x="160.5" y="124.5" width="129" height="51" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="225" y="146" font-size="13" class="p" font-weight="600" text-anchor="middle">Policy</text><text x="225" y="164" font-size="12" class="p" font-weight="600" text-anchor="middle">在学</text><rect x="320.5" y="124.5" width="129" height="51" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="385" y="146" font-size="13" class="i" font-weight="600" text-anchor="middle">Reward model</text><text x="385" y="164" font-size="12" class="m" text-anchor="middle">冻结</text><line x1="131" y1="150" x2="159" y2="150" style="stroke:var(--pc)" stroke-width="1.5" stroke-dasharray="4 3"/><text x="145" y="196" font-size="12" class="p tip" font-weight="600" text-anchor="middle" tabindex="0" data-tip="KL：Kullback–Leibler (divergence)">KL 绳子</text><line x1="319" y1="150" x2="293" y2="150" style="stroke:var(--pc)" stroke-width="1.5" marker-end="url(#ah-st-zhp)"/><text x="305" y="196" font-size="12" class="p" font-weight="600" text-anchor="middle">打分</text></svg></div></figure>
-    <p class="sub">标注员约 40 人，通过 Upwork 和 Scale AI 招募，经过筛选测试。</p>
-    <h3>Reward model 怎么训练</h3>
-    <ul>
-      <li>每个 prompt 让标注员给 4 到 9 个回答排序，再拆成两两比较。</li>
-      <li>训练目标：让“被选中”回答的分数比“被淘汰”回答的高。分差越大，代表“人更喜欢前者”的把握越大。结果是一个给每个回答打分的模型。</li>
-      <li>只用一个 6B 的 reward model 给 175B 的模型打分。论文给的理由有两个：省算力，另外 175B 的 reward model 训练起来可能不稳定。论文没有说“reward model 小所以更容易被钻空子”，那是别人的推断。</li>
-    </ul>
-    <h3>谁在变，谁冻结</h3>
-    <div class="tbl"><table>
-      <thead><tr><th>模型</th><th>在 Step 3 的角色</th><th>会变吗</th></tr></thead>
-      <tbody>
-        <tr><td>SFT 模型</td><td>参照物：<span class="tip" tabindex="0" data-tip="KL：Kullback–Leibler (divergence)">KL</span> penalty 拿它比，看跑偏多远（实习生第一周的录像）</td><td>冻结</td></tr>
-        <tr><td>Reward model</td><td>考官：给每次练习打分</td><td>冻结</td></tr>
-        <tr><td>Policy 模型</td><td>正在练习的实习生，练完就是交付的 InstructGPT</td><td>唯一在变</td></tr>
-      </tbody>
-    </table></div>
-    <div class="grid2">
-      <div><b>KL penalty</b><p class="ink">得分 = 考官打分 − 跟 SFT 模型差了多远。它防的是 reward hacking：模型为了讨好考官，变成了“另一个人”。实际发生的是，参数一路朝着让 reward model 打高分的方向漂移，输出越来越偏离 SFT 模型。</p></div>
-      <div><b>PPO-ptx</b><p class="ink">练习时混入一些 pretraining 数据，这样学新东西的时候，基本功也每天照练。它防的是 alignment tax。目标里有两个旋钮：一个管 KL penalty 的力度（β），一个管混入 pretraining 的比重（γ）。把 γ 调成 0，就是普通 PPO。论文里说的 “InstructGPT”，默认指 <span class="tip" tabindex="0" data-tip="PPO-ptx：PPO + pretraining mix">PPO-ptx</span>。</p></div>
+    <div class="eyebrow">第 2 问</div>
+    <h2>怎么把它调成助手？</h2>
+    <div class="ans">
+      <p><b>三步：照示范学，学会人的排序，再练习并被打分。</b></p>
+      <figure class="fig"><div class="fig-title">三步，以及第 3 步里谁在变</div><div class="fig-scroll"><svg width="450" height="204" viewBox="0 0 450 204" role="img" aria-label="示意图。第 1 步 SFT，在约 1.3 万个 prompt 上照着好答案学；第 2 步用约 3.3 万个 prompt 的排序训练 reward model；第 3 步 PPO，在约 3.1 万个 prompt 上练习。第 3 步里，reward model 和 SFT 模型都冻结，只有 policy 在学：reward model 给它打分，KL 绳子把它拴在 SFT 模型附近。"><defs><marker id="ah-st-zh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="m"/></marker><marker id="ah-st-zhp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--pc)"/></marker></defs><rect x="0.5" y="6.5" width="129" height="69" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="65" y="28" font-size="13" class="i tip" font-weight="600" text-anchor="middle" tabindex="0" data-tip="SFT：Supervised Fine-Tuning">1 · SFT</text><text x="65" y="46" font-size="12" class="i" text-anchor="middle">照着好答案学</text><text x="65" y="64" font-size="12" class="m mono" text-anchor="middle">~13k prompt</text><line x1="132" y1="41" x2="157" y2="41" class="ar" marker-end="url(#ah-st-zh)"/><rect x="160.5" y="6.5" width="129" height="69" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="225" y="28" font-size="13" class="i" font-weight="600" text-anchor="middle">2 · Reward model</text><text x="225" y="46" font-size="12" class="i" text-anchor="middle">学会人的排序</text><text x="225" y="64" font-size="12" class="m mono" text-anchor="middle">~33k prompt</text><line x1="292" y1="41" x2="317" y2="41" class="ar" marker-end="url(#ah-st-zh)"/><rect x="320.5" y="6.5" width="129" height="69" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="385" y="28" font-size="13" class="p tip" font-weight="600" text-anchor="middle" tabindex="0" data-tip="PPO：Proximal Policy Optimization">3 · PPO</text><text x="385" y="46" font-size="12" class="i" text-anchor="middle">练习，被打分</text><text x="385" y="64" font-size="12" class="m mono" text-anchor="middle">~31k prompt</text><text x="0" y="104" font-size="12" class="p" font-weight="600">第 3 步内部：</text><path d="M0 112 H450" fill="none" style="stroke:var(--muted)" stroke-opacity=".3" stroke-dasharray="3 4"/><rect x="0.5" y="124.5" width="129" height="51" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="65" y="146" font-size="13" class="i tip" font-weight="600" text-anchor="middle" tabindex="0" data-tip="SFT：Supervised Fine-Tuning">SFT 模型</text><text x="65" y="164" font-size="12" class="m" text-anchor="middle">冻结</text><rect x="160.5" y="124.5" width="129" height="51" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="225" y="146" font-size="13" class="p" font-weight="600" text-anchor="middle">Policy</text><text x="225" y="164" font-size="12" class="p" font-weight="600" text-anchor="middle">在学</text><rect x="320.5" y="124.5" width="129" height="51" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="385" y="146" font-size="13" class="i" font-weight="600" text-anchor="middle">Reward model</text><text x="385" y="164" font-size="12" class="m" text-anchor="middle">冻结</text><line x1="131" y1="150" x2="159" y2="150" style="stroke:var(--pc)" stroke-width="1.5" stroke-dasharray="4 3"/><text x="145" y="196" font-size="12" class="p tip" font-weight="600" text-anchor="middle" tabindex="0" data-tip="KL：Kullback–Leibler (divergence)">KL 绳子</text><line x1="319" y1="150" x2="293" y2="150" style="stroke:var(--pc)" stroke-width="1.5" marker-end="url(#ah-st-zhp)"/><text x="305" y="196" font-size="12" class="p" font-weight="600" text-anchor="middle">打分</text></svg></div></figure>
+      <ul>
+        <li><b><span class="tip" tabindex="0" data-tip="SFT：Supervised Fine-Tuning">SFT</span></b>：标注员亲手写好回答，模型照着学。</li>
+        <li><b>Reward model</b>：标注员给几个回答排序，训练一个模型学会这种品味（第 3 问）。</li>
+        <li><b><span class="tip" tabindex="0" data-tip="PPO：Proximal Policy Optimization">PPO</span></b>：模型大量练习，由 reward model 打分。只有它在变，另外两个冻结。</li>
+      </ul>
+      <p>这一整套叫 <b><span class="tip" tabindex="0" data-tip="RLHF：Reinforcement Learning from Human Feedback">RLHF</span></b>。<span class="tag r">已有研究</span>它不是这篇发明的，但这篇让它成了标配；ChatGPT 也是用同样的方法训练的。</p>
     </div>
-    <div class="callout"><b>Alignment tax 是什么，怎么发生的</b><p>是什么：模型被调教成好助手之后，在一些原本做得不错的通用能力上反而变差了。像为了作文拿高分只练作文，数学退步了：这就是“税”。</p><p><span class="tag g">推测</span>怎么发生：<span class="tip" tabindex="0" data-tip="RL：Reinforcement Learning">RL</span> 阶段，整个模型的参数都在朝“让 reward model 打高分”的方向被推。参数是共用的，推向“会当助手”的同时，没有任何东西保护别的本事，其中一部分就被挤掉了。</p><p><span class="tag g">推测</span>为什么 KL penalty 治不了：KL penalty 管的是“练习时的回答别离 SFT 模型太远”，它盯着练习题。退步发生在练习没覆盖的地方，拴住练习题的回答，拴不住别的本事。论文的观察和这个解释一致：把 KL 调大，补不回来。</p><p>怎么补：PPO-ptx 每天练习时还做几道原来的 pretraining 题，等于“练作文的同时也复习数学”，补回大部分，但不是全部。</p></div>
-    <div class="callout"><b>和 MT-Bench 的关系</b><p>reward model 本质上就是一个 LLM-as-a-judge。MT-Bench 用裁判来评估，这里用裁判来训练。</p></div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">Evidence · §4</div>
-    <h2>结果</h2>
-    <details class="fold"><summary>展开表格 · 发现 · 内容 · 来源</summary><div class="tbl"><table>
-      <thead><tr><th>发现</th><th>内容</th><th>来源</th></tr></thead>
-      <tbody>
-        <tr><td>小模型对齐后胜过大模型</td><td>13 亿 InstructGPT 的输出优于 1750 亿 GPT-3（正文没给具体百分比）；1750 亿 InstructGPT 对 GPT-3 为 85 ± 3%，对 few-shot GPT-3 为 71 ± 4%</td><td></td></tr>
-        <tr><td>更真实</td><td>在<span class="tip" tabindex="0" data-tip="TruthfulQA：专门测模型会不会重复流传已久的错误说法的问答集。">真实性测试</span>上，真实且有信息量的回答约为 GPT-3 两倍</td><td></td></tr>
-        <tr><td>毒性有条件下降</td><td>被要求“礼貌”时少约 25%；不提示时优势消失</td><td></td></tr>
-        <tr><td>偏见</td><td>在<span class="tip" tabindex="0" data-tip="Winogender 和 CrowS-Pairs：两个测模型是否带性别、社会偏见的测试集。">两个偏见测试</span>上无显著改善</td><td></td></tr>
-        <tr><td>Alignment tax</td><td>RLHF 之后，模型在几个公开的通用测试（阅读理解、问答、翻译）上比原来的 GPT-3 差。混入 pretraining 数据（PPO-ptx）能补回大部分，但不是全部。只把 KL penalty 调大补不回来。机制见上面的 alignment tax 说明。</td><td></td></tr>
-      </tbody>
-    </table></div></details>
+    <div class="eyebrow">第 3 问</div>
+    <h2>机器怎么学会“人的品味”？</h2>
+    <p>“好回答”很难写成规则。</p>
+    <div class="ans">
+      <p><b>让人给几个回答排序，再训练一个模型去猜这个排序。</b></p>
+      <figure class="fig"><div class="fig-title">示意：从人的排序，到一个会打分的模型</div><div class="fig-scroll"><svg width="466" height="172" viewBox="0 0 466 172" role="img" aria-label="示意图。第一步，标注员把 4 个回答排序：A 第一，C 第二，B 第三，D 第四。第二步，拆成 6 对两两比较：A 胜 C、A 胜 B、A 胜 D、C 胜 B、C 胜 D、B 胜 D。第三步，训练出的 reward model 给每个回答打分，A 最高，D 最低。"><defs><marker id="ah-rk-zh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="m"/></marker></defs><text x="1" y="14" font-size="11" class="m" font-weight="600">① 标注员排序</text><rect x="1" y="24" width="112" height="26" rx="8" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="12" y="41" font-size="12" class="i">1 · 回答 A</text><rect x="1" y="56" width="112" height="26" rx="8" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="12" y="73" font-size="12" class="i">2 · 回答 C</text><rect x="1" y="88" width="112" height="26" rx="8" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="12" y="105" font-size="12" class="i">3 · 回答 B</text><rect x="1" y="120" width="112" height="26" rx="8" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="12" y="137" font-size="12" class="i">4 · 回答 D</text><line x1="118" y1="86" x2="146" y2="86" class="ar" marker-end="url(#ah-rk-zh)"/><text x="156" y="14" font-size="11" class="m" font-weight="600">② 拆成两两比较</text><text x="166" y="40" font-size="12" class="i mono">A &gt; C</text><text x="166" y="60" font-size="12" class="i mono">A &gt; B</text><text x="166" y="80" font-size="12" class="i mono">A &gt; D</text><text x="166" y="100" font-size="12" class="i mono">C &gt; B</text><text x="166" y="120" font-size="12" class="i mono">C &gt; D</text><text x="166" y="140" font-size="12" class="i mono">B &gt; D</text><text x="156" y="166" font-size="11" class="m">4 个回答 = 6 对</text><line x1="256" y1="86" x2="284" y2="86" class="ar" marker-end="url(#ah-rk-zh)"/><text x="292" y="14" font-size="11" class="p" font-weight="600">③ reward model 打分</text><text x="292" y="41" font-size="12" class="i" font-weight="600">A</text><rect x="308" y="28" width="135" height="18" rx="5" style="fill:var(--pc)" fill-opacity="0.79"/><text x="292" y="75" font-size="12" class="i" font-weight="600">C</text><rect x="308" y="62" width="93" height="18" rx="5" style="fill:var(--pc)" fill-opacity="0.62"/><text x="292" y="109" font-size="12" class="i" font-weight="600">B</text><rect x="308" y="96" width="51" height="18" rx="5" style="fill:var(--pc)" fill-opacity="0.45"/><text x="292" y="143" font-size="12" class="i" font-weight="600">D</text><rect x="308" y="130" width="18" height="18" rx="5" style="fill:var(--pc)" fill-opacity="0.32"/></svg></div></figure>
+      <p>每次排 4 到 9 个回答，拆成两两比较，训练目标是让被选中的那个得分更高。练好的 reward model 能给任何回答打分，本质上就是一个 <span class="tip" tabindex="0" data-tip="LLM：Large Language Model">LLM</span> 裁判：<a href="#mt-bench">MT-Bench</a> 用裁判来评估，这里用裁判来训练。</p>
+    </div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">Limitations · §5</div>
-    <h2>Who are we aligning to?（§5.2）</h2>
-    <div class="tbl"><table>
-      <thead><tr><th>谁</th><th>影响了什么</th></tr></thead>
-      <tbody>
-        <tr><td>标注员</td><td>写示范、做排序；约 40 人，主要住在美国或东南亚、说英语</td></tr>
-        <tr><td>研究员</td><td>写标注规则、设计筛选测试，价值判断在最上游</td></tr>
-        <tr><td>API 客户</td><td>提供 prompt；早期要排队申请，偏向 OpenAI 人脉圈</td></tr>
-        <tr><td>其他所有人</td><td>没参与，但会受影响；作者说不可能同时对齐所有人的偏好</td></tr>
-      </tbody>
-    </table></div>
-    <ul>
-      <li>训练用标注员之间一致率 72.6%，另一批 77.3%，约每四次有一次分歧，分歧被平均掉。</li>
-      <li>仍会犯简单错误；会顺着错误前提回答；有时过度含糊；用户要求时大多会照做有害指令。</li>
-    </ul>
+    <div class="eyebrow">第 4 问</div>
+    <h2>练习时，怎么防止它钻打分的空子？</h2>
+    <p>reward model 只是人的品味的近似。一直朝高分练，模型可能找到“分高但并不好”的写法。</p>
+    <div class="ans">
+      <p><b>得分要扣掉它离原来的 SFT 模型有多远，像一根绳子把它拴住。</b>这叫 <b><span class="tip" tabindex="0" data-tip="KL：Kullback–Leibler (divergence)">KL</span> penalty</b>，就是上面三步图里的“KL 绳子”。</p>
+      <p>这正是<a href="#s-post">后训练</a>页讲的 Goodhart 定律：对着分数练，分数就不再代表你想要的东西。</p>
+    </div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">影响力 · <span class="tag r">已有研究</span></div>
-    <h2>RLHF 不是这篇发明的，但这篇让它成了标配</h2>
-    <details class="fold"><summary>展开表格 · 时间 · 事件</summary><div class="tbl"><table>
-      <thead><tr><th>时间</th><th>事件</th></tr></thead>
-      <tbody>
-        <tr><td>2017</td><td>Christiano et al.：用人类偏好训练强化学习 agent（游戏、机器人），RLHF 的思想源头</td></tr>
-        <tr><td>2020</td><td>Stiennon et al.：首次用 RLHF 训练模型写摘要</td></tr>
-        <tr><td>2022.3</td><td>InstructGPT：用到通用的听指令任务上</td></tr>
-        <tr><td>2022.11</td><td>ChatGPT：OpenAI 说明用相同方法训练，数据换成对话形式</td></tr>
-        <tr><td>之后</td><td><span class="tip" tabindex="0" data-tip="RLAIF：RL from AI Feedback">RLAIF</span> / Constitutional AI（AI 按原则打分）；<span class="tip" tabindex="0" data-tip="DPO：Direct Preference Optimization">DPO</span>（省掉 reward model，Rafailov et al. 2023）；有标准答案的任务改用对错作为奖励</td></tr>
-      </tbody>
-    </table></div></details>
-    <p class="sub">各家前沿模型的具体 post-training 配方大多没有公开。</p>
+    <div class="eyebrow">第 5 问</div>
+    <h2>变成好助手，要付出什么代价？</h2>
+    <div class="ans">
+      <p><b>一些原本会的通用能力变差了，论文叫 alignment tax。</b>对齐后，模型在阅读理解、问答、翻译等公开测试上不如原来的 GPT-3。</p>
+      <p>练习时混入一些预训练数据（<span class="tip" tabindex="0" data-tip="PPO-ptx：PPO + pretraining mix">PPO-ptx</span>）能补回大部分；只把 KL 绳子拉紧则补不回来。<span class="tag g">推测</span>因为绳子只管练习题上的回答，退步发生在练习没覆盖的地方。</p>
+    </div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">我们的讨论</div>
-    <h2>Hallucination 和 sycophancy 是两个问题</h2>
-    <div class="tbl"><table>
-      <thead><tr><th></th><th>Hallucination（编造）</th><th>Sycophancy（谄媚）</th></tr></thead>
-      <tbody>
-        <tr><td>表现</td><td>语气肯定地输出不存在的事实、引用</td><td>输出向用户的观点靠拢，一被质疑就改口</td></tr>
-        <tr><td>主要根源</td><td>Pretraining：目标是“续写得像”</td><td>RLHF：标注员偏爱让自己舒服的回答</td></tr>
-        <tr><td>RLHF 的作用</td><td>可能放大也可能缓解（本篇在<span class="tip" tabindex="0" data-tip="TruthfulQA：专门测模型会不会重复流传已久的错误说法的问答集。">真实性测试</span>上有改善）</td><td>主要来源之一</td></tr>
-      </tbody>
-    </table></div>
-    <ul>
-      <li><span class="tag r">已有研究</span> Kalai et al. 2025 用考试类比：空着不写得 0 分、乱猜还有机会，学生学会猜；打分方式奖励猜测是 hallucination 持续的原因之一（待确认）。</li>
-      <li><span class="tag g">推测</span>不存在“纯净”的模型。只做 pretraining，带的是互联网的偏见；加了 RLHF，带的是标注员的偏好。更值得问的是：这是谁的影响，有没有说清楚，你的用户能不能纠正它。</li>
-      <li><span class="tag g">推测</span>通用模型的“好回答”反映标注员品味；凌晨三点处理故障的 SRE 可能只想要一条能直接跑的 query。</li>
-      <li><span class="tag g">推测</span>对齐改的是“怎么答”，不是“知道什么”。知识的上限由 base model 决定。对齐能把已有的东西呈现得更好，但很难让模型答出 pretraining 里没见过的事实。论文没有直接讨论这一点，最接近的是 alignment tax 和对未监督任务的泛化（§4.2–4.3）。</li>
-    </ul>
+    <div class="eyebrow">第 6 问</div>
+    <h2>真的更好了吗？</h2>
+    <div class="ans">
+      <p><b>小模型对齐后，胜过大 100 倍的原模型。</b>人们更喜欢 13 亿参数的 InstructGPT，而不是 1750 亿参数的 GPT-3；同样 1750 亿的版本，85% 的时候比 GPT-3 更受偏好。</p>
+      <div class="tbl"><table>
+        <thead><tr><th>方面</th><th>结果</th></tr></thead>
+        <tbody>
+          <tr><td>真实性</td><td>在<span class="tip" tabindex="0" data-tip="TruthfulQA：专门测模型会不会重复流传已久的错误说法的问答集。">真实性测试</span>上，真实且有用的回答约为 GPT-3 的两倍</td></tr>
+          <tr><td>有害内容</td><td>被要求“礼貌”时少约 25%</td></tr>
+          <tr><td>偏见</td><td>在<span class="tip" tabindex="0" data-tip="Winogender 和 CrowS-Pairs：两个测模型是否带性别、社会偏见的测试集。">两个偏见测试</span>上没有明显改善</td></tr>
+          <tr><td>仍会出的错</td><td>简单错误；顺着错误前提回答；用户要求时大多照做有害指令</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">第 7 问</div>
+    <h2>它对齐到了谁的偏好？</h2>
+    <div class="ans">
+      <p><b>主要是约 40 名标注员和研究员的品味。</b>标注员之间也只有约 73%–77% 的时候意见一致，分歧被平均掉了。</p>
+      <div class="tbl"><table>
+        <thead><tr><th>谁</th><th>影响了什么</th></tr></thead>
+        <tbody>
+          <tr><td>标注员</td><td>写示范、做排序；主要住在美国或东南亚，说英语</td></tr>
+          <tr><td>研究员</td><td>写标注规则、设计筛选测试，价值判断在最上游</td></tr>
+          <tr><td><span class="tip" tabindex="0" data-tip="API：Application Programming Interface">API</span> 客户</td><td>提供 prompt；早期要排队申请，偏向 OpenAI 的人脉圈</td></tr>
+          <tr><td>其他所有人</td><td>没参与，但会受影响；作者说不可能同时对齐所有人的偏好</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">第 8 问 · 两个常被混淆的问题</div>
+    <h2>hallucination 和 sycophancy 有什么不同？</h2>
+    <div class="ans">
+      <p><span class="tag r">已有研究</span>一个主要来自预训练，一个主要来自 RLHF。</p>
+      <div class="tbl"><table>
+        <thead><tr><th></th><th>Hallucination（编造）</th><th>Sycophancy（谄媚）</th></tr></thead>
+        <tbody>
+          <tr><td>表现</td><td>语气肯定地说出不存在的事实、引用</td><td>向用户的观点靠拢，一被质疑就改口</td></tr>
+          <tr><td>主要来源</td><td>预训练：目标是“续写得像”</td><td>RLHF：标注员偏爱让自己舒服的回答</td></tr>
+        </tbody>
+      </table></div>
+      <p class="sub">“谄媚”是人的说法。实际发生的是：输出被训练得向用户已表达的观点靠拢，而不是向事实靠拢；模型并没有想讨好谁。</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">第 9 问 · 产品思维</div>
+    <h2>你的用户想要的，和这群标注员一样吗？</h2>
+    <div class="ans">
+      <figure class="fig"><div class="fig-title">示意：同一个问题，两种“好回答” <span class="tag g">推测</span></div><div class="fig-scroll"><svg width="466" height="200" viewBox="0 0 466 200" role="img" aria-label="示意图。问题：凌晨三点，billing 服务 5xx 暴涨，先看哪里。左边是标注员可能更喜欢的回答：礼貌、全面，列出几种可能原因并建议逐一排查。右边是 SRE 要的回答：一条能直接运行的 kubectl 查日志命令，以及先看 15 分钟前那次部署。"><rect x="1" y="1" width="464" height="32" rx="16" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="16" y="22" font-size="12" class="i">凌晨三点：billing 服务 5xx 暴涨，先看哪里？</text><rect x="1" y="46" width="224" height="150" rx="12" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="14" y="68" font-size="11" class="m" font-weight="600">标注员可能更喜欢的</text><text x="14" y="92" font-size="11" class="i">好的！5xx 错误可能有多种原因：</text><text x="14" y="112" font-size="11" class="i">1. 服务器过载；2. 依赖服务异常；</text><text x="14" y="132" font-size="11" class="i">3. 配置错误……建议逐一排查，</text><text x="14" y="152" font-size="11" class="i">需要的话我可以进一步说明。</text><rect x="241" y="46" width="224" height="150" rx="12" fill="none" style="stroke:var(--pc)" stroke-width="1.5"/><text x="254" y="68" font-size="11" class="p" font-weight="600">SRE 要的</text><text x="254" y="94" font-size="11" class="i mono">kubectl logs deploy/billing</text><text x="254" y="112" font-size="11" class="i mono">  --since=15m | grep " 5.."</text><text x="254" y="140" font-size="12" class="i">先看 15 分钟前那次部署。</text></svg></div></figure>
+      <ul>
+        <li><span class="tag g">推测</span><b>“好回答”的标准来自约 40 个人。</b>凌晨三点处理故障的 <span class="tip" tabindex="0" data-tip="SRE：Site Reliability Engineer">SRE</span> 可能只要一条能直接跑的命令。上线前要用你自己用户的偏好去检验。</li>
+        <li><span class="tag g">推测</span><b>一直从用户反馈里学，也会交 alignment tax。</b>学了新的，忘了旧的。要像 PPO-ptx 那样，留一组“老本事”的题持续复测（也见 <a href="#harness-evo">Self-Evolving Agent Harness</a>）。</li>
+        <li><span class="tag g">推测</span><b>对齐改的是“怎么答”，不是“知道什么”。</b>模型没学过的事实，对齐也变不出来，要靠检索（<a href="#rag">RAG</a>）。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">一句话收尾</div>
+    <h2>用人的示范和排序，把续写器调成助手</h2>
+    <p>InstructGPT 用人的示范和排序，把只会续写的 GPT-3 调成听指令的助手：小模型对齐后胜过大模型；但它学到的是一小群人的品味，还要付出一些通用能力的代价。</p>
   </section>
 
   <section class="qs">
@@ -1326,14 +1329,13 @@ details.ws .q{margin-top:10px}
     <div class="eyebrow">术语</div>
     <div class="gloss">
       <div><b>SFT</b><span>照着人写的示范学</span></div>
-      <div><b>reward model</b><span>从人类排序里学会打分的“虚拟考官”</span></div>
+      <div><b>reward model</b><span>从人类排序里学会打分的模型</span></div>
       <div><b>RLHF</b><span>用人类偏好（经 reward model）打分来强化学习</span></div>
       <div><b>PPO</b><span>每次只小步调整的强化学习算法</span></div>
       <div><b>KL penalty</b><span>扣掉偏离 SFT 模型的程度</span></div>
-      <div><b>alignment tax / PPO-ptx</b><span>对齐后退步 / 混入 pretraining 数据减少退步</span></div>
+      <div><b>alignment tax / PPO-ptx</b><span>对齐后退步 / 混入预训练数据减少退步</span></div>
       <div><b>misalignment</b><span>模型行为和用户意图不一致</span></div>
-      <div><b>sycophancy</b><span>“说用户想听的”：实际是输出向用户已表达的观点靠拢，而不是向事实靠拢</span></div>
-      <div><b>instruction tuning / regularizer / RLHF regression</b><span>行话：常分别指 SFT 阶段 / KL penalty / alignment tax，各家用法不完全一致 <span class="tag r">已有研究</span></span></div>
+      <div><b>sycophancy</b><span>输出向用户已表达的观点靠拢，而不是向事实靠拢</span></div>
     </div>
   </section>
 
@@ -3467,160 +3469,162 @@ details.ws .q{margin-top:10px}
     <nav class="crumb" aria-label="Breadcrumb"><a href="#overview">Map</a><span aria-hidden="true">/</span><a href="#s-post">Post-training</a></nav>
     <h1>InstructGPT</h1>
     <p class="full">Training language models to follow instructions with human feedback · Ouyang et al. · OpenAI · NeurIPS 2022</p>
-    <p class="lede">Turns GPT-3, which only continues text, into an assistant that follows instructions. It's the direct predecessor of ChatGPT, and the paper that made <span class="tip" tabindex="0" data-tip="RLHF: Reinforcement Learning from Human Feedback">RLHF</span> standard practice.</p>
-    <div class="links"><a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noreferrer">arXiv 2203.02155 ↗</a><span>Human-AI Coevolution</span><span>CLEA</span></div>
+    <p class="lede">How do you turn GPT-3, which only continues text, into an assistant that follows instructions? It's the same method ChatGPT later used. This page walks through a few questions.</p>
+    <div class="links"><a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noreferrer">arXiv 2203.02155 ↗</a></div>
   </header>
 
   <section class="sec">
-    <div class="eyebrow">The paper in four lines</div>
-    <div class="card4">
-      <div><b>Claim</b><p>Pretraining teaches a model to continue text plausibly, not to do what the user wants, and making it bigger doesn't fix that. Training it afterward on human demonstrations and rankings turns it into an assistant.</p></div>
-      <div><b>Strongest evidence</b><p>The 1.3B InstructGPT beats the 175B GPT-3. People prefer the 175B InstructGPT 85% of the time. On <span class="tip" tabindex="0" data-tip="TruthfulQA: a question set that tests whether a model repeats widely believed falsehoods.">a truthfulness test</span>, it gives roughly twice as many truthful answers.</p></div>
-      <div><b>Limits</b><p>It's aligned to the preferences of about 40 labelers, researchers and <span class="tip" tabindex="0" data-tip="API: Application Programming Interface">API</span> customers, and the labelers agree with each other only about 73–77% of the time. It still makes simple mistakes and mostly follows harmful instructions when asked. Bias didn't really improve, and there's an alignment tax.</p></div>
-      <div><b>Still to validate for products</b><p>Does your users' idea of a good answer (SREs, admins) match these labelers'?</p></div>
+    <div class="eyebrow">Where it sits</div>
+    <h2>From text continuer to assistant</h2>
+    <div class="where">
+      <div class="tint" style="--pc:var(--at)"><span class="k">Before</span><b><a href="#s-pre">Pretraining</a></b><p>Read lots of text, learn to continue it</p></div>
+      <div class="tint" style="--pc:var(--ig)"><span class="k">This paper · post-training</span><b>InstructGPT</b><p>Human demonstrations and rankings turn it into an assistant</p></div>
+      <div class="plain"><span class="k">Related</span><b><a href="#mt-bench">MT-Bench</a></b><p>The same kind of “judge,” used to evaluate rather than train</p></div>
     </div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">Where it sits on the map</div>
-    <div class="pipe" style="--pc:var(--ig)">
-      <div class="stage"><span class="k">Pretraining</span><b>Text continuer</b><p>Transformer architecture + massive text</p></div>
-      <div class="stage hl"><span class="k">This paper</span><b>Post-training</b><p><span class="tip" tabindex="0" data-tip="SFT: Supervised Fine-Tuning">SFT</span> → reward model → <span class="tip" tabindex="0" data-tip="PPO: Proximal Policy Optimization">PPO</span></p></div>
-      <div class="stage"><span class="k">Inference</span><b>User asks</b><p>Model generates an answer</p></div>
-      <div class="stage"><span class="k">Evaluation</span><b>Measure it</b><p>τ-bench, MT-Bench</p></div>
+    <div class="eyebrow">Question 1</div>
+    <h2>Why can't a model that only continues text act as an assistant?</h2>
+    <p>Tell GPT-3, with pretraining only: “Explain the moon landing to a 6 year old.”</p>
+    <div class="ans">
+      <p><b>Because pretraining taught it to continue text plausibly, not to do what you mean.</b></p>
+      <figure class="fig"><div class="fig-title">Illustration: the same request, two models</div><div class="fig-scroll"><svg width="466" height="196" viewBox="0 0 466 196" role="img" aria-label="Illustration. The user says: explain the moon landing to a 6 year old. GPT-3 with pretraining only keeps writing similar prompts, such as explain gravity, explain evolution. InstructGPT answers: people flew a rocket to the moon, walked around and took pictures, and brought them back to Earth."><rect x="1" y="1" width="464" height="32" rx="16" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="16" y="22" font-size="12" class="i">User: Explain the moon landing to a 6 year old.</text><rect x="1" y="46" width="224" height="148" rx="12" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="14" y="68" font-size="12" class="m" font-weight="600">GPT-3, pretraining only</text><text x="14" y="92" font-size="11" class="i">Explain gravity to a 6 year old.</text><text x="14" y="112" font-size="11" class="i">Explain evolution to a 6 year old.</text><text x="14" y="132" font-size="11" class="i">…</text><text x="14" y="180" font-size="11" class="m" font-weight="600">✗ keeps writing similar prompts</text><rect x="241" y="46" width="224" height="148" rx="12" fill="none" style="stroke:var(--pc)" stroke-width="1.5"/><text x="254" y="68" font-size="12" class="p" font-weight="600">InstructGPT</text><text x="254" y="92" font-size="11" class="i">People flew a rocket to the moon,</text><text x="254" y="112" font-size="11" class="i">walked around and took pictures,</text><text x="254" y="132" font-size="11" class="i">and brought them back to Earth.</text><text x="254" y="180" font-size="11" class="p" font-weight="600">✓ answers the request</text></svg></div></figure>
+      <p>The paper groups making things up, producing harmful text and missing the point under <b>misalignment</b>, and notes that making models bigger doesn't fix it.</p>
     </div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">Problem · §1</div>
-    <h2>Continuing isn't answering</h2>
-    <p>Ask a pretrained-only model to “explain the moon landing to a 6-year-old” and it may continue with a list of similar prompts, because that's what tends to follow such text online. The authors call made-up facts, harmful output and off-target answers misalignment, and note that bigger models don't fix it.</p>
-  </section>
-
-  <section class="sec">
-    <div class="eyebrow">Method · §3</div>
-    <h2>Three steps, like training a new hire</h2>
-    <details class="fold"><summary>Show the table · Training a new hire · InstructGPT · Scale</summary><div class="tbl"><table>
-      <thead><tr><th>Training a new hire</th><th>InstructGPT</th><th>Scale</th></tr></thead>
-      <tbody>
-        <tr><td>Hand them reference docs</td><td>Pretraining (uses GPT-3 directly)</td><td></td></tr>
-        <tr><td>Have them watch you work</td><td><b>SFT</b>: labelers write good answers; the model imitates them</td><td class="num">~13k prompts</td></tr>
-        <tr><td>They try it, you mentor</td><td><b>Reward model</b>: labelers rank several answers; a model is fitted to reproduce those rankings (their “taste”)</td><td class="num">~33k prompts</td></tr>
-        <tr><td></td><td><b>PPO</b>: the model practices at scale, scored by the reward model</td><td class="num">~31k prompts</td></tr>
-        <tr><td>Hand over the work</td><td>Deployment / inference</td><td></td></tr>
-      </tbody>
-    </table></div></details>
-    <figure class="fig"><div class="fig-title">Three steps, and what changes in step 3</div><div class="fig-scroll"><svg width="450" height="204" viewBox="0 0 450 204" role="img" aria-label="Diagram. Step 1, SFT, copies good answers on about 13 thousand prompts. Step 2 trains a reward model on rankings for about 33 thousand prompts. Step 3, PPO, practices on about 31 thousand prompts. Inside step 3, the reward model and the SFT model are frozen; only the policy learns, scored by the reward model and tied to the SFT model by a KL leash."><defs><marker id="ah-st-en" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="m"/></marker><marker id="ah-st-enp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--pc)"/></marker></defs><rect x="0.5" y="6.5" width="129" height="69" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="65" y="28" font-size="13" class="i tip" font-weight="600" text-anchor="middle" tabindex="0" data-tip="SFT: Supervised Fine-Tuning">1 · SFT</text><text x="65" y="46" font-size="12" class="i" text-anchor="middle">copy good answers</text><text x="65" y="64" font-size="12" class="m mono" text-anchor="middle">~13k prompts</text><line x1="132" y1="41" x2="157" y2="41" class="ar" marker-end="url(#ah-st-en)"/><rect x="160.5" y="6.5" width="129" height="69" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="225" y="28" font-size="13" class="i" font-weight="600" text-anchor="middle">2 · Reward model</text><text x="225" y="46" font-size="12" class="i" text-anchor="middle">learn the rankings</text><text x="225" y="64" font-size="12" class="m mono" text-anchor="middle">~33k prompts</text><line x1="292" y1="41" x2="317" y2="41" class="ar" marker-end="url(#ah-st-en)"/><rect x="320.5" y="6.5" width="129" height="69" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="385" y="28" font-size="13" class="p tip" font-weight="600" text-anchor="middle" tabindex="0" data-tip="PPO: Proximal Policy Optimization">3 · PPO</text><text x="385" y="46" font-size="12" class="i" text-anchor="middle">practice, get scored</text><text x="385" y="64" font-size="12" class="m mono" text-anchor="middle">~31k prompts</text><text x="0" y="104" font-size="12" class="p" font-weight="600">Inside step 3:</text><path d="M0 112 H450" fill="none" style="stroke:var(--muted)" stroke-opacity=".3" stroke-dasharray="3 4"/><rect x="0.5" y="124.5" width="129" height="51" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="65" y="146" font-size="13" class="i tip" font-weight="600" text-anchor="middle" tabindex="0" data-tip="SFT: Supervised Fine-Tuning">SFT model</text><text x="65" y="164" font-size="12" class="m" text-anchor="middle">frozen</text><rect x="160.5" y="124.5" width="129" height="51" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="225" y="146" font-size="13" class="p" font-weight="600" text-anchor="middle">Policy</text><text x="225" y="164" font-size="12" class="p" font-weight="600" text-anchor="middle">learning</text><rect x="320.5" y="124.5" width="129" height="51" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="385" y="146" font-size="13" class="i" font-weight="600" text-anchor="middle">Reward model</text><text x="385" y="164" font-size="12" class="m" text-anchor="middle">frozen</text><line x1="131" y1="150" x2="159" y2="150" style="stroke:var(--pc)" stroke-width="1.5" stroke-dasharray="4 3"/><text x="145" y="196" font-size="12" class="p tip" font-weight="600" text-anchor="middle" tabindex="0" data-tip="KL: Kullback–Leibler (divergence)">KL leash</text><line x1="319" y1="150" x2="293" y2="150" style="stroke:var(--pc)" stroke-width="1.5" marker-end="url(#ah-st-enp)"/><text x="305" y="196" font-size="12" class="p" font-weight="600" text-anchor="middle">scores</text></svg></div></figure>
-    <p class="sub">About 40 labelers, hired through Upwork and Scale AI after a screening test.</p>
-    <h3>How the reward model is trained</h3>
-    <ul>
-      <li>For each prompt, labelers rank 4 to 9 answers, which are then split into pairwise comparisons.</li>
-      <li>The training goal: make the “chosen” answer's score higher than the “rejected” one's. The bigger the gap, the more confident it is that people prefer the first. The result is a model that gives each answer a score.</li>
-      <li>A 6B reward model scores the 175B model. The paper gives two reasons: it saves compute, and training a 175B reward model could be unstable. It doesn't say a small reward model is easier to game. That's someone else's inference.</li>
-    </ul>
-    <h3>What changes and what's frozen</h3>
-    <details class="fold"><summary>Show the table · Model · Role in Step 3 · Changes?</summary><div class="tbl"><table>
-      <thead><tr><th>Model</th><th>Role in Step 3</th><th>Changes?</th></tr></thead>
-      <tbody>
-        <tr><td>SFT model</td><td>Reference point: the <span class="tip" tabindex="0" data-tip="KL: Kullback–Leibler (divergence)">KL</span> penalty measures drift from it (the new hire's week-one recording)</td><td>Frozen</td></tr>
-        <tr><td>Reward model</td><td>Examiner: scores each attempt</td><td>Frozen</td></tr>
-        <tr><td>Policy model</td><td>The new hire in practice; after training, it's the InstructGPT that ships</td><td>Only one that changes</td></tr>
-      </tbody>
-    </table></div></details>
-    <div class="grid2">
-      <div><b>KL penalty</b><p class="ink">The score is the examiner's score minus how far the model has moved from the SFT model. This guards against reward hacking, where the model turns into someone else just to please the examiner.</p></div>
-      <div><b>PPO-ptx</b><p class="ink">Mixes some pretraining data into practice, so the model keeps up the basics while it learns new things. That guards against the alignment tax. The objective has two dials. One sets how strong the KL penalty is (β). The other sets how much pretraining data is mixed in (γ). Setting γ to 0 gives plain PPO. In the paper, “InstructGPT” means <span class="tip" tabindex="0" data-tip="PPO-ptx: PPO + pretraining mix">PPO-ptx</span> by default.</p></div>
+    <div class="eyebrow">Question 2</div>
+    <h2>How do you turn it into an assistant?</h2>
+    <div class="ans">
+      <p><b>Three steps: learn from examples, learn people's rankings, then practice while being scored.</b></p>
+      <figure class="fig"><div class="fig-title">Three steps, and what changes in step 3</div><div class="fig-scroll"><svg width="450" height="204" viewBox="0 0 450 204" role="img" aria-label="Diagram. Step 1, SFT, copies good answers on about 13 thousand prompts. Step 2 trains a reward model on rankings for about 33 thousand prompts. Step 3, PPO, practices on about 31 thousand prompts. Inside step 3, the reward model and the SFT model are frozen; only the policy learns, scored by the reward model and tied to the SFT model by a KL leash."><defs><marker id="ah-st-en" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="m"/></marker><marker id="ah-st-enp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--pc)"/></marker></defs><rect x="0.5" y="6.5" width="129" height="69" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="65" y="28" font-size="13" class="i tip" font-weight="600" text-anchor="middle" tabindex="0" data-tip="SFT: Supervised Fine-Tuning">1 · SFT</text><text x="65" y="46" font-size="12" class="i" text-anchor="middle">copy good answers</text><text x="65" y="64" font-size="12" class="m mono" text-anchor="middle">~13k prompts</text><line x1="132" y1="41" x2="157" y2="41" class="ar" marker-end="url(#ah-st-en)"/><rect x="160.5" y="6.5" width="129" height="69" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="225" y="28" font-size="13" class="i" font-weight="600" text-anchor="middle">2 · Reward model</text><text x="225" y="46" font-size="12" class="i" text-anchor="middle">learn the rankings</text><text x="225" y="64" font-size="12" class="m mono" text-anchor="middle">~33k prompts</text><line x1="292" y1="41" x2="317" y2="41" class="ar" marker-end="url(#ah-st-en)"/><rect x="320.5" y="6.5" width="129" height="69" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="385" y="28" font-size="13" class="p tip" font-weight="600" text-anchor="middle" tabindex="0" data-tip="PPO: Proximal Policy Optimization">3 · PPO</text><text x="385" y="46" font-size="12" class="i" text-anchor="middle">practice, get scored</text><text x="385" y="64" font-size="12" class="m mono" text-anchor="middle">~31k prompts</text><text x="0" y="104" font-size="12" class="p" font-weight="600">Inside step 3:</text><path d="M0 112 H450" fill="none" style="stroke:var(--muted)" stroke-opacity=".3" stroke-dasharray="3 4"/><rect x="0.5" y="124.5" width="129" height="51" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="65" y="146" font-size="13" class="i tip" font-weight="600" text-anchor="middle" tabindex="0" data-tip="SFT: Supervised Fine-Tuning">SFT model</text><text x="65" y="164" font-size="12" class="m" text-anchor="middle">frozen</text><rect x="160.5" y="124.5" width="129" height="51" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="225" y="146" font-size="13" class="p" font-weight="600" text-anchor="middle">Policy</text><text x="225" y="164" font-size="12" class="p" font-weight="600" text-anchor="middle">learning</text><rect x="320.5" y="124.5" width="129" height="51" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="385" y="146" font-size="13" class="i" font-weight="600" text-anchor="middle">Reward model</text><text x="385" y="164" font-size="12" class="m" text-anchor="middle">frozen</text><line x1="131" y1="150" x2="159" y2="150" style="stroke:var(--pc)" stroke-width="1.5" stroke-dasharray="4 3"/><text x="145" y="196" font-size="12" class="p tip" font-weight="600" text-anchor="middle" tabindex="0" data-tip="KL: Kullback–Leibler (divergence)">KL leash</text><line x1="319" y1="150" x2="293" y2="150" style="stroke:var(--pc)" stroke-width="1.5" marker-end="url(#ah-st-enp)"/><text x="305" y="196" font-size="12" class="p" font-weight="600" text-anchor="middle">scores</text></svg></div></figure>
+      <ul>
+        <li><b><span class="tip" tabindex="0" data-tip="SFT: Supervised Fine-Tuning">SFT</span></b>: labelers write good answers by hand, and the model learns from them.</li>
+        <li><b>Reward model</b>: labelers rank several answers, and a model is trained to learn that taste (Question 3).</li>
+        <li><b><span class="tip" tabindex="0" data-tip="PPO: Proximal Policy Optimization">PPO</span></b>: the model practices a lot and the reward model scores it. Only it changes; the other two are frozen.</li>
+      </ul>
+      <p>The whole recipe is <b><span class="tip" tabindex="0" data-tip="RLHF: Reinforcement Learning from Human Feedback">RLHF</span></b>. <span class="tag r">Prior research</span>This paper didn't invent it, but made it standard; ChatGPT was trained the same way.</p>
     </div>
-    <div class="callout"><b>What the alignment tax is, and how it happens</b><p>What it is. After the model is shaped into a good assistant, it gets worse at some general abilities it used to have. It's like practicing only for the essay exam and slipping in math. That's the “tax”.</p><p><span class="tag g">Our inference</span> How it happens. During <span class="tip" tabindex="0" data-tip="RL: Reinforcement Learning">RL</span>, all of the model's parameters get pushed toward whatever the reward model scores high. The parameters are shared, so while they're pushed toward “acts like an assistant”, nothing protects the other skills, and some get crowded out.</p><p><span class="tag g">Our inference</span> Why the KL penalty can't fix it. It says “don't let answers on the practice prompts drift too far from the SFT model”, so it only watches the practice questions. The regression happens where practice didn't reach, and holding the practice answers in place doesn't hold the other skills. The paper's observation fits this: turning KL up doesn't win the skills back.</p><p>The fix. PPO-ptx also does a few of the original pretraining problems during practice, like reviewing math while practicing essays. It wins back most of the loss, but not all.</p></div>
-    <div class="callout"><b>Link to MT-Bench</b><p>A reward model is basically an LLM-as-a-judge. MT-Bench uses a judge to evaluate. Here the judge is used to train.</p></div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">Evidence · §4</div>
-    <h2>Results</h2>
-    <details class="fold"><summary>Show the table · Finding · Detail · Source</summary><div class="tbl"><table>
-      <thead><tr><th>Finding</th><th>Detail</th><th>Source</th></tr></thead>
-      <tbody>
-        <tr><td>Small aligned beats large unaligned</td><td>The 1.3B InstructGPT's outputs are preferred to the 175B GPT-3's (no exact percentage in the text); 175B InstructGPT vs GPT-3: 85 ± 3%, vs few-shot GPT-3: 71 ± 4%</td><td></td></tr>
-        <tr><td>More truthful</td><td>About twice as many truthful and informative answers as GPT-3 on <span class="tip" tabindex="0" data-tip="TruthfulQA: a question set that tests whether a model repeats widely believed falsehoods.">a truthfulness test</span></td><td></td></tr>
-        <tr><td>Less toxic, conditionally</td><td>About 25% fewer toxic outputs when asked to be respectful; no advantage without the instruction</td><td></td></tr>
-        <tr><td>Bias</td><td>No significant improvement on <span class="tip" tabindex="0" data-tip="Winogender and CrowS-Pairs: two test sets that probe a model for gender and social bias.">either of two bias tests</span></td><td></td></tr>
-        <tr><td>Alignment tax</td><td>After RLHF, the model does worse than the original GPT-3 on several public general-ability tests (reading comprehension, question answering, translation). Mixing in pretraining data (PPO-ptx) wins back most of it, but not all. Turning the KL penalty up alone doesn't. See the alignment tax note above for the mechanism.</td><td></td></tr>
-      </tbody>
-    </table></div></details>
+    <div class="eyebrow">Question 3</div>
+    <h2>How does a machine learn “human taste”?</h2>
+    <p>A “good answer” is hard to write down as rules.</p>
+    <div class="ans">
+      <p><b>Have people rank a few answers, then train a model to predict that ranking.</b></p>
+      <figure class="fig"><div class="fig-title">Illustration: from human rankings to a model that scores</div><div class="fig-scroll"><svg width="466" height="172" viewBox="0 0 466 172" role="img" aria-label="Illustration. Step one, a labeler ranks 4 answers: A first, C second, B third, D fourth. Step two, this splits into 6 pairwise comparisons: A beats C, A beats B, A beats D, C beats B, C beats D, B beats D. Step three, the trained reward model gives each answer a score, A highest and D lowest."><defs><marker id="ah-rk-en" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="m"/></marker></defs><text x="1" y="14" font-size="11" class="m" font-weight="600">① Labelers rank</text><rect x="1" y="24" width="112" height="26" rx="8" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="12" y="41" font-size="12" class="i">1 · Answer A</text><rect x="1" y="56" width="112" height="26" rx="8" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="12" y="73" font-size="12" class="i">2 · Answer C</text><rect x="1" y="88" width="112" height="26" rx="8" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="12" y="105" font-size="12" class="i">3 · Answer B</text><rect x="1" y="120" width="112" height="26" rx="8" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="12" y="137" font-size="12" class="i">4 · Answer D</text><line x1="118" y1="86" x2="146" y2="86" class="ar" marker-end="url(#ah-rk-en)"/><text x="156" y="14" font-size="11" class="m" font-weight="600">② Split into pairs</text><text x="166" y="40" font-size="12" class="i mono">A &gt; C</text><text x="166" y="60" font-size="12" class="i mono">A &gt; B</text><text x="166" y="80" font-size="12" class="i mono">A &gt; D</text><text x="166" y="100" font-size="12" class="i mono">C &gt; B</text><text x="166" y="120" font-size="12" class="i mono">C &gt; D</text><text x="166" y="140" font-size="12" class="i mono">B &gt; D</text><text x="156" y="166" font-size="11" class="m">4 answers = 6 pairs</text><line x1="256" y1="86" x2="284" y2="86" class="ar" marker-end="url(#ah-rk-en)"/><text x="292" y="14" font-size="11" class="p" font-weight="600">③ Reward model scores</text><text x="292" y="41" font-size="12" class="i" font-weight="600">A</text><rect x="308" y="28" width="135" height="18" rx="5" style="fill:var(--pc)" fill-opacity="0.79"/><text x="292" y="75" font-size="12" class="i" font-weight="600">C</text><rect x="308" y="62" width="93" height="18" rx="5" style="fill:var(--pc)" fill-opacity="0.62"/><text x="292" y="109" font-size="12" class="i" font-weight="600">B</text><rect x="308" y="96" width="51" height="18" rx="5" style="fill:var(--pc)" fill-opacity="0.45"/><text x="292" y="143" font-size="12" class="i" font-weight="600">D</text><rect x="308" y="130" width="18" height="18" rx="5" style="fill:var(--pc)" fill-opacity="0.32"/></svg></div></figure>
+      <p>Each time, 4 to 9 answers are ranked and split into pairs; training pushes the preferred answer's score higher. The finished reward model can score any answer, so it's really an <span class="tip" tabindex="0" data-tip="LLM: Large Language Model">LLM</span> judge: <a href="#mt-bench">MT-Bench</a> uses a judge to evaluate, this paper uses one to train.</p>
+    </div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">Limitations · §5</div>
-    <h2>Who are we aligning to? (§5.2)</h2>
-    <details class="fold"><summary>Show the table · Who · What they shaped</summary><div class="tbl"><table>
-      <thead><tr><th>Who</th><th>What they shaped</th></tr></thead>
-      <tbody>
-        <tr><td>Labelers</td><td>Wrote demos and rankings; about 40 people, mostly English speakers in the US or Southeast Asia</td></tr>
-        <tr><td>Researchers</td><td>Wrote the labeling guidelines and screening tests; their values sit furthest upstream</td></tr>
-        <tr><td>API customers</td><td>Supplied prompts; the early waitlist skewed toward OpenAI's network</td></tr>
-        <tr><td>Everyone else</td><td>Not involved but affected; the authors say no system can align to everyone's preferences at once</td></tr>
-      </tbody>
-    </table></div></details>
-    <ul>
-      <li>Agreement among training labelers was 72.6%, and 77.3% for a held-out group: about one disagreement in four, averaged away.</li>
-      <li>Still makes simple mistakes, goes along with false premises, sometimes hedges too much, and mostly follows harmful instructions when asked.</li>
-    </ul>
+    <div class="eyebrow">Question 4</div>
+    <h2>While practicing, how do you stop it gaming the score?</h2>
+    <p>The reward model only approximates human taste. Chase the score long enough and the model may find answers that score high but aren't good.</p>
+    <div class="ans">
+      <p><b>The score is reduced by how far it drifts from the original SFT model, like a leash.</b> This is the <b><span class="tip" tabindex="0" data-tip="KL: Kullback–Leibler (divergence)">KL</span> penalty</b>, the “KL leash” in the three-step figure above.</p>
+      <p>It's Goodhart's law from the <a href="#s-post">Post-training</a> page: train against a score, and the score stops meaning what you wanted.</p>
+    </div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">Influence · <span class="tag r">Prior research</span></div>
-    <h2>It didn't invent RLHF, but it made RLHF standard</h2>
-    <details class="fold"><summary>Show the table · When · What</summary><div class="tbl"><table>
-      <thead><tr><th>When</th><th>What</th></tr></thead>
-      <tbody>
-        <tr><td>2017</td><td>Christiano et al.: training RL agents from human preferences (games, robotics), the origin of the idea</td></tr>
-        <tr><td>2020</td><td>Stiennon et al.: first RLHF for language, on summarization</td></tr>
-        <tr><td>2022.3</td><td>InstructGPT: applied to general instruction following</td></tr>
-        <tr><td>2022.11</td><td>ChatGPT: OpenAI said it used the same methods, with dialogue data</td></tr>
-        <tr><td>Later</td><td><span class="tip" tabindex="0" data-tip="RLAIF: RL from AI Feedback">RLAIF</span> / Constitutional AI (AI scores by written principles); <span class="tip" tabindex="0" data-tip="DPO: Direct Preference Optimization">DPO</span> (no reward model, Rafailov et al. 2023); correctness as the reward for tasks with right answers</td></tr>
-      </tbody>
-    </table></div></details>
-    <p class="sub">Most frontier labs haven't published their exact post-training recipes.</p>
+    <div class="eyebrow">Question 5</div>
+    <h2>What does becoming a good assistant cost?</h2>
+    <div class="ans">
+      <p><b>Some general abilities it already had get worse; the paper calls this the alignment tax.</b> After alignment, the model does worse than the original GPT-3 on public tests of reading comprehension, question answering and translation.</p>
+      <p>Mixing some pretraining data into practice (<span class="tip" tabindex="0" data-tip="PPO-ptx: PPO + pretraining mix">PPO-ptx</span>) wins most of it back; just tightening the KL leash doesn't. <span class="tag g">Our inference</span>The leash only covers answers to the practice questions; the losses happen where practice doesn't reach.</p>
+    </div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">Our discussion</div>
-    <h2>Hallucination and sycophancy are two different problems</h2>
-    <details class="fold"><summary>Show the table · Hallucination · Sycophancy</summary><div class="tbl"><table>
-      <thead><tr><th></th><th>Hallucination</th><th>Sycophancy</th></tr></thead>
-      <tbody>
-        <tr><td>What it looks like</td><td>Confidently stating facts or citations that don't exist</td><td>Agreeing with the user, backing down when challenged</td></tr>
-        <tr><td>Main source</td><td>Pretraining: the goal is plausible continuation</td><td>RLHF: raters favor answers that feel good</td></tr>
-        <tr><td>RLHF's role</td><td>Can amplify or reduce it (<span class="tip" tabindex="0" data-tip="TruthfulQA: a question set that tests whether a model repeats widely believed falsehoods.">a truthfulness test</span> improved here)</td><td>One of the main sources</td></tr>
-      </tbody>
-    </table></div></details>
-    <ul>
-      <li><span class="tag r">Prior research</span> Kalai et al. 2025 compare it to an exam. A blank answer scores 0 and a guess might score, so students learn to guess. Scoring that rewards guessing keeps hallucination alive (to verify).</li>
-      <li><span class="tag g">Our inference</span> There's no “pure” model. Pretraining alone carries the internet's biases, and RLHF adds the labelers' preferences. A more useful question is whose influence you're getting, whether it's disclosed, and whether your users can correct it.</li>
-      <li><span class="tag g">Our inference</span> A general model's “good answer” reflects labeler taste. An <span class="tip" tabindex="0" data-tip="SRE: Site Reliability Engineer">SRE</span> handling an incident at 3 a.m. may just want one query they can run.</li>
-      <li><span class="tag g">Our inference</span> Alignment changes how a model answers, not what it knows. The base model sets the knowledge ceiling. Alignment can present what's already there better, but it's unlikely to make a model answer facts it never saw in pretraining. The paper doesn't discuss this directly. The closest are the alignment tax and generalization to unsupervised tasks (§4.2–4.3).</li>
-    </ul>
+    <div class="eyebrow">Question 6</div>
+    <h2>Did it actually get better?</h2>
+    <div class="ans">
+      <p><b>A small aligned model beats an original model 100 times its size.</b> People preferred the 1.3B-parameter InstructGPT to the 175B GPT-3; the 175B version was preferred to GPT-3 85% of the time.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Aspect</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Truthfulness</td><td>About twice as many truthful, informative answers as GPT-3 on a <span class="tip" tabindex="0" data-tip="TruthfulQA: a question set that tests whether a model repeats long-standing false beliefs.">truthfulness test</span></td></tr>
+          <tr><td>Harmful content</td><td>About 25% less when asked to be respectful</td></tr>
+          <tr><td>Bias</td><td>No clear improvement on <span class="tip" tabindex="0" data-tip="Winogender and CrowS-Pairs: two test sets for gender and social bias.">two bias tests</span></td></tr>
+          <tr><td>Still goes wrong</td><td>Simple mistakes; accepting false premises; mostly following harmful instructions when asked</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Question 7</div>
+    <h2>Whose preferences was it aligned to?</h2>
+    <div class="ans">
+      <p><b>Mostly the taste of about 40 labelers and the researchers.</b> Labelers agreed with each other only about 73–77% of the time, and the disagreements were averaged away.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Who</th><th>What they shaped</th></tr></thead>
+        <tbody>
+          <tr><td>Labelers</td><td>Wrote demonstrations and rankings; mostly English-speaking, based in the US or Southeast Asia</td></tr>
+          <tr><td>Researchers</td><td>Wrote the labeling guidelines and screening tests; their values sit furthest upstream</td></tr>
+          <tr><td><span class="tip" tabindex="0" data-tip="API: Application Programming Interface">API</span> customers</td><td>Supplied prompts; early access had a waitlist that leaned toward OpenAI's network</td></tr>
+          <tr><td>Everyone else</td><td>Not involved but affected; the authors say no single model can align to everyone's preferences</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Question 8 · Two things often confused</div>
+    <h2>How do hallucination and sycophancy differ?</h2>
+    <div class="ans">
+      <p><span class="tag r">Prior research</span>One comes mainly from pretraining, the other mainly from RLHF.</p>
+      <div class="tbl"><table>
+        <thead><tr><th></th><th>Hallucination</th><th>Sycophancy</th></tr></thead>
+        <tbody>
+          <tr><td>What it looks like</td><td>Confidently stating facts or citations that don't exist</td><td>Moving toward the user's view; backing down when challenged</td></tr>
+          <tr><td>Main source</td><td>Pretraining: the goal is to continue text plausibly</td><td>RLHF: labelers favor answers that feel good to them</td></tr>
+        </tbody>
+      </table></div>
+      <p class="sub">“Sycophancy” is a human word. What happens is that outputs are trained to move toward views the user has expressed rather than toward the facts; the model isn't trying to please anyone.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">Question 9 · Product thinking</div>
+    <h2>Do your users want what these labelers wanted?</h2>
+    <div class="ans">
+      <figure class="fig"><div class="fig-title">Illustration: one question, two kinds of “good answer” <span class="tag g">Our inference</span></div><div class="fig-scroll"><svg width="466" height="200" viewBox="0 0 466 200" role="img" aria-label="Illustration. Question: at 3 a.m., billing 5xx errors are spiking; where to look first. Left, the answer raters might prefer: polite and thorough, listing possible causes. Right, what the SRE needs: a kubectl command that pulls recent logs, and a pointer to check the deploy from 15 minutes ago."><rect x="1" y="1" width="464" height="32" rx="16" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="16" y="22" font-size="12" class="i">3 a.m.: billing 5xx errors spiking. Where do I look first?</text><rect x="1" y="46" width="224" height="150" rx="12" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="14" y="68" font-size="11" class="m" font-weight="600">What raters might prefer</text><text x="14" y="92" font-size="11" class="i">Great question! 5xx errors can have</text><text x="14" y="112" font-size="11" class="i">several causes: 1. overload,</text><text x="14" y="132" font-size="11" class="i">2. a failing dependency, 3. config…</text><text x="14" y="152" font-size="11" class="i">Happy to explain more!</text><rect x="241" y="46" width="224" height="150" rx="12" fill="none" style="stroke:var(--pc)" stroke-width="1.5"/><text x="254" y="68" font-size="11" class="p" font-weight="600">What the SRE needs</text><text x="254" y="94" font-size="11" class="i mono">kubectl logs deploy/billing</text><text x="254" y="112" font-size="11" class="i mono">  --since=15m | grep " 5.."</text><text x="254" y="140" font-size="12" class="i">Check the deploy from 15 min ago.</text></svg></div></figure>
+      <ul>
+        <li><span class="tag g">Our inference</span><b>The standard for a “good answer” came from about 40 people.</b> An <span class="tip" tabindex="0" data-tip="SRE: Site Reliability Engineer">SRE</span> handling an outage at 3 a.m. may want one command that runs. Test against your own users' preferences before launch.</li>
+        <li><span class="tag g">Our inference</span><b>Learning from user feedback over time pays an alignment tax too:</b> learn the new, forget the old. Like PPO-ptx, keep a set of “old skills” questions and keep re-testing (see also <a href="#harness-evo">Self-Evolving Agent Harness</a>).</li>
+        <li><span class="tag g">Our inference</span><b>Alignment changes how it answers, not what it knows.</b> Facts the model never learned won't appear through alignment; that takes retrieval (<a href="#rag">RAG</a>).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow">In one sentence</div>
+    <h2>Human demonstrations and rankings turn a text continuer into an assistant</h2>
+    <p>InstructGPT uses human demonstrations and rankings to turn GPT-3, which only continues text, into an assistant that follows instructions: a small aligned model beats a large one, but what it learns is a small group's taste, and it costs some general ability.</p>
   </section>
 
   <section class="qs">
     <div class="eyebrow">Questions</div>
     <div class="q"><span class="why">Whose preferences</span><div class="en">Preference data comes from a small group of raters but shapes how millions of people work. How do you account for users whose preferences aren't in that group?</div><button class="copy" type="button">Copy</button></div>
-    <div class="q"><span class="why">Forgetting</span><div class="en">InstructGPT mixed in pretraining data to limit the alignment tax. What's the equivalent safeguard when an enterprise agent keeps learning from its own users?</div><button class="copy" type="button">Copy</button></div>
+    <div class="q"><span class="why">Learning new, forgetting old</span><div class="en">InstructGPT mixed in pretraining data to limit the alignment tax. What's the equivalent safeguard when an enterprise agent keeps learning from its own users?</div><button class="copy" type="button">Copy</button></div>
   </section>
 
   <section class="sec">
     <div class="eyebrow">Terms</div>
     <div class="gloss">
-      <div><b>SFT</b><span>Imitating human-written demonstrations</span></div>
-      <div><b>reward model</b><span>A “virtual examiner” learned from human rankings</span></div>
-      <div><b>RLHF</b><span>Reinforcement learning scored by human preference (via a reward model)</span></div>
-      <div><b>PPO</b><span>An RL algorithm that adjusts in small steps</span></div>
-      <div><b>KL penalty</b><span>Subtracts how far the model drifts from SFT</span></div>
-      <div><b>alignment tax / PPO-ptx</b><span>Regression after alignment / mixing in pretraining data to reduce it</span></div>
-      <div><b>misalignment</b><span>Behavior that doesn't match user intent</span></div>
-      <div><b>sycophancy</b><span>“Saying what users want to hear”: output drifts toward the user's stated view rather than the facts</span></div>
-      <div><b>instruction tuning / regularizer / RLHF regression</b><span>Slang: often used for the SFT stage / the KL penalty / the alignment tax; usage varies <span class="tag r">Prior research</span></span></div>
+      <div><b>SFT</b><span>Learning from human-written examples</span></div>
+      <div><b>reward model</b><span>A model that learned to score answers from human rankings</span></div>
+      <div><b>RLHF</b><span>Reinforcement learning scored by human preference (through a reward model)</span></div>
+      <div><b>PPO</b><span>A reinforcement learning algorithm that changes things in small steps</span></div>
+      <div><b>KL penalty</b><span>A deduction for drifting away from the SFT model</span></div>
+      <div><b>alignment tax / PPO-ptx</b><span>Losing ground after alignment / mixing in pretraining data to lose less</span></div>
+      <div><b>misalignment</b><span>Model behavior that doesn't match what the user intends</span></div>
+      <div><b>sycophancy</b><span>Outputs moving toward the user's stated view rather than the facts</span></div>
     </div>
   </section>
 
