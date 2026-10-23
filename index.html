@@ -2155,8 +2155,7 @@ details.ws .q{margin-top:10px}
   <section class="sec">
     <div class="eyebrow">这篇在哪个位置</div>
     <h2>知识存在哪里</h2>
-    <p>预训练以后，模型学到的事实都存在参数里。这篇论文把这叫 <b>parametric memory</b>（参数记忆），并提出另一种：把资料放在模型外面，回答前先去查，叫 <b>non-parametric memory</b>（非参数记忆）。</p>
-    <p>它比 <a href="#memgpt">MemGPT</a> 和 <a href="#lost-middle">Lost in the Middle</a> 都早。后两篇问的是“放进 window 的东西怎么管、用不用得上”；这篇问的是更早的一步：要不要从外面拿东西进来。</p>
+    <p>预训练以后，模型学到的事实都存在参数里，论文叫 <b>parametric memory</b>（参数记忆）。这篇加了另一种：资料放在模型外面，回答前先去查，叫 <b>non-parametric memory</b>（非参数记忆）。</p>
     <div class="where">
       <div class="tint" style="--pc:var(--rg)"><span class="k">去外面查 · 本篇</span><b>RAG</b><p>回答前先检索，知识不必全在参数里</p></div>
       <div class="tint" style="--pc:var(--lm)"><span class="k">查来的用不用得上</span><b><a href="#lost-middle">Lost in the Middle</a></b><p>放进 window 的，放在中间最容易用不上</p></div>
@@ -2165,85 +2164,61 @@ details.ws .q{margin-top:10px}
   </section>
 
   <section class="sec">
-    <div class="eyebrow">第 1 问 · 动机 §1</div>
+    <div class="eyebrow">第 1 问 · 动机</div>
     <h2>如果知识全存在参数里，会有什么麻烦？</h2>
     <p>拿一个排障 agent 来想：它关于系统、服务、事故的知识，全都只存在参数里。</p>
     <div class="ans">
-      <p>论文列了三个麻烦：</p>
       <ul>
-        <li><b>不容易扩充或修改。</b>知识过时了，要改就得再训练。<span class="tag g">推测</span>一条事实不是存在某一个格子里，而是分散在大量权重里，所以没法“找到那一行改掉”。</li>
-        <li><b>没法说明答案从哪来</b>，论文叫 <b>provenance</b>（出处）。</li>
-        <li><b>会 hallucinate</b>：写出看起来像真的、其实是错的内容。</li>
+        <li><b>难更新。</b>知识过时了只能再训练。<span class="tag g">推测</span>一条事实分散在大量权重里，没法“找到那一行改掉”。</li>
+        <li><b>说不出出处</b>，论文叫 <b>provenance</b>。</li>
+        <li><b>会 hallucinate</b>：写出像真的、其实错的内容。<span class="tag r">已有研究</span>模型每一步只是在挑最可能的下一个 token；冷门的事实存得弱，它也没有“查不到”的出口，照样写出最像样的那串字。</li>
       </ul>
-      <p>为什么只靠参数会 hallucinate？论文没解释。<span class="tag r">已有研究</span>模型每一步都在算下一个 token 最可能是什么，预训练的打分标准是“续写得像不像”，不是“是不是事实”。<span class="tag g">推测</span>冷门的事实见得少，存得弱；碰到存得弱的地方，它也没有“查不到”的出口，照样输出最像样的那串字。论文表 3 里，只靠参数的 BART 被要求解释 “middle ear”（中耳），它写的是“中耳是耳朵里位于中耳和鼻子之间的部分”：句子通顺，意思不通。</p>
-      <p class="sub">“编”“不知道”都是人的说法。模型没有想骗人，也没有意识到自己不知道。实际发生的只是：在信息很弱的地方，概率最高的输出恰好是错的。</p>
-      <p>加上检索以后，人工比较两种模型写的题目，觉得 <span class="tip" tabindex="0" data-tip="RAG：Retrieval-Augmented Generation">RAG</span> 更符合事实的占 42.7%，觉得 BART 更符合事实的占 7.1%。模型也不用很大：</p>
-      <div class="tbl"><table>
-        <thead><tr><th>模型</th><th>知识在哪</th><th>开放问答测试上答对</th></tr></thead>
-        <tbody>
-          <tr><td>T5，110 亿参数</td><td>只在参数里</td><td class="num">34.5%</td></tr>
-          <tr><td>T5，110 亿参数，加专门的预训练</td><td>只在参数里</td><td class="num">36.6%</td></tr>
-          <tr><td>RAG，生成部分 4 亿参数</td><td>参数 + Wikipedia</td><td class="num">44.5%</td></tr>
-        </tbody>
-      </table></div>
-      <p class="sub">开放问答测试是 <span class="tip" tabindex="0" data-tip="Natural Questions：从真实的 Google 搜索问题整理出来的问答测试，答案在 Wikipedia 里。">Natural Questions</span>，按答案是否完全一致算对错。</p>
+      <p>加上检索后，小模型反而答得更好：生成部分只有 4 亿参数的 <span class="tip" tabindex="0" data-tip="RAG：Retrieval-Augmented Generation">RAG</span> 在开放问答上答对 44.5%，只靠参数、110 亿参数的 T5 是 34.5%。</p>
     </div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">第 2 问 · 结构 §2</div>
+    <div class="eyebrow">第 2 问 · 结构</div>
     <h2>RAG 的两种记忆，怎么分工？</h2>
-    <p>外面那份资料是 2018 年 12 月的整个 Wikipedia，切成 2100 万段，每段 100 词。模型要在回答前从里面挑出几段来用。</p>
+    <p>外面那份资料是整个 Wikipedia，切成 2100 万段。</p>
     <div class="ans">
       <figure class="fig"><div class="fig-title">retriever 先找，generator 再写</div><div class="fig-scroll"><svg width="466" height="182" viewBox="0 0 466 182" role="img" aria-label="RAG 结构图。上排是 retriever：问题 x 进入 query encoder 变成 q(x)，用 MIPS 在 document index 里找内积最大的段落；document index 是 non-parametric memory，有 2100 万段。下排是 generator：取回的 top-K 段落 z 各自和问题拼在一起，交给 BART 生成答案 y；BART 的参数是 parametric memory。"><defs><marker id="ah-rg-zh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L9.7 5L0 10z" class="m"/></marker></defs><text x="1" y="13" font-size="11" class="m" font-weight="600">retriever pη</text><rect x="1" y="22" width="92.8" height="56" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="47.4" y="45" font-size="13" class="i" font-weight="600" text-anchor="middle">query x</text><text x="47.4" y="64" font-size="11" class="m" text-anchor="middle">问题</text><line x1="95.7" y1="50" x2="117" y2="50" class="ar" marker-end="url(#ah-rg-zh)"/><rect x="120.9" y="22" width="135.4" height="56" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="188.5" y="45" font-size="13" class="i" font-weight="600" text-anchor="middle">query encoder</text><text x="188.5" y="64" font-size="11" class="m" text-anchor="middle">问题 → q(x)</text><line x1="258.1" y1="50" x2="298.7" y2="50" class="ar" marker-end="url(#ah-rg-zh)"/><text x="278.4" y="42" font-size="10" class="m tip" tabindex="0" data-tip="MIPS：Maximum Inner Product Search，找内积最大的那几段" text-anchor="middle">MIPS</text><rect x="302.6" y="22" width="162.4" height="56" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="383.8" y="45" font-size="13" class="p" font-weight="600" text-anchor="middle">document index d(z)</text><text x="383.8" y="64" font-size="11" class="i" text-anchor="middle">non-parametric memory</text><line x1="383.8" y1="80" x2="383.8" y2="116" class="ar" marker-end="url(#ah-rg-zh)"/><text x="1" y="112" font-size="11" class="m" font-weight="600">generator pθ</text><rect x="302.6" y="120" width="162.4" height="56" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="383.8" y="143" font-size="13" class="i" font-weight="600" text-anchor="middle">top-K 段落 z</text><text x="383.8" y="162" font-size="11" class="m" text-anchor="middle">每段分别和问题拼接</text><line x1="300.7" y1="148" x2="260.1" y2="148" class="ar" marker-end="url(#ah-rg-zh)"/><rect x="120.9" y="120" width="135.4" height="56" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="188.5" y="143" font-size="13" class="p" font-weight="600" text-anchor="middle">BART</text><text x="188.5" y="162" font-size="11" class="i" text-anchor="middle">parametric memory</text><line x1="118.9" y1="148" x2="97.6" y2="148" class="ar" marker-end="url(#ah-rg-zh)"/><rect x="1" y="120" width="92.8" height="56" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="47.4" y="143" font-size="13" class="i" font-weight="600" text-anchor="middle">y</text><text x="47.4" y="162" font-size="11" class="m" text-anchor="middle">答案</text></svg></div></figure>
       <ul>
-        <li><b>retriever</b>（检索器）：现成的 <span class="tip" tabindex="0" data-tip="DPR：Dense Passage Retriever">DPR</span>，从 2100 万段里找出意思最接近问题的 K 段。</li>
-        <li><b>generator</b>（生成器）：<span class="tip" tabindex="0" data-tip="BART：Bidirectional and Auto-Regressive Transformers，一种 encoder-decoder 模型">BART</span>，4 亿参数，把问题和查到的段落拼在一起写出答案。</li>
+        <li><b>retriever</b>（检索器，用的是现成的 <span class="tip" tabindex="0" data-tip="DPR：Dense Passage Retriever">DPR</span>）：找出意思最接近问题的 K 段。</li>
+        <li><b>generator</b>（生成器，<span class="tip" tabindex="0" data-tip="BART：Bidirectional and Auto-Regressive Transformers，一种 encoder-decoder 模型">BART</span>）：把问题和这几段拼在一起，写出答案。</li>
       </ul>
       <h3>“意思最接近”怎么算</h3>
-      <p>你在<a href="#s-pre">预训练</a>页学过 <b>embedding</b>。RAG 给<b>每一整段话</b>和问题各算一串 768 个数字，相当于把它们放进一个 768 维空间里的一个位置。意思越近，位置越近。</p>
+      <p>每一整段话和问题都被算成一串 768 个数字（<a href="#s-pre">embedding</a>），也就是空间里的一个点。意思越近，点越近。</p>
       <figure class="fig"><div class="fig-title">示意：问题和段落在 embedding 空间里的位置（拖动旋转）</div><div class="emb3d" data-emb="zh" tabindex="0" role="img" aria-label="三维示意图。问题“日志存储费用暴涨”和“log ingestion cost spike”“存储账单翻倍”“日志保留策略”三段离得很近，和“重置密码”“开通账号”“部署回滚”离得很远。可以拖动或用左右方向键旋转。"></div></figure>
-      <p>“log ingestion cost spike” 和问题一个字都不重合，位置却挨在一起，所以会被找出来。真实空间有 768 维，这里只画 3 维；RAG 用两串数字的<b>内积</b>（按位置相乘再相加）衡量远近，越大越近。单个维度说不出名字，起作用的是整串数字合在一起的位置。</p>
-      <p>encoder 会算这些数字，是因为它先在 <span class="tip" tabindex="0" data-tip="BERT：Bidirectional Encoder Representations from Transformers">BERT</span> 预训练里学会语言<span class="tag r">已有研究</span>，再用大量“问题 + 含答案的段落”配对练会找段落。RAG 只再调问题那一侧；段落那一侧冻结，因为一改，2100 万段都得重算。</p>
+      <p>“log ingestion cost spike” 和问题一个字都不重合，点却挨在一起，所以会被找出来。真实空间有 768 维，这里只画 3 维。</p>
+      <p>算这些数字的 encoder 先在大量文字上学会语言，再用“问题 + 含答案的段落”配对专门练过找段落。</p>
     </div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">第 3 问 · 检索方式 §4.5</div>
+    <div class="eyebrow">第 3 问 · 检索方式</div>
     <h2>找相关段落：数相同的词，还是比意思？</h2>
-    <p>两种办法：(a) 数问题和段落里有多少相同的词，这是传统搜索引擎的做法，叫 <span class="tip" tabindex="0" data-tip="BM25：Best Matching 25，按词出现的次数和稀有程度给段落打分的关键词检索方法">BM25</span>；(b) 比较 embedding，这是 RAG 的做法。哪个更好？有没有哪类问题反而是数词更好？</p>
+    <p>(a) 数问题和段落里有多少相同的词，这是传统搜索的做法，叫 <span class="tip" tabindex="0" data-tip="BM25：Best Matching 25，按词出现的次数和稀有程度给段落打分的关键词检索方法">BM25</span>；(b) 比较 embedding，这是 RAG 的做法。</p>
     <div class="ans">
-      <p><b>整体上比意思更好，但查具体名字时，数词更准。</b>论文把检索器换掉做了对比（改进阶段的测试集）：</p>
-      <div class="tbl"><table>
-        <thead><tr><th>任务</th><th>数相同的词</th><th>比意思，检索器冻结</th><th>比意思，检索器一起训练</th></tr></thead>
-        <tbody>
-          <tr><td>开放问答</td><td class="num">31.8%</td><td class="num">41.2%</td><td class="num">44.0%</td></tr>
-          <tr><td>事实核查（三选一）</td><td class="num">75.1%</td><td class="num">72.9%</td><td class="num">74.5%</td></tr>
-        </tbody>
-      </table></div>
-      <p>事实核查（<span class="tip" tabindex="0" data-tip="FEVER：给一个说法，判断它是真、假，还是资料不足。">FEVER</span>）的说法以人名、片名这样的<b>实体</b>为中心，论文认为直接找含有这些名字的段落就很准。</p>
+      <p><b>整体上比意思更好；查具体的名字、编号时，数词更准。</b>开放问答上比意思答对 44.0%、数词 31.8%；以人名、片名为主的事实核查上，数词反而略高。</p>
       <figure class="fig"><div class="fig-title">放到排障里：两种方法各自找到什么 <span class="tag g">推测</span></div><div class="fig-scroll"><svg width="466" height="150" viewBox="0 0 466 150" role="img" aria-label="对比图。查错误码 ERR_4012：数相同的词找到 ERR_4012 磁盘写满，对；比意思找到 ERR_4013 权限不足，错，因为看起来很像。问“日志存储费用暴涨”：数相同的词没找到，因为文档写的是 log ingestion cost spike；比意思找到了这一段，对。"><text x="1" y="14" font-size="11" class="m" font-weight="600">问题</text><text x="241.7" y="14" font-size="11" class="m" font-weight="600" text-anchor="middle">数相同的词</text><text x="386.7" y="14" font-size="11" class="m" font-weight="600" text-anchor="middle">比意思</text><rect x="1" y="24" width="154.7" height="54" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="11.6" y="47" font-size="12" class="i" font-weight="600">查错误码</text><text x="11.6" y="65" font-size="12" class="i mono">ERR_4012</text><rect x="170.2" y="24" width="143.1" height="54" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="241.7" y="47" font-size="12" class="p" font-weight="600" text-anchor="middle">✓ ERR_4012</text><text x="241.7" y="65" font-size="11" class="i" text-anchor="middle">磁盘写满</text><rect x="321.9" y="24" width="143.1" height="54" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="393.5" y="47" font-size="12" class="m" font-weight="600" text-anchor="middle">✗ ERR_4013</text><text x="393.5" y="65" font-size="11" class="m" text-anchor="middle">“看起来很像”</text><rect x="1" y="90" width="154.7" height="54" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="11.6" y="113" font-size="12" class="i" font-weight="600">日志存储费用</text><text x="11.6" y="131" font-size="12" class="i" font-weight="600">暴涨</text><rect x="170.2" y="90" width="143.1" height="54" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="241.7" y="113" font-size="12" class="m" font-weight="600" text-anchor="middle">✗ 没找到</text><text x="241.7" y="131" font-size="11" class="m" text-anchor="middle">一个词都不重合</text><rect x="321.9" y="90" width="143.1" height="54" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="393.5" y="113" font-size="12" class="p" font-weight="600" text-anchor="middle">✓ log ingestion</text><text x="393.5" y="131" font-size="11" class="i" text-anchor="middle">cost spike</text></svg></div></figure>
-      <p>最后一列比中间一列高：让检索器跟着任务一起学“怎么查”也有帮助。第 6 问会再回到这一点。</p>
     </div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">第 4 问 · 两种记忆一起用 §4.1、§4.3</div>
+    <div class="eyebrow">第 4 问 · 资料里没有答案时</div>
     <h2>查到的段落里都没有答案，它还能答对吗？</h2>
-    <p>问“《老人与海》的作者是谁”，查回来的 5 段都没提到海明威。一种更早的做法叫 <b>extractive</b>（抽取式）：只能在查到的原文里划出一段当答案，这时一定答错。RAG 是 <b>generative</b>（生成式），答案自己写。</p>
+    <p>更早的做法是从原文里<b>划出</b>一段当答案（extractive）；RAG 是自己<b>写</b>答案（generative）。</p>
     <div class="ans">
-      <p><b>能答对一部分，靠的是参数里本来就有的知识。</b>在开放问答测试上，查回来的段落都不含正确答案时，RAG 仍答对 11.8%，抽取式是 0%。</p>
-      <p>论文图 2 能看到两种记忆怎么配合：给出答案 “Hemingway”，让模型反过来写一道题，颜色越深，表示写这个词时越依赖那一段。</p>
-      <figure class="fig"><div class="fig-title">示意：写每个词时，模型依赖哪一段（仿论文图 2）</div><div class="fig-scroll"><svg width="462" height="218" viewBox="0 0 462 218" role="img" aria-label="热力图示意。横轴是生成的词：The Sun Also Rises … A Farewell to Arms；纵轴是 5 段检索到的文字。写 Sun 时文档 2（提到 The Sun Also Rises）颜色最深；写 A 时文档 1（提到 A Farewell to Arms）最深；书名的其余部分各段颜色差不多，表示依赖变平。"><text x="135" y="14" font-size="11" class="i" text-anchor="middle">The</text><text x="173" y="14" font-size="11" class="i" text-anchor="middle">Sun</text><text x="211" y="14" font-size="11" class="i" text-anchor="middle">Also</text><text x="249" y="14" font-size="11" class="i" text-anchor="middle">Rises</text><text x="287" y="14" font-size="11" class="i" text-anchor="middle">…</text><text x="325" y="14" font-size="11" class="i" text-anchor="middle">A</text><text x="363" y="14" font-size="11" class="i" text-anchor="middle">Farewell</text><text x="401" y="14" font-size="11" class="i" text-anchor="middle">to</text><text x="439" y="14" font-size="11" class="i" text-anchor="middle">Arms</text><text x="1" y="45" font-size="11" class="m">文档 1：Farewell</text><rect x="118" y="24" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="156" y="24" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.11"/><rect x="194" y="24" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.26"/><rect x="232" y="24" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.26"/><rect x="270" y="24" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="308" y="24" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.82"/><rect x="346" y="24" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.33"/><rect x="384" y="24" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.26"/><rect x="422" y="24" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.26"/><text x="1" y="83" font-size="11" class="m">文档 2：The Sun</text><rect x="118" y="62" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="156" y="62" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.85"/><rect x="194" y="62" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.28"/><rect x="232" y="62" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.26"/><rect x="270" y="62" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="308" y="62" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.11"/><rect x="346" y="62" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.22"/><rect x="384" y="62" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="422" y="62" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><text x="1" y="121" font-size="11" class="m">文档 3</text><rect x="118" y="100" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="156" y="100" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.09"/><rect x="194" y="100" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.22"/><rect x="232" y="100" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.23"/><rect x="270" y="100" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="308" y="100" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.10"/><rect x="346" y="100" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.22"/><rect x="384" y="100" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="422" y="100" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.23"/><text x="1" y="159" font-size="11" class="m">文档 4</text><rect x="118" y="138" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="156" y="138" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.08"/><rect x="194" y="138" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.22"/><rect x="232" y="138" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.22"/><rect x="270" y="138" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="308" y="138" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.09"/><rect x="346" y="138" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.21"/><rect x="384" y="138" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.23"/><rect x="422" y="138" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><text x="1" y="197" font-size="11" class="m">文档 5</text><rect x="118" y="176" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="156" y="176" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.08"/><rect x="194" y="176" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.22"/><rect x="232" y="176" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.23"/><rect x="270" y="176" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="308" y="176" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.09"/><rect x="346" y="176" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.21"/><rect x="384" y="176" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.23"/><rect x="422" y="176" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.23"/></svg></div></figure>
-      <p>每本书只有第一个词靠查到的文字，后面靠参数补完。作者验证：只给只靠参数的 BART 开头 “The Sun”，它自己就能补出整个书名。<b>查到的文字把方向指对，参数里的知识把细节补全。</b>能这样逐词换段落参考的版本叫 <b>RAG-Token</b>；整个答案只依赖同一段的叫 <b>RAG-Sequence</b>。</p>
-      <p><span class="tag g">推测</span>这一点有两面。资料里没有答案时，它会悄悄退回参数里可能很弱的记忆，用户分不出答案是查来的还是“背”出来的。所以界面上要标出答案依据的是哪段文字，查到的内容不支持答案时要提醒。</p>
+      <p><b>能答对一部分，靠的是参数里本来就记着的知识。</b>这种情况下 RAG 答对 11.8%，只会划原文的做法是 0%。</p>
+      <p><span class="tag g">推测</span>代价是：用户分不出答案来自查到的资料，还是模型自己的记忆。所以界面上要标出依据的是哪一段，资料不支持时要明说。</p>
     </div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">第 5 问 · 换资料库 §4.5</div>
+    <div class="eyebrow">第 5 问 · 换资料库</div>
     <h2>世界变了，怎么让模型知道？</h2>
-    <p>作者找了 82 个在 2016 到 2018 年间换过人的国家领导职位，用 “Who is the President of Peru?” 这样的问题去问。模型不变，只换外面的资料库。</p>
+    <p>作者用 2016 到 2018 年间换过人的 82 个国家领导职位提问。模型不变，只换外面的资料库。</p>
     <div class="ans">
       <div class="tbl"><table>
         <thead><tr><th>资料库</th><th>问的是</th><th>答对</th></tr></thead>
@@ -2254,42 +2229,35 @@ details.ws .q{margin-top:10px}
           <tr><td>2016 年的 Wikipedia</td><td>2018 年的领导人</td><td class="num">4%</td></tr>
         </tbody>
       </table></div>
-      <p>年份对上就答得好，错配就几乎全错，而模型一次都没有重新训练。论文把这叫 <b>index hot-swapping</b>（热替换资料库）。只靠参数的模型要更新知识，就得再训练。</p>
-      <p>论文还强调，这份外部记忆是原文，<b>人看得懂，也能直接改</b>。</p>
-      <p><span class="tag g">推测</span>反过来看：资料库一过时，正确率从 70% 掉到 4%，而且答得一样肯定。企业里过时的 runbook、没更新的架构文档，会被当成事实照用。同一个模型接不同客户的资料库，也就能答各自的问题。</p>
+      <p><b>换资料库就能更新知识，不用重新训练。</b>论文叫 <b>index hot-swapping</b>。反过来，资料一过时，答案也跟着错，而且答得一样肯定。</p>
     </div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">第 6 问 · 和今天比 §2.4</div>
+    <div class="eyebrow">第 6 问 · 和今天比</div>
     <h2>2020 年的 RAG，和今天大家说的 RAG 是一回事吗？</h2>
     <p>今天的企业知识库问答，通常是模型完全不动，把检索到的文字直接贴进 prompt。</p>
     <div class="ans">
-      <p><b>不完全是。2020 年的 RAG 是按任务一起训练的。</b>作者用大量“问题 + 正确答案”配对，同时调问题那一侧的 encoder 和 BART，而且没有人告诉它哪一段是对的，它只看最终答案对不对。论文把查到的段落当成 <b>latent variable</b>（隐变量）：看不到、但会影响结果的中间步骤。</p>
+      <p><b>不完全是。2020 年的 RAG 是按任务把检索和生成一起训练的</b>，而且没人告诉它哪一段是对的，它只看最终答案对不对。</p>
       <div class="tbl"><table>
         <thead><tr><th></th><th>2020 年这篇</th><th>今天常见的做法</th></tr></thead>
         <tbody>
-          <tr><td>训练</td><td>检索和生成按任务一起微调</td><td>模型不动</td></tr>
-          <tr class="key"><td>多段怎么用</td><td>每段单独和问题拼接，各算一次，再按检索分数加权合起来</td><td>全部贴进同一个 prompt</td></tr>
+          <tr><td>训练</td><td>检索和生成一起微调</td><td>模型不动</td></tr>
+          <tr class="key"><td>多段怎么用</td><td>每段单独和问题拼接，各算一次，再合起来</td><td>全部贴进同一个 prompt</td></tr>
           <tr><td>模型</td><td>BART，4 亿参数</td><td>大得多的 <span class="tip" tabindex="0" data-tip="LLM：Large Language Model">LLM</span></td></tr>
-          <tr><td>资料库</td><td>2018 年 Wikipedia</td><td>公司自己的文档</td></tr>
         </tbody>
       </table></div>
-      <div class="callout"><b>核心区别：每次看一段，还是一次看全部 <span class="tag g">推测</span></b><p>这篇里模型每次只看问题加<b>一段</b>，不存在“答案埋在 20 篇中间”的问题。今天全部贴进一个 prompt，就要面对 <a href="#lost-middle">Lost in the Middle</a>。</p></div>
-      <p><span class="tag g">推测</span>今天不再一起训练，是因为模型太大、很多只能通过 <span class="tip" tabindex="0" data-tip="API：Application Programming Interface">API</span> 调用，拿不到权重。所以今天的 RAG 更像 harness 里的一个工具，而不是模型的一部分。还有个巧合：论文拿来比较的另一个系统，会把查到的段落重新排序；RAG 证明不需要这一步。今天，重新排序又成了标配，见<a href="#c-rag">今天的 RAG 系统设计</a>。</p>
+      <div class="callout"><b>核心区别：每次看一段，还是一次看全部 <span class="tag g">推测</span></b><p>这篇里模型每次只看问题加<b>一段</b>；今天全部贴进一个 prompt，就要面对 <a href="#lost-middle">Lost in the Middle</a>。今天不再一起训练，是因为模型太大、很多只能通过 <span class="tip" tabindex="0" data-tip="API：Application Programming Interface">API</span> 调用。所以 RAG 现在更像 harness 里的一个工具，见<a href="#c-rag">今天的 RAG 系统设计</a>。</p></div>
     </div>
   </section>
 
   <section class="sec">
     <div class="eyebrow">第 7 问 · 局限</div>
     <h2>这篇没测什么？</h2>
-    <p>回想设定：资料库是 Wikipedia，问题大多有一个标准答案，按答案是否一致打分。</p>
     <div class="ans">
       <ul>
-        <li>作者自己承认：Wikipedia 或任何外部资料，都不可能完全正确、完全没有偏见。</li>
-        <li>检索器是先在两个问答测试上、用“哪段含答案”的标注练过的，论文特意注明了这一点。所以在这两个测试上的成绩，不完全是“没人告诉它哪段对”学出来的。</li>
-        <li>只有一个资料来源，没有互相矛盾的文档，也没有权限之分。<span class="tag g">推测</span>这些正是企业里最先遇到的问题，<a href="#c-rag">今天的 RAG 系统设计</a>第 6 问专门讲。</li>
-        <li>多取几段的效果因设计而不同：多取文档时，RAG-Sequence 的问答成绩一直在涨，RAG-Token 到 10 段就到顶了。</li>
+        <li>作者自己承认：Wikipedia 或任何外部资料，都不可能完全正确、没有偏见。</li>
+        <li>只有一个干净的资料来源：没有互相矛盾的文档，也没有权限之分。<span class="tag g">推测</span>这些正是企业里最先遇到的问题，见<a href="#c-rag">今天的 RAG 系统设计</a>第 6 问。</li>
       </ul>
     </div>
   </section>
@@ -2313,11 +2281,9 @@ details.ws .q{margin-top:10px}
       <div><b>parametric / non-parametric memory</b><span>存在模型参数里的知识 / 存在外部资料库里的原文</span></div>
       <div><b>retriever / generator</b><span>负责找段落的部分 / 负责写答案的部分</span></div>
       <div><b>embedding</b><span>代表一个词或一整段意思的一串数字</span></div>
-      <div><b>inner product</b><span>两串数字按位置相乘再相加，越大越近</span></div>
       <div><b>top-K</b><span>按分数排好后取前 K 个</span></div>
       <div><b>extractive / generative</b><span>从原文里划出答案 / 自己写出答案</span></div>
       <div><b>provenance</b><span>答案的出处</span></div>
-      <div><b>latent variable</b><span>看不到、但会影响结果的中间步骤；这里指查到的是哪一段</span></div>
       <div><b>index hot-swapping</b><span>不重新训练，直接换掉外部资料库</span></div>
     </div>
   </section>
@@ -2341,7 +2307,6 @@ details.ws .q{margin-top:10px}
       <li><span class="tag r">业界报道，二手</span>coding agent 反而不用向量检索了：Claude Code 早期用过向量数据库，后来改成让 agent 自己用 grep 现场去找。</li>
     </ul>
     <figure class="fig fig-hero"><div class="fig-title">一个典型的 RAG 系统分两个阶段，编号对应下面的问题</div><div class="fig-scroll"><svg width="466" height="168" viewBox="0 0 466 168" role="img" aria-label="流程图。上排是提前做的建索引：文档切块，给每块加背景说明（第 1 问），再算 embedding 并建关键词索引。下排是提问时：问题用两种方式检索，合并后约 150 块，重排后留前 20 块（第 2 问），贴进 prompt 让模型回答（第 3 问）。"><defs><marker id="ah-cr-zh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L9.7 5L0 10z" class="m"/></marker></defs><text x="1" y="13" font-size="11" class="m" font-weight="600">建索引 · 提前做</text><rect x="1" y="22" width="106.3" height="50" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="54.1" y="43" font-size="12" class="i" font-weight="600" text-anchor="middle">文档</text><text x="54.1" y="60" font-size="11" class="m" text-anchor="middle">runbook、报告…</text><line x1="109.2" y1="47" x2="116" y2="47" class="ar" marker-end="url(#ah-cr-zh)"/><rect x="119.9" y="22" width="106.3" height="50" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="173.1" y="43" font-size="12" class="i" font-weight="600" text-anchor="middle">切块</text><text x="173.1" y="60" font-size="11" class="m" text-anchor="middle">每块几百 token</text><line x1="228.2" y1="47" x2="234.9" y2="47" class="ar" marker-end="url(#ah-cr-zh)"/><rect x="238.8" y="22" width="106.3" height="50" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="292" y="43" font-size="12" class="p" font-weight="600" text-anchor="middle">① 加背景说明</text><text x="292" y="60" font-size="11" class="i" text-anchor="middle">写上出处</text><line x1="347.1" y1="47" x2="353.9" y2="47" class="ar" marker-end="url(#ah-cr-zh)"/><rect x="357.7" y="22" width="106.3" height="50" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="410.9" y="43" font-size="12" class="i" font-weight="600" text-anchor="middle">建两种索引</text><text x="410.9" y="60" font-size="11" class="m" text-anchor="middle">embedding + 关键词</text><path d="M410.9 74V88H173.1V110" fill="none" class="ar" marker-end="url(#ah-cr-zh)"/><text x="1" y="104" font-size="11" class="m" font-weight="600">提问时</text><rect x="1" y="114" width="106.3" height="50" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="54.1" y="135" font-size="12" class="i" font-weight="600" text-anchor="middle">问题</text><text x="54.1" y="152" font-size="11" class="m" text-anchor="middle">用户或 agent 提出</text><line x1="109.2" y1="139" x2="116" y2="139" class="ar" marker-end="url(#ah-cr-zh)"/><rect x="119.9" y="114" width="106.3" height="50" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="173.1" y="135" font-size="12" class="i" font-weight="600" text-anchor="middle">两种检索</text><text x="173.1" y="152" font-size="11" class="m" text-anchor="middle">合并后约 150 块</text><line x1="228.2" y1="139" x2="234.9" y2="139" class="ar" marker-end="url(#ah-cr-zh)"/><rect x="238.8" y="114" width="106.3" height="50" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="292" y="135" font-size="12" class="p" font-weight="600" text-anchor="middle">② 重排</text><text x="292" y="152" font-size="11" class="i" text-anchor="middle">留前 20 块</text><line x1="347.1" y1="139" x2="353.9" y2="139" class="ar" marker-end="url(#ah-cr-zh)"/><rect x="357.7" y="114" width="106.3" height="50" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="410.9" y="135" font-size="12" class="p" font-weight="600" text-anchor="middle">③ 回答</text><text x="410.9" y="152" font-size="11" class="i" text-anchor="middle">贴进 prompt</text></svg></div></figure>
-    <p><span class="tag d">官方文档</span>流程和检索数字来自 Anthropic 的 <a href="https://www.anthropic.com/news/contextual-retrieval" target="_blank" rel="noreferrer">Contextual Retrieval</a>（2024 年 9 月），是他们自己的评估。</p>
   </section>
 
   <section class="sec">
@@ -2370,8 +2335,7 @@ details.ws .q{margin-top:10px}
     <div class="ans">
       <p><b>因为它没法提前算，太慢太贵。</b></p>
       <figure class="fig"><div class="fig-title">示意：一层比一层贵，所以一层比一层少</div><div class="fig-scroll"><svg width="466" height="226" viewBox="0 0 466 226" role="img" aria-label="漏斗示意图。全部几百万块，先用 bi-encoder 粗找：问题和段落各自变成数字，段落的数字建索引时就算好了，每个问题只算一次，剩下约 150 块。再用 cross-encoder（reranker）细挑：问题和每块拼在一起读，没法提前算，150 块读 150 次，剩下前 20 块。正确的块没找到的比例从 2.9% 降到 1.9%。"><rect x="10.6" y="1" width="444.7" height="40" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="233" y="26" font-size="13" class="i" font-weight="600" text-anchor="middle">全部块：几百万</text><text x="233" y="62" font-size="12" class="i" font-weight="600" text-anchor="middle">粗找 · bi-encoder：问题和段落各自变成数字</text><text x="233" y="80" font-size="11" class="m" text-anchor="middle">段落的数字建索引时就算好了，每个问题只算 1 次</text><rect x="88" y="92" width="290" height="40" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="233" y="117" font-size="13" class="i" font-weight="600" text-anchor="middle">约 150 块</text><text x="233" y="153" font-size="12" class="i" font-weight="600" text-anchor="middle">细挑 · cross-encoder：问题和每块拼在一起读</text><text x="233" y="171" font-size="11" class="m" text-anchor="middle">没法提前算，150 块要读 150 次</text><rect x="146" y="183" width="174" height="42" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="233" y="201" font-size="13" class="p" font-weight="600" text-anchor="middle">前 20 块</text><text x="233" y="218" font-size="11" class="i" text-anchor="middle">没找到：2.9% → 1.9%</text></svg></div></figure>
-      <p>cross-encoder 准，是因为读的时候问题里的每个词都能和这一块里的每个词互相 attend；bi-encoder 把一整段压成一串数字，细节会丢。<span class="tag d">官方文档</span>重排的块越多越准，也越贵越慢，要自己调。</p>
-      <p><span class="tag p">原文 RAG</span>2020 年 RAG 论文拿来比较的另一个系统就用了重排；RAG 证明不重排也能拿到当时最好的成绩。今天重排又成了标配。</p>
+      <p>cross-encoder 准，是因为问题和这一块是放在一起读的；bi-encoder 把一整段压成一串数字，细节会丢。<span class="tag d">官方文档</span>数字来自 Anthropic 的 <a href="https://www.anthropic.com/news/contextual-retrieval" target="_blank" rel="noreferrer">Contextual Retrieval</a>（2024），是他们自己的评估。</p>
     </div>
   </section>
 
@@ -2381,9 +2345,8 @@ details.ws .q{margin-top:10px}
     <p>检索结果按分数排好，取前 K 个，叫 <b>top-K</b>。Anthropic 比较了 K = 5、10、20，发现 20 最好。</p>
     <div class="ans">
       <figure class="fig"><div class="fig-title">示意：一个 RAG 系统有两个地方可以检查</div><div class="fig-scroll"><svg width="466" height="104" viewBox="0 0 466 104" role="img" aria-label="示意图。流程是检索、前 K 块、模型、答案。检查点 1 在前 K 块：找回来了吗，指标是 recall@K。检查点 2 在答案：答对了吗，有依据吗。"><defs><marker id="ah-ck-zh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L9.7 5L0 10z" class="m"/></marker></defs><text x="172.1" y="14" font-size="12" class="p" font-weight="600" text-anchor="middle">① 找回来了吗？</text><text x="172.1" y="31" font-size="11" class="m" text-anchor="middle">recall@K</text><line x1="172.1" y1="36" x2="172.1" y2="48" class="ar" stroke-dasharray="3 3"/><text x="413.8" y="14" font-size="12" class="p" font-weight="600" text-anchor="middle">② 答对了吗？</text><text x="413.8" y="31" font-size="11" class="m" text-anchor="middle">有依据吗？</text><line x1="413.8" y1="36" x2="413.8" y2="48" class="ar" stroke-dasharray="3 3"/><rect x="1" y="52" width="100.5" height="48" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="51.2" y="81" font-size="12" class="i" font-weight="600" text-anchor="middle">检索</text><line x1="103.4" y1="76" x2="118" y2="76" class="ar" marker-end="url(#ah-ck-zh)"/><rect x="121.8" y="52" width="100.5" height="48" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="172.1" y="81" font-size="12" class="p" font-weight="600" text-anchor="middle">前 K 块</text><line x1="224.3" y1="76" x2="238.8" y2="76" class="ar" marker-end="url(#ah-ck-zh)"/><rect x="242.7" y="52" width="100.5" height="48" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="292.9" y="81" font-size="12" class="i" font-weight="600" text-anchor="middle">模型</text><line x1="345.1" y1="76" x2="359.7" y2="76" class="ar" marker-end="url(#ah-ck-zh)"/><rect x="363.5" y="52" width="100.5" height="48" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="413.8" y="81" font-size="12" class="p" font-weight="600" text-anchor="middle">答案</text></svg></div></figure>
-      <p><span class="tag d">官方文档</span>Anthropic 的“20 最好”是在检查点 ① 量的：正确的那块有没有出现在前 K 块里（<b>recall@K</b>）。<span class="tag g">推测</span>按这个量法，K 越大几乎一定越好，因为位置越多越容易装进去；它看不到检查点 ②：给多了，模型会不会分心、答错。</p>
-      <p><span class="tag p">原文 Lost in the Middle</span>在检查点 ② 量过：文档从 20 篇加到 50 篇，答对率只涨 1 到 1.5 个百分点，输入却长了一倍多。所以 K 是一个要在两个检查点都测的旋钮，不是标准答案。</p>
-      <p class="sub">生成文字时的 top-k sampling 是另一回事：每一步只从概率最高的 k 个 token 里挑。</p>
+      <p><b>“20 最好”只是在检查点 ① 量的</b>（<b>recall@K</b>：正确的那块在不在前 K 块里）。<span class="tag g">推测</span>按这个量法，K 越大几乎一定越好；它看不到检查点 ②：给多了，模型会不会分心、答错。</p>
+      <p><span class="tag p">原文 Lost in the Middle</span>在检查点 ② 量过：文档从 20 篇加到 50 篇，答对率几乎不涨。<b>所以 K 要在两个检查点都测。</b></p>
     </div>
   </section>
 
@@ -4478,8 +4441,7 @@ details.ws .q{margin-top:10px}
   <section class="sec">
     <div class="eyebrow">Where it sits</div>
     <h2>Where knowledge lives</h2>
-    <p>After pretraining, the facts a model learned live in its parameters. This paper calls that <b>parametric memory</b> and adds a second kind: keep material outside the model and look it up before answering, which it calls <b>non-parametric memory</b>.</p>
-    <p>It predates <a href="#memgpt">MemGPT</a> and <a href="#lost-middle">Lost in the Middle</a>. Those ask how to manage what's in the window and whether it gets used; this one asks the earlier question: should anything come in from outside at all?</p>
+    <p>After pretraining, the facts a model learned live in its parameters, which the paper calls <b>parametric memory</b>. This paper adds a second kind: material kept outside the model and looked up before answering, called <b>non-parametric memory</b>.</p>
     <div class="where">
       <div class="tint" style="--pc:var(--rg)"><span class="k">Look it up · this paper</span><b>RAG</b><p>Retrieve before answering, so not all knowledge has to sit in the weights</p></div>
       <div class="tint" style="--pc:var(--lm)"><span class="k">Does it get used</span><b><a href="#lost-middle">Lost in the Middle</a></b><p>Information in the middle of the window is easiest to miss</p></div>
@@ -4488,85 +4450,61 @@ details.ws .q{margin-top:10px}
   </section>
 
   <section class="sec">
-    <div class="eyebrow">Question 1 · Motivation §1</div>
+    <div class="eyebrow">Question 1 · Motivation</div>
     <h2>If all knowledge lives in the parameters, what goes wrong?</h2>
     <p>Picture a troubleshooting agent whose knowledge of systems, services and incidents lives only in its parameters.</p>
     <div class="ans">
-      <p>The paper lists three problems:</p>
       <ul>
-        <li><b>It's hard to expand or revise.</b> When knowledge goes stale, changing it means more training. <span class="tag g">Our inference</span>A fact isn't stored in one cell; it's spread across many weights, so you can't “find that line and fix it.”</li>
-        <li><b>It can't say where an answer came from</b>, which the paper calls <b>provenance</b>.</li>
-        <li><b>It hallucinates</b>: it writes things that look true and aren't.</li>
+        <li><b>Hard to update.</b> Stale knowledge means more training. <span class="tag g">Our inference</span>A fact is spread across many weights, so you can't “find that line and fix it.”</li>
+        <li><b>No source to point to</b>, which the paper calls <b>provenance</b>.</li>
+        <li><b>Hallucination</b>: text that looks true and isn't. <span class="tag r">Prior research</span>At each step the model just picks the most likely next token; rare facts are stored weakly, and there's no “not found” exit, so it still writes the most plausible-looking text.</li>
       </ul>
-      <p>Why would parameters alone produce hallucinations? The paper doesn't explain. <span class="tag r">Prior research</span>At each step the model computes the most likely next token, and pretraining scores how well it continues text, not whether it's true. <span class="tag g">Our inference</span>Rare facts are seen less and stored weakly; where knowledge is weak there's no “not found” exit, so it still outputs the most plausible-looking text. In the paper's Table 3, BART (parameters only) defines the middle ear as “the part of the ear between the middle ear and the nose”: fluent, and meaningless.</p>
-      <p class="sub">“Makes things up” and “doesn't know” are human words. The model isn't trying to deceive and isn't aware of not knowing. Where its information is weak, the most probable output just happens to be wrong.</p>
-      <p>With retrieval added, human raters comparing generated questions found <span class="tip" tabindex="0" data-tip="RAG: Retrieval-Augmented Generation">RAG</span> more factual in 42.7% of cases and BART more factual in 7.1%. The model doesn't have to be big either:</p>
-      <div class="tbl"><table>
-        <thead><tr><th>Model</th><th>Where knowledge lives</th><th>Correct on an open QA test</th></tr></thead>
-        <tbody>
-          <tr><td>T5, 11B parameters</td><td>Parameters only</td><td class="num">34.5%</td></tr>
-          <tr><td>T5, 11B, with specialized pretraining</td><td>Parameters only</td><td class="num">36.6%</td></tr>
-          <tr><td>RAG, 400M-parameter generator</td><td>Parameters + Wikipedia</td><td class="num">44.5%</td></tr>
-        </tbody>
-      </table></div>
-      <p class="sub">The open QA test is <span class="tip" tabindex="0" data-tip="Natural Questions: questions from real Google searches, with answers found in Wikipedia.">Natural Questions</span>, scored by exact match.</p>
+      <p>With retrieval, a smaller model does better: <span class="tip" tabindex="0" data-tip="RAG: Retrieval-Augmented Generation">RAG</span>, with a 400M-parameter generator, gets 44.5% on open QA; T5 with 11B parameters and no retrieval gets 34.5%.</p>
     </div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">Question 2 · Structure §2</div>
+    <div class="eyebrow">Question 2 · Structure</div>
     <h2>How do RAG's two memories split the work?</h2>
-    <p>The outside material is all of Wikipedia from December 2018, split into 21 million passages of 100 words each. Before answering, the model has to pick a few of them.</p>
+    <p>The outside material is all of Wikipedia, split into 21 million passages.</p>
     <div class="ans">
       <figure class="fig"><div class="fig-title">The retriever finds, the generator writes</div><div class="fig-scroll"><svg width="466" height="182" viewBox="0 0 466 182" role="img" aria-label="RAG architecture. Top row, the retriever: query x goes through the query encoder to q(x), and MIPS finds the passages with the largest inner product in the document index, the non-parametric memory of 21 million passages. Bottom row, the generator: each of the top-K passages z is joined with the question and given to BART, whose parameters are the parametric memory, to produce answer y."><defs><marker id="ah-rg-en" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L9.7 5L0 10z" class="m"/></marker></defs><text x="1" y="13" font-size="11" class="m" font-weight="600">retriever pη</text><rect x="1" y="22" width="92.8" height="56" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="47.4" y="45" font-size="13" class="i" font-weight="600" text-anchor="middle">query x</text><text x="47.4" y="64" font-size="11" class="m" text-anchor="middle">the question</text><line x1="95.7" y1="50" x2="117" y2="50" class="ar" marker-end="url(#ah-rg-en)"/><rect x="120.9" y="22" width="135.4" height="56" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="188.5" y="45" font-size="13" class="i" font-weight="600" text-anchor="middle">query encoder</text><text x="188.5" y="64" font-size="11" class="m" text-anchor="middle">question → q(x)</text><line x1="258.1" y1="50" x2="298.7" y2="50" class="ar" marker-end="url(#ah-rg-en)"/><text x="278.4" y="42" font-size="10" class="m tip" tabindex="0" data-tip="MIPS: Maximum Inner Product Search, finding the passages with the largest inner product" text-anchor="middle">MIPS</text><rect x="302.6" y="22" width="162.4" height="56" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="383.8" y="45" font-size="13" class="p" font-weight="600" text-anchor="middle">document index d(z)</text><text x="383.8" y="64" font-size="11" class="i" text-anchor="middle">non-parametric memory</text><line x1="383.8" y1="80" x2="383.8" y2="116" class="ar" marker-end="url(#ah-rg-en)"/><text x="1" y="112" font-size="11" class="m" font-weight="600">generator pθ</text><rect x="302.6" y="120" width="162.4" height="56" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="383.8" y="143" font-size="13" class="i" font-weight="600" text-anchor="middle">top-K passages z</text><text x="383.8" y="162" font-size="11" class="m" text-anchor="middle">each joined to the question</text><line x1="300.7" y1="148" x2="260.1" y2="148" class="ar" marker-end="url(#ah-rg-en)"/><rect x="120.9" y="120" width="135.4" height="56" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="188.5" y="143" font-size="13" class="p" font-weight="600" text-anchor="middle">BART</text><text x="188.5" y="162" font-size="11" class="i" text-anchor="middle">parametric memory</text><line x1="118.9" y1="148" x2="97.6" y2="148" class="ar" marker-end="url(#ah-rg-en)"/><rect x="1" y="120" width="92.8" height="56" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="47.4" y="143" font-size="13" class="i" font-weight="600" text-anchor="middle">y</text><text x="47.4" y="162" font-size="11" class="m" text-anchor="middle">the answer</text></svg></div></figure>
       <ul>
-        <li><b>retriever</b>: an existing retriever, <span class="tip" tabindex="0" data-tip="DPR: Dense Passage Retriever">DPR</span>, which finds the K passages closest in meaning to the question among 21 million.</li>
-        <li><b>generator</b>: <span class="tip" tabindex="0" data-tip="BART: Bidirectional and Auto-Regressive Transformers, an encoder-decoder model">BART</span>, 400M parameters, which joins the question with a retrieved passage and writes the answer.</li>
+        <li><b>retriever</b> (an existing one, <span class="tip" tabindex="0" data-tip="DPR: Dense Passage Retriever">DPR</span>): finds the K passages closest in meaning to the question.</li>
+        <li><b>generator</b> (<span class="tip" tabindex="0" data-tip="BART: Bidirectional and Auto-Regressive Transformers, an encoder-decoder model">BART</span>): joins the question with those passages and writes the answer.</li>
       </ul>
       <h3>How “closest in meaning” is computed</h3>
-      <p>You met <b>embeddings</b> on the <a href="#s-pre">Pretraining</a> page. RAG computes a list of 768 numbers for <b>each whole passage</b> and for the question, which places each one at a point in a 768-dimensional space. Closer meaning, closer point.</p>
+      <p>Every passage, and the question, is turned into a list of 768 numbers (an <a href="#s-pre">embedding</a>): a point in space. Closer meaning, closer point.</p>
       <figure class="fig"><div class="fig-title">Illustration: the question and passages in embedding space (drag to rotate)</div><div class="emb3d" data-emb="en" tabindex="0" role="img" aria-label="3D illustration. The question “log storage cost spiked” sits close to “ingestion bill jumped”, “storage invoice doubled” and “log retention policy”, and far from “reset password”, “create account” and “roll back a deploy”. Drag or use the left and right arrow keys to rotate."></div></figure>
-      <p>“ingestion bill jumped” shares no words with the question, yet sits right next to it, so it gets found. The real space has 768 dimensions; this draws 3. RAG measures closeness with the <b>inner product</b> of two lists (multiply position by position, then add up): bigger means closer. A single dimension has no name; what matters is where the whole list lands.</p>
-      <p>The encoder can produce these numbers because it first learned language in <span class="tip" tabindex="0" data-tip="BERT: Bidirectional Encoder Representations from Transformers">BERT</span> pretraining <span class="tag r">Prior research</span>, then practiced finding passages on many “question + passage with the answer” pairs. RAG only tunes the question side further; the passage side stays frozen, since changing it would mean recomputing all 21 million passages.</p>
+      <p>“ingestion bill jumped” shares no words with the question, yet sits right next to it, so it gets found. The real space has 768 dimensions; this draws 3.</p>
+      <p>The encoder that computes these numbers first learned language from lots of text, then practiced finding passages on “question + passage with the answer” pairs.</p>
     </div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">Question 3 · How to search §4.5</div>
+    <div class="eyebrow">Question 3 · How to search</div>
     <h2>Finding relevant passages: count shared words, or compare meaning?</h2>
-    <p>Two ways: (a) count how many words the question and passage share, as classic search engines do, called <span class="tip" tabindex="0" data-tip="BM25: Best Matching 25, a keyword method that scores passages by how often and how rarely their words appear">BM25</span>; (b) compare embeddings, as RAG does. Which is better? Is there a kind of question where counting words wins?</p>
+    <p>(a) Count the words the question and passage share, as classic search does, called <span class="tip" tabindex="0" data-tip="BM25: Best Matching 25, a keyword method that scores passages by how often and how rarely their words appear">BM25</span>; (b) compare embeddings, as RAG does.</p>
     <div class="ans">
-      <p><b>Comparing meaning wins overall, but counting words is better for specific names.</b> The paper swapped out the retriever to compare (development set):</p>
-      <div class="tbl"><table>
-        <thead><tr><th>Task</th><th>Shared words</th><th>Meaning, retriever frozen</th><th>Meaning, retriever trained jointly</th></tr></thead>
-        <tbody>
-          <tr><td>Open QA</td><td class="num">31.8%</td><td class="num">41.2%</td><td class="num">44.0%</td></tr>
-          <tr><td>Fact checking (3-way)</td><td class="num">75.1%</td><td class="num">72.9%</td><td class="num">74.5%</td></tr>
-        </tbody>
-      </table></div>
-      <p>Fact-checking claims (<span class="tip" tabindex="0" data-tip="FEVER: given a claim, decide whether it is true, false, or lacks enough evidence.">FEVER</span>) center on <b>entities</b> like names and titles, so, the paper suggests, finding passages that contain those names works well.</p>
+      <p><b>Meaning wins overall; for specific names and codes, counting words is more exact.</b> On open QA, meaning gets 44.0% and shared words 31.8%; on fact checking, which centers on names and titles, shared words come out slightly ahead.</p>
       <figure class="fig"><div class="fig-title">In troubleshooting: what each method finds <span class="tag g">Our inference</span></div><div class="fig-scroll"><svg width="466" height="150" viewBox="0 0 466 150" role="img" aria-label="Comparison. Searching for error code ERR_4012: counting words finds ERR_4012 disk full, correct; comparing meaning finds ERR_4013 permission denied, wrong, because it looks similar. Asking “log storage cost spiked”: counting words finds nothing, because the doc says ingestion bill jumped; comparing meaning finds that passage, correct."><text x="1" y="14" font-size="11" class="m" font-weight="600">Question</text><text x="241.7" y="14" font-size="11" class="m" font-weight="600" text-anchor="middle">Shared words</text><text x="386.7" y="14" font-size="11" class="m" font-weight="600" text-anchor="middle">Meaning</text><rect x="1" y="24" width="154.7" height="54" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="11.6" y="47" font-size="12" class="i" font-weight="600">Error code</text><text x="11.6" y="65" font-size="12" class="i mono">ERR_4012</text><rect x="170.2" y="24" width="143.1" height="54" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="241.7" y="47" font-size="12" class="p" font-weight="600" text-anchor="middle">✓ ERR_4012</text><text x="241.7" y="65" font-size="11" class="i" text-anchor="middle">disk full</text><rect x="321.9" y="24" width="143.1" height="54" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="393.5" y="47" font-size="12" class="m" font-weight="600" text-anchor="middle">✗ ERR_4013</text><text x="393.5" y="65" font-size="11" class="m" text-anchor="middle">“looks similar”</text><rect x="1" y="90" width="154.7" height="54" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="11.6" y="113" font-size="12" class="i" font-weight="600">Log storage cost</text><text x="11.6" y="131" font-size="12" class="i" font-weight="600">spiked</text><rect x="170.2" y="90" width="143.1" height="54" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="241.7" y="113" font-size="12" class="m" font-weight="600" text-anchor="middle">✗ Nothing</text><text x="241.7" y="131" font-size="11" class="m" text-anchor="middle">no shared words</text><rect x="321.9" y="90" width="143.1" height="54" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="393.5" y="113" font-size="12" class="p" font-weight="600" text-anchor="middle">✓ ingestion bill</text><text x="393.5" y="131" font-size="11" class="i" text-anchor="middle">jumped</text></svg></div></figure>
-      <p>The last column beats the middle one: letting the retriever learn how to search for the task also helps. Question 6 comes back to this.</p>
     </div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">Question 4 · Two memories together §4.1, §4.3</div>
+    <div class="eyebrow">Question 4 · When the material lacks the answer</div>
     <h2>If none of the retrieved passages has the answer, can it still get it right?</h2>
-    <p>Ask “who wrote The Old Man and the Sea,” and none of the 5 retrieved passages mentions Hemingway. An older approach, <b>extractive</b>, can only highlight a span from the retrieved text, so it must fail. RAG is <b>generative</b>: it writes the answer.</p>
+    <p>Older systems <b>highlight</b> a span of the retrieved text as the answer (extractive); RAG <b>writes</b> its answer (generative).</p>
     <div class="ans">
-      <p><b>Some of the time, using what's already in its parameters.</b> On the open QA test, when no retrieved passage contained the answer, RAG still got 11.8% right; the extractive approach gets 0%.</p>
-      <p>The paper's Figure 2 shows the two memories working together: given the answer “Hemingway,” the model writes a question for it; the darker a cell, the more it relies on that passage while writing that word.</p>
-      <figure class="fig"><div class="fig-title">Illustration: which passage the model relies on for each word (after the paper's Figure 2)</div><div class="fig-scroll"><svg width="462" height="218" viewBox="0 0 462 218" role="img" aria-label="Illustrative heat map. Columns are generated words: The Sun Also Rises … A Farewell to Arms; rows are 5 retrieved passages. Doc 2 (mentions The Sun Also Rises) is darkest at Sun; Doc 1 (mentions A Farewell to Arms) is darkest at A; the rest of each title is about even across passages, meaning reliance flattens."><text x="135" y="14" font-size="11" class="i" text-anchor="middle">The</text><text x="173" y="14" font-size="11" class="i" text-anchor="middle">Sun</text><text x="211" y="14" font-size="11" class="i" text-anchor="middle">Also</text><text x="249" y="14" font-size="11" class="i" text-anchor="middle">Rises</text><text x="287" y="14" font-size="11" class="i" text-anchor="middle">…</text><text x="325" y="14" font-size="11" class="i" text-anchor="middle">A</text><text x="363" y="14" font-size="11" class="i" text-anchor="middle">Farewell</text><text x="401" y="14" font-size="11" class="i" text-anchor="middle">to</text><text x="439" y="14" font-size="11" class="i" text-anchor="middle">Arms</text><text x="1" y="45" font-size="11" class="m">Doc 1: Farewell</text><rect x="118" y="24" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="156" y="24" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.11"/><rect x="194" y="24" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.26"/><rect x="232" y="24" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.26"/><rect x="270" y="24" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="308" y="24" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.82"/><rect x="346" y="24" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.33"/><rect x="384" y="24" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.26"/><rect x="422" y="24" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.26"/><text x="1" y="83" font-size="11" class="m">Doc 2: The Sun</text><rect x="118" y="62" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="156" y="62" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.85"/><rect x="194" y="62" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.28"/><rect x="232" y="62" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.26"/><rect x="270" y="62" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="308" y="62" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.11"/><rect x="346" y="62" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.22"/><rect x="384" y="62" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="422" y="62" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><text x="1" y="121" font-size="11" class="m">Doc 3</text><rect x="118" y="100" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="156" y="100" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.09"/><rect x="194" y="100" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.22"/><rect x="232" y="100" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.23"/><rect x="270" y="100" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="308" y="100" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.10"/><rect x="346" y="100" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.22"/><rect x="384" y="100" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="422" y="100" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.23"/><text x="1" y="159" font-size="11" class="m">Doc 4</text><rect x="118" y="138" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="156" y="138" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.08"/><rect x="194" y="138" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.22"/><rect x="232" y="138" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.22"/><rect x="270" y="138" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="308" y="138" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.09"/><rect x="346" y="138" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.21"/><rect x="384" y="138" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.23"/><rect x="422" y="138" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><text x="1" y="197" font-size="11" class="m">Doc 5</text><rect x="118" y="176" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="156" y="176" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.08"/><rect x="194" y="176" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.22"/><rect x="232" y="176" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.23"/><rect x="270" y="176" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.24"/><rect x="308" y="176" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.09"/><rect x="346" y="176" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.21"/><rect x="384" y="176" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.23"/><rect x="422" y="176" width="34" height="34" rx="5" style="fill:var(--pc)" fill-opacity="0.23"/></svg></div></figure>
-      <p>Only the first word of each title leans on retrieved text; the parameters finish the rest. The authors checked: give BART alone the start “The Sun” and it completes the title itself. <b>The retrieved text points the way; parametric knowledge fills in the details.</b> The version that can switch passages word by word is <b>RAG-Token</b>; the one that uses a single passage for the whole answer is <b>RAG-Sequence</b>.</p>
-      <p><span class="tag g">Our inference</span>This cuts both ways. When the material lacks the answer, it may quietly fall back on weak parametric memory, and users can't tell whether an answer was looked up or “recalled.” So an interface should show which passage an answer rests on, and say so when the retrieved text doesn't support it.</p>
+      <p><b>Sometimes, using knowledge already stored in its parameters.</b> In that case RAG still gets 11.8% right; highlight-only systems get 0%.</p>
+      <p><span class="tag g">Our inference</span>The cost: users can't tell whether an answer came from the retrieved material or the model's own memory. So the interface should show which passage an answer rests on, and say so when the material doesn't support it.</p>
     </div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">Question 5 · Swapping the index §4.5</div>
+    <div class="eyebrow">Question 5 · Swapping the index</div>
     <h2>When the world changes, how does the model find out?</h2>
-    <p>The authors took 82 world-leader positions that changed hands between 2016 and 2018 and asked questions like “Who is the President of Peru?” The model stayed the same; only the outside material was swapped.</p>
+    <p>The authors asked about 82 world-leader positions that changed hands between 2016 and 2018. The model stayed the same; only the outside material was swapped.</p>
     <div class="ans">
       <div class="tbl"><table>
         <thead><tr><th>Index</th><th>Asking about</th><th>Correct</th></tr></thead>
@@ -4577,42 +4515,35 @@ details.ws .q{margin-top:10px}
           <tr><td>2016 Wikipedia</td><td>2018 leaders</td><td class="num">4%</td></tr>
         </tbody>
       </table></div>
-      <p>Matching years do well, mismatched ones almost all fail, and the model was never retrained. The paper calls this <b>index hot-swapping</b>. A parameters-only model would need more training to update.</p>
-      <p>The paper also stresses that this outside memory is raw text: <b>people can read it and edit it directly</b>.</p>
-      <p><span class="tag g">Our inference</span>The flip side: once the index is out of date, accuracy drops from 70% to 4%, delivered just as confidently. In a company, stale runbooks and outdated architecture docs get used as fact. It also means one model can serve different customers by plugging in each one's own index.</p>
+      <p><b>Swap the index and the knowledge updates, with no retraining.</b> The paper calls this <b>index hot-swapping</b>. The flip side: stale material gives wrong answers, delivered just as confidently.</p>
     </div>
   </section>
 
   <section class="sec">
-    <div class="eyebrow">Question 6 · Then and now §2.4</div>
+    <div class="eyebrow">Question 6 · Then and now</div>
     <h2>Is the 2020 RAG the same thing people call RAG today?</h2>
     <p>Enterprise knowledge-base Q&amp;A today usually leaves the model untouched and pastes retrieved text straight into the prompt.</p>
     <div class="ans">
-      <p><b>Not quite. The 2020 RAG was trained jointly for each task.</b> Using many question–answer pairs, the authors tuned the question-side encoder and BART together, and no one told it which passage was right; it only saw whether the final answer was right. The paper treats the retrieved passage as a <b>latent variable</b>: a hidden intermediate step that shapes the result.</p>
+      <p><b>Not quite. The 2020 RAG trained retrieval and generation together for each task</b>, with no one telling it which passage was right; it only saw whether the final answer was right.</p>
       <div class="tbl"><table>
         <thead><tr><th></th><th>This 2020 paper</th><th>Common practice today</th></tr></thead>
         <tbody>
-          <tr><td>Training</td><td>Retrieval and generation fine-tuned together per task</td><td>The model stays fixed</td></tr>
-          <tr class="key"><td>Using several passages</td><td>Each passage joined with the question separately, scored, then combined by retrieval weight</td><td>All pasted into one prompt</td></tr>
+          <tr><td>Training</td><td>Retrieval and generation fine-tuned together</td><td>The model stays fixed</td></tr>
+          <tr class="key"><td>Using several passages</td><td>Each passage joined with the question separately, then combined</td><td>All pasted into one prompt</td></tr>
           <tr><td>Model</td><td>BART, 400M parameters</td><td>A much larger <span class="tip" tabindex="0" data-tip="LLM: Large Language Model">LLM</span></td></tr>
-          <tr><td>Knowledge source</td><td>2018 Wikipedia</td><td>The company's own documents</td></tr>
         </tbody>
       </table></div>
-      <div class="callout"><b>The core difference: one passage at a time, or all at once <span class="tag g">Our inference</span></b><p>Here the model sees the question plus <b>one passage</b> at a time, so “the answer buried in the middle of 20” never arises. Paste everything into one prompt today and you face <a href="#lost-middle">Lost in the Middle</a>.</p></div>
-      <p><span class="tag g">Our inference</span>Joint training faded because models got too big and many are only reachable through an <span class="tip" tabindex="0" data-tip="API: Application Programming Interface">API</span>, with no access to weights. So RAG today is more a tool in the harness than part of the model. A twist: another system the paper compared against re-ranked the retrieved passages, and RAG showed that step wasn't needed. Today re-ranking is standard again; see <a href="#c-rag">Designing RAG today</a>.</p>
+      <div class="callout"><b>The core difference: one passage at a time, or all at once <span class="tag g">Our inference</span></b><p>Here the model sees the question plus <b>one passage</b> at a time; paste everything into one prompt today and you face <a href="#lost-middle">Lost in the Middle</a>. Joint training faded because models got too big and many are only reachable through an <span class="tip" tabindex="0" data-tip="API: Application Programming Interface">API</span>. So RAG is now more a tool in the harness; see <a href="#c-rag">Designing RAG today</a>.</p></div>
     </div>
   </section>
 
   <section class="sec">
     <div class="eyebrow">Question 7 · Limits</div>
     <h2>What didn't this paper test?</h2>
-    <p>Recall the setup: the source is Wikipedia, most questions have one reference answer, and scoring checks whether the answer matches.</p>
     <div class="ans">
       <ul>
         <li>The authors acknowledge that Wikipedia, or any outside source, will never be entirely factual or free of bias.</li>
-        <li>The retriever had already been trained on two QA tests with labels saying which passage contains the answer, which the paper notes. So results on those tests aren't purely learned with “no one telling it which passage is right.”</li>
-        <li>There is one source, with no conflicting documents and no permissions. <span class="tag g">Our inference</span>These are the first problems a company hits; Question 6 of <a href="#c-rag">Designing RAG today</a> covers them.</li>
-        <li>Retrieving more passages helps differently by design: open QA keeps improving for RAG-Sequence, while RAG-Token peaks at 10.</li>
+        <li>There's one clean source: no conflicting documents, no permissions. <span class="tag g">Our inference</span>These are the first problems a company hits; see Question 6 of <a href="#c-rag">Designing RAG today</a>.</li>
       </ul>
     </div>
   </section>
@@ -4636,11 +4567,9 @@ details.ws .q{margin-top:10px}
       <div><b>parametric / non-parametric memory</b><span>Knowledge stored in the model's parameters / raw text in an outside index</span></div>
       <div><b>retriever / generator</b><span>The part that finds passages / the part that writes the answer</span></div>
       <div><b>embedding</b><span>A list of numbers that stands for the meaning of a word or passage</span></div>
-      <div><b>inner product</b><span>Multiply two lists position by position and add up; bigger means closer</span></div>
       <div><b>top-K</b><span>The first K results after sorting by score</span></div>
       <div><b>extractive / generative</b><span>Highlight the answer in the text / write the answer</span></div>
       <div><b>provenance</b><span>Where an answer came from</span></div>
-      <div><b>latent variable</b><span>A hidden intermediate step that shapes the result; here, which passage was retrieved</span></div>
       <div><b>index hot-swapping</b><span>Replacing the outside index without retraining</span></div>
     </div>
   </section>
@@ -4664,7 +4593,6 @@ details.ws .q{margin-top:10px}
       <li><span class="tag r">Industry report, second-hand</span>Coding agents dropped vector search: Claude Code once used a vector database, then switched to letting the agent search on the spot with grep.</li>
     </ul>
     <figure class="fig fig-hero"><div class="fig-title">A typical RAG system has two stages; the numbers match the questions below</div><div class="fig-scroll"><svg width="466" height="168" viewBox="0 0 466 168" role="img" aria-label="Flow diagram. Top row, indexing ahead of time: documents are chunked, each chunk gets a context note (Question 1), then embeddings and a keyword index are built. Bottom row, at question time: the question is searched both ways, merged to about 150 chunks, reranked to the top 20 (Question 2), and pasted into the prompt for the model to answer (Question 3)."><defs><marker id="ah-cr-en" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L9.7 5L0 10z" class="m"/></marker></defs><text x="1" y="13" font-size="11" class="m" font-weight="600">Indexing · ahead of time</text><rect x="1" y="22" width="106.3" height="50" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="54.1" y="43" font-size="12" class="i" font-weight="600" text-anchor="middle">Documents</text><text x="54.1" y="60" font-size="11" class="m" text-anchor="middle">runbooks, reports…</text><line x1="109.2" y1="47" x2="116" y2="47" class="ar" marker-end="url(#ah-cr-en)"/><rect x="119.9" y="22" width="106.3" height="50" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="173.1" y="43" font-size="12" class="i" font-weight="600" text-anchor="middle">Chunk</text><text x="173.1" y="60" font-size="11" class="m" text-anchor="middle">a few hundred tokens</text><line x1="228.2" y1="47" x2="234.9" y2="47" class="ar" marker-end="url(#ah-cr-en)"/><rect x="238.8" y="22" width="106.3" height="50" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="292" y="43" font-size="12" class="p" font-weight="600" text-anchor="middle">① Add context</text><text x="292" y="60" font-size="11" class="i" text-anchor="middle">say where it's from</text><line x1="347.1" y1="47" x2="353.9" y2="47" class="ar" marker-end="url(#ah-cr-en)"/><rect x="357.7" y="22" width="106.3" height="50" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="410.9" y="43" font-size="12" class="i" font-weight="600" text-anchor="middle">Two indexes</text><text x="410.9" y="60" font-size="11" class="m" text-anchor="middle">embedding + keyword</text><path d="M410.9 74V88H173.1V110" fill="none" class="ar" marker-end="url(#ah-cr-en)"/><text x="1" y="104" font-size="11" class="m" font-weight="600">At question time</text><rect x="1" y="114" width="106.3" height="50" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="54.1" y="135" font-size="12" class="i" font-weight="600" text-anchor="middle">Question</text><text x="54.1" y="152" font-size="11" class="m" text-anchor="middle">from a user or agent</text><line x1="109.2" y1="139" x2="116" y2="139" class="ar" marker-end="url(#ah-cr-en)"/><rect x="119.9" y="114" width="106.3" height="50" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="173.1" y="135" font-size="12" class="i" font-weight="600" text-anchor="middle">Search both ways</text><text x="173.1" y="152" font-size="11" class="m" text-anchor="middle">~150 chunks merged</text><line x1="228.2" y1="139" x2="234.9" y2="139" class="ar" marker-end="url(#ah-cr-en)"/><rect x="238.8" y="114" width="106.3" height="50" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="292" y="135" font-size="12" class="p" font-weight="600" text-anchor="middle">② Rerank</text><text x="292" y="152" font-size="11" class="i" text-anchor="middle">keep the top 20</text><line x1="347.1" y1="139" x2="353.9" y2="139" class="ar" marker-end="url(#ah-cr-en)"/><rect x="357.7" y="114" width="106.3" height="50" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="410.9" y="135" font-size="12" class="p" font-weight="600" text-anchor="middle">③ Answer</text><text x="410.9" y="152" font-size="11" class="i" text-anchor="middle">pasted into the prompt</text></svg></div></figure>
-    <p><span class="tag d">Official docs</span>The flow and retrieval figures come from Anthropic's <a href="https://www.anthropic.com/news/contextual-retrieval" target="_blank" rel="noreferrer">Contextual Retrieval</a> (September 2024), their own evaluation.</p>
   </section>
 
   <section class="sec">
@@ -4693,8 +4621,7 @@ details.ws .q{margin-top:10px}
     <div class="ans">
       <p><b>Because it can't be computed ahead of time, so it's too slow and costly.</b></p>
       <figure class="fig"><div class="fig-title">Illustration: each layer costs more, so each layer gets fewer chunks</div><div class="fig-scroll"><svg width="466" height="226" viewBox="0 0 466 226" role="img" aria-label="Funnel illustration. All chunks, millions of them, first go through a bi-encoder: question and passage become numbers separately, the passage numbers are computed at indexing time, so each question costs one computation, leaving about 150 chunks. Then a cross-encoder (reranker) reads the question and each chunk together, which can't be precomputed, so 150 chunks mean 150 reads, leaving the top 20. Missed chunks fall from 2.9% to 1.9%."><rect x="10.6" y="1" width="444.7" height="40" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="233" y="26" font-size="13" class="i" font-weight="600" text-anchor="middle">All chunks: millions</text><text x="233" y="62" font-size="12" class="i" font-weight="600" text-anchor="middle">Coarse · bi-encoder: question and passage become numbers separately</text><text x="233" y="80" font-size="11" class="m" text-anchor="middle">Passage numbers are computed at indexing time; one computation per question</text><rect x="88" y="92" width="290" height="40" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="233" y="117" font-size="13" class="i" font-weight="600" text-anchor="middle">About 150 chunks</text><text x="233" y="153" font-size="12" class="i" font-weight="600" text-anchor="middle">Fine · cross-encoder: question and chunk read together</text><text x="233" y="171" font-size="11" class="m" text-anchor="middle">Can't be precomputed; 150 chunks mean 150 reads</text><rect x="146" y="183" width="174" height="42" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="233" y="201" font-size="13" class="p" font-weight="600" text-anchor="middle">Top 20</text><text x="233" y="218" font-size="11" class="i" text-anchor="middle">missed: 2.9% → 1.9%</text></svg></div></figure>
-      <p>The cross-encoder is accurate because every word of the question can attend to every word of the chunk; the bi-encoder squeezes a whole passage into one list of numbers and loses detail. <span class="tag d">Official docs</span>Reranking more chunks is more accurate but costlier and slower, so it needs tuning.</p>
-      <p><span class="tag p">Paper RAG</span>Another system the 2020 RAG paper compared against already used reranking, and RAG showed it could match the best results of the time without it. Today reranking is standard again.</p>
+      <p>The cross-encoder is accurate because it reads the question and chunk together; the bi-encoder squeezes a whole passage into one list of numbers and loses detail. <span class="tag d">Official docs</span>Numbers from Anthropic's <a href="https://www.anthropic.com/news/contextual-retrieval" target="_blank" rel="noreferrer">Contextual Retrieval</a> (2024), their own evaluation.</p>
     </div>
   </section>
 
@@ -4704,9 +4631,8 @@ details.ws .q{margin-top:10px}
     <p>Results are sorted by score and the first K are kept: <b>top-K</b>. Anthropic compared K = 5, 10 and 20 and found 20 worked best.</p>
     <div class="ans">
       <figure class="fig"><div class="fig-title">Illustration: there are two places to check a RAG system</div><div class="fig-scroll"><svg width="466" height="104" viewBox="0 0 466 104" role="img" aria-label="Illustration. The flow is search, top K chunks, model, answer. Checkpoint 1 sits at the top K chunks: was the right one found, measured by recall@K. Checkpoint 2 sits at the answer: is it right, and is it grounded."><defs><marker id="ah-ck-en" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L9.7 5L0 10z" class="m"/></marker></defs><text x="172.1" y="14" font-size="12" class="p" font-weight="600" text-anchor="middle">① Was it found?</text><text x="172.1" y="31" font-size="11" class="m" text-anchor="middle">recall@K</text><line x1="172.1" y1="36" x2="172.1" y2="48" class="ar" stroke-dasharray="3 3"/><text x="413.8" y="14" font-size="12" class="p" font-weight="600" text-anchor="middle">② Is it right?</text><text x="413.8" y="31" font-size="11" class="m" text-anchor="middle">is it grounded?</text><line x1="413.8" y1="36" x2="413.8" y2="48" class="ar" stroke-dasharray="3 3"/><rect x="1" y="52" width="100.5" height="48" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="51.2" y="81" font-size="12" class="i" font-weight="600" text-anchor="middle">Search</text><line x1="103.4" y1="76" x2="118" y2="76" class="ar" marker-end="url(#ah-ck-en)"/><rect x="121.8" y="52" width="100.5" height="48" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="172.1" y="81" font-size="12" class="p" font-weight="600" text-anchor="middle">Top K</text><line x1="224.3" y1="76" x2="238.8" y2="76" class="ar" marker-end="url(#ah-ck-en)"/><rect x="242.7" y="52" width="100.5" height="48" rx="10" fill="none" style="stroke:var(--muted)" stroke-opacity=".6"/><text x="292.9" y="81" font-size="12" class="i" font-weight="600" text-anchor="middle">Model</text><line x1="345.1" y1="76" x2="359.7" y2="76" class="ar" marker-end="url(#ah-ck-en)"/><rect x="363.5" y="52" width="100.5" height="48" rx="10" style="fill:var(--pc);stroke:var(--pc)" fill-opacity=".1" stroke-width="1.5"/><text x="413.8" y="81" font-size="12" class="p" font-weight="600" text-anchor="middle">Answer</text></svg></div></figure>
-      <p><span class="tag d">Official docs</span>Anthropic's “20 is best” was measured at checkpoint ①: whether the right chunk appears in the top K (<b>recall@K</b>). <span class="tag g">Our inference</span>Measured that way, bigger K almost always wins, since more slots make it easier to include the right chunk; it can't see checkpoint ②, whether too many chunks distract the model into a wrong answer.</p>
-      <p><span class="tag p">Paper Lost in the Middle</span>measured at checkpoint ②: going from 20 to 50 documents raised accuracy by only 1 to 1.5 points while more than doubling the input. So K is a dial to measure at both checkpoints, not a fixed answer.</p>
-      <p class="sub">Top-k sampling in text generation is a different thing: at each step, choose only among the k most likely tokens.</p>
+      <p><b>“20 is best” was only measured at checkpoint ①</b> (<b>recall@K</b>: is the right chunk in the top K). <span class="tag g">Our inference</span>Measured that way, bigger K almost always wins; it can't see checkpoint ②, whether too many chunks distract the model into a wrong answer.</p>
+      <p><span class="tag p">Paper Lost in the Middle</span>measured at checkpoint ②: going from 20 to 50 documents barely raised accuracy. <b>So measure K at both checkpoints.</b></p>
     </div>
   </section>
 
