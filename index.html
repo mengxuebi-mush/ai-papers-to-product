@@ -248,6 +248,14 @@ input[type=range]{width:100%;accent-color:var(--bar)}
 .tbl tr.key td{background:color-mix(in srgb,var(--pc) 13%,transparent);font-weight:600}
 .emb3d{height:320px;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none;outline-offset:4px}
 .emb3d:active{cursor:grabbing}
+.klmap svg{display:block;width:100%;overflow:hidden!important}
+.klrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:6px;font-size:14px}
+.klrow input{flex:1;min-width:140px;max-width:280px;accent-color:var(--pc)}
+.klrow span{color:var(--muted);font-size:13px}
+.klstats{display:flex;gap:24px;flex-wrap:wrap;margin-top:10px}
+.klstats div{display:grid;gap:2px}
+.klstats b{font-size:20px;font-variant-numeric:tabular-nums}
+.klstats span{font-size:12px;color:var(--muted)}
 .cx{stroke-width:1}
 .cx-sys{fill:var(--ink)}
 .cx-wc{fill:var(--pc)}
@@ -1231,10 +1239,15 @@ details.ws .q{margin-top:10px}
     <h2>练习时，怎么防止它钻打分的空子？</h2>
     <p>reward model 只是人的品味的近似。一直朝高分练，模型可能找到“分高但并不好”的写法，比如每句都先夸一句问题问得好。</p>
     <div class="ans">
-      <p><b>每次打分，都扣掉它的说话方式离原来的 SFT 模型有多远。</b>跑得越远，扣得越多。</p>
-      <figure class="fig"><div class="fig-title">示意：问“怎么重启 billing 服务？”，两个正在练的模型</div><div class="fig-scroll"><svg width="466" height="236" viewBox="0 0 466 236" role="img" aria-label="示意图。问题是怎么重启 billing 服务，看回答第一个词的概率。SFT 模型：先 50%，运行 40%，好的 10%。模型 A 和它差不多：55%、38%、7%，裁判打 8 分，距离扣 1 分，最终 7 分。模型 B 跑偏了：先 5%，运行 10%，好的 85%，裁判打 9 分，但距离扣 5 分，最终只有 4 分。"><text x="150" y="14" font-size="11" class="m" font-weight="600">第一个词的概率</text><text x="330" y="14" font-size="11" class="m" font-weight="600">最终得分</text><rect x="150" y="22" width="10" height="10" rx="2" fill="none" style="stroke:var(--muted)" stroke-width="1.5"/><text x="164" y="31" font-size="10" class="m">SFT 模型</text><rect x="222" y="22" width="10" height="10" rx="2" style="fill:var(--pc)"/><text x="236" y="31" font-size="10" class="m">正在练的模型</text><text x="1" y="86" font-size="12" class="i" font-weight="600">A · 贴近</text><text x="1" y="104" font-size="11" class="m">说话方式和 SFT 模型差不多</text><rect x="156" y="84" width="16" height="36" rx="2" fill="none" style="stroke:var(--muted)" stroke-width="1.5"/><rect x="175" y="80" width="16" height="40" rx="2" style="fill:var(--pc)" fill-opacity=".8"/><text x="173" y="133" font-size="11" class="i" text-anchor="middle">先</text><rect x="208" y="91" width="16" height="29" rx="2" fill="none" style="stroke:var(--muted)" stroke-width="1.5"/><rect x="227" y="93" width="16" height="27" rx="2" style="fill:var(--pc)" fill-opacity=".8"/><text x="225" y="133" font-size="11" class="i" text-anchor="middle">运行</text><rect x="260" y="113" width="16" height="7" rx="2" fill="none" style="stroke:var(--muted)" stroke-width="1.5"/><rect x="279" y="115" width="16" height="5" rx="2" style="fill:var(--pc)" fill-opacity=".8"/><text x="277" y="133" font-size="11" class="i" text-anchor="middle">好的！</text><text x="330" y="98" font-size="12" class="i">裁判 8</text><text x="330" y="118" font-size="12" class="m">− 距离 1</text><text x="420" y="110" font-size="20" class="p" font-weight="700">= 7</text><text x="1" y="178" font-size="12" class="i" font-weight="600">B · 跑偏</text><text x="1" y="196" font-size="11" class="m">满口“好的！”去讨好裁判</text><rect x="156" y="176" width="16" height="36" rx="2" fill="none" style="stroke:var(--muted)" stroke-width="1.5"/><rect x="175" y="208" width="16" height="4" rx="2" style="fill:var(--pc)" fill-opacity=".8"/><text x="173" y="225" font-size="11" class="i" text-anchor="middle">先</text><rect x="208" y="183" width="16" height="29" rx="2" fill="none" style="stroke:var(--muted)" stroke-width="1.5"/><rect x="227" y="205" width="16" height="7" rx="2" style="fill:var(--pc)" fill-opacity=".8"/><text x="225" y="225" font-size="11" class="i" text-anchor="middle">运行</text><rect x="260" y="205" width="16" height="7" rx="2" fill="none" style="stroke:var(--muted)" stroke-width="1.5"/><rect x="279" y="151" width="16" height="61" rx="2" style="fill:var(--pc)" fill-opacity=".8"/><text x="277" y="225" font-size="11" class="i" text-anchor="middle">好的！</text><text x="330" y="190" font-size="12" class="i">裁判 9</text><text x="330" y="210" font-size="12" class="m">− 距离 5</text><text x="420" y="202" font-size="20" class="p" font-weight="700">= 4</text></svg></div></figure>
-      <p>这个“距离”叫 <b><span class="tip" tabindex="0" data-tip="KL：Kullback–Leibler (divergence)">KL</span> divergence</b>：对同一个问题，比较两个模型给每个词的概率差多少。扣掉它就是 <b>KL penalty</b>，像一根绳子把模型拴在起点附近。</p>
-      <p><span class="tag g">推测</span>绳子的松紧要调：太松，模型去钻裁判的空子；太紧，模型几乎学不到新东西。这就是<a href="#s-post">后训练</a>页讲的 Goodhart 定律：对着分数练，分数就不再代表你想要的东西。</p>
+      <p><b>用一根绳子把它拴在原来的 SFT 模型旁边：跑得越远，扣分越多。</b></p>
+      <figure class="fig"><div class="fig-title">示意：拖动绳子松紧，看模型停在哪里</div><div class="klmap" data-kl="zh" role="group" aria-label="示意图：地图上的位置代表说话方式。SFT 模型在左下角的起点；越往右上，裁判给分越高，那里是讨好裁判的写法；人真正觉得好的回答在中间。绳子太松，模型跑去讨好裁判；太紧，几乎不动；适中，停在好回答那里。"></div></figure>
+      <p>这根绳子叫 <b><span class="tip" tabindex="0" data-tip="KL：Kullback–Leibler (divergence)">KL</span> penalty</b>，每次练习都这样算：</p>
+      <ol>
+        <li>裁判（reward model）先给这次的回答打分。</li>
+        <li>同一个问题也交给冻结的 SFT 模型，比较两个模型给每个词的概率。差得越多，<b>KL divergence</b> 越大，也就是离起点越远。</li>
+        <li><b>最终得分 = 裁判打分 − 系数 × KL。</b>模型朝最终得分高的方向更新，所以离起点越远越不划算。这个系数就是绳子的松紧。</li>
+      </ol>
+      <p>这正是<a href="#s-post">后训练</a>页讲的 Goodhart 定律：对着分数练，分数就不再代表你想要的东西。绳子不让模型为了分数变成“另一个人”。</p>
     </div>
   </section>
 
@@ -3517,10 +3530,15 @@ details.ws .q{margin-top:10px}
     <h2>While practicing, how do you stop it gaming the score?</h2>
     <p>The reward model only approximates human taste. Chase the score long enough and the model may find answers that score high but aren't good, such as opening every reply by praising the question.</p>
     <div class="ans">
-      <p><b>Every score is reduced by how far the model's way of talking has drifted from the original SFT model.</b> The further it drifts, the more it loses.</p>
-      <figure class="fig"><div class="fig-title">Illustration: “How do I restart the billing service?”, two models in training</div><div class="fig-scroll"><svg width="466" height="236" viewBox="0 0 466 236" role="img" aria-label="Illustration. The question is how to restart the billing service; the chart shows the probability of the answer’s first word. SFT model: First 50%, Run 40%, Great 10%. Model A is close: 55%, 38%, 7%; the judge gives 8, distance costs 1, final 7. Model B drifts: First 5%, Run 10%, Great 85%; the judge gives 9, but distance costs 5, final 4."><text x="150" y="14" font-size="11" class="m" font-weight="600">Probability of the first word</text><text x="330" y="14" font-size="11" class="m" font-weight="600">Final score</text><rect x="150" y="22" width="10" height="10" rx="2" fill="none" style="stroke:var(--muted)" stroke-width="1.5"/><text x="164" y="31" font-size="10" class="m">SFT model</text><rect x="222" y="22" width="10" height="10" rx="2" style="fill:var(--pc)"/><text x="236" y="31" font-size="10" class="m">model in training</text><text x="1" y="86" font-size="12" class="i" font-weight="600">A · stays close</text><text x="1" y="104" font-size="11" class="m">talks like the SFT model</text><rect x="156" y="84" width="16" height="36" rx="2" fill="none" style="stroke:var(--muted)" stroke-width="1.5"/><rect x="175" y="80" width="16" height="40" rx="2" style="fill:var(--pc)" fill-opacity=".8"/><text x="173" y="133" font-size="11" class="i" text-anchor="middle">First</text><rect x="208" y="91" width="16" height="29" rx="2" fill="none" style="stroke:var(--muted)" stroke-width="1.5"/><rect x="227" y="93" width="16" height="27" rx="2" style="fill:var(--pc)" fill-opacity=".8"/><text x="225" y="133" font-size="11" class="i" text-anchor="middle">Run</text><rect x="260" y="113" width="16" height="7" rx="2" fill="none" style="stroke:var(--muted)" stroke-width="1.5"/><rect x="279" y="115" width="16" height="5" rx="2" style="fill:var(--pc)" fill-opacity=".8"/><text x="277" y="133" font-size="11" class="i" text-anchor="middle">Great!</text><text x="330" y="98" font-size="12" class="i">judge 8</text><text x="330" y="118" font-size="12" class="m">− distance 1</text><text x="420" y="110" font-size="20" class="p" font-weight="700">= 7</text><text x="1" y="178" font-size="12" class="i" font-weight="600">B · drifts</text><text x="1" y="196" font-size="11" class="m">opens with “Great!”</text><rect x="156" y="176" width="16" height="36" rx="2" fill="none" style="stroke:var(--muted)" stroke-width="1.5"/><rect x="175" y="208" width="16" height="4" rx="2" style="fill:var(--pc)" fill-opacity=".8"/><text x="173" y="225" font-size="11" class="i" text-anchor="middle">First</text><rect x="208" y="183" width="16" height="29" rx="2" fill="none" style="stroke:var(--muted)" stroke-width="1.5"/><rect x="227" y="205" width="16" height="7" rx="2" style="fill:var(--pc)" fill-opacity=".8"/><text x="225" y="225" font-size="11" class="i" text-anchor="middle">Run</text><rect x="260" y="205" width="16" height="7" rx="2" fill="none" style="stroke:var(--muted)" stroke-width="1.5"/><rect x="279" y="151" width="16" height="61" rx="2" style="fill:var(--pc)" fill-opacity=".8"/><text x="277" y="225" font-size="11" class="i" text-anchor="middle">Great!</text><text x="330" y="190" font-size="12" class="i">judge 9</text><text x="330" y="210" font-size="12" class="m">− distance 5</text><text x="420" y="202" font-size="20" class="p" font-weight="700">= 4</text></svg></div></figure>
-      <p>That “distance” is the <b><span class="tip" tabindex="0" data-tip="KL: Kullback–Leibler (divergence)">KL</span> divergence</b>: for the same question, how different the two models' probabilities for each word are. Subtracting it is the <b>KL penalty</b>, a leash that keeps the model near where it started.</p>
-      <p><span class="tag g">Our inference</span>The leash needs tuning: too loose and the model games the judge; too tight and it barely learns anything new. It's Goodhart's law from the <a href="#s-post">Post-training</a> page: train against a score, and the score stops meaning what you wanted.</p>
+      <p><b>Tie it to the original SFT model with a leash: the further it strays, the more it loses.</b></p>
+      <figure class="fig"><div class="fig-title">Illustration: drag the leash tension and see where the model ends up</div><div class="klmap" data-kl="en" role="group" aria-label="Illustration: position on the map stands for a way of answering. The SFT model is the starting point at bottom left; toward the top right the judge scores higher, where answers pander to the judge; answers people actually find good sit in the middle. Too loose a leash and the model runs off to please the judge; too tight and it barely moves; in between, it stops at the good answers."></div></figure>
+      <p>This leash is the <b><span class="tip" tabindex="0" data-tip="KL: Kullback–Leibler (divergence)">KL</span> penalty</b>. Each practice round works like this:</p>
+      <ol>
+        <li>The judge (the reward model) scores the answer.</li>
+        <li>The same question also goes to the frozen SFT model, and the two models' probabilities for each word are compared. The bigger the difference, the larger the <b>KL divergence</b>: the further from the start.</li>
+        <li><b>Final score = judge score − coefficient × KL.</b> The model updates toward a higher final score, so straying far stops paying off. The coefficient is how tight the leash is.</li>
+      </ol>
+      <p>It's Goodhart's law from the <a href="#s-post">Post-training</a> page: train against a score, and the score stops meaning what you wanted. The leash keeps the model from becoming “someone else” for the sake of the score.</p>
     </div>
   </section>
 
@@ -5332,6 +5350,39 @@ details.ws .q{margin-top:10px}
       new ResizeObserver(draw).observe(box);
       new IntersectionObserver(es=>{vis=es[0].isIntersecting}).observe(box);
       if(!calm)(function spin(){if(vis&&!touched){yaw+=.004;draw()}requestAnimationFrame(spin)})();
+    });
+  })();
+  // KL penalty map: position = way of answering; drag the leash tension
+  (function(){
+    const KL={zh:{t:'绳子松紧',lo:'松',hi:'紧',j:'裁判打分',q:'人觉得好不好',n:'结果',s:'SFT 模型（起点）',p:'正在练的模型',h:'讨好裁判的写法',g:'人真正觉得好的回答',jl:'裁判',u:'分',ok:'刚好：分数和质量都高',loose:'太松：钻了裁判的空子',tight:'太紧：几乎没学到新东西',mid:'还差一点'},
+      en:{t:'Leash',lo:'loose',hi:'tight',j:'Judge score',q:'Actually good?',n:'Result',s:'SFT model (start)',p:'Model in training',h:'Answers that please the judge',g:'Answers people find good',jl:'judge',u:'',ok:'Just right: high score, good answers',loose:'Too loose: gaming the judge',tight:'Too tight: barely learned anything',mid:'Not quite yet'}};
+    const NS='http://www.w3.org/2000/svg';
+    document.querySelectorAll('.klmap').forEach(box=>{
+      const L=KL[box.dataset.kl];if(!L)return;
+      const svg=document.createElementNS(NS,'svg');svg.setAttribute('aria-hidden','true');box.appendChild(svg);
+      const ctl=document.createElement('div');
+      ctl.innerHTML=`<div class="klrow"><label>${L.t}</label><span>${L.lo}</span><input type="range" min="0" max="100" value="38" aria-label="${L.t}"><span>${L.hi}</span></div><div class="klstats"><div><b class="kj"></b><span>${L.j}</span></div><div><b class="kq"></b><span>${L.q}</span></div><div><b class="kn" style="font-size:15px"></b><span>${L.n}</span></div></div>`;
+      box.appendChild(ctl);
+      const rng=ctl.querySelector('input');
+      function draw(){
+        const W=Math.round(box.clientWidth),H=280;if(!W)return;
+        svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.setAttribute('height',H);
+        const S=[W*.16,H*.8],K=[W*.86,H*.2],D=Math.hypot(K[0]-S[0],K[1]-S[1]),G=[S[0]+.46*(K[0]-S[0]),S[1]+.46*(K[1]-S[1])];
+        const t=+rng.value/100,b=Math.pow(t*3.2,2.2)+.02,P=[(K[0]+b*S[0])/(1+b),(K[1]+b*S[1])/(1+b)];
+        const len=Math.hypot(P[0]-S[0],P[1]-S[1]),taut=Math.min(1,len/(D*.7));
+        const judge=Math.max(3,10-7*Math.hypot(P[0]-K[0],P[1]-K[1])/D),qual=Math.max(2,9.5-7.5*Math.hypot(P[0]-G[0],P[1]-G[1])/(D*.5));
+        let h='';
+        [[.36,7],[.25,8],[.14,9]].forEach(([r,l],i)=>{const R=D*r;h+=`<circle cx="${K[0]}" cy="${K[1]}" r="${R.toFixed(1)}" style="fill:var(--r1);stroke:var(--r1)" fill-opacity="${.05+i*.04}" stroke-opacity=".25"/><text x="${(K[0]-R*.74).toFixed(1)}" y="${(K[1]+R*.74).toFixed(1)}" font-size="11" style="fill:var(--r1)">${L.jl} ${l} ${L.u}</text>`});
+        h+=`<text x="${K[0]}" y="${K[1]+4}" font-size="12" font-weight="600" text-anchor="middle" style="fill:var(--r1)">${L.h}</text>`;
+        h+=`<ellipse cx="${G[0].toFixed(1)}" cy="${G[1].toFixed(1)}" rx="${(D*.16).toFixed(1)}" ry="${(D*.1).toFixed(1)}" style="fill:var(--tau);stroke:var(--tau)" fill-opacity=".14" stroke-dasharray="4 4"/><text x="${G[0].toFixed(1)}" y="${(G[1]+D*.1+16).toFixed(1)}" font-size="12" font-weight="600" text-anchor="middle" style="fill:var(--tau)">${L.g}</text>`;
+        h+=`<line x1="${S[0]}" y1="${S[1]}" x2="${P[0].toFixed(1)}" y2="${P[1].toFixed(1)}" style="stroke:var(--pc)" stroke-width="${(1.5+taut*3).toFixed(1)}" stroke-dasharray="${taut>.7?'0':'6 4'}"/>`;
+        h+=`<circle cx="${S[0]}" cy="${S[1]}" r="9" fill="none" style="stroke:var(--muted)" stroke-width="2"/><text x="${S[0]}" y="${S[1]+26}" font-size="12" class="m" text-anchor="middle">${L.s}</text>`;
+        h+=`<circle cx="${P[0].toFixed(1)}" cy="${P[1].toFixed(1)}" r="10" style="fill:var(--pc)"/><text x="${(P[0]-14).toFixed(1)}" y="${(P[1]-14).toFixed(1)}" font-size="12" font-weight="600" text-anchor="end" class="p">${L.p}</text>`;
+        svg.innerHTML=h;
+        ctl.querySelector('.kj').textContent=judge.toFixed(1);ctl.querySelector('.kq').textContent=qual.toFixed(1);
+        ctl.querySelector('.kn').textContent=qual>8?L.ok:judge>8.5?L.loose:len<D*.15?L.tight:L.mid;
+      }
+      rng.addEventListener('input',draw);new ResizeObserver(draw).observe(box);
     });
   })();
   setLang(lang);
