@@ -28,7 +28,7 @@
 .tm-btn:focus-visible,.tm-item:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .tm-sep{flex:none;width:1px;height:20px;background:var(--line)}
 .tm-menu{position:absolute;top:calc(100% + 6px);left:0;z-index:var(--z-tooltip);width:min(288px,calc(100vw - 40px));padding:6px;border-radius:14px;background:var(--card);border:1px solid var(--line);box-shadow:0 1px 2px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.12),0 24px 48px rgba(0,0,0,.08);display:grid;gap:2px;transform-origin:top left;opacity:0;transform:scale(.96)}
-.tm-menu[data-open]{opacity:1;transform:none;transition:opacity .15s ease-out,transform .15s ease-out}
+.tm-menu[data-open]{opacity:1;transform:none;transition:opacity .18s cubic-bezier(.32,.72,0,1),transform .18s cubic-bezier(.32,.72,0,1)}
 .tm-k{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:6px 10px 4px}
 .tm-item{display:grid;grid-template-columns:1fr 16px;gap:2px 10px;align-items:center;padding:9px 10px;border-radius:8px;color:var(--ink);text-decoration:none}
 .tm-item b{font-size:14px;font-weight:600}
@@ -36,7 +36,7 @@
 .tm-item svg{grid-row:1 / span 2;grid-column:2;width:16px;height:16px}
 .tm-item[aria-disabled]{color:var(--muted)}
 @media (hover:hover) and (pointer:fine){.tm-btn:hover,a.tm-item:hover{background:var(--soft)}}
-@media (prefers-reduced-motion:reduce){.tm-menu,.tm-btn svg{transform:none!important}}
+@media (prefers-reduced-motion:reduce){.tm-menu,.tm-btn,.tm-btn svg{transform:none!important;transition:none!important}}
 @media (max-width:640px){.tm{flex:1 1 0;min-width:0}.tm-sep{display:none}}
 </style><div class="tm"><button class="tm-btn" type="button" aria-expanded="false" aria-controls="tm-menu">${tx(cur.zh,cur.en)}${svg('<path d="M6 9l6 6 6-6"/>')}</button><div class="tm-menu" id="tm-menu" hidden><div class="tm-k">${tx('学习方向','Tracks')}</div>${items}</div></div><span class="tm-sep" aria-hidden="true"></span>`);
   const btn=me.parentNode.querySelector('.tm-btn'),menu=document.getElementById('tm-menu');

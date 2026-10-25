@@ -61,7 +61,7 @@ ul,ol{margin:0;padding-left:20px;display:grid;gap:7px}
 .chips::-webkit-scrollbar{display:none}
 .chip{font-size:13px;font-weight:500;white-space:nowrap;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);text-decoration:none;display:inline-flex;gap:6px;align-items:center}
 .chip .ic{width:15px;height:15px;color:var(--pc)}
-.chip:hover{background:var(--soft)}
+@media (hover:hover) and (pointer:fine){.chip:hover{background:var(--soft)}}
 .chip[aria-current="page"]{border-color:var(--pc);background:color-mix(in srgb,var(--pc) 16%,var(--card))}
 
 .chip.sc[aria-current="true"]{border-color:var(--pc);background:color-mix(in srgb,var(--pc) 16%,var(--card))}
@@ -165,7 +165,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
 .q .why{color:var(--muted);font-size:13px;font-weight:600}
 .q .en{font-family:var(--mono);font-size:14px;line-height:1.5}
 .copy{justify-self:start;font:600 12px var(--sans);border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:8px;padding:5px 10px;cursor:pointer}
-.copy:hover{background:var(--soft);color:var(--ink)}
+@media (hover:hover) and (pointer:fine){.copy:hover{background:var(--soft);color:var(--ink)}}
 
 .gloss{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 40px}
 .gloss div{border-top:1px solid var(--line);padding:10px 0 4px;display:grid;gap:3px;min-width:0}
@@ -194,7 +194,7 @@ input[type=range]{width:100%;accent-color:var(--bar)}
 @media(max-width:640px){.hw span[data-k]{grid-template-columns:1fr;gap:2px}}
 .tip{border-bottom:1px dotted var(--muted);cursor:help}
 .tip:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:3px}
-#tipbox{white-space:pre-line;position:fixed;z-index:var(--z-tooltip);max-width:min(320px,calc(100vw - 24px));background:var(--ink);color:var(--bg);font:500 13px/1.55 var(--sans);padding:8px 11px;border-radius:9px;box-shadow:0 6px 24px rgba(0,0,0,.22);pointer-events:none;opacity:0;transition:opacity .12s}
+#tipbox{white-space:pre-line;position:fixed;z-index:var(--z-tooltip);max-width:min(320px,calc(100vw - 24px));background:var(--ink);color:var(--bg);font:500 13px/1.55 var(--sans);padding:8px 11px;border-radius:9px;box-shadow:0 6px 24px rgba(0,0,0,.22);pointer-events:none;opacity:0;transition:opacity .12s ease-out}
 #tipbox.on{opacity:1}
 /* overview map */
 .map{display:grid;gap:14px}
@@ -430,7 +430,7 @@ details.ws .q{margin-top:10px}
   .task{grid-template-columns:64px 1fr 40px}
 }
 @media (max-width:440px){.pipe,.pager{grid-template-columns:1fr}.pager a.next{text-align:left}}
-@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 
 /* ---- polish: icons, press, hit areas ---- */
 .ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
@@ -463,7 +463,7 @@ details.ws .q{margin-top:10px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .set{position:relative;display:flex}
 .set-menu{position:absolute;top:calc(100% + 6px);right:0;z-index:var(--z-tooltip);width:max-content;padding:6px 8px 6px 14px;border-radius:14px;background:var(--card);border:1px solid var(--line);box-shadow:0 1px 2px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.12),0 24px 48px rgba(0,0,0,.08);display:grid;gap:2px;transform-origin:top right;opacity:0;transform:scale(.96)}
-.set-menu[data-open]{opacity:1;transform:none;transition:opacity .15s ease-out,transform .15s ease-out}
+.set-menu[data-open]{opacity:1;transform:none;transition:opacity .18s cubic-bezier(.32,.72,0,1),transform .18s cubic-bezier(.32,.72,0,1)}
 .set-row{display:flex;align-items:center;gap:28px;min-height:44px;font-size:13px;font-weight:600;color:var(--muted)}
 .set-row .lang button{display:inline-flex;align-items:center;gap:5px;padding:6px 11px}
 .set-row .lang .ic{width:14px;height:14px}
@@ -5341,15 +5341,19 @@ details.ws .q{margin-top:10px}
         h+=`<circle cx="8" cy="12" r="6" style="fill:var(--pc)"/><text x="20" y="16" font-size="13" class="p" font-weight="600">${d.qt}</text>`;
         svg.innerHTML=h;
       }
-      let px=null;
-      box.addEventListener('pointerdown',e=>{px=e.clientX;touched=true;box.setPointerCapture(e.pointerId)});
-      box.addEventListener('pointermove',e=>{if(px==null)return;yaw+=(e.clientX-px)*.012;px=e.clientX;draw()});
-      ['pointerup','pointercancel'].forEach(t=>box.addEventListener(t,()=>{px=null}));
+      let px=null,pt=0,vel=0,hint=calm?0:2400,running=false,last=0;
+      function tick(ts){const dt=last?Math.min(50,ts-last):16;last=ts;let moving=false;
+        if(hint>0&&!touched&&vis){yaw+=.0009*dt*(hint/2400);hint-=dt;moving=true}
+        if(px==null&&Math.abs(vel)>.00003){yaw+=vel*dt;vel*=Math.pow(.993,dt);moving=true}
+        draw();if(moving)requestAnimationFrame(tick);else{running=false;last=0}}
+      const kick=()=>{if(!running){running=true;requestAnimationFrame(tick)}};
+      box.addEventListener('pointerdown',e=>{px=e.clientX;pt=e.timeStamp;vel=0;touched=true;box.setPointerCapture(e.pointerId)});
+      box.addEventListener('pointermove',e=>{if(px==null)return;const dx=(e.clientX-px)*.012,dt=Math.max(1,e.timeStamp-pt);yaw+=dx;vel=dx/dt;px=e.clientX;pt=e.timeStamp;draw()});
+      ['pointerup','pointercancel'].forEach(t=>box.addEventListener(t,e=>{if(px==null)return;px=null;if(calm||e.timeStamp-pt>80)vel=0;kick()}));
       box.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();touched=true;yaw+=e.key==='ArrowLeft'?-.15:.15;draw()}});
       box.closest('figure').querySelectorAll('.seg button[data-mode]').forEach(bt=>bt.addEventListener('click',()=>{box.dataset.mode=bt.dataset.mode;bt.parentElement.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===bt)));draw()}));
       new ResizeObserver(draw).observe(box);
-      new IntersectionObserver(es=>{vis=es[0].isIntersecting}).observe(box);
-      if(!calm)(function spin(){if(vis&&!touched){yaw+=.004;draw()}requestAnimationFrame(spin)})();
+      new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis&&hint>0&&!touched)kick()}).observe(box);
     });
   })();
   // KL penalty map: position = way of answering; drag the leash tension
