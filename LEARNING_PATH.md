@@ -19,6 +19,7 @@ This repo's map is my own set of study notes. What you can borrow is the *path*:
 | 4 | **InstructGPT** (2022) | A base model only continues text. Post-training turns it into an assistant by learning a scorer of human preference (RLHF). | 2, 3 | [arXiv 2203.02155](https://arxiv.org/abs/2203.02155) |
 | 5 | **ReAct** (2022) | The agent loop: think, act with a tool, observe, repeat. | 3, 4 | [arXiv 2210.03629](https://arxiv.org/abs/2210.03629) |
 | 6 | **Reflexion** (2023) | Learn from failure without changing the model: write lessons into memory. | 5 | [arXiv 2303.11366](https://arxiv.org/abs/2303.11366) |
+| 6a | **Voyager** (2023) | Learn skills without changing the model: pick a next task just within reach, save what was verified to work as code, call it again later. | 5, 6 | [arXiv 2305.16291](https://arxiv.org/abs/2305.16291) |
 | 7 | **MemGPT** (2023) | The context window is finite, so memory has to be managed like an operating system does. | 3, 5 | [arXiv 2310.08560](https://arxiv.org/abs/2310.08560) |
 | 7a | **Lost in the Middle** (2023) | Fitting in the window is not the same as being used. Put the answer in the middle of a long input and accuracy drops, sometimes below giving no documents at all. | 3, 7 | [arXiv 2307.03172](https://arxiv.org/abs/2307.03172) |
 | 7b | **Managing context** (concept, linked from the Harness page) | Everything the model knows this turn sits in one fixed-size window. Rules files, retrieval, memory, tools, skills and subagents are ways to choose what goes in. | 5, 7, 7a | [the site's page](https://mengxuebi-mush.github.io/ai-papers-to-product/#c-context) |
@@ -32,7 +33,7 @@ This repo's map is my own set of study notes. What you can borrow is the *path*:
 
 **Why this order, in one example.** Goodhart's law (item 2) has to land before InstructGPT (item 4), because only then can you see *why* learning from a human-preference scorer can go wrong. The "Read it after" column is the dependency list. If a step feels hard, the missing piece is almost always in that column.
 
-**Not covered yet:** a full paper page for Voyager (summarized on the Managing context page), prompt injection, fine-tuning vs in-context learning. These are planned. Generative Agents (also summarized on the Managing context page) will get its full page in the human–agent teaming (HCI) track, which is planned separately.
+**Not covered yet:** prompt injection, fine-tuning vs in-context learning. These are planned. Generative Agents (also summarized on the Managing context page) will get its full page in the human–agent teaming (HCI) track, which is planned separately.
 
 Full citations and authors: [README](README.md#paper-index).
 
