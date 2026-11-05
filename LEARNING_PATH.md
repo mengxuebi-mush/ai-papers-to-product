@@ -25,6 +25,7 @@ This repo's map is my own set of study notes. What you can borrow is the *path*:
 | 7b | **Managing context** (concept, linked from the Harness page) | Everything the model knows this turn sits in one fixed-size window. Rules files, retrieval, memory, tools, skills and subagents are ways to choose what goes in. | 5, 7, 7a | [the site's page](https://mengxuebi-mush.github.io/ai-papers-to-product/#c-context) |
 | 7c | **RAG** (2020) | Keep part of the knowledge outside the model, look it up before answering. Easy to update and cite, but answers follow the source, right or wrong. | 3, 7a | [arXiv 2005.11401](https://arxiv.org/abs/2005.11401) |
 | 7d | **Designing RAG today** (concept, linked from the Harness page) | Chunk with context, search by keyword and meaning, rerank, evaluate retrieval and answers separately; at work, handle freshness, conflicts and permissions. | 7c | [the site's page](https://mengxuebi-mush.github.io/ai-papers-to-product/#c-rag) |
+| 7e | **Prompt injection** (concept, linked from the Harness page) | Models can't tell instructions from data, so instructions hidden in emails, pages or documents can steer an agent. Training can't fully fix it; design so the part that reads outside content can't use tools, and ask a person before risky actions. | 7c, 7d | [the site's page](https://mengxuebi-mush.github.io/ai-papers-to-product/#c-injection) |
 | 8 | **τ-bench** (2024) | Succeeding once is not reliable. Measure whether it succeeds every time (pass^k). | 5 | [arXiv 2406.12045](https://arxiv.org/abs/2406.12045) |
 | 8a | **Self-Evolving Agent Harness** (2026, read for concepts) | The agent edits its own harness (instructions, memory, tools, code) while the weights stay fixed. Keep an edit only if it wins on fresh tasks, and keep the final grader and safety limits out of its reach. | 6, 7b, 8 | [arXiv 2610.18813](https://arxiv.org/abs/2610.18813) |
 | 9 | **MT-Bench / LLM-as-a-judge** (2023) | Using a model to grade models works, and has measurable biases. | 4 | [arXiv 2306.05685](https://arxiv.org/abs/2306.05685) |
@@ -33,7 +34,7 @@ This repo's map is my own set of study notes. What you can borrow is the *path*:
 
 **Why this order, in one example.** Goodhart's law (item 2) has to land before InstructGPT (item 4), because only then can you see *why* learning from a human-preference scorer can go wrong. The "Read it after" column is the dependency list. If a step feels hard, the missing piece is almost always in that column.
 
-**Not covered yet:** prompt injection, fine-tuning vs in-context learning. These are planned. Generative Agents (also summarized on the Managing context page) will get its full page in the human–agent teaming (HCI) track, which is planned separately.
+**Not covered yet:** fine-tuning vs in-context learning. This is planned. Generative Agents (also summarized on the Managing context page) will get its full page in the human–agent teaming (HCI) track, which is planned separately.
 
 Full citations and authors: [README](README.md#paper-index).
 
