@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01 · Don’t Just Trust Your Memory</title>
+<link rel="stylesheet" href="poster.css">
+<!--
+  Layout built from this paper's content:
+  - The finding is a hidden cost: a visible net gain on top, regressions
+    underneath. So the hero sets the visible gain beside the hidden cost.
+  - The cause is a story in steps (the lamp task): drawn as two step rows
+    with the bad lesson between them.
+  - The fix is a three-layer structure: drawn as a stack you descend.
+  - Each "apply" action answers one link in the failure chain.
+  Left out on purpose: the per-benchmark table in the reading notes (its
+  baselines repeat across every row and don't match the +3.2 pt average).
+-->
+<style>
+  .sheet { padding-top: 4.5cqw; }
+  h1 { font-size: 7.8cqw; margin: 2.4cqw 0 1.4cqw; }
+  .lede { max-width: 80%; margin-bottom: 2.3cqw; }
+
+  /* Hero: visible gain vs hidden cost, one row */
+  .hero { display: grid; grid-template-columns: 1fr 1fr 1fr; column-gap: 3cqw; }
+  .hero > div { border-top: .35cqw solid var(--ink); padding-top: 1.3cqw; }
+  .hero .hid { border-color: var(--accent); }
+  .hero .label { display: block; margin-bottom: .9cqw; }
+  .hero .hid .label { color: var(--accent); }
+  .hero .num { font-size: 6.6cqw; display: block; }
+  .hero .num small { font-size: 3.6cqw; }
+  .hero .hid .num { color: var(--accent); }
+  .hero p { font-size: 1.55cqw; line-height: 1.35; color: var(--ink-2); margin-top: .6cqw; text-wrap: pretty; }
+
+  /* Middle: cause | fix */
+  .mid { display: grid; grid-template-columns: minmax(0,1.08fr) minmax(0,1fr); column-gap: 4cqw; margin-top: 2.8cqw; }
+  .mid section { display: flex; flex-direction: column; }
+  .mid h2 { font-size: 2.7cqw; font-weight: 800; letter-spacing: -.025em; line-height: 1.05; margin-bottom: 1.8cqw; text-wrap: balance; }
+  .sec-head { border-top: .35cqw solid var(--ink); padding-top: 1.2cqw; margin-bottom: 1.2cqw; display: flex; justify-content: space-between; }
+  .fix .sec-head span:last-child { color: var(--accent); }
+
+  .run-label { font-size: 1.35cqw; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: .8cqw; }
+  .steps { display: flex; align-items: center; gap: .9cqw; flex-wrap: nowrap; }
+  .step { font-size: 1.65cqw; font-weight: 600; padding: 1cqw 1.3cqw; background: #e8e4da; white-space: nowrap; }
+  .step.gone { background: none; border: .2cqw dashed var(--accent); color: var(--accent); text-decoration: line-through; }
+  .arrow { font-size: 1.8cqw; color: var(--ink-3); }
+  .result { font-size: 1.65cqw; font-weight: 800; white-space: nowrap; }
+  .result.ok { color: var(--ink); }
+  .result.bad { color: var(--accent); }
+  .lesson { margin: 1.4cqw 0; padding: 1.2cqw 1.6cqw; border-left: .5cqw solid var(--accent); background: #f6dcd6; }
+  .lesson span { display: block; font-size: 1.35cqw; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-bottom: .5cqw; }
+  .lesson q { font-size: 2cqw; font-weight: 700; line-height: 1.25; letter-spacing: -.01em; quotes: "“" "”"; }
+  .lesson p { font-size: 1.5cqw; color: var(--ink-2); margin-top: .6cqw; line-height: 1.35; }
+
+  .note { font-size: 1.5cqw; line-height: 1.38; color: var(--ink-2); margin-top: 1.4cqw; text-wrap: pretty; }
+  .note b { color: var(--accent); }
+  .stack { display: grid; grid-template-columns: 1fr 5cqw; column-gap: 1.4cqw; }
+  .layers { display: grid; gap: .5cqw; }
+  .layer { padding: .9cqw 1.4cqw; display: grid; grid-template-columns: 3.6cqw 1fr; column-gap: 1cqw; align-items: baseline; }
+  .layer .num { font-size: 3.2cqw; }
+  .layer p { font-size: 1.55cqw; line-height: 1.35; }
+  .layer p b { display: block; font-size: 2cqw; font-weight: 800; letter-spacing: -.01em; line-height: 1.1; margin-bottom: .2cqw; }
+  .l1 { background: #e8e4da; }
+  .l1 p { color: var(--ink-2); }
+  .l2 { background: #8f8a80; color: var(--paper); }
+  .l3 { background: var(--ink); color: var(--paper); }
+  .l2 p, .l3 p { color: rgba(243,240,232,.78); }
+  .descend { display: flex; flex-direction: column; align-items: center; justify-content: space-between; border-left: .2cqw solid var(--accent); }
+  .descend span { writing-mode: vertical-rl; font-size: 1.35cqw; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); padding: 1cqw 0; }
+  .descend i { font-style: normal; color: var(--accent); font-size: 2.4cqw; font-weight: 800; line-height: 1; }
+  .fix-results { display: grid; grid-template-columns: 1.2fr 1fr; column-gap: 2cqw; margin-top: 1.2cqw; padding-top: 1.1cqw; border-top: .12cqw solid var(--rule); }
+  .fix-results .num { font-size: 3.6cqw; white-space: nowrap; display: block; }
+  .fix-results .num small { font-size: 2.6cqw; }
+  .fix-results .num .from { color: var(--ink-3); }
+  .fix-results p { font-size: 1.45cqw; line-height: 1.3; color: var(--ink-2); margin-top: .4cqw; white-space: nowrap; }
+
+  /* Apply */
+  .apply { margin-top: 2.8cqw; }
+  .apply .sec-head span:last-child { color: var(--accent); }
+  .apply ol { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); column-gap: 2.6cqw; }
+  .apply li .num { font-size: 3cqw; display: block; margin-bottom: .5cqw; }
+  .apply h3 { font-size: 1.95cqw; font-weight: 800; line-height: 1.12; letter-spacing: -.01em; margin-bottom: .6cqw; text-wrap: balance; }
+  .apply p { font-size: 1.5cqw; line-height: 1.38; color: var(--ink-2); text-wrap: pretty; }
+
+  /* Limitations */
+  .limits { margin: 2cqw 0 2.4cqw; }
+  .limits .label { color: var(--ink-3); margin-bottom: 1.2cqw; display: flex; justify-content: space-between; }
+  .limits ol { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); column-gap: 2.6cqw; }
+  .limits li { border-top: .12cqw solid var(--rule); padding-top: 1.1cqw; }
+  .limits b { display: flex; align-items: baseline; font-size: 1.7cqw; line-height: 1.2; letter-spacing: -.01em; margin-bottom: .4cqw; }
+  .limits .num { font-size: 2.4cqw; margin-right: .8cqw; -webkit-text-stroke-width: .16cqw; }
+  .limits p { font-size: 1.45cqw; line-height: 1.38; color: var(--ink-2); text-wrap: pretty; }
+
+  .band { margin-top: auto; padding-top: 2.6cqw; padding-bottom: 3cqw; }
+  .band-head { margin-bottom: 2cqw; }
+</style>
+</head>
+<body>
+  <main class="poster"><div class="sheet">
+    <div class="top"><span>Agent Trust <span class="accent">/</span> NeurIPS 2026</span><span>01 / 08 · arXiv 2611.14320</span></div>
+
+    <h1>Memory can make an agent <em>worse.</em></h1>
+    <p class="lede"><strong>Don’t Just Trust Your Memory.</strong> Saved lessons make agents fail tasks they’d solve without memory, and the success rate hides it.</p>
+
+    <div class="hero">
+      <div><span class="label">What the dashboard shows</span><span class="num">+7.5<small>%</small></span><p>success with naive memory vs. none</p></div>
+      <div class="hid"><span class="label">What it hides</span><span class="num">9.3<small>%</small></span><p>of solvable tasks now fail</p></div>
+      <div class="hid"><span class="label">Why they fail</span><span class="num">52<small>%</small></span><p>of those failures follow a memory item</p></div>
+    </div>
+
+    <div class="mid">
+      <section class="cause">
+        <div class="sec-head label"><span>The cause</span><span>Lamp task</span></div>
+        <h2>A good run teaches a bad lesson.</h2>
+        <div class="run-label">Without memory</div>
+        <div class="steps"><span class="step">Pick up vase</span><span class="arrow">→</span><span class="step">Turn on lamp</span><span class="arrow">→</span><span class="result ok">✓ Solved</span></div>
+        <div class="lesson">
+          <span>Lesson saved · run labeled only “success”</span>
+          <q>Lamp tasks finish when the object is next to the lit lamp.</q>
+        </div>
+        <div class="run-label">With the lesson</div>
+        <div class="steps"><span class="step gone">Pick up vase</span><span class="arrow">→</span><span class="step">Turn on lamp</span><span class="arrow">→</span><span class="result bad">✗ Declares done</span></div>
+        <p class="note">This is the <b>wrong-lesson</b> case (20% of memory-led failures). The rest are right lessons used in the wrong context.</p>
+      </section>
+
+      <section class="fix">
+        <div class="sec-head label"><span>The fix</span><span>WikiTrace</span></div>
+        <h2>Keep the evidence.</h2>
+        <div class="stack">
+          <div class="layers">
+            <div class="layer l1"><span class="num">1</span><p><b>Insight</b>The lesson, and when to use it</p></div>
+            <div class="layer l2"><span class="num">2</span><p><b>Compilation</b>Why the run worked, or failed</p></div>
+            <div class="layer l3"><span class="num">3</span><p><b>Raw trajectory</b>Every step: the source of truth</p></div>
+          </div>
+          <div class="descend"><i>↓</i><span>Descend when unsure</span><i>↑</i></div>
+        </div>
+        <div class="fix-results">
+          <div><span class="num"><span class="from">9.3</span> → 7.1<small>%</small></span><p>regressions: lower, not zero</p></div>
+          <div><span class="num">+3.2<small>pt</small></span><p>over naive memory</p></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="apply">
+      <div class="sec-head label"><span>Apply at work</span><span>For any agent with memory</span></div>
+      <ol>
+        <li><span class="num">01</span><h3>Count regressions, not just net gain.</h3><p>Re-run tasks solved without memory; track each flip.</p></li>
+        <li><span class="num">02</span><h3>Store the source with every lesson.</h3><p>Link each memory to the run it came from.</p></li>
+        <li><span class="num">03</span><h3>Let the agent check first.</h3><p>Give it a tool to open the source run.</p></li>
+        <li><span class="num">04</span><h3>Label what caused success.</h3><p>A bare “success” teaches skipped steps.</p></li>
+      </ol>
+    </div>
+
+    <div class="limits">
+      <div class="label"><span>Limitations</span><span>Read the numbers with care</span></div>
+      <ol>
+        <li><b><span class="num out">01</span>Hard tasks.</b><p>On AppWorld, WikiTrace reaches only 75.8%.</p></li>
+        <li><b><span class="num out">02</span>Lossy extraction.</b><p>Dropped steps stay hidden unless the agent looks.</p></li>
+        <li><b><span class="num out">03</span>Latency unknown.</b><p>Checking the evidence takes time; the cost isn’t reported.</p></li>
+        <li><b><span class="num out">04</span>Five benchmarks.</b><p>Mostly simulated tasks. Other domains are untested.</p></li>
+      </ol>
+    </div>
+
+    <div class="band">
+      <div class="band-head label"><span>Ask the authors</span><span>Trust lessons you can trace</span></div>
+      <div class="qs">
+        <div class="q"><span class="qn">Q1</span><h3>What makes it descend?</h3><p>How does it decide a lesson is worth checking?</p></div>
+        <div class="q"><span class="qn">Q2</span><h3>Why do 7.1% still regress?</h3><p>Steps lost at extraction, or evidence never opened?</p></div>
+        <div class="q"><span class="qn">Q3</span><h3>What does checking cost?</h3><p>Latency and tokens added per task?</p></div>
+      </div>
+    </div>
+  </div></main>
+</body>
+</html>
