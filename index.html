@@ -54,24 +54,41 @@ h2{font:500 22px/1.2 var(--f-pixel);letter-spacing:.02em;margin:0 0 16px;text-wr
 /* One card per track or poster set: notched, hard pixel shadow, title + one line. */
 .card{display:block;padding:20px 20px 18px;background:var(--surface);border:1px solid var(--line);clip-path:var(--notch);box-shadow:3px 3px 0 #0A0D0C;text-decoration:none;transition:border-color .15s ease-out}
 .card b{display:flex;justify-content:space-between;align-items:center;gap:12px;font:500 24px/1.25 var(--f-pixel);letter-spacing:.02em}
-a.card b::after{content:"→";color:var(--accent);flex:none}
+a.card b::after,.set-head b::after{content:"→";color:var(--accent);flex:none}
 .card p{margin:8px 0 0;color:var(--muted)}
 .card.soon{background:transparent;border-style:dashed;box-shadow:none}
 .card.soon b{color:var(--muted)}
 .card.soon p{color:var(--faint)}
 @media (hover:hover) and (pointer:fine){a.card:hover{border-color:var(--faint)}}
 
-/* Poster set: its eight sheets, finished ones lit. */
-.sheets{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px;margin-top:18px;pointer-events:none;user-select:none}
-.sheet{aspect-ratio:2/3;border:1px dashed var(--line);display:flex;align-items:flex-end;padding:6px;font:500 13px/1 var(--f-pixel);color:var(--faint);font-variant-numeric:tabular-nums}
-.sheet.done{border:1px solid var(--accent);background:var(--accent-wash);color:var(--accent)}
+/* Poster set: a shelf in paper order. Finished posters face out as covers (their own headline, paper and red,
+   linking straight to the poster); the rest stand as thin dashed spines. Finishing a poster = turn its spine into a cover. */
+.set-head{display:block;text-decoration:none}
+.shelf{display:flex;gap:8px;align-items:stretch;margin-top:20px}
+.cover{flex:0 0 172px;aspect-ratio:2/3;display:flex;flex-direction:column;justify-content:space-between;padding:12px 12px 14px;
+  background:#f3f0e8;color:#111;text-decoration:none;box-shadow:3px 3px 0 #0A0D0C;
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  transition:transform .15s ease-out,box-shadow .15s ease-out}
+.cover .no{font:800 15px/1 system-ui,-apple-system,sans-serif;color:#e0301e;font-variant-numeric:tabular-nums;border-top:2px solid #111;padding-top:8px}
+.cover .hl{font-size:23px;line-height:1;font-weight:800;letter-spacing:-.03em;text-wrap:balance}
+.cover em{font-style:normal;color:#e0301e}
+.cover:active{transform:scale(.96)}
+.spine{flex:1 1 0;min-width:22px;border:1px dashed var(--line);display:flex;align-items:flex-end;justify-content:center;padding-bottom:10px;
+  font:500 13px/1 var(--f-pixel);color:var(--faint);font-variant-numeric:tabular-nums;user-select:none}
+@media (hover:hover) and (pointer:fine){
+  .set-head:hover b::after{transform:translateX(3px)}
+  .cover:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 #0A0D0C}
+}
+.set-head b::after{transition:transform .15s ease-out}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 @media (max-width:560px){
   h1{margin-top:28px}
   section{margin-top:44px}
   .card{padding:18px 16px 16px}.card b{font-size:21px}
-  .sheets{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .shelf{flex-wrap:wrap;gap:10px 8px}
+  .cover{flex:1 1 calc(50% - 4px)}.cover .hl{font-size:19px}
+  .spine{order:1;height:44px;align-items:center;padding:0}
 }
 </style>
 </head>
@@ -105,14 +122,18 @@ a.card b::after{content:"→";color:var(--accent);flex:none}
   <section aria-labelledby="h-posters">
     <h2 id="h-posters"><span class="zh">论文海报</span><span class="en">Paper posters</span></h2>
     <div class="cards">
-      <a class="card" href="posters/neurips-2026/">
-        <b><span><abbr title="Conference on Neural Information Processing Systems">NeurIPS</abbr> 2026 · <span class="zh">Agent 信任</span><span class="en">Agent trust</span></span></b>
-        <p><span class="zh">8 篇论文，一篇一张海报，已完成 2 张。</span><span class="en">Eight papers, one poster each. Two are done.</span></p>
-        <div class="sheets" aria-hidden="true">
-          <span class="sheet done">01</span><span class="sheet">02</span><span class="sheet">03</span><span class="sheet done">04</span>
-          <span class="sheet">05</span><span class="sheet">06</span><span class="sheet">07</span><span class="sheet">08</span>
+      <div class="card">
+        <a class="set-head" href="posters/neurips-2026/">
+          <b><span><abbr title="Conference on Neural Information Processing Systems">NeurIPS</abbr> 2026 · <span class="zh">Agent 信任</span><span class="en">Agent trust</span></span></b>
+          <p><span class="zh">八篇论文，一篇一张海报。</span><span class="en">Eight papers, one poster each.</span></p>
+        </a>
+        <div class="shelf">
+          <a class="cover" href="posters/neurips-2026/01-dont-just-trust-your-memory.html"><span class="no">01</span><span class="hl">Memory can make an agent <em>worse.</em></span></a>
+          <span class="spine" aria-hidden="true">02</span><span class="spine" aria-hidden="true">03</span>
+          <a class="cover" href="posters/neurips-2026/04-do-they-do-as-told.html"><span class="no">04</span><span class="hl">Agents follow a rule <em>always, or never.</em></span></a>
+          <span class="spine" aria-hidden="true">05</span><span class="spine" aria-hidden="true">06</span><span class="spine" aria-hidden="true">07</span><span class="spine" aria-hidden="true">08</span>
         </div>
-      </a>
+      </div>
     </div>
   </section>
 </div>
