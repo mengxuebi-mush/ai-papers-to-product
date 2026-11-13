@@ -33,7 +33,7 @@
   .hero p { font-size: 1.55cqw; line-height: 1.35; color: var(--ink-2); margin-top: .6cqw; text-wrap: pretty; }
 
   /* Middle: cause | fix */
-  .mid { display: grid; grid-template-columns: minmax(0,1.08fr) minmax(0,1fr); column-gap: 4cqw; margin-top: 2.8cqw; }
+  .mid { display: grid; grid-template-columns: minmax(0,1.08fr) minmax(0,1fr); column-gap: 4cqw; margin-top: 2.4cqw; }
   .mid section { display: flex; flex-direction: column; }
   .mid h2 { font-size: 2.7cqw; font-weight: 800; letter-spacing: -.025em; line-height: 1.05; margin-bottom: 1.8cqw; text-wrap: balance; }
   .sec-head { border-top: .35cqw solid var(--ink); padding-top: 1.2cqw; margin-bottom: 1.2cqw; display: flex; justify-content: space-between; }
@@ -75,7 +75,7 @@
   .fix-results p { font-size: 1.45cqw; line-height: 1.3; color: var(--ink-2); margin-top: .4cqw; white-space: nowrap; }
 
   /* Apply */
-  .apply { margin-top: 2.8cqw; }
+  .apply { margin-top: 2.4cqw; }
   .apply .sec-head span:last-child { color: var(--accent); }
   .apply ol { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); column-gap: 2.6cqw; }
   .apply li .num { font-size: 3cqw; display: block; margin-bottom: .5cqw; }
@@ -83,7 +83,7 @@
   .apply p { font-size: 1.5cqw; line-height: 1.38; color: var(--ink-2); text-wrap: pretty; }
 
   /* Limitations */
-  .limits { margin: 2cqw 0 2.4cqw; }
+  .limits { margin: 1.6cqw 0 2cqw; }
   .limits .label { color: var(--ink-3); margin-bottom: 1.2cqw; display: flex; justify-content: space-between; }
   .limits ol { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); column-gap: 2.6cqw; }
   .limits li { border-top: .12cqw solid var(--rule); padding-top: 1.1cqw; }
@@ -103,9 +103,9 @@
     <p class="lede"><strong>Don’t Just Trust Your Memory.</strong> Saved lessons make agents fail tasks they’d solve without memory, and the success rate hides it.</p>
 
     <div class="hero">
-      <div><span class="label">What the dashboard shows</span><span class="num">+7.5<small>%</small></span><p>success with naive memory vs. none</p></div>
+      <div><span class="label">What the dashboard shows</span><span class="num">+7.5<small>%</small></span><p>naive memory vs. no memory</p></div>
       <div class="hid"><span class="label">What it hides</span><span class="num">9.3<small>%</small></span><p>of solvable tasks now fail</p></div>
-      <div class="hid"><span class="label">Why they fail</span><span class="num">52<small>%</small></span><p>of those failures follow a memory item</p></div>
+      <div class="hid"><span class="label">Why they fail</span><span class="num">52<small>%</small></span><p>of those follow a memory item</p></div>
     </div>
 
     <div class="mid">
@@ -115,12 +115,12 @@
         <div class="run-label">Without memory</div>
         <div class="steps"><span class="step">Pick up vase</span><span class="arrow">→</span><span class="step">Turn on lamp</span><span class="arrow">→</span><span class="result ok">✓ Solved</span></div>
         <div class="lesson">
-          <span>Lesson saved · run labeled only “success”</span>
+          <span>Saved lesson · labeled only “success”</span>
           <q>Lamp tasks finish when the object is next to the lit lamp.</q>
         </div>
         <div class="run-label">With the lesson</div>
         <div class="steps"><span class="step gone">Pick up vase</span><span class="arrow">→</span><span class="step">Turn on lamp</span><span class="arrow">→</span><span class="result bad">✗ Declares done</span></div>
-        <p class="note">This is the <b>wrong-lesson</b> case (20% of memory-led failures). The rest are right lessons used in the wrong context.</p>
+        <p class="note">The <b>wrong-lesson</b> case: 20% of memory-led failures. The rest are right lessons, wrong context.</p>
       </section>
 
       <section class="fix">
@@ -144,7 +144,7 @@
     <div class="apply">
       <div class="sec-head label"><span>Apply at work</span><span>For any agent with memory</span></div>
       <ol>
-        <li><span class="num">01</span><h3>Count regressions, not just net gain.</h3><p>Re-run tasks solved without memory; track each flip.</p></li>
+        <li><span class="num">01</span><h3>Count regressions, not just net gain.</h3><p>Re-run tasks solved without memory; track flips.</p></li>
         <li><span class="num">02</span><h3>Store the source with every lesson.</h3><p>Link each memory to the run it came from.</p></li>
         <li><span class="num">03</span><h3>Let the agent check first.</h3><p>Give it a tool to open the source run.</p></li>
         <li><span class="num">04</span><h3>Label what caused success.</h3><p>A bare “success” teaches skipped steps.</p></li>
@@ -156,8 +156,8 @@
       <ol>
         <li><b><span class="num out">01</span>Hard tasks.</b><p>On AppWorld, WikiTrace reaches only 75.8%.</p></li>
         <li><b><span class="num out">02</span>Lossy extraction.</b><p>Dropped steps stay hidden unless the agent looks.</p></li>
-        <li><b><span class="num out">03</span>Latency unknown.</b><p>Checking the evidence takes time; the cost isn’t reported.</p></li>
-        <li><b><span class="num out">04</span>Five benchmarks.</b><p>Mostly simulated tasks. Other domains are untested.</p></li>
+        <li><b><span class="num out">03</span>Latency unknown.</b><p>Checking takes time; the cost isn’t reported.</p></li>
+        <li><b><span class="num out">04</span>Five benchmarks.</b><p>Mostly simulated tasks; other domains untested.</p></li>
       </ol>
     </div>
 

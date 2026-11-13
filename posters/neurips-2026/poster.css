@@ -15,7 +15,9 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-synthesis: none; }
+/* Optical sizing off: the system font widens at small sizes, so the same poster
+   would wrap more lines on a laptop than on a big screen and stop fitting. */
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-synthesis: none; font-optical-sizing: none; }
 body {
   background: #d9d7d2;
   min-height: 100vh;
