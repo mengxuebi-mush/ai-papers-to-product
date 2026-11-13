@@ -88,6 +88,10 @@ Items still being verified are listed in the site footer.
   - **Acronyms**: three tiers (core / subfield / coined in one paper), each linked back to the card where it appears
   - **Humanizing words**: words like *belief*, *know*, *honest*, *lie*, *reason*, each paired with what is actually measurable and where the metaphor breaks. This table is my own conceptual mapping, not quotes from the papers
 
+## Posters
+
+**[NeurIPS 2026 agent trust posters](https://mengxuebi-mush.github.io/ai-papers-to-product/posters/)** ([`posters/`](posters/)): one poster per paper from eight agent-trust papers, covering the essence, core idea, limitations, how to apply it, and questions for the authors. Self-contained like the tracks; it shares no files with them.
+
 ## Coming next
 
 Context engineering, subagents and memory layers · prompt injection · fine-tuning / LoRA vs in-context learning

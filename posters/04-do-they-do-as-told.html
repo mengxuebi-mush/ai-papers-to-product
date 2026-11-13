@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 · Do They Do as They Are Told?</title>
+<link rel="stylesheet" href="poster.css">
+<!--
+  Layout built from this paper's content:
+  - The finding IS a shape (bimodal): so the hero is one full-width switch bar.
+  - The core idea is a split (code rules stick / process rules slip): so the
+    middle is two sides, and each side carries its own action ("apply").
+  - Agent gap and limitations are secondary: thin strips.
+-->
+<style>
+  .sheet { padding-top: 4.5cqw; }
+  h1 { font-size: 8.4cqw; margin: 2.6cqw 0 1.6cqw; }
+  .lede { max-width: 76%; margin-bottom: 3cqw; }
+
+  /* Hero: the switch */
+  .switch { display: flex; gap: .5cqw; height: 9.5cqw; }
+  .switch > div { display: flex; align-items: center; padding: 0 2.4cqw; }
+  .switch .on  { flex: 54.4; background: var(--ink); color: var(--paper); }
+  .switch .mid { flex: 8.3; background: repeating-linear-gradient(135deg, #bbb6ab 0 .5cqw, transparent .5cqw 1cqw); }
+  .switch .off { flex: 37.3; background: var(--accent); color: var(--paper); justify-content: flex-end; }
+  .switch .num { font-size: 7cqw; }
+  .switch .num small { font-size: 4cqw; }
+  .switch-legend { display: flex; justify-content: space-between; margin-top: 1.3cqw; }
+  .switch-legend span { font-size: 1.6cqw; color: var(--ink-2); }
+  .switch-legend b { color: var(--ink); text-transform: uppercase; letter-spacing: .08em; font-size: 1.4cqw; }
+
+  /* Middle: which side of the switch */
+  .split-head { margin: 3cqw 0 1.4cqw; display: flex; justify-content: space-between; align-items: baseline; }
+  .split-head h2 { font-size: 3.2cqw; font-weight: 800; letter-spacing: -.025em; line-height: 1; }
+  .split { display: grid; grid-template-columns: 1fr 1fr; column-gap: 4cqw; }
+  .side { display: flex; flex-direction: column; }
+  .side-head { display: flex; justify-content: space-between; border-top: .35cqw solid var(--ink); padding-top: 1.2cqw; margin-bottom: 1cqw; }
+  .slips .side-head { border-color: var(--accent); color: var(--accent); }
+  .cat { display: grid; grid-template-columns: 1fr auto; align-items: end; padding: 1cqw 0 .8cqw; border-bottom: .12cqw solid var(--rule); }
+  .cat h3 { font-size: 2.05cqw; font-weight: 700; letter-spacing: -.01em; line-height: 1.15; }
+  .cat .num { font-size: 4.2cqw; }
+  .slips .cat .num { color: var(--accent); }
+  .cat .bar { grid-column: 1 / -1; height: .7cqw; background: rgba(17,17,17,.08); margin-top: .8cqw; }
+  .cat .bar i { display: block; height: 100%; background: var(--ink); }
+  .slips .cat .bar i { background: var(--accent); }
+  .act { margin-top: 1.6cqw; padding: 1.7cqw 2cqw; background: #e8e4da; flex: 1; }
+  .slips .act { background: #f6dcd6; }
+  .act .label { display: block; margin-bottom: .9cqw; }
+  .act h4 { font-size: 2.3cqw; line-height: 1.12; font-weight: 800; letter-spacing: -.015em; margin-bottom: .8cqw; text-wrap: balance; }
+  .act p { font-size: 1.6cqw; line-height: 1.4; color: var(--ink-2); text-wrap: pretty; }
+
+  /* Agent strip */
+  .agents { display: grid; grid-template-columns: 1.7fr repeat(3, 1fr); column-gap: 3cqw; align-items: end; margin-top: 2.6cqw; border-top: .35cqw solid var(--ink); padding-top: 1.4cqw; }
+  .agents .intro h3 { font-size: 2.3cqw; font-weight: 800; letter-spacing: -.015em; line-height: 1.1; margin-bottom: .6cqw; }
+  .agents .intro p { font-size: 1.55cqw; line-height: 1.4; color: var(--ink-2); }
+  .agent .num { font-size: 5cqw; display: block; }
+  .agent .num small { font-size: 3cqw; }
+  .agent span { display: block; font-size: 1.6cqw; font-weight: 600; margin-top: .6cqw; }
+
+  /* Limitations strip */
+  .limits { margin: 2.6cqw 0 3cqw; display: grid; grid-template-columns: 1fr; }
+  .limits .label { color: var(--ink-3); margin-bottom: 1.4cqw; display: flex; justify-content: space-between; }
+  .limits ol { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); column-gap: 2.6cqw; }
+  .limits li { border-top: .12cqw solid var(--rule); padding-top: 1.1cqw; }
+  .limits .num { font-size: 2.4cqw; margin-right: .8cqw; -webkit-text-stroke-width: .16cqw; }
+  .limits b { display: flex; align-items: baseline; font-size: 1.7cqw; line-height: 1.2; letter-spacing: -.01em; margin-bottom: .4cqw; }
+  .limits p { font-size: 1.45cqw; line-height: 1.38; color: var(--ink-2); text-wrap: pretty; }
+
+  .band { margin-top: auto; padding-top: 3cqw; padding-bottom: 3.4cqw; }
+  .band-head { margin-bottom: 2cqw; }
+</style>
+</head>
+<body>
+  <main class="poster"><div class="sheet">
+    <div class="top"><span>Agent Trust <span class="accent">/</span> NeurIPS 2026</span><span>04 / 08 · arXiv 2611.13709</span></div>
+
+    <h1>Agents follow a rule <em>always, or never.</em></h1>
+    <p class="lede"><strong>Do They Do as They Are Told?</strong> 6,500+ real instructions from agent context files, checked commit by commit. Rules about the code stick. Rules about the process slip.</p>
+
+    <div class="switch" role="img" aria-label="54% always followed, 8% in between, 37% never followed">
+      <div class="on"><span class="num">54<small>%</small></span></div>
+      <div class="mid"></div>
+      <div class="off"><span class="num">37<small>%</small></span></div>
+    </div>
+    <div class="switch-legend">
+      <span><b>Always on</b> · followed in every commit</span>
+      <span>8% in between</span>
+      <span><b>Always off</b> · followed in none</span>
+    </div>
+
+    <div class="split-head">
+      <h2>Which side does a rule land on?</h2>
+      <span class="label accent">Compliance by type</span>
+    </div>
+
+    <div class="split">
+      <section class="side sticks">
+        <div class="side-head label"><span>Sticks</span><span>Rules about the code</span></div>
+        <div class="cat"><h3>Implementation details</h3><span class="num">64</span><div class="bar"><i style="width:63.6%"></i></div></div>
+        <div class="cat"><h3>Code documentation</h3><span class="num">60</span><div class="bar"><i style="width:60.2%"></i></div></div>
+        <div class="cat"><h3>Configuration</h3><span class="num">56</span><div class="bar"><i style="width:56.3%"></i></div></div>
+        <div class="act">
+          <span class="label">Apply → keep it in the file</span>
+          <h4>Write it so a script could check it.</h4>
+          <p>“Wrap every async call in try/catch” lands. “Follow error-handling best practices” doesn’t.</p>
+        </div>
+      </section>
+
+      <section class="side slips">
+        <div class="side-head label"><span>Slips</span><span>Rules about the process</span></div>
+        <div class="cat"><h3>Testing strategy</h3><span class="num">49</span><div class="bar"><i style="width:49.2%"></i></div></div>
+        <div class="cat"><h3>Architecture</h3><span class="num">38</span><div class="bar"><i style="width:38.2%"></i></div></div>
+        <div class="cat"><h3>Development process</h3><span class="num">34</span><div class="bar"><i style="width:34%"></i></div></div>
+        <div class="act">
+          <span class="label accent">Apply → move it into tooling</span>
+          <h4>Don’t ask. Enforce.</h4>
+          <p>Branch protection, commit-msg hooks, PR templates, coverage gates in CI.</p>
+        </div>
+      </section>
+    </div>
+
+    <div class="agents">
+      <div class="intro"><h3>The agent matters too.</h3><p>Same rules, different agents. Measure adherence on your own repo before you standardize.</p></div>
+      <div class="agent"><span class="num">66<small>%</small></span><span>GitHub Copilot</span></div>
+      <div class="agent"><span class="num">52<small>%</small></span><span>Claude Code</span></div>
+      <div class="agent"><span class="num">51<small>%</small></span><span>OpenAI Codex</span></div>
+    </div>
+
+    <div class="limits">
+      <div class="label"><span>Limitations</span><span>Read the numbers with care</span></div>
+      <ol>
+        <li><b><span class="num out">01</span>Three agents only.</b><p>Cursor, Windsurf and others weren’t tested.</p></li>
+        <li><b><span class="num out">02</span>Noisy checks.</b><p>About 28% of the checking scripts had bugs.</p></li>
+        <li><b><span class="num out">03</span>37% unmeasured.</b><p>Rules that couldn’t become a check were left out.</p></li>
+        <li><b><span class="num out">04</span>A snapshot.</b><p>Late-2026 behavior. The agent gap isn’t explained.</p></li>
+      </ol>
+    </div>
+
+    <div class="band">
+      <div class="band-head label"><span>Ask the authors</span><span>Trust, but verify automatically</span></div>
+      <div class="qs">
+        <div class="q"><span class="qn">Q1</span><h3>What predicts “off”?</h3><p>Do position, length or wording decide the side?</p></div>
+        <div class="q"><span class="qn">Q2</span><h3>Can a rewrite flip it?</h3><p>Does a process rule rewritten as a concrete check switch on?</p></div>
+        <div class="q"><span class="qn">Q3</span><h3>Why does Copilot lead?</h3><p>The model, how the context file is loaded, or the harness around it?</p></div>
+      </div>
+    </div>
+  </div></main>
+</body>
+</html>
