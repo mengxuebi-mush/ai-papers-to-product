@@ -13,8 +13,8 @@ This repo's map is my own set of study notes. What you can borrow is the *path*:
 
 | # | Item | The one idea to leave with | Read it after | Source |
 |---|---|---|---|---|
-| 1 | **How models learn** (concept, on the Pretraining page) | Text becomes tokens, then numbers (embeddings) whose meaning is learned. A model is a function with knobs; training turns the knobs to lower a score called *loss*. | nothing | Teach it yourself; see [the site's Pretraining page](https://mengxuebi-mush.github.io/ai-papers-to-product/#s-pre) for the shape |
-| 2 | **Scoring shapes the model** (concept, on the Post-training page) | What you score is what you get: cross-entropy, Goodhart's law, KL penalty. | 1 | [the site's card](https://mengxuebi-mush.github.io/ai-papers-to-product/#s-post) |
+| 1 | **How models learn** (concept, on the Pretraining page) | Text becomes tokens, then numbers (embeddings) whose meaning is learned. A model is a function with knobs; training turns the knobs to lower a score called *loss*. | nothing | Teach it yourself; see [the site's Pretraining page](https://mengxuebi-mush.github.io/ai-papers-to-product/llm/#s-pre) for the shape |
+| 2 | **Scoring shapes the model** (concept, on the Post-training page) | What you score is what you get: cross-entropy, Goodhart's law, KL penalty. | 1 | [the site's card](https://mengxuebi-mush.github.io/ai-papers-to-product/llm/#s-post) |
 | 3 | **Attention Is All You Need** (2017) | Tokens look at each other (self-attention). Skim; don't derive. | 1 | [arXiv 1706.03762](https://arxiv.org/abs/1706.03762) |
 | 4 | **InstructGPT** (2022) | A base model only continues text. Post-training turns it into an assistant by learning a scorer of human preference (RLHF). | 2, 3 | [arXiv 2203.02155](https://arxiv.org/abs/2203.02155) |
 | 5 | **ReAct** (2022) | The agent loop: think, act with a tool, observe, repeat. | 3, 4 | [arXiv 2210.03629](https://arxiv.org/abs/2210.03629) |
@@ -22,10 +22,10 @@ This repo's map is my own set of study notes. What you can borrow is the *path*:
 | 6a | **Voyager** (2023) | Learn skills without changing the model: pick a next task just within reach, save what was verified to work as code, call it again later. | 5, 6 | [arXiv 2305.16291](https://arxiv.org/abs/2305.16291) |
 | 7 | **MemGPT** (2023) | The context window is finite, so memory has to be managed like an operating system does. | 3, 5 | [arXiv 2310.08560](https://arxiv.org/abs/2310.08560) |
 | 7a | **Lost in the Middle** (2023) | Fitting in the window is not the same as being used. Put the answer in the middle of a long input and accuracy drops, sometimes below giving no documents at all. | 3, 7 | [arXiv 2307.03172](https://arxiv.org/abs/2307.03172) |
-| 7b | **Managing context** (concept, linked from the Harness page) | Everything the model knows this turn sits in one fixed-size window. Rules files, retrieval, memory, tools, skills and subagents are ways to choose what goes in. | 5, 7, 7a | [the site's page](https://mengxuebi-mush.github.io/ai-papers-to-product/#c-context) |
+| 7b | **Managing context** (concept, linked from the Harness page) | Everything the model knows this turn sits in one fixed-size window. Rules files, retrieval, memory, tools, skills and subagents are ways to choose what goes in. | 5, 7, 7a | [the site's page](https://mengxuebi-mush.github.io/ai-papers-to-product/llm/#c-context) |
 | 7c | **RAG** (2020) | Keep part of the knowledge outside the model, look it up before answering. Easy to update and cite, but answers follow the source, right or wrong. | 3, 7a | [arXiv 2005.11401](https://arxiv.org/abs/2005.11401) |
-| 7d | **Designing RAG today** (concept, linked from the Harness page) | Chunk with context, search by keyword and meaning, rerank, evaluate retrieval and answers separately; at work, handle freshness, conflicts and permissions. | 7c | [the site's page](https://mengxuebi-mush.github.io/ai-papers-to-product/#c-rag) |
-| 7e | **Prompt injection** (concept, linked from the Harness page) | Models can't tell instructions from data, so instructions hidden in emails, pages or documents can steer an agent. Training can't fully fix it; design so the part that reads outside content can't use tools, and ask a person before risky actions. | 7c, 7d | [the site's page](https://mengxuebi-mush.github.io/ai-papers-to-product/#c-injection) |
+| 7d | **Designing RAG today** (concept, linked from the Harness page) | Chunk with context, search by keyword and meaning, rerank, evaluate retrieval and answers separately; at work, handle freshness, conflicts and permissions. | 7c | [the site's page](https://mengxuebi-mush.github.io/ai-papers-to-product/llm/#c-rag) |
+| 7e | **Prompt injection** (concept, linked from the Harness page) | Models can't tell instructions from data, so instructions hidden in emails, pages or documents can steer an agent. Training can't fully fix it; design so the part that reads outside content can't use tools, and ask a person before risky actions. | 7c, 7d | [the site's page](https://mengxuebi-mush.github.io/ai-papers-to-product/llm/#c-injection) |
 | 8 | **τ-bench** (2024) | Succeeding once is not reliable. Measure whether it succeeds every time (pass^k). | 5 | [arXiv 2406.12045](https://arxiv.org/abs/2406.12045) |
 | 8a | **Self-Evolving Agent Harness** (2026, read for concepts) | The agent edits its own harness (instructions, memory, tools, code) while the weights stay fixed. Keep an edit only if it wins on fresh tasks, and keep the final grader and safety limits out of its reach. | 6, 7b, 8 | [arXiv 2610.18813](https://arxiv.org/abs/2610.18813) |
 | 9 | **MT-Bench / LLM-as-a-judge** (2023) | Using a model to grade models works, and has measurable biases. | 4 | [arXiv 2306.05685](https://arxiv.org/abs/2306.05685) |
@@ -36,7 +36,7 @@ This repo's map is my own set of study notes. What you can borrow is the *path*:
 
 **Not covered yet:** fine-tuning vs in-context learning. This is planned. Generative Agents (also summarized on the Managing context page) will get its full page in the human–agent teaming (HCI) track, which is planned separately.
 
-Full citations and authors: [README](README.md#paper-index).
+Full citations and authors: [README](../README.md#paper-index).
 
 ---
 
@@ -63,7 +63,7 @@ Facts first, inference after. A beginner can't yet tell which is which, so the l
 - Explain the concept and how it happens (the mechanism, with an analogy) before naming any benchmark, dataset, loss function or other jargon. A list of test names is not an explanation.
 - Keep the names of tests, datasets and formulas out of the main sentence. Say what a test measures in plain words, and put the name, the definition or the formula behind a hover or tap note (or a footnote).
 - Mark analogies as analogies.
-- Human words (*believes, knows, honest, lies, wants*) are fine as a shortcut, because they help you grasp the behavior fast. But put them in quotation marks, and follow with a few sentences on what is actually happening inside: what is computed, what is measured, and where the metaphor stops working. Otherwise you may come away with the wrong mechanism. The site's [Term lookup](https://mengxuebi-mush.github.io/ai-papers-to-product/#abbr) has a table of these. Example: the model is "honest" about uncertainty → it outputs a probability, and when it says 70%, it is right about 70% of the time; there is no intent to tell the truth.
+- Human words (*believes, knows, honest, lies, wants*) are fine as a shortcut, because they help you grasp the behavior fast. But put them in quotation marks, and follow with a few sentences on what is actually happening inside: what is computed, what is measured, and where the metaphor stops working. Otherwise you may come away with the wrong mechanism. The site's [Term lookup](https://mengxuebi-mush.github.io/ai-papers-to-product/llm/#abbr) has a table of these. Example: the model is "honest" about uncertainty → it outputs a probability, and when it says 70%, it is right about 70% of the time; there is no intent to tell the truth.
 
 **Read the paper, don't recall it.** The agent opens the arXiv link and takes numbers only from the source. If it can't open the paper, it says so instead of filling in from memory. This one matters most: from titles alone, an agent will happily invent plausible numbers.
 
@@ -126,6 +126,6 @@ Ask it to hold to this bar:
 ## 5. A few cautions
 
 - **Check your agent.** Pick two numbers from any lesson and find them in the paper yourself. If they don't match, tell the agent and ask it to re-read.
-- **My items marked "to verify"** are listed in the footer of [the site](https://mengxuebi-mush.github.io/ai-papers-to-product/). I haven't confirmed them against sources yet.
+- **My items marked "to verify"** are listed in the footer of [the site](https://mengxuebi-mush.github.io/ai-papers-to-product/llm/). I haven't confirmed them against sources yet.
 - **Change the path.** Skip what you know. If a paper is too dense, ask for a gentler lead-in or read the abstract and one figure first.
 - **This is a starting point, not authority.** The list reflects what I was preparing for at the time: evaluating and trusting AI agents.

@@ -1,10 +1,12 @@
 /* Track menu, shared by every track. Each track is a self-contained page in its own folder
-   (LLM track = index.html at the root, image track = images/, …); this file is the only thing they share.
+   (LLM track = llm/, image track = images/, …); this file is the only thing they share.
+   The root index.html is the site home (tracks + paper posters); the menu links back to it last.
+   Posters are not tracks: never add them to TRACKS.
    Pages load it as the first child of .topbar-in; it renders the track button there.
    Edit it only on main, and only when a track is added or launched (one line in TRACKS). Paths are relative to this file. */
 (function(){
   const TRACKS=[
-    {path:'',zh:'大语言模型与 Agent',en:'LLMs & agents',dzh:'从预训练到评估 agent',den:'From pretraining to evaluating agents'},
+    {path:'llm/',zh:'大语言模型与 Agent',en:'LLMs & agents',dzh:'从预训练到评估 agent',den:'From pretraining to evaluating agents'},
     {path:'images/',zh:'图像模型',en:'Image models',dzh:'扩散模型：从噪声到图片',den:'Diffusion: from noise to pictures',soon:true},
     {path:'hci/',zh:'人机协作',en:'Human–agent teaming',dzh:'即将推出',den:'Coming soon',soon:true}
   ];
@@ -17,7 +19,8 @@
   const svg=d=>`<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
   const items=TRACKS.map(t=>t.soon&&t!==cur
     ?`<span class="tm-item" aria-disabled="true"><b>${tx(t.zh,t.en)}</b><small>${tx(t.dzh,t.den)}</small></span>`
-    :`<a class="tm-item" href="${new URL(t.path,root).href}"${t===cur?' aria-current="page"':''}><b>${tx(t.zh,t.en)}</b><small>${tx(t.dzh,t.den)}</small>${t===cur?svg('<path d="M5 12.5l4.5 4.5L19 7"/>'):''}</a>`).join('');
+    :`<a class="tm-item" href="${new URL(t.path,root).href}"${t===cur?' aria-current="page"':''}><b>${tx(t.zh,t.en)}</b><small>${tx(t.dzh,t.den)}</small>${t===cur?svg('<path d="M5 12.5l4.5 4.5L19 7"/>'):''}</a>`).join('')
+    +`<a class="tm-item tm-home" href="${root.href}"><b>${tx('首页','Home')}</b><small>${tx('全部学习方向和论文海报','All tracks and paper posters')}</small></a>`;
   me.insertAdjacentHTML('beforebegin',`<style>
 .tm{position:relative;flex:none}
 .tm-btn{display:inline-flex;align-items:center;gap:8px;height:36px;max-width:100%;padding:0 10px 0 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:600 14px var(--sans);cursor:pointer;touch-action:manipulation;transition:background-color .15s ease-out,transform .15s ease-out}
@@ -35,6 +38,7 @@
 .tm-item small{grid-column:1;font-size:12px;color:var(--muted)}
 .tm-item svg{grid-row:1 / span 2;grid-column:2;width:16px;height:16px}
 .tm-item[aria-disabled]{color:var(--muted)}
+.tm-home{margin-top:4px;border-top:1px solid var(--line);border-radius:0 0 8px 8px;padding-top:11px}
 @media (hover:hover) and (pointer:fine){.tm-btn:hover,a.tm-item:hover{background:var(--soft)}}
 @media (prefers-reduced-motion:reduce){.tm-menu,.tm-btn,.tm-btn svg{transform:none!important;transition:none!important}}
 @media (max-width:640px){.tm{flex:1 1 0;min-width:0}.tm-sep{display:none}}
