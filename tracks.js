@@ -7,8 +7,7 @@
 (function(){
   const TRACKS=[
     {path:'llm/',zh:'大语言模型与 Agent',en:'LLMs & agents',dzh:'从预训练到评估 agent',den:'From pretraining to evaluating agents'},
-    {path:'images/',zh:'图像模型',en:'Image models',dzh:'扩散模型：从噪声到图片',den:'Diffusion: from noise to pictures',soon:true},
-    {path:'hci/',zh:'人机协作',en:'Human–agent teaming',dzh:'即将推出',den:'Coming soon',soon:true}
+    {path:'images/',zh:'图像模型',en:'Image models',dzh:'扩散模型：从噪声到图片',den:'Diffusion: from noise to pictures',soon:true}
   ];
   const me=document.currentScript,root=new URL('.',me.src);
   const here=location.pathname.replace(/index\.html$/,'');
