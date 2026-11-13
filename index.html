@@ -2,132 +2,128 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <script>
 /* Old LLM-track links were /#stage-or-card; the track now lives in llm/. Forward them. */
 if(location.hash.length>1)location.replace('llm/'+location.hash);
-try{var t=localStorage.getItem('aem-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}
+try{if(localStorage.getItem('aem-lang')==='en')document.documentElement.lang='en'}catch(e){}
 </script>
 <title>AI Papers to Product</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500&family=ZCOOL+QingKe+HuangYou&family=Noto+Sans+SC:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-/* Site home: two kinds of pages that share nothing but this page.
-   Learning tracks (llm/, images/, hci/) and paper posters (posters/<set>/).
-   When a track launches, flip it here and in tracks.js. New poster set = new .set block. */
+/* Site home: learning tracks and paper posters, which share nothing but this page.
+   Same pixel / terminal look as the NeurIPS agenda (ai-conferences repo): committed dark, dot grid, one peach accent.
+   When a track launches, flip it here and in tracks.js. New poster set = new a.card in the posters section. */
 :root{
-  --bg:#f4f2ec;--card:#fffefa;--ink:#1d1f22;--muted:#686a6d;--line:rgba(29,31,34,.12);--soft:#efece5;
-  --lime:#9a7442;--poster:#f3f0e8;--poster-ink:#111;--red:#e0301e;
-  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  color-scheme:dark;
+  --bg:#121614;--surface:#1A1F1D;--line:#2F3733;--dot:#1F2623;
+  --fg:#ECE8E1;--muted:#9AA39E;--faint:#6E7873;
+  --accent:#E8B48A;--accent-wash:color-mix(in srgb,var(--accent) 14%,transparent);
+  --f-pixel:"Pixelify Sans","ZCOOL QingKe HuangYou","Noto Sans SC","PingFang SC",system-ui,sans-serif;
+  --f-body:"JetBrains Mono","Noto Sans SC","PingFang SC","Hiragino Sans GB",ui-monospace,monospace;
+  --notch:polygon(1px 0,calc(100% - 1px) 0,100% 1px,100% calc(100% - 1px),calc(100% - 1px) 100%,1px 100%,0 calc(100% - 1px),0 1px);
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#121314;--card:#1a1b1d;--ink:#e8e6e1;--muted:#a19f9a;--line:#2c2d30;--soft:#202124;--lime:#d9b07a;color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#121314;--card:#1a1b1d;--ink:#e8e6e1;--muted:#a19f9a;--line:#2c2d30;--soft:#202124;--lime:#d9b07a;color-scheme:dark}
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--sans)}
+html{text-size-adjust:100%}
+body{margin:0;background-color:var(--bg);background-image:radial-gradient(var(--dot) 1px,transparent 1.5px);background-size:12px 12px;
+  color:var(--fg);font:400 15px/1.65 var(--f-body);font-synthesis-weight:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  padding:0 max(16px,env(safe-area-inset-right,0px)) 72px max(16px,env(safe-area-inset-left,0px))}
+html[lang="en"] .zh,html:not([lang="en"]) .en{display:none!important}
+.wrap{max-width:720px;margin:0 auto}
 a{color:inherit}
-abbr[title]{text-decoration:underline dotted;text-underline-offset:3px;cursor:help}
-.wrap{max-width:880px;margin:0 auto;padding:28px 20px 72px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.brand{font:600 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.lang{display:inline-flex;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:3px}
-.lang button{border:0;background:none;color:var(--muted);font:600 13px var(--sans);height:30px;padding:0 12px;border-radius:7px;cursor:pointer;touch-action:manipulation}
-.lang button[aria-pressed="true"]{background:var(--soft);color:var(--ink)}
-.lang button:focus-visible,.row:focus-visible,.set:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-h1{font-size:clamp(34px,6vw,52px);line-height:1.05;letter-spacing:-.025em;margin:56px 0 12px;text-wrap:balance}
-.lede{font-size:18px;color:var(--muted);max-width:36em;margin:0 0 56px;text-wrap:pretty}
-section{margin-top:48px}
-.k{font:600 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--lime);margin:0 0 6px}
-h2{font-size:24px;letter-spacing:-.015em;margin:0 0 4px}
-.sub{color:var(--muted);margin:0 0 18px}
+abbr[title]{text-decoration:underline dotted;text-decoration-color:var(--faint);text-underline-offset:4px;cursor:help}
+a:focus-visible,button:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
 
-/* Tracks: plain rows, read in order */
-.rows{display:grid;gap:10px}
-.row{display:grid;grid-template-columns:1fr auto;gap:2px 16px;align-items:center;padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:var(--card);text-decoration:none;transition:background-color .15s ease-out}
-.row b{font-size:18px}
-.row small{grid-column:1;color:var(--muted);font-size:14px}
-.row .st{grid-row:1 / span 2;grid-column:2;font:600 12px var(--mono);letter-spacing:.04em;color:var(--muted);white-space:nowrap}
-a.row .st{color:var(--ink)}
-.row[aria-disabled]{background:transparent;border-style:dashed}
-.row[aria-disabled] b{color:var(--muted)}
+header{padding-top:28px}
+.toprow{display:flex;justify-content:flex-end}
+.seg{display:flex;padding:2px;gap:2px;border:1px dashed var(--faint);clip-path:var(--notch)}
+.seg button{position:relative;font:500 13px/1 var(--f-pixel);min-height:32px;min-width:42px;padding:0 10px;border:0;background:transparent;color:var(--muted);cursor:pointer;touch-action:manipulation;transition:color .15s ease-out,background-color .15s ease-out,transform .15s ease-out}
+.seg button::before{content:"";position:absolute;inset:-6px -1px}
+.seg button[aria-pressed="true"]{background:var(--accent-wash);color:var(--accent)}
+.seg button:active{transform:scale(.96)}
+h1{font:500 clamp(34px,7vw,48px)/1.1 var(--f-pixel);letter-spacing:.02em;margin:40px 0 14px;text-wrap:balance}
+h1::before{content:"> ";color:var(--accent)}
+.lede{margin:0;color:var(--muted);max-width:52ch;text-wrap:pretty}
 
-/* Posters: each set is drawn as its row of sheets */
-.set{display:block;padding:22px;border-radius:14px;background:var(--poster);color:var(--poster-ink);text-decoration:none;transition:transform .15s ease-out}
-.set-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#6d6a63}
-.set-head .slash{color:var(--red)}
-.set h3{font-size:clamp(24px,4vw,32px);letter-spacing:-.02em;line-height:1.1;margin:14px 0 6px}
-.set p{margin:0 0 20px;color:#444;font-size:15px}
-.sheets{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px}
-.sheet{aspect-ratio:2/3;border-radius:3px;border:1px solid rgba(17,17,17,.22);display:flex;align-items:flex-end;padding:6px;font:600 12px var(--mono);color:#8a867e}
-.sheet.done{background:#111;border-color:#111;color:#ff5a45;box-shadow:0 1px 2px rgba(0,0,0,.08),0 6px 16px rgba(0,0,0,.14)}
-.set-foot{margin-top:16px;font-weight:600;font-size:15px}
+section{margin-top:52px}
+h2{font:500 22px/1.2 var(--f-pixel);letter-spacing:.02em;margin:0 0 16px;text-wrap:balance}
+.cards{display:grid;gap:14px}
 
-@media (hover:hover) and (pointer:fine){a.row:hover{background:var(--soft)}.set:hover{transform:translateY(-2px)}}
+/* One card per track or poster set: notched, hard pixel shadow, title + one line. */
+.card{display:block;padding:20px 20px 18px;background:var(--surface);border:1px solid var(--line);clip-path:var(--notch);box-shadow:3px 3px 0 #0A0D0C;text-decoration:none;transition:border-color .15s ease-out}
+.card b{display:flex;justify-content:space-between;align-items:center;gap:12px;font:500 24px/1.25 var(--f-pixel);letter-spacing:.02em}
+a.card b::after{content:"→";color:var(--accent);flex:none}
+.card p{margin:8px 0 0;color:var(--muted)}
+.card.soon{background:transparent;border-style:dashed;box-shadow:none}
+.card.soon b{color:var(--muted)}
+.card.soon p{color:var(--faint)}
+@media (hover:hover) and (pointer:fine){a.card:hover{border-color:var(--faint)}}
+
+/* Poster set: its eight sheets, finished ones lit. */
+.sheets{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px;margin-top:18px;pointer-events:none;user-select:none}
+.sheet{aspect-ratio:2/3;border:1px dashed var(--line);display:flex;align-items:flex-end;padding:6px;font:500 13px/1 var(--f-pixel);color:var(--faint);font-variant-numeric:tabular-nums}
+.sheet.done{border:1px solid var(--accent);background:var(--accent-wash);color:var(--accent)}
+
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 @media (max-width:560px){
-  h1{margin-top:40px}.lede{margin-bottom:36px}
-  .row{grid-template-columns:1fr;padding:16px}.row .st{grid-row:auto;grid-column:1;margin-top:6px}
-  .sheets{grid-template-columns:repeat(4,minmax(0,1fr))}.set-head span:last-child{display:none}
+  h1{margin-top:28px}
+  section{margin-top:44px}
+  .card{padding:18px 16px 16px}.card b{font-size:21px}
+  .sheets{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header class="top">
-    <span class="brand">AI Papers to Product</span>
-    <span class="lang" role="group" aria-label="Language"><button type="button" data-l="zh">中文</button><button type="button" data-l="en">EN</button></span>
+  <header>
+    <div class="toprow">
+      <div class="seg" role="group" aria-label="Language / 语言">
+        <button type="button" data-l="zh" aria-pressed="true">中</button>
+        <button type="button" data-l="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+    <h1>AI Papers to Product</h1>
+    <p class="lede"><span class="zh">一个产品设计师读机器学习论文：想系统学，走学习方向；想快速翻一篇，看海报。</span><span class="en">A product designer reads machine learning papers. To learn a field step by step, follow a track. To skim one paper fast, open its poster.</span></p>
   </header>
 
-  <h1><span data-zh="从论文到产品判断" data-en="From papers to product judgment">从论文到产品判断</span></h1>
-  <p class="lede"><span data-zh="一个产品设计师读机器学习论文的笔记：要系统学，就走学习方向；要快速翻一篇论文，就看海报。" data-en="A product designer's notes on machine learning papers. To learn a field step by step, follow a track. To skim one paper fast, open its poster.">一个产品设计师读机器学习论文的笔记：要系统学，就走学习方向；要快速翻一篇论文，就看海报。</span></p>
-
   <section aria-labelledby="h-tracks">
-    <p class="k"><span data-zh="学习方向" data-en="Learning tracks">学习方向</span></p>
-    <h2 id="h-tracks"><span data-zh="按顺序读的学习地图" data-en="Study maps you read in order">按顺序读的学习地图</span></h2>
-    <p class="sub"><span data-zh="每个方向从基础讲到产品判断，中英双语。" data-en="Each track goes from the basics to product decisions, in Chinese and English.">每个方向从基础讲到产品判断，中英双语。</span></p>
-    <div class="rows">
-      <a class="row" href="llm/">
-        <b data-zh="大语言模型与 Agent" data-en="&lt;abbr title=&quot;Large language models&quot;&gt;LLMs&lt;/abbr&gt; &amp; agents">大语言模型与 Agent</b>
-        <small data-zh="从预训练到评估 agent" data-en="From pretraining to evaluating agents">从预训练到评估 agent</small>
-        <span class="st" data-zh="进行中 →" data-en="Ongoing →">进行中 →</span>
+    <h2 id="h-tracks"><span class="zh">学习方向</span><span class="en">Learning tracks</span></h2>
+    <div class="cards">
+      <a class="card" href="llm/">
+        <b><span class="zh">大语言模型与 Agent</span><span class="en"><abbr title="Large language models">LLMs</abbr> &amp; agents</span></b>
+        <p><span class="zh">从预训练到评估 agent。</span><span class="en">From pretraining to evaluating agents.</span></p>
       </a>
-      <span class="row" aria-disabled="true">
-        <b data-zh="图像模型" data-en="Image models">图像模型</b>
-        <small data-zh="扩散模型：从噪声到图片" data-en="Diffusion: from noise to pictures">扩散模型：从噪声到图片</small>
-        <span class="st" data-zh="即将推出" data-en="Coming soon">即将推出</span>
-      </span>
+      <div class="card soon" aria-disabled="true">
+        <b><span class="zh">图像模型</span><span class="en">Image models</span></b>
+        <p><span class="zh">扩散模型：从噪声到图片。即将推出。</span><span class="en">Diffusion, from noise to pictures. Coming soon.</span></p>
+      </div>
     </div>
   </section>
 
   <section aria-labelledby="h-posters">
-    <p class="k"><span data-zh="论文海报" data-en="Paper posters">论文海报</span></p>
-    <h2 id="h-posters"><span data-zh="一篇论文，一页海报" data-en="One paper, one page">一篇论文，一页海报</span></h2>
-    <p class="sub"><span data-zh="每张海报讲清一篇论文的核心、局限、怎么用到工作里，以及想问作者的问题。英文。" data-en="Each poster covers one paper's core idea, its limits, how to apply it at work, and questions for the authors. In English.">每张海报讲清一篇论文的核心、局限、怎么用到工作里，以及想问作者的问题。英文。</span></p>
-    <a class="set" href="posters/neurips-2026/">
-      <div class="set-head"><span>Agent Trust <span class="slash">/</span> <abbr title="Conference on Neural Information Processing Systems">NeurIPS</abbr> 2026</span><span>Atlanta · Nov 2026</span></div>
-      <h3 data-zh="Agent 信任：8 篇论文" data-en="Agent trust: eight papers">Agent 信任：8 篇论文</h3>
-      <p data-zh="记忆、遵守指令、安全架构、自我改进、人愿意交给 agent 什么。" data-en="Memory, following instructions, security design, self-improvement, and what people will hand to an agent.">记忆、遵守指令、安全架构、自我改进、人愿意交给 agent 什么。</p>
-      <div class="sheets" aria-hidden="true">
-        <span class="sheet done">01</span><span class="sheet">02</span><span class="sheet">03</span><span class="sheet done">04</span>
-        <span class="sheet">05</span><span class="sheet">06</span><span class="sheet">07</span><span class="sheet">08</span>
-      </div>
-      <div class="set-foot" data-zh="已完成 2 张 · 打开清单 →" data-en="2 posters ready · open the list →">已完成 2 张 · 打开清单 →</div>
-    </a>
+    <h2 id="h-posters"><span class="zh">论文海报</span><span class="en">Paper posters</span></h2>
+    <div class="cards">
+      <a class="card" href="posters/neurips-2026/">
+        <b><span><abbr title="Conference on Neural Information Processing Systems">NeurIPS</abbr> 2026 · <span class="zh">Agent 信任</span><span class="en">Agent trust</span></span></b>
+        <p><span class="zh">8 篇论文，一篇一张海报，已完成 2 张。</span><span class="en">Eight papers, one poster each. Two are done.</span></p>
+        <div class="sheets" aria-hidden="true">
+          <span class="sheet done">01</span><span class="sheet">02</span><span class="sheet">03</span><span class="sheet done">04</span>
+          <span class="sheet">05</span><span class="sheet">06</span><span class="sheet">07</span><span class="sheet">08</span>
+        </div>
+      </a>
+    </div>
   </section>
 </div>
 <script>
 (function(){
-  const btns=[...document.querySelectorAll('.lang button')];
+  const btns=[...document.querySelectorAll('.seg button')];
   function apply(l){
     document.documentElement.lang=l==='en'?'en':'zh-CN';
-    document.querySelectorAll('[data-zh]').forEach(el=>{el.innerHTML=el.dataset[l]});
     btns.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.l===l)));
   }
-  let l='zh';try{if(localStorage.getItem('aem-lang')==='en')l='en'}catch(e){}
-  apply(l);
+  apply(document.documentElement.lang==='en'?'en':'zh');
   btns.forEach(b=>b.addEventListener('click',()=>{apply(b.dataset.l);try{localStorage.setItem('aem-lang',b.dataset.l)}catch(e){}}));
 })();
 </script>
