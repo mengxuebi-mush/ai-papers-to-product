@@ -6,7 +6,7 @@
 
 **🧭 Want to learn this way with your own AI agent? → [llm/LEARNING_PATH.md](llm/LEARNING_PATH.md)** (reading order, why these papers, the teaching method, and a prompt to paste)
 
-A bilingual (中文 / English) study map built from foundational ML and LLM papers. Each card walks through **Problem → Method → Evidence → Limitations → Product implications**, and separates three kinds of claims: what the paper says (原文), what other research has found (已有研究), and my own inference (推测). The lens is enterprise AI agents: troubleshooting, root cause analysis, and the human–agent loop.
+A bilingual (中文 / English) study map built from foundational ML and LLM papers. Each card walks through **Problem → Method → Evidence → Limitations → Product implications**. The lens is enterprise AI agents: troubleshooting, root cause analysis, and the human–agent loop.
 
 Built while preparing for NeurIPS 2026 (Atlanta) workshops on agent evaluation, continual learning for enterprise agents, human–agent teaming, and LLM-as-a-judge.
 
