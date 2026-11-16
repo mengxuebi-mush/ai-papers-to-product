@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05 · Trustworthy Recursive Self-Improvement</title>
+<link rel="stylesheet" href="poster.css">
+<!--
+  Layout built from this paper's content:
+  - The finding is a decision that looks right and flips: so the hero is
+    validation (stamped ACCEPT) beside held-out test (stamp crossed out).
+  - Greedy vs TRUST is a two-option face-off: three metric rows, TRUST's
+    column filled black.
+  - Why greedy fails is a chain of causes; TRUST is a gate with four checks.
+  Left out on purpose: "+4 pt on validation" (4 up / 2 down of 40 is +5, so
+  the counts are shown), "200-example validation sets" (conflicts with the
+  40 used), "beats greedy everywhere" (the notes say 4 of 6 settings), and
+  HotpotQA's +24.84 pt (no greedy number to compare).
+-->
+<style>
+  .sheet { padding-top: 4.5cqw; }
+  h1 { font-size: 7.8cqw; margin: 2.4cqw 0 1.4cqw; }
+  .lede { max-width: 82%; margin-bottom: 2.6cqw; }
+
+  /* Hero: the flip */
+  .flip { display: grid; grid-template-columns: 1fr 5cqw 1fr; align-items: stretch; }
+  .side { border-top: .35cqw solid var(--ink); padding-top: 1.2cqw; }
+  .side.test { border-color: var(--accent); }
+  .side .label { display: flex; justify-content: space-between; align-items: center; margin-bottom: .8cqw; }
+  .side.test .label { color: var(--accent); }
+  .counts { display: flex; gap: 2cqw; align-items: baseline; }
+  .counts span { font-size: 1.5cqw; color: var(--ink-2); font-weight: 600; }
+  .counts .num { font-size: 5.4cqw; color: var(--ink); margin-right: .4cqw; }
+  .drop { display: flex; align-items: baseline; gap: 1.2cqw; }
+  .drop .num { font-size: 5.4cqw; }
+  .drop .num small { font-size: 3cqw; }
+  .drop .from { color: var(--ink-3); }
+  .drop .to { color: var(--accent); }
+  .drop i { font-style: normal; font-size: 3cqw; color: var(--ink-3); font-weight: 800; }
+  .stamp { display: inline-block; padding: .3cqw .9cqw; border: .22cqw solid var(--ink); color: var(--ink); font-size: 1.4cqw; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+  .test .stamp { border-color: var(--accent); color: var(--accent); text-decoration: line-through; }
+  .arrow { display: flex; align-items: center; justify-content: center; font-size: 4cqw; font-weight: 800; color: var(--accent); }
+  .why { margin-top: 1cqw; font-size: 1.6cqw; line-height: 1.38; color: var(--ink-2); }
+  .why b { color: var(--ink); }
+
+  /* Face-off */
+  .face { display: grid; grid-template-columns: 1.6fr 1fr 1fr; margin-top: 2.4cqw; }
+  .face .hd { font-size: 1.35cqw; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); padding: .8cqw 1.2cqw .8cqw; border-bottom: .35cqw solid var(--ink); }
+  .face .hd:first-child { padding-left: 0; }
+  .face .cell { padding: .5cqw 1.2cqw .4cqw; border-bottom: .12cqw solid var(--rule); display: flex; align-items: baseline; }
+  .face .m { padding-left: 0; font-size: 1.9cqw; font-weight: 800; letter-spacing: -.01em; align-items: center; }
+  .face .num { font-size: 3.6cqw; }
+  .face .num small { font-size: 2.2cqw; letter-spacing: -.01em; }
+  .face .bad .num { color: var(--accent); }
+  .face .win { background: var(--ink); color: var(--paper); border-bottom-color: #333; }
+  .face .hd.win { color: var(--paper); border-bottom-color: var(--ink); }
+
+  /* Middle */
+  .mid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); column-gap: 4cqw; margin-top: 2.2cqw; }
+  .mid section { display: flex; flex-direction: column; }
+  .sec-head { border-top: .35cqw solid var(--ink); padding-top: 1.2cqw; margin-bottom: 1.2cqw; display: flex; justify-content: space-between; }
+  .sec-head span:last-child { color: var(--accent); }
+  .mid h2 { font-size: 2.6cqw; font-weight: 800; letter-spacing: -.025em; line-height: 1.05; margin-bottom: 1.2cqw; }
+
+  .causes { list-style: none; display: grid; gap: .5cqw; }
+  .causes li { display: grid; grid-template-columns: 3cqw 1fr; column-gap: 1cqw; align-items: baseline; padding: .8cqw 1.2cqw; background: #e8e4da; }
+  .causes li:last-child { background: #f6dcd6; }
+  .causes .num { font-size: 2.4cqw; color: var(--ink-3); }
+  .causes li:last-child .num { color: var(--accent); }
+  .causes p, .gate p { font-size: 1.5cqw; color: var(--ink-2); line-height: 1.3; }
+  .causes b, .gate b { color: var(--ink); font-size: 1.7cqw; letter-spacing: -.01em; margin-right: .6cqw; }
+
+  .gate { list-style: none; display: grid; gap: .5cqw; }
+  .gate li { display: grid; grid-template-columns: 3cqw 1fr; column-gap: 1cqw; align-items: baseline; padding: .7cqw 1.2cqw; border-left: .5cqw solid var(--ink); background: #e8e4da; }
+  .gate .num { font-size: 2.4cqw; }
+  .gate .llm { border-left-color: var(--accent); }
+  .gate .llm em { font-style: normal; color: var(--accent); font-weight: 700; }
+  .budget { margin-top: 1cqw; font-size: 1.45cqw; color: var(--ink-2); line-height: 1.35; }
+  .budget b { color: var(--ink); }
+
+  /* Apply */
+  .apply { margin-top: 2.2cqw; }
+  .apply .sec-head span:last-child { color: var(--accent); }
+  .apply ol { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); column-gap: 2.6cqw; }
+  .apply li .num { font-size: 3cqw; display: block; margin-bottom: .5cqw; }
+  .apply h3 { font-size: 1.95cqw; font-weight: 800; line-height: 1.12; letter-spacing: -.01em; margin-bottom: .5cqw; text-wrap: balance; }
+  .apply p { font-size: 1.5cqw; line-height: 1.38; color: var(--ink-2); text-wrap: pretty; }
+
+  /* Limitations */
+  .limits { margin: 1.6cqw 0 2cqw; }
+  .limits .label { color: var(--ink-3); margin-bottom: 1.2cqw; display: flex; justify-content: space-between; }
+  .limits ol { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); column-gap: 2.6cqw; }
+  .limits li { border-top: .12cqw solid var(--rule); padding-top: 1.1cqw; }
+  .limits b { display: flex; align-items: baseline; font-size: 1.7cqw; line-height: 1.2; letter-spacing: -.01em; margin-bottom: .4cqw; }
+  .limits .num { font-size: 2.4cqw; margin-right: .8cqw; -webkit-text-stroke-width: .16cqw; }
+  .limits p { font-size: 1.45cqw; line-height: 1.38; color: var(--ink-2); text-wrap: pretty; }
+
+  .band { margin-top: auto; padding-top: 2.6cqw; padding-bottom: 3cqw; }
+  .band-head { margin-bottom: 2cqw; }
+</style>
+</head>
+<body>
+  <main class="poster"><div class="sheet">
+    <div class="top"><span>Agent Trust <span class="accent">/</span> NeurIPS 2026</span><span>05 / 08 · arXiv 2611.10787</span></div>
+
+    <h1>Nearly half the upgrades <em>made it worse.</em></h1>
+    <p class="lede"><strong>Trustworthy Recursive Self-Improvement.</strong> Accept every change that scores higher, and luck passes for progress. TRUST caps how often.</p>
+
+    <div class="flip">
+      <div class="side">
+        <span class="label">Validation · 40 problems<span class="stamp">Accept ✓</span></span>
+        <div class="counts"><span><b class="num">4</b>better</span><span><b class="num">2</b>worse</span><span><b class="num">34</b>same</span></div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="side test">
+        <span class="label">Held-out · 300 problems<span class="stamp">Accept</span></span>
+        <div class="drop"><span class="num from">75.1<small>%</small></span><i>→</i><span class="num to">67.0<small>%</small></span></div>
+      </div>
+    </div>
+    <p class="why"><b>APPS coding:</b> the new rule only had to pass the first example, which skipped the edge cases.</p>
+
+    <div class="face">
+      <span class="hd">Over 30 rounds</span><span class="hd">Greedy</span><span class="hd win">TRUST</span>
+      <span class="cell m">Accepted updates that hurt</span><span class="cell bad"><span class="num">45.6<small>%</small></span></span><span class="cell win"><span class="num">2.8<small>%</small></span></span>
+      <span class="cell m">Worst drop along the way</span><span class="cell bad"><span class="num">8.5<small>pt</small></span></span><span class="cell win"><span class="num">0.3<small>pt</small></span></span>
+      <span class="cell m">Settings where it ends higher</span><span class="cell bad"><span class="num">2<small> of 6</small></span></span><span class="cell win"><span class="num">4<small> of 6</small></span></span>
+    </div>
+
+    <div class="mid">
+      <section>
+        <div class="sec-head label"><span>Why greedy fails</span><span>Errors compound</span></div>
+        <h2>Luck, then reuse, then a spiral.</h2>
+        <ol class="causes">
+          <li><span class="num">1</span><p><b>Noise</b>Small sets make bad changes look good</p></li>
+          <li><span class="num">2</span><p><b>Reuse</b>One test set, 30 rounds: a lottery</p></li>
+          <li><span class="num">3</span><p><b>Cascade</b>Each bad update worsens the next</p></li>
+        </ol>
+      </section>
+
+      <section>
+        <div class="sec-head label"><span>The fix</span><span>TRUST gate</span></div>
+        <h2>Accept only on evidence.</h2>
+        <ol class="gate">
+          <li><span class="num">1</span><p><b>Sequential test</b>Stop early or sample more</p></li>
+          <li class="llm"><span class="num">2</span><p><b>Budget per candidate</b>Set by an <em>LLM</em></p></li>
+          <li><span class="num">3</span><p><b>Correct for reuse</b>Stricter each round</p></li>
+          <li><span class="num">4</span><p><b>Allow small losses</b>If provably minor</p></li>
+        </ol>
+        <p class="budget"><b>Guarantee:</b> harmful accepts stay under a budget you set.</p>
+      </section>
+    </div>
+
+    <div class="apply">
+      <div class="sec-head label"><span>Apply at work</span><span>For any agent that edits itself</span></div>
+      <ol>
+        <li><span class="num">01</span><h3>Higher isn’t a yes.</h3><p>Require evidence, not a bump.</p></li>
+        <li><span class="num">02</span><h3>Set an error budget.</h3><p>Cap the share of harmful changes.</p></li>
+        <li><span class="num">03</span><h3>Rotate test sets.</h3><p>Or raise the bar each round.</p></li>
+        <li><span class="num">04</span><h3>Track worst drop.</h3><p>Final gain hides the damage.</p></li>
+      </ol>
+    </div>
+
+    <div class="limits">
+      <div class="label"><span>Limitations</span><span>Read the numbers with care</span></div>
+      <ol>
+        <li><b><span class="num out">01</span>Shift.</b><p>No guarantee if real tasks differ from validation.</p></li>
+        <li><b><span class="num out">02</span>LLM misjudges.</b><p>A wrong risk call can break the guarantee.</p></li>
+        <li><b><span class="num out">03</span>Picking q.</b><p>No principled way to set the budget.</p></li>
+        <li><b><span class="num out">04</span>Slow cascades.</b><p>Mediocre updates can still pile up.</p></li>
+      </ol>
+    </div>
+
+    <div class="band">
+      <div class="band-head label"><span>Ask the authors</span><span>Evidence before acceptance</span></div>
+      <div class="qs">
+        <div class="q"><span class="qn">Q1</span><h3>An LLM in the gate?</h3><p>Can a confident model talk it open?</p></div>
+        <div class="q"><span class="qn">Q2</span><h3>What does it cost?</h3><p>How many more samples or rounds than greedy?</p></div>
+        <div class="q"><span class="qn">Q3</span><h3>How to pick q?</h3><p>Is there a default that works across tasks?</p></div>
+      </div>
+    </div>
+  </div></main>
+</body>
+</html>
