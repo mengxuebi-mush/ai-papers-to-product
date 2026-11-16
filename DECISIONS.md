@@ -19,7 +19,8 @@
 
 - **Root `index.html` is a small home page** with two sections: *Learning tracks* (study maps you read in order) and *Paper posters* (one page per paper). The LLM track moved from the root to `llm/`.
 - **Posters are not tracks.** They live in sets under `posters/<set>/` (first: `posters/neurips-2026/`), never appear in `tracks.js`, and share no files with the tracks. A new set = a new folder + a new block on the home page.
-- The track menu ends with a *Home* link back to the root, so every track can reach the posters.
+- Every track's top bar starts with a visible *Hub* link back to the root (rendered by `tracks.js`), so every track can reach the posters. (Until 2026-11-16 this was a *Home* item at the bottom of the track menu; nobody found it.)
+- A poster set still being filled carries a dashed `4/8 · in progress` tag on its title; drop it when the set is complete. Covers shrink to share the card width, so both home sections stay one column wide.
 - Old LLM links (`/#card`) keep working: the home page forwards any `#hash` to `llm/`.
 - When a track launches, flip it in both `tracks.js` and the home page (both on main).
 

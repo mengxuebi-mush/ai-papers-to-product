@@ -64,16 +64,21 @@ a.card b::after,.set-head b::after{content:"→";color:var(--accent);flex:none}
 /* Poster set: a shelf in paper order. Finished posters face out as covers (their own headline, paper and red,
    linking straight to the poster); the rest stand as thin dashed spines. Finishing a poster = turn its spine into a cover. */
 .set-head{display:block;text-decoration:none}
+/* Set still being filled: dashed = not done yet, as on .card.soon and the spines. Drop the tag when the set is complete. */
+.wip{display:inline-block;vertical-align:.3em;margin-left:10px;padding:3px 7px;border:1px dashed var(--faint);font:500 11px/1 var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+.wip::before{content:"";display:inline-block;width:6px;height:6px;margin-right:6px;vertical-align:.05em;background:var(--accent);animation:blink 1.2s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.wip::before{animation:none}}
 .shelf{display:flex;gap:8px;align-items:stretch;margin-top:20px}
-.cover{flex:0 0 172px;aspect-ratio:2/3;display:flex;flex-direction:column;justify-content:space-between;padding:12px 12px 14px;
+.cover{flex:1 1 0;min-width:0;max-width:172px;aspect-ratio:2/3;display:flex;flex-direction:column;justify-content:space-between;padding:12px 12px 14px;
   background:#f3f0e8;color:#111;text-decoration:none;box-shadow:3px 3px 0 #0A0D0C;
   font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   transition:transform .15s ease-out,box-shadow .15s ease-out}
 .cover .no{font:800 15px/1 system-ui,-apple-system,sans-serif;color:#e0301e;font-variant-numeric:tabular-nums;border-top:2px solid #111;padding-top:8px}
-.cover .hl{font-size:23px;line-height:1;font-weight:800;letter-spacing:-.03em;text-wrap:balance}
+.cover .hl{font-size:19px;line-height:1.02;font-weight:800;letter-spacing:-.03em;text-wrap:balance}
 .cover em{font-style:normal;color:#e0301e}
 .cover:active{transform:scale(.96)}
-.spine{flex:1 1 0;min-width:22px;border:1px dashed var(--line);display:flex;align-items:flex-end;justify-content:center;padding-bottom:10px;
+.spine{flex:0 0 22px;border:1px dashed var(--line);display:flex;align-items:flex-end;justify-content:center;padding-bottom:10px;
   font:500 13px/1 var(--f-pixel);color:var(--faint);font-variant-numeric:tabular-nums;user-select:none}
 @media (hover:hover) and (pointer:fine){
   .set-head:hover b::after{transform:translateX(3px)}
@@ -87,7 +92,8 @@ a.card b::after,.set-head b::after{content:"→";color:var(--accent);flex:none}
   section{margin-top:44px}
   .card{padding:18px 16px 16px}.card b{font-size:21px}
   .shelf{flex-wrap:wrap;gap:10px 8px}
-  .cover{flex:1 1 calc(50% - 4px)}.cover .hl{font-size:19px}
+  .cover{flex:1 1 calc(50% - 4px);max-width:none}
+  .spine{flex:1 1 0}
   .spine{order:1;height:44px;align-items:center;padding:0}
 }
 </style>
@@ -124,8 +130,8 @@ a.card b::after,.set-head b::after{content:"→";color:var(--accent);flex:none}
     <div class="cards">
       <div class="card">
         <a class="set-head" href="posters/neurips-2026/">
-          <b><span><abbr title="Conference on Neural Information Processing Systems">NeurIPS</abbr> 2026 · <span class="zh">Agent 信任</span><span class="en">Agent trust</span></span></b>
-          <p><span class="zh">八篇论文，一篇一张海报。</span><span class="en">Eight papers, one poster each.</span></p>
+          <b><span><abbr title="Conference on Neural Information Processing Systems">NeurIPS</abbr> 2026 · <span class="zh">Agent 信任</span><span class="en">Agent trust</span><span class="wip"><span class="zh">4/8 · 更新中</span><span class="en">4/8 · in progress</span></span></span></b>
+          <p><span class="zh">八篇论文，一篇一张海报。已完成四张，其余陆续更新。</span><span class="en">Eight papers, one poster each. Four are up; the rest are on the way.</span></p>
         </a>
         <div class="shelf">
           <a class="cover" href="posters/neurips-2026/01-dont-just-trust-your-memory.html"><span class="no">01</span><span class="hl">Memory can make an agent <em>worse.</em></span></a>
