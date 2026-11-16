@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>03 · From Attack Surface to Defense Architecture</title>
+<link rel="stylesheet" href="poster.css">
+<!--
+  Layout built from this paper's content:
+  - The finding is "only one option passes every test": so the hero is a
+    scorecard (3 approaches × 3 tests), failing cells in red.
+  - The threat is composition (each step benign, the chain is not): drawn as
+    step rows with the final, blocked step struck through.
+  - The mechanism is a 2D label (trust × sensitivity): drawn as an actual
+    4×2 grid with the forbidden downgrade crossed out.
+  - The four pillars become the four "apply" actions, one each.
+  Left out on purpose: the Pentagon / Binance ($6.34B) breaches from the
+  reading notes (unverifiable, likely inflated), "10,000× faster" (the two
+  latencies give ~11,000×, so both raw numbers are shown instead), and
+  kill-chain lengths (the notes give three different ranges).
+-->
+<style>
+  .sheet { padding-top: 4.5cqw; }
+  h1 { font-size: 7.8cqw; margin: 2.4cqw 0 1.4cqw; }
+  .lede { max-width: 82%; margin-bottom: 2.6cqw; }
+
+  /* Hero: scorecard */
+  .score { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; column-gap: 2.4cqw; align-items: baseline; }
+  .score .hd { font-size: 1.35cqw; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); padding-bottom: 1cqw; border-bottom: .35cqw solid var(--ink); }
+  .score .cell { padding: .9cqw 0 .8cqw; border-bottom: .12cqw solid var(--rule); }
+  .score .who { font-size: 2.1cqw; font-weight: 800; letter-spacing: -.015em; line-height: 1.1; }
+  .score .num { font-size: 4.2cqw; }
+  .score .num small { font-size: 2.4cqw; letter-spacing: -.01em; }
+  .score .word { font-size: 2.4cqw; font-weight: 800; letter-spacing: -.02em; }
+  .score .bad { color: var(--accent); }
+  .score .win { background: var(--ink); color: var(--paper); border-bottom: 0; }
+  .score .who, .score .hd:first-child { padding-left: 1.2cqw; }
+  .score-note { font-size: 1.45cqw; color: var(--ink-2); margin-top: 1cqw; }
+
+  /* Middle */
+  .mid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); column-gap: 4cqw; margin-top: 3.2cqw; }
+  .mid section { display: flex; flex-direction: column; }
+  .sec-head { border-top: .35cqw solid var(--ink); padding-top: 1.2cqw; margin-bottom: 1.2cqw; display: flex; justify-content: space-between; }
+  .sec-head span:last-child { color: var(--accent); }
+  .mid h2 { font-size: 2.7cqw; font-weight: 800; letter-spacing: -.025em; line-height: 1.05; margin-bottom: 1.6cqw; text-wrap: balance; }
+
+  .chain { list-style: none; display: grid; gap: .4cqw; }
+  .chain li { display: grid; grid-template-columns: 3cqw 1fr auto; align-items: center; column-gap: 1cqw; background: #e8e4da; padding: .55cqw 1.2cqw; font-size: 1.6cqw; font-weight: 600; }
+  .chain li .num { font-size: 2.2cqw; color: var(--ink-3); }
+  .chain li em { font-style: normal; font-size: 1.35cqw; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+  .chain li.stop { background: none; border: .2cqw dashed var(--accent); color: var(--accent); }
+  .chain li.stop span:nth-child(2) { text-decoration: line-through; }
+  .chain li.stop .num, .chain li.stop em { color: var(--accent); }
+
+  .ladder { margin-top: 1cqw; border-top: .12cqw solid var(--rule); }
+  .ladder div { display: grid; grid-template-columns: 1fr auto; align-items: baseline; padding: .45cqw 0; border-bottom: .12cqw solid var(--rule); }
+  .ladder b { font-size: 1.6cqw; }
+  .ladder b small { font-weight: 500; color: var(--ink-2); font-size: 1.45cqw; }
+  .ladder .num { font-size: 2.8cqw; }
+  .ladder .bad .num { color: var(--accent); }
+
+  .lattice { display: grid; grid-template-columns: 9.4cqw repeat(4, 1fr); gap: .4cqw; position: relative; }
+  .lattice .ax { font-size: 1.35cqw; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); align-self: center; }
+  .lattice .ax.top { text-align: center; padding-bottom: .4cqw; letter-spacing: 0; }
+  .lattice .c { height: 6.2cqw; display: flex; align-items: center; justify-content: center; font-size: 1.45cqw; font-weight: 700; }
+  .lattice .pub { background: #e8e4da; }
+  .lattice .sen { background: #8f8a80; color: var(--paper); }
+  .lattice .from { background: var(--ink); color: var(--paper); }
+  .lattice .to { background: none; border: .2cqw dashed var(--accent); color: var(--accent); }
+  .flow { display: flex; justify-content: space-between; margin: 1cqw 0 0 9.8cqw; font-size: 1.4cqw; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+  .rule-box { margin-top: 1.6cqw; padding: 1.3cqw 1.6cqw; border-left: .5cqw solid var(--accent); background: #f6dcd6; }
+  .rule-box b { display: block; font-size: 2cqw; font-weight: 800; letter-spacing: -.01em; line-height: 1.2; }
+  .rule-box p { font-size: 1.5cqw; color: var(--ink-2); line-height: 1.38; margin-top: .4cqw; }
+
+  /* Apply */
+  .apply { margin-top: 3cqw; }
+  .apply .sec-head span:last-child { color: var(--accent); }
+  .apply ol { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); column-gap: 2.6cqw; }
+  .apply li .pillar { display: block; font-size: 1.35cqw; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-bottom: .5cqw; }
+  .apply h3 { font-size: 1.95cqw; font-weight: 800; line-height: 1.12; letter-spacing: -.01em; margin-bottom: .5cqw; text-wrap: balance; }
+  .apply p { font-size: 1.5cqw; line-height: 1.38; color: var(--ink-2); text-wrap: pretty; }
+
+  /* Limitations */
+  .limits { margin: 2cqw 0 2.4cqw; }
+  .limits .label { color: var(--ink-3); margin-bottom: 1.2cqw; display: flex; justify-content: space-between; }
+  .limits ol { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); column-gap: 2.6cqw; }
+  .limits li { border-top: .12cqw solid var(--rule); padding-top: 1.1cqw; }
+  .limits b { display: flex; align-items: baseline; font-size: 1.7cqw; line-height: 1.2; letter-spacing: -.01em; margin-bottom: .4cqw; }
+  .limits .num { font-size: 2.4cqw; margin-right: .8cqw; -webkit-text-stroke-width: .16cqw; }
+  .limits p { font-size: 1.45cqw; line-height: 1.38; color: var(--ink-2); text-wrap: pretty; }
+
+  .band { margin-top: auto; padding-top: 2.6cqw; padding-bottom: 3cqw; }
+  .band-head { margin-bottom: 2cqw; }
+</style>
+</head>
+<body>
+  <main class="poster"><div class="sheet">
+    <div class="top"><span>Agent Trust <span class="accent">/</span> NeurIPS 2026</span><span>03 / 08 · arXiv 2611.13960</span></div>
+
+    <h1>Don’t let the model <em>judge its own safety.</em></h1>
+    <p class="lede"><strong>From Attack Surface to Defense Architecture.</strong> Asking an LLM if an agent’s action is safe blocks almost all real work. Deterministic code doesn’t.</p>
+
+    <div class="score">
+      <span class="hd">Approach</span><span class="hd">Attacks blocked</span><span class="hd">False alarms</span><span class="hd">Time per check</span>
+
+      <span class="cell who">Regex blacklist</span>
+      <span class="cell"><span class="num bad">43.9<small>%</small></span></span>
+      <span class="cell"><span class="num">0<small>%</small></span></span>
+      <span class="cell"><span class="word">Instant</span></span>
+
+      <span class="cell who">LLM judge</span>
+      <span class="cell"><span class="num">100<small>%</small></span></span>
+      <span class="cell"><span class="num bad">98.3<small>%</small></span></span>
+      <span class="cell"><span class="num bad">142<small>ms</small></span></span>
+
+      <span class="cell who win">ActiveSecHarness</span>
+      <span class="cell win"><span class="num">100<small>%</small></span></span>
+      <span class="cell win"><span class="num">0<small>%</small></span></span>
+      <span class="cell win"><span class="num">12.7<small>µs</small></span></span>
+    </div>
+    <p class="score-note">252 scenarios: 120 attacks, 120 benign workflows, 12 multi-step kill chains.</p>
+
+    <div class="mid">
+      <section>
+        <div class="sec-head label"><span>The threat</span><span>Secret laundering</span></div>
+        <h2>Benign steps, harmful chain.</h2>
+        <ol class="chain">
+          <li><span class="num">1</span><span>Agent A reads a secret</span><em>OK</em></li>
+          <li><span class="num">2</span><span>A writes it to a temp file</span><em>OK</em></li>
+          <li><span class="num">3</span><span>Agent B reads the temp file</span><em>OK</em></li>
+          <li class="stop"><span class="num">4</span><span>B writes it to a public log</span><em>Blocked</em></li>
+        </ol>
+        <div class="ladder">
+          <div class="bad"><b>Stateless rules <small>catch</small></b><span class="num">8 / 12</span></div>
+          <div class="bad"><b>Yes/no taint <small>false alarms</small></b><span class="num">10 / 12</span></div>
+          <div><b>2D labels + ledger <small>catch, 0 alarms</small></b><span class="num">12 / 12</span></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="sec-head label"><span>The mechanism</span><span>2D taint lattice</span></div>
+        <h2>All data wears two labels.</h2>
+        <div class="lattice">
+          <span></span><span class="ax top">Trusted</span><span class="ax top">Sanitized</span><span class="ax top">Derived</span><span class="ax top">Untrusted</span>
+          <span class="ax">Sensitive</span><span class="c sen"></span><span class="c sen"></span><span class="c from">Step 3</span><span class="c sen"></span>
+          <span class="ax">Public</span><span class="c pub"></span><span class="c pub"></span><span class="c to">✗ Step 4</span><span class="c pub"></span>
+        </div>
+        <div class="flow"><span>More trusted</span><span>Less trusted →</span></div>
+        <div class="rule-box">
+          <b>Labels only ever get stricter.</b>
+        </div>
+      </section>
+    </div>
+
+    <div class="apply">
+      <div class="sec-head label"><span>Apply at work</span><span>One per pillar</span></div>
+      <ol>
+        <li><span class="pillar">01 · Authority</span><h3>Tokens that only shrink.</h3><p>Hand-offs narrow permissions, never widen.</p></li>
+        <li><span class="pillar">02 · Data flow</span><h3>Two labels on all data.</h3><p>Block any write that downgrades a label.</p></li>
+        <li><span class="pillar">03 · Enforcement</span><h3>Check in code, at the tool.</h3><p>Archive limits, secret scans, no metadata calls.</p></li>
+        <li><span class="pillar">04 · Verification</span><h3>Keep the LLM out of allow/deny.</h3><p>Let it propose, and write attack tests.</p></li>
+      </ol>
+    </div>
+
+    <div class="limits">
+      <div class="label"><span>Out of scope</span><span>Not defended</span></div>
+      <ol>
+        <li><b><span class="num out">01</span>Poisoned weights.</b><p>Training-time trojans are out of scope.</p></li>
+        <li><b><span class="num out">02</span>The human.</b><p>A tricked operator goes around the guards.</p></li>
+        <li><b><span class="num out">03</span>Timing channels.</b><p>Covert leaks through timing aren’t addressed.</p></li>
+        <li><b><span class="num out">04</span>Longer chains.</b><p>Past the tested length, it’s open.</p></li>
+      </ol>
+    </div>
+
+    <div class="band">
+      <div class="band-head label"><span>Ask the authors</span><span>Intelligence proposes. Code decides.</span></div>
+      <div class="qs">
+        <div class="q"><span class="qn">Q1</span><h3>Who wrote the tests?</h3><p>Has an independent red team tried to break it?</p></div>
+        <div class="q"><span class="qn">Q2</span><h3>Who sets the labels?</h3><p>How much setup does 0% false positives take?</p></div>
+        <div class="q"><span class="qn">Q3</span><h3>When must secrets move?</h3><p>How does legitimate declassification work?</p></div>
+      </div>
+    </div>
+  </div></main>
+</body>
+</html>

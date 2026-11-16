@@ -8,7 +8,7 @@ One poster per paper, made to revisit before and during NeurIPS 2026 (Atlanta). 
 |---|---|---|
 | 1 | Don’t Just Trust Your Memory (2611.14320) | [01-dont-just-trust-your-memory.html](01-dont-just-trust-your-memory.html) |
 | 2 | Verifiable Agentic Traffic Class (2611.14211) | to read |
-| 3 | From Attack Surface to Defense Architecture (2611.13960) | to read |
+| 3 | From Attack Surface to Defense Architecture (2611.13960) | [03-attack-surface-to-defense.html](03-attack-surface-to-defense.html) |
 | 4 | Do They Do as They Are Told? (2611.13709) | [04-do-they-do-as-told.html](04-do-they-do-as-told.html) |
 | 5 | Trustworthy Recursive Self-Improvement (2611.10787) | to read |
 | 6 | ErosionBench (2611.11266) | to read |
