@@ -26,3 +26,19 @@
 **Rejected**
 - *Posters as a sibling folder with the LLM track still at the root*: no URL changes, but the root URL kept meaning "the LLM track", so posters looked like part of it.
 - *Posters on the ai-conferences site*: fits the NeurIPS trip, but splits paper notes across two sites.
+
+## Learning tracks in the hub look (2026-11-16), decided from a font prototype
+
+- **Tracks share the hub's look** (root `index.html`, ai-conferences agenda): green-black `#121614` with a dot grid, notched cards, square controls, one peach accent `#E8B48A` for links, active states and focus. Paper and stage colors stay as identifiers.
+- **Dark is the default.** Light stays in settings as a paper-colored version of the same look. The page no longer follows the system theme.
+- **Type roles**, because tracks are long reads and the pixel font is not:
+  - *Pixel* (Pixelify Sans): only the wordmark (`> AI Papers to Product`) and stage numbers. Never Chinese, never more than a few words.
+  - *Headings* (Chakra Petch): page, section and card titles, chips, the track button. Its cut corners echo the notched cards.
+  - *Body* (IBM Plex Sans): all reading text and figure labels.
+  - *Labels* (JetBrains Mono, the hub's text font): eyebrows, kickers, table heads, citations, numbers.
+  - Chinese falls through to Noto Sans SC in every role; ZCOOL QingKe is not used in tracks.
+
+**Compared and not chosen** (tradeoffs seen in the prototype)
+- *JetBrains Mono headings*: closest to the hub, but wide; long paper titles wrap early.
+- *Space Grotesk headings*: easiest to read, but the least digital.
+- *Mono body text*: matches the hub, but long English paragraphs read slower.
