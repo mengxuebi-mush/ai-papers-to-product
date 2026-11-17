@@ -11,7 +11,7 @@ try{if(localStorage.getItem('aem-lang')==='en')document.documentElement.lang='en
 <title>AI Papers to Product</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500&family=ZCOOL+QingKe+HuangYou&family=Noto+Sans+SC:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500&family=ZCOOL+QingKe+HuangYou&family=Chakra+Petch:wght@600&family=Noto+Sans+SC:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 /* Site home: learning tracks and paper posters, which share nothing but this page.
    Same pixel / terminal look as the NeurIPS agenda (ai-conferences repo): committed dark, dot grid, one peach accent.
@@ -22,6 +22,7 @@ try{if(localStorage.getItem('aem-lang')==='en')document.documentElement.lang='en
   --fg:#ECE8E1;--muted:#9AA39E;--faint:#6E7873;
   --accent:#E8B48A;--accent-wash:color-mix(in srgb,var(--accent) 14%,transparent);
   --f-pixel:"Pixelify Sans","ZCOOL QingKe HuangYou","Noto Sans SC","PingFang SC",system-ui,sans-serif;
+  --f-head:"Chakra Petch","Noto Sans SC","PingFang SC",system-ui,sans-serif; /* same heading font as the tracks (DECISIONS.md) */
   --f-body:"JetBrains Mono","Noto Sans SC","PingFang SC","Hiragino Sans GB",ui-monospace,monospace;
   --notch:polygon(1px 0,calc(100% - 1px) 0,100% 1px,100% calc(100% - 1px),calc(100% - 1px) 100%,1px 100%,0 calc(100% - 1px),0 1px);
 }
@@ -53,7 +54,7 @@ h2{font:500 22px/1.2 var(--f-pixel);letter-spacing:.02em;margin:0 0 16px;text-wr
 
 /* One card per track or poster set: notched, hard pixel shadow, title + one line. */
 .card{display:block;padding:20px 20px 18px;background:var(--surface);border:1px solid var(--line);clip-path:var(--notch);box-shadow:3px 3px 0 #0A0D0C;text-decoration:none;transition:border-color .15s ease-out}
-.card b{display:flex;justify-content:space-between;align-items:center;gap:12px;font:500 24px/1.25 var(--f-pixel);letter-spacing:.02em}
+.card b{display:flex;justify-content:space-between;align-items:center;gap:12px;font:600 22px/1.25 var(--f-head);letter-spacing:.01em}
 a.card b::after,.set-head b::after{content:"→";color:var(--accent);flex:none}
 .card p{margin:8px 0 0;color:var(--muted)}
 .card.soon{background:transparent;border-style:dashed;box-shadow:none}
@@ -86,11 +87,16 @@ a.card b::after,.set-head b::after{content:"→";color:var(--accent);flex:none}
 }
 .set-head b::after{transition:transform .15s ease-out}
 
+/* Signature, same as the NeurIPS agenda footer. */
+footer{margin-top:40px;padding-top:4px;border-top:1px solid var(--line)}
+.sig{display:flex;flex-wrap:wrap;align-items:center;gap:0 8px;margin-top:8px;font:500 14px/1.4 var(--f-pixel);color:var(--muted)}
+.sig a{display:inline-flex;align-items:center;min-height:44px}
+
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 @media (max-width:560px){
   h1{margin-top:28px}
   section{margin-top:44px}
-  .card{padding:18px 16px 16px}.card b{font-size:21px}
+  .card{padding:18px 16px 16px}.card b{font-size:20px}
   .shelf{flex-wrap:wrap;gap:10px 8px}
   .cover{flex:1 1 calc(50% - 4px);max-width:none}
   .spine{flex:1 1 0}
@@ -111,20 +117,18 @@ a.card b::after,.set-head b::after{content:"→";color:var(--accent);flex:none}
     <p class="lede"><span class="zh">一个产品设计师读机器学习论文：想系统学，走学习方向；想快速翻一篇，看海报。</span><span class="en">A product designer reads machine learning papers. To learn a field step by step, follow a track. To skim one paper fast, open its poster.</span></p>
   </header>
 
-  <section aria-labelledby="h-tracks">
-    <h2 id="h-tracks"><span class="zh">学习方向</span><span class="en">Learning tracks</span></h2>
+  <!-- Events: links out to my agenda sites (ai-conferences repo). Newest first; move a past event out when it ends. -->
+  <section aria-labelledby="h-events">
+    <h2 id="h-events"><span class="zh">近期活动</span><span class="en">Upcoming events</span></h2>
     <div class="cards">
-      <a class="card" href="llm/">
-        <b><span class="zh">大语言模型与 Agent</span><span class="en"><abbr title="Large language models">LLMs</abbr> &amp; agents</span></b>
-        <p><span class="zh">从预训练到评估 agent。</span><span class="en">From pretraining to evaluating agents.</span></p>
+      <a class="card" href="https://ai-conferences-eta.vercel.app/neurips-2026-atlanta/agenda" target="_blank" rel="noopener">
+        <b><span><abbr title="Conference on Neural Information Processing Systems">NeurIPS</abbr> 2026 · <span class="zh">亚特兰大</span><span class="en">Atlanta</span><span class="wip"><span class="zh">12月9–13日 · 即将开始</span><span class="en">Dec 9–13 · upcoming</span></span></span></b>
+        <p><span class="zh">我的五天行程：围绕 agent 信任挑的 session 和海报，可按主题筛选。</span><span class="en">My five-day plan around agent trust: sessions and poster picks, filterable by topic.</span></p>
       </a>
-      <div class="card soon" aria-disabled="true">
-        <b><span class="zh">图像模型</span><span class="en">Image models</span></b>
-        <p><span class="zh">扩散模型：从噪声到图片。即将推出。</span><span class="en">Diffusion, from noise to pictures. Coming soon.</span></p>
-      </div>
     </div>
   </section>
 
+  <!-- Posters sit above tracks while NeurIPS 2026 is upcoming (they are its prep reading). After Dec 13, swap back: tracks first. -->
   <section aria-labelledby="h-posters">
     <h2 id="h-posters"><span class="zh">论文海报</span><span class="en">Paper posters</span></h2>
     <div class="cards">
@@ -144,6 +148,22 @@ a.card b::after,.set-head b::after{content:"→";color:var(--accent);flex:none}
       </div>
     </div>
   </section>
+
+  <section aria-labelledby="h-tracks">
+    <h2 id="h-tracks"><span class="zh">学习方向</span><span class="en">Learning tracks</span></h2>
+    <div class="cards">
+      <a class="card" href="llm/">
+        <b><span class="zh">大语言模型与 Agent</span><span class="en"><abbr title="Large language models">LLMs</abbr> &amp; agents</span></b>
+        <p><span class="zh">从预训练到评估 agent。</span><span class="en">From pretraining to evaluating agents.</span></p>
+      </a>
+      <div class="card soon" aria-disabled="true">
+        <b><span class="zh">图像模型</span><span class="en">Image models</span></b>
+        <p><span class="zh">扩散模型：从噪声到图片。即将推出。</span><span class="en">Diffusion, from noise to pictures. Coming soon.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <footer><p class="sig"><span class="zh">作者 Mengxue Bi</span><span class="en">By Mengxue Bi</span><span aria-hidden="true">·</span><a href="https://x.com/mengxuebi" target="_blank" rel="noopener" aria-label="Mengxue Bi on X">X @mengxuebi</a></p></footer>
 </div>
 <script>
 (function(){
